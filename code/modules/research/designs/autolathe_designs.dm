@@ -139,6 +139,14 @@
 	build_path = /obj/item/weapon/electronics/apc
 	category = list("initial", "Electronics")
 
+/datum/design/poddoor_board
+	name = "Blast Door Electronics"
+	id = "poddoor_board"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 50, MAT_GLASS = 50)
+	build_path = /obj/item/device/assembly/control
+	category = list("initial", "Electronics")
+
 /datum/design/airlock_board
 	name = "Airlock Electronics"
 	id = "airlock_board"
@@ -783,7 +791,7 @@
 	materials = list(MAT_METAL = 2000, MAT_GLASS = 1000)
 	build_path = /obj/item/device/modular_computer/tablet
 	category = list("initial","Misc")
-	
+
 /datum/design/slime_scanner
 	name = "Slime Scanner"
 	id = "slime_scanner"
@@ -791,4 +799,3 @@
 	materials = list(MAT_METAL = 300, MAT_GLASS = 200)
 	build_path = /obj/item/device/slime_scanner
 	category = list("initial", "Misc")
-	
