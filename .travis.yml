@@ -20,7 +20,6 @@ env:
     matrix:
     - BUILD_TOOLS=true
     - BUILD_TESTING=true
-    - BUILD_TESTING=false
 
 cache:
   directories:
