@@ -832,6 +832,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						forms -= "bombaster"
 					if(user.client.ckey != "biomechanicmann")
 						forms -= "pchola"
+					if(user.client.ckey != "coconutgod")
+						forms -= "monkey"
 					var/new_form = input(user, "Thanks for supporting Rel - Choose your ghostly form:","Thanks for supporting BYOND",null) as null|anything in forms
 					if(new_form)
 						ghost_form = new_form
