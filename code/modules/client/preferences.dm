@@ -829,6 +829,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/list/forms = GLOB.ghost_forms
 					if(user.client.ckey != "moonmandoom")
 						forms -= "bombaster"
+					if(user.client.ckey != "biomechanicmann")
+						forms -= "pchola"
 					var/new_form = input(user, "Thanks for supporting Rel - Choose your ghostly form:","Thanks for supporting BYOND",null) as null|anything in forms
 					if(new_form)
 						ghost_form = new_form

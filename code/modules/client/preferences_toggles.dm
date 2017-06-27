@@ -249,7 +249,7 @@ GLOBAL_LIST_INIT(ghost_forms, list("ghost","ghostking","ghostian2","skeleghost",
 							"ghost_blue","ghost_yellow","ghost_green","ghost_pink", \
 							"ghost_cyan","ghost_dblue","ghost_dred","ghost_dgreen", \
 							"ghost_dcyan","ghost_grey","ghost_dyellow","ghost_dpink", "ghost_purpleswirl","ghost_funkypurp","ghost_pinksherbert","ghost_blazeit",\
-							"ghost_mellow","ghost_rainbow","ghost_camo","ghost_fire", "catghost", "bombaster"))
+							"ghost_mellow","ghost_rainbow","ghost_camo","ghost_fire", "catghost", "bombaster", "pchola"))
 /client/proc/pick_form()
 //	if(!is_content_unlocked())
 //		alert("This setting is for accounts with BYOND premium only.")
@@ -257,6 +257,8 @@ GLOBAL_LIST_INIT(ghost_forms, list("ghost","ghostking","ghostian2","skeleghost",
 	var/list/forms = GLOB.ghost_forms
 	if(ckey != "moonmandoom")
 		forms -= "bombaster"
+	if(ckey != "biomechanicmann")
+		forms -= "pchola"
 	var/new_form = input(src, "Thanks for supporting Rel - Choose your ghostly form:","Thanks for supporting BYOND",null) as null|anything in forms
 	if(new_form)
 		prefs.ghost_form = new_form
