@@ -50,7 +50,7 @@
 		if(holder)
 			to_chat(src, "<font color='red'>Error: Admin-PM: Client not found.</font>")
 		return
-	
+
 	var/datum/admin_help/AH = C.current_ticket
 
 	if(AH)
@@ -84,7 +84,7 @@
 			recipient = GLOB.directory[whom]
 	else if(istype(whom,/client))
 		recipient = whom
-	
+
 
 	if(irc)
 		if(!ircreplyamount)	//to prevent people from spamming irc
@@ -173,6 +173,9 @@
 			if(holder)	//sender is an admin but recipient is not. Do BIG RED TEXT
 				if(!recipient.current_ticket)
 					new /datum/admin_help(msg, recipient, TRUE)
+					recipient << 'sound/misc/ebanut_v_jivot.ogg'
+				else
+					recipient << 'sound/effects/adminhelp.ogg'
 
 				to_chat(recipient, "<font color='red' size='4'><b>-- Administrator private message --</b></font>")
 				to_chat(recipient, "<font color='red'>Admin PM from-<b>[key_name(src, recipient, 0)]</b>: [msg]</font>")
@@ -182,7 +185,7 @@
 				admin_ticket_log(recipient, "<font color='blue'>PM From [key_name_admin(src)]: [keywordparsedmsg]</font>")
 
 				//always play non-admin recipients the adminhelp sound
-				recipient << 'sound/effects/adminhelp.ogg'
+//				recipient << 'sound/effects/adminhelp.ogg'
 
 				//AdminPM popup for ApocStation and anybody else who wants to use it. Set it with POPUP_ADMIN_PM in config.txt ~Carn
 				if(config.popup_admin_pm)
