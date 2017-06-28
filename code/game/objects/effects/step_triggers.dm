@@ -16,7 +16,7 @@
 		return
 	if(isobserver(H) && !affect_ghosts)
 		return
-	if(!ismob(H) && mobs_only)
+	if(!istype(H, /mob) && mobs_only)
 		return
 	Trigger(H)
 
@@ -45,7 +45,7 @@
 	var/list/affecting = list()
 
 /obj/effect/step_trigger/thrower/Trigger(atom/A)
-	if(!A || !ismovableatom(A))
+	if(!A || !istype(A, /atom/movable))
 		return
 	var/atom/movable/AM = A
 	var/curtiles = 0

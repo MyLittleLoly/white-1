@@ -24,8 +24,6 @@
 	var/datum/lighting_corner/C
 	var/thing
 	for (thing in corners)
-		if(!thing)
-			continue
 		C = thing
 		C.update_active()
 
@@ -47,8 +45,6 @@
 	var/datum/lighting_corner/C
 	var/datum/light_source/S
 	for (thing in corners)
-		if(!thing)
-			continue
 		C = thing
 		if (!C.active) // We would activate the corner, calculate the lighting for it.
 			for (thing in C.affecting)
@@ -65,8 +61,6 @@
 	var/thing
 	var/datum/lighting_corner/L
 	for (thing in corners)
-		if(!thing)
-			continue
 		L = thing
 		totallums += L.lum_r + L.lum_b + L.lum_g
 

@@ -20,7 +20,6 @@
 	var/num_loaded = magazine.attackby(A, user, params, 1)
 	if(num_loaded)
 		to_chat(user, "<span class='notice'>You load [num_loaded] shell\s into \the [src]!</span>")
-		playsound(user, 'sound/weapons/shotguninsert.ogg', 60, 1)
 		A.update_icon()
 		update_icon()
 
@@ -147,8 +146,8 @@
 
 	mag_type = /obj/item/ammo_box/magazine/internal/boltaction/enchanted/arcane_barrage
 
-/obj/item/weapon/gun/ballistic/shotgun/boltaction/enchanted/Initialize()
-	. = ..()
+/obj/item/weapon/gun/ballistic/shotgun/boltaction/enchanted/New()
+	..()
 	bolt_open = 1
 	pump()
 	gun_type = type
@@ -213,8 +212,8 @@
 	var/toggled = 0
 	var/obj/item/ammo_box/magazine/internal/shot/alternate_magazine
 
-/obj/item/weapon/gun/ballistic/shotgun/automatic/dual_tube/Initialize()
-	. = ..()
+/obj/item/weapon/gun/ballistic/shotgun/automatic/dual_tube/New()
+	..()
 	if (!alternate_magazine)
 		alternate_magazine = new mag_type(src)
 

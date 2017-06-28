@@ -565,8 +565,7 @@
 				if(minutes > GLOB.CMinutes)
 					mins = minutes - GLOB.CMinutes
 				mins = input(usr,"How long (in minutes)? (Default: 1440)","Ban time",mins ? mins : 1440) as num|null
-				if(mins <= 0)
-					to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
+				if(!mins)
 					return
 				minutes = GLOB.CMinutes + mins
 				duration = GetExp(minutes)
@@ -1000,8 +999,7 @@
 			switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
 				if("Yes")
 					var/mins = input(usr,"How long (in minutes)?","Ban time",1440) as num|null
-					if(mins <= 0)
-						to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
+					if(!mins)
 						return
 					var/reason = sanitize_russian(input(usr,"Please State Reason.","Reason") as message|null)
 					if(!reason)
@@ -1196,8 +1194,7 @@
 		switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
 			if("Yes")
 				var/mins = input(usr,"How long (in minutes)?","Ban time",1440) as num|null
-				if(mins <= 0)
-					to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
+				if(!mins)
 					return
 				var/reason = input(usr,"Please State Reason.","Reason") as message|null
 				if(!reason)
@@ -1425,24 +1422,23 @@
 			return
 
 		var/mob/M = locate(href_list["tdome1"])
-		if(!isliving(M))
-			to_chat(usr, "This can only be used on instances of type /mob/living.")
+		if(!ismob(M))
+			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		if(isAI(M))
 			to_chat(usr, "This cannot be used on instances of type /mob/living/silicon/ai.")
 			return
-		var/mob/living/L = M
 
-		for(var/obj/item/I in L)
-			L.dropItemToGround(I, TRUE)
+		for(var/obj/item/I in M)
+			M.dropItemToGround(I, TRUE)
 
-		L.Unconscious(100)
+		M.Paralyse(5)
 		sleep(5)
-		L.forceMove(pick(GLOB.tdome1))
+		M.loc = pick(GLOB.tdome1)
 		spawn(50)
-			to_chat(L, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
-		log_admin("[key_name(usr)] has sent [key_name(L)] to the thunderdome. (Team 1)")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(L)] to the thunderdome. (Team 1)")
+			to_chat(M, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
+		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Team 1)")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Team 1)")
 
 	else if(href_list["tdome2"])
 		if(!check_rights(R_FUN))
@@ -1452,24 +1448,23 @@
 			return
 
 		var/mob/M = locate(href_list["tdome2"])
-		if(!isliving(M))
-			to_chat(usr, "This can only be used on instances of type /mob/living.")
+		if(!ismob(M))
+			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		if(isAI(M))
 			to_chat(usr, "This cannot be used on instances of type /mob/living/silicon/ai.")
 			return
-		var/mob/living/L = M
 
-		for(var/obj/item/I in L)
-			L.dropItemToGround(I, TRUE)
+		for(var/obj/item/I in M)
+			M.dropItemToGround(I, TRUE)
 
-		L.Unconscious(100)
+		M.Paralyse(5)
 		sleep(5)
-		L.forceMove(pick(GLOB.tdome2))
+		M.loc = pick(GLOB.tdome2)
 		spawn(50)
-			to_chat(L, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
-		log_admin("[key_name(usr)] has sent [key_name(L)] to the thunderdome. (Team 2)")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(L)] to the thunderdome. (Team 2)")
+			to_chat(M, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
+		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Team 2)")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Team 2)")
 
 	else if(href_list["tdomeadmin"])
 		if(!check_rights(R_FUN))
@@ -1479,21 +1474,20 @@
 			return
 
 		var/mob/M = locate(href_list["tdomeadmin"])
-		if(!isliving(M))
-			to_chat(usr, "This can only be used on instances of type /mob/living.")
+		if(!ismob(M))
+			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		if(isAI(M))
 			to_chat(usr, "This cannot be used on instances of type /mob/living/silicon/ai.")
 			return
-		var/mob/living/L = M
 
-		L.Unconscious(100)
+		M.Paralyse(5)
 		sleep(5)
-		L.forceMove(pick(GLOB.tdomeadmin))
+		M.loc = pick(GLOB.tdomeadmin)
 		spawn(50)
-			to_chat(L, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
-		log_admin("[key_name(usr)] has sent [key_name(L)] to the thunderdome. (Admin.)")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(L)] to the thunderdome. (Admin.)")
+			to_chat(M, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
+		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Admin.)")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Admin.)")
 
 	else if(href_list["tdomeobserve"])
 		if(!check_rights(R_FUN))
@@ -1503,28 +1497,27 @@
 			return
 
 		var/mob/M = locate(href_list["tdomeobserve"])
-		if(!isliving(M))
-			to_chat(usr, "This can only be used on instances of type /mob/living.")
+		if(!ismob(M))
+			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		if(isAI(M))
 			to_chat(usr, "This cannot be used on instances of type /mob/living/silicon/ai.")
 			return
-		var/mob/living/L = M
 
-		for(var/obj/item/I in L)
-			L.dropItemToGround(I, TRUE)
+		for(var/obj/item/I in M)
+			M.dropItemToGround(I, TRUE)
 
-		if(ishuman(L))
-			var/mob/living/carbon/human/observer = L
+		if(ishuman(M))
+			var/mob/living/carbon/human/observer = M
 			observer.equip_to_slot_or_del(new /obj/item/clothing/under/suit_jacket(observer), slot_w_uniform)
 			observer.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(observer), slot_shoes)
-		L.Unconscious(100)
+		M.Paralyse(5)
 		sleep(5)
-		L.forceMove(pick(GLOB.tdomeobserve))
+		M.loc = pick(GLOB.tdomeobserve)
 		spawn(50)
-			to_chat(L, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
-		log_admin("[key_name(usr)] has sent [key_name(L)] to the thunderdome. (Observer.)")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(L)] to the thunderdome. (Observer.)")
+			to_chat(M, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
+		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Observer.)")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Observer.)")
 
 	else if(href_list["revive"])
 		if(!check_rights(R_REJUVINATE))
@@ -1831,7 +1824,7 @@
 	else if(href_list["reject_custom_name"])
 		if(!check_rights(R_ADMIN))
 			return
-		var/obj/item/weapon/station_charter/charter = locate(href_list["reject_custom_name"])
+		var/obj/item/station_charter/charter = locate(href_list["reject_custom_name"])
 		if(istype(charter))
 			charter.reject_proposed(usr)
 	else if(href_list["jumpto"])
@@ -2016,10 +2009,10 @@
 							O.setDir(obj_dir)
 							if(obj_name)
 								O.name = obj_name
-								if(ismob(O))
+								if(istype(O,/mob))
 									var/mob/M = O
 									M.real_name = obj_name
-							if(where == "inhand" && isliving(usr) && isitem(O))
+							if(where == "inhand" && isliving(usr) && istype(O, /obj/item))
 								var/mob/living/L = usr
 								var/obj/item/I = O
 								L.put_in_hands(I)
@@ -2332,7 +2325,7 @@
 
 	else if(href_list["showrelatedacc"])
 		var/client/C = locate(href_list["client"]) in GLOB.clients
-		var/thing_to_check
+		var/list/thing_to_check
 		if(href_list["showrelatedacc"] == "cid")
 			thing_to_check = C.related_accounts_cid
 		else
@@ -2340,10 +2333,11 @@
 		thing_to_check = splittext(thing_to_check, ", ")
 
 
-		var/list/dat = list("Related accounts by [uppertext(href_list["showrelatedacc"])]:")
-		dat += thing_to_check
+		var/dat = "Related accounts by [uppertext(href_list["showrelatedacc"])]:<br>"
+		for(var/thing in thing_to_check)
+			dat += "[thing]<br>"
 
-		usr << browse(dat.Join("<br>"), "window=related_[C];size=420x300")
+		usr << browse(dat, "size=420x300")
 
 	else if(href_list["announcetritor"])
 		var/zhirobas = href_list["announcetritor"]

@@ -29,7 +29,7 @@
 	if(charge)
 		. = min(charge, 250)
 		charge = use(.)
-		update_icon()
+		updateicon()
 
 /obj/machinery/light/power_drain(clockcult_user)
 	if(on)

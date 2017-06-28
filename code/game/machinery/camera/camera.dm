@@ -159,10 +159,9 @@
 
 		else if(istype(W, /obj/item/stack/sheet/mineral/plasma))
 			if(!isEmpProof())
-				var/obj/item/stack/sheet/mineral/plasma/P = W
 				upgradeEmpProof()
 				to_chat(user, "[msg]")
-				P.use(1)
+				qdel(W)
 			else
 				to_chat(user, "[msg2]")
 			return
@@ -283,7 +282,7 @@
 		else
 			visible_message("<span class='danger'>\The [src] [change_msg]!</span>")
 
-		playsound(src.loc, 'sound/items/wirecutter.ogg', 100, 1)
+		playsound(src.loc, 'sound/items/Wirecutter.ogg', 100, 1)
 	update_icon()
 
 	// now disconnect anyone using the camera

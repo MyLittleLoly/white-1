@@ -439,7 +439,7 @@
 	if(iscarbon(mob_occupant))
 		var/mob/living/carbon/C = mob_occupant
 		dna = C.has_dna()
-	if(isbrain(mob_occupant))
+	if(istype(mob_occupant, /mob/living/brain))
 		var/mob/living/brain/B = mob_occupant
 		dna = B.stored_dna
 

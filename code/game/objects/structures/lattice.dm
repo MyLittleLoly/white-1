@@ -50,7 +50,7 @@
 		deconstruct()
 
 /obj/structure/lattice/clockwork
-	name = "cog lattice"
+	name = "clockwork lattice"
 	desc = "A lightweight support lattice. These hold the Justicar's station together."
 	icon = 'icons/obj/smooth_structures/lattice_clockwork.dmi'
 

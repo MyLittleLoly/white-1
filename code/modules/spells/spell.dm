@@ -134,7 +134,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			return 0
 
 	var/turf/T = get_turf(user)
-	if(T.z == ZLEVEL_CENTCOM && !centcom_cancast) //Certain spells are not allowed on the centcom zlevel
+	if(T.z == ZLEVEL_CENTCOM && (!centcom_cancast || SSticker.mode.name == "ragin' mages")) //Certain spells are not allowed on the centcom zlevel
 		to_chat(user, "<span class='notice'>You can't cast this spell here.</span>")
 		return 0
 
@@ -347,12 +347,12 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			target.adjustToxLoss(amount)
 		if("oxyloss")
 			target.adjustOxyLoss(amount)
-		if("stun")
-			target.AdjustStun(amount)
-		if("knockdown")
-			target.AdjustKnockdown(amount)
-		if("unconscious")
-			target.AdjustUnconscious(amount)
+		if("stunned")
+			target.AdjustStunned(amount)
+		if("weakened")
+			target.AdjustWeakened(amount)
+		if("paralysis")
+			target.AdjustParalysis(amount)
 		else
 			target.vars[type] += amount //I bear no responsibility for the runtimes that'll happen if you try to adjust non-numeric or even non-existant vars
 
@@ -449,9 +449,6 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 	perform(targets,user=user)
 
-/obj/effect/proc_holder/spell/proc/updateButtonIcon()
-	action.UpdateButtonIcon()
-
 /obj/effect/proc_holder/spell/proc/can_be_cast_by(mob/caster)
 	if((human_req || clothes_req) && !ishuman(caster))
 		return 0
@@ -510,7 +507,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	invocation = "Victus sano!"
 	invocation_type = "whisper"
 	school = "restoration"
-	sound = 'sound/magic/staff_healing.ogg'
+	sound = 'sound/magic/Staff_Healing.ogg'
 
 /obj/effect/proc_holder/spell/self/basic_heal/cast(mob/living/carbon/human/user) //Note the lack of "list/targets" here. Instead, use a "user" var depending on mob requirements.
 	//Also, notice the lack of a "for()" statement that looks through the targets. This is, again, because the spell can only have a single target.

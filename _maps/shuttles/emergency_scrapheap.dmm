@@ -19,6 +19,8 @@
 /area/shuttle/escape)
 "af" = (
 /obj/structure/chair/comfy/brown{
+	tag = "icon-comfychair (NORTH)";
+	icon_state = "comfychair";
 	dir = 1
 	},
 /turf/open/floor/carpet,
@@ -40,6 +42,8 @@
 /area/shuttle/escape)
 "aj" = (
 /obj/structure/chair/comfy/brown{
+	tag = "icon-comfychair (WEST)";
+	icon_state = "comfychair";
 	dir = 8
 	},
 /turf/open/floor/carpet,
@@ -49,6 +53,8 @@
 /area/shuttle/escape)
 "al" = (
 /obj/structure/chair/comfy/brown{
+	tag = "icon-comfychair (EAST)";
+	icon_state = "comfychair";
 	dir = 4
 	},
 /obj/structure/window/reinforced{
@@ -64,6 +70,7 @@
 "an" = (
 /obj/item/device/radio/intercom{
 	name = "Station Intercom (General)";
+	pixel_x = 0;
 	pixel_y = -29
 	},
 /turf/open/floor/carpet,
@@ -199,6 +206,7 @@
 	},
 /obj/item/device/radio/intercom{
 	name = "Station Intercom (General)";
+	pixel_x = 0;
 	pixel_y = 23
 	},
 /turf/open/floor/mineral/titanium/blue,
@@ -291,6 +299,8 @@
 /area/shuttle/escape)
 "aY" = (
 /obj/structure/chair/wood{
+	tag = "icon-wooden_chair (NORTH)";
+	icon_state = "wooden_chair";
 	dir = 1
 	},
 /turf/open/floor/plasteel/grimy,
@@ -303,6 +313,7 @@
 /area/shuttle/escape)
 "ba" = (
 /obj/structure/extinguisher_cabinet{
+	pixel_x = 0;
 	pixel_y = -30
 	},
 /turf/open/floor/plasteel/bar,
@@ -358,6 +369,8 @@
 /area/shuttle/escape)
 "bj" = (
 /obj/structure/toilet{
+	tag = "icon-toilet00 (EAST)";
+	icon_state = "toilet00";
 	dir = 4
 	},
 /obj/machinery/light/small{

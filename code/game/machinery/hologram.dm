@@ -29,7 +29,7 @@ Possible to do for anyone motivated enough:
 #define HOLOPAD_MODE RANGE_BASED
 
 /obj/machinery/holopad
-	name = "holopad"
+	name = "Holopad"
 	desc = "It's a floor-mounted device for projecting holographic images."
 	icon_state = "holopad0"
 	layer = LOW_OBJ_LAYER
@@ -51,18 +51,20 @@ Possible to do for anyone motivated enough:
 	var/static/list/holopads = list()
 
 /obj/machinery/holopad/Initialize()
-	. = ..()
+	..()
 	var/obj/item/weapon/circuitboard/machine/B = new /obj/item/weapon/circuitboard/machine/holopad(null)
 	B.apply_default_parts(src)
 	holopads += src
 
 /obj/machinery/holopad/Destroy()
 	if(outgoing_call)
-		outgoing_call.ConnectionFailure(src)
+		LAZYADD(holo_calls, outgoing_call)
+		outgoing_call = null
 
 	for(var/I in holo_calls)
 		var/datum/holocall/HC = I
 		HC.ConnectionFailure(src)
+	LAZYCLEARLIST(holo_calls)
 
 	for (var/I in masters)
 		clear_holo(I)
@@ -73,14 +75,7 @@ Possible to do for anyone motivated enough:
 	if (powered())
 		stat &= ~NOPOWER
 	else
-		stat |= NOPOWER
-		if(outgoing_call)
-			outgoing_call.ConnectionFailure(src)
-
-/obj/machinery/holopad/obj_break()
-	. = ..()
-	if(outgoing_call)
-		outgoing_call.ConnectionFailure(src)
+		stat |= ~NOPOWER
 
 /obj/machinery/holopad/RefreshParts()
 	var/holograph_range = 4
@@ -105,10 +100,21 @@ Possible to do for anyone motivated enough:
 		return
 	return ..()
 
+/obj/machinery/holopad/proc/CheckCallClose()
+	for(var/I in holo_calls)
+		var/datum/holocall/HC = I
+		if(usr == HC.eye)
+			HC.Disconnect(HC.calling_holopad)	//disconnect via clicking the called holopad
+			return TRUE
+	return FALSE
+
+/obj/machinery/holopad/Click(location,control,params)
+	if(!CheckCallClose())
+		return ..()
+
 /obj/machinery/holopad/AltClick(mob/living/carbon/human/user)
-	if(isAI(user))
-		hangup_all_calls()
-		return
+	if(!CheckCallClose())
+		interact(user)
 
 /obj/machinery/holopad/interact(mob/living/carbon/human/user) //Carn: Hologram requests.
 	if(!istype(user))
@@ -151,12 +157,6 @@ Possible to do for anyone motivated enough:
 	popup.set_content(dat)
 	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
 	popup.open()
-
-//Stop ringing the AI!!
-/obj/machinery/holopad/proc/hangup_all_calls()
-	for(var/I in holo_calls)
-		var/datum/holocall/HC = I
-		HC.Disconnect(src)
 
 /obj/machinery/holopad/Topic(href, href_list)
 	if(..() || isAI(usr))
@@ -301,11 +301,11 @@ Possible to do for anyone motivated enough:
 		Hologram.set_light(2)	//hologram lighting
 
 		set_holo(user, Hologram)
-		visible_message("<span class='notice'>A holographic image of [user] flickers to life before your eyes!</span>")
+		visible_message("A holographic image of [user] flicks to life right before your eyes!")
 
 		return Hologram
 	else
-		to_chat(user, "<span class='danger'>ERROR:</span> Unable to project hologram.")
+		to_chat(user, "<span class='danger'>ERROR:</span> \black Unable to project hologram.")
 
 /*This is the proc for special two-way communication between AI and holopad/people talking near holopad.
 For the other part of the code, check silicon say.dm. Particularly robot talk.*/

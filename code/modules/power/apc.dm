@@ -27,6 +27,8 @@
 #define APC_UPOVERLAY_OPERATING 8192
 
 
+#define APC_UPDATE_ICON_COOLDOWN 200 // 20 seconds
+
 // the Area Power Controller (APC), formerly Power Distribution Unit (PDU)
 // one per area, needs wire conection to power network through a terminal
 
@@ -91,14 +93,13 @@
 	var/force_update = 0
 	var/update_state = -1
 	var/update_overlay = -1
-	var/icon_update_needed = FALSE
 
-/obj/machinery/power/apc/get_cell()
-	return cell
 
 /obj/machinery/power/apc/connect_to_network()
 	//Override because the APC does not directly connect to the network; it goes through a terminal.
 	//The terminal is what the power computer looks for anyway.
+	if(!terminal)
+		make_terminal()
 	if(terminal)
 		terminal.connect_to_network()
 
@@ -211,11 +212,11 @@
 // update the APC icon to show the three base states
 // also add overlays for indicator lights
 /obj/machinery/power/apc/update_icon()
+
 	var/update = check_updates() 		//returns 0 if no need to update icons.
 						// 1 if we need to update the icon_state
 						// 2 if we need to update the overlays
 	if(!update)
-		icon_update_needed = FALSE
 		return
 
 	if(update & 1) // Updating the icon state
@@ -239,8 +240,6 @@
 			icon_state = "apcemag"
 		else if(update_state & UPSTATE_WIREEXP)
 			icon_state = "apcewires"
-		else if(update_state & UPSTATE_MAINT)
-			icon_state = "apc0"
 
 	if(!(update_state & UPSTATE_ALLGOOD))
 		cut_overlays()
@@ -273,9 +272,8 @@
 	else
 		set_light(0)
 
-	icon_update_needed = FALSE
-
 /obj/machinery/power/apc/proc/check_updates()
+
 	var/last_update_state = update_state
 	var/last_update_overlay = update_overlay
 	update_state = 0
@@ -346,7 +344,7 @@
 
 // Used in process so it doesn't update the icon too much
 /obj/machinery/power/apc/proc/queue_icon_update()
-	icon_update_needed = TRUE
+	addtimer(CALLBACK(src, .proc/update_icon), APC_UPDATE_ICON_COOLDOWN, TIMER_UNIQUE)
 
 //attack with an item - open/close cover, insert cell, or (un)lock interface
 
@@ -448,8 +446,6 @@
 				update_icon()
 		else if(emagged)
 			to_chat(user, "<span class='warning'>The interface is broken!</span>")
-		else if((stat & MAINT) && !opened)
-			..() //its an empty closed frame... theres no wires to expose!
 		else
 			panel_open = !panel_open
 			to_chat(user, "The wires have been [panel_open ? "exposed" : "unexposed"]")
@@ -493,7 +489,7 @@
 			return
 		user.visible_message("[user.name] adds cables to the APC frame.", \
 							"<span class='notice'>You start adding cables to the APC frame...</span>")
-		playsound(src.loc, 'sound/items/deconstruct.ogg', 50, 1)
+		playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 		if(do_after(user, 20, target = src))
 			if (C.get_amount() < 10 || !C)
 				return
@@ -521,7 +517,7 @@
 
 		user.visible_message("[user.name] inserts the power control board into [src].", \
 							"<span class='notice'>You start to insert the power control board into the frame...</span>")
-		playsound(src.loc, 'sound/items/deconstruct.ogg', 50, 1)
+		playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 		if(do_after(user, 10, target = src))
 			if(has_electronics==0)
 				has_electronics = 1
@@ -625,14 +621,16 @@
 		return
 	if(usr == user && opened && (!issilicon(user)))
 		if(cell)
-			user.visible_message("[user] removes \the [cell] from [src]!","<span class='notice'>You remove \the [cell].</span>")
 			user.put_in_hands(cell)
-			cell.update_icon()
+			cell.add_fingerprint(user)
+			cell.updateicon()
+
 			src.cell = null
+			user.visible_message("[user.name] removes the power cell from [src.name]!",\
+								 "<span class='notice'>You remove the power cell.</span>")
+			//to_chat(user, "You remove the power cell.")
 			charging = 0
 			src.update_icon()
-		return
-	if((stat & MAINT) && !opened) //no board; no interface
 		return
 	..()
 
@@ -830,7 +828,7 @@
 	if(!malf.can_shunt)
 		to_chat(malf, "<span class='warning'>You cannot shunt!</span>")
 		return
-	if(src.z != ZLEVEL_STATION)
+	if(src.z != 1)
 		return
 	occupier = new /mob/living/silicon/ai(src, malf.laws, malf) //DEAR GOD WHY?	//IKR????
 	occupier.adjustOxyLoss(malf.getOxyLoss())
@@ -939,8 +937,7 @@
 		return 0
 
 /obj/machinery/power/apc/process()
-	if(icon_update_needed)
-		update_icon()
+
 	if(stat & (BROKEN|MAINT))
 		return
 	if(!area.requires_power)

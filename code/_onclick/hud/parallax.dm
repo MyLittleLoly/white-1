@@ -21,7 +21,6 @@
 		C.parallax_layers_cached = list()
 		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_1(null, C.view)
 		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_2(null, C.view)
-		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_3(null, C.view)
 
 	C.parallax_layers = C.parallax_layers_cached.Copy()
 
@@ -278,11 +277,6 @@
 	icon_state = "layer2"
 	speed = 1
 	layer = 2
-
-/obj/screen/parallax_layer/layer_3
-	icon_state = "layer3"
-	speed = 1.4
-	layer = 3
 
 #undef LOOP_NONE
 #undef LOOP_NORMAL

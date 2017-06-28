@@ -3,6 +3,7 @@
 //Only use square radius for this!
 /datum/proximity_monitor/advanced/peaceborg_dampener
 	name = "\improper Hyperkinetic Dampener Field"
+	requires_processing = TRUE
 	setup_edge_turfs = TRUE
 	setup_field_turfs = TRUE
 	field_shape = FIELD_SHAPE_RADIUS_SQUARE
@@ -21,14 +22,9 @@
 	use_host_turf = TRUE
 
 /datum/proximity_monitor/advanced/peaceborg_dampener/New()
-	START_PROCESSING(SSfields, src)
 	tracked = list()
 	staging = list()
 	..()
-
-/datum/proximity_monitor/advanced/peaceborg_dampener/Destroy()
-	STOP_PROCESSING(SSfields, src)
-	return ..()
 
 /datum/proximity_monitor/advanced/peaceborg_dampener/process()
 	if(!istype(projector))
@@ -43,7 +39,7 @@
 		if(R.has_buckled_mobs())
 			for(var/mob/living/L in R.buckled_mobs)
 				L.visible_message("<span class='warning'>[L] is knocked off of [R] by the charge in [R]'s chassis induced by [name]!</span>")	//I know it's bad.
-				L.Knockdown(60)
+				L.Weaken(3)
 				R.unbuckle_mob(L)
 				do_sparks(5, 0, L)
 	..()
@@ -54,7 +50,6 @@
 	var/obj/effect/abstract/proximity_checker/advanced/F = edge_turfs[T]
 	F.appearance = I.appearance
 	F.invisibility = 0
-	F.mouse_opacity = 0
 	F.layer = 5
 
 /datum/proximity_monitor/advanced/peaceborg_dampener/cleanup_edge_turf(turf/T)

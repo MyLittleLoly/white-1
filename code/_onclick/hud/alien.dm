@@ -6,7 +6,7 @@
 	icon_state = "leap_off"
 
 /obj/screen/alien/leap/Click()
-	if(isalienhunter(usr))
+	if(istype(usr, /mob/living/carbon/alien/humanoid/hunter))
 		var/mob/living/carbon/alien/humanoid/hunter/AH = usr
 		AH.toggle_leap()
 
@@ -57,7 +57,7 @@
 	static_inventory += using
 	action_intent = using
 
-	if(isalienhunter(mymob))
+	if(istype(mymob, /mob/living/carbon/alien/humanoid/hunter))
 		var/mob/living/carbon/alien/humanoid/hunter/H = mymob
 		H.leap_icon = new /obj/screen/alien/leap()
 		H.leap_icon.screen_loc = ui_alien_storage_r
@@ -96,7 +96,7 @@
 	alien_plasma_display = new /obj/screen/alien/plasma_display()
 	infodisplay += alien_plasma_display
 
-	if(!isalienqueen(mymob))
+	if(!istype(mymob, /mob/living/carbon/alien/humanoid/royal/queen))
 		alien_queen_finder = new /obj/screen/alien/alien_queen_finder
 		infodisplay += alien_queen_finder
 

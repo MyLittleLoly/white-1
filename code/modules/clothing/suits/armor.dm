@@ -6,7 +6,7 @@
 	heat_protection = CHEST|GROIN
 	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
 	strip_delay = 60
-	equip_delay_other = 40
+	put_on_delay = 40
 	obj_integrity = 250
 	max_integrity = 250
 	resistance_flags = 0
@@ -14,23 +14,16 @@
 
 /obj/item/clothing/suit/armor/vest
 	name = "armor vest"
-	desc = "A slim Type I armored vest that provides decent protection against most types of damage."
+	desc = "A slim armored vest that protects against most types of damage."
 	icon_state = "armoralt"
 	item_state = "armoralt"
 	blood_overlay_type = "armor"
 	dog_fashion = /datum/dog_fashion/back
 
 /obj/item/clothing/suit/armor/vest/alt
-	desc = "A Type I armored vest that provides decent protection against most types of damage."
+	desc = "An armored vest that protects against most types of damage."
 	icon_state = "armor"
 	item_state = "armor"
-
-/obj/item/clothing/suit/armor/vest/old
-	name = "degrading armor vest"
-	desc = "Older generation Type 1 armored vest. Due to degradation over time the vest is far less maneuverable to move in."
-	icon_state = "armor"
-	item_state = "armor"
-	slowdown = 1
 
 /obj/item/clothing/suit/armor/vest/blueshirt
 	icon_state = "blueshift"
@@ -38,7 +31,7 @@
 
 /obj/item/clothing/suit/armor/hos
 	name = "armored greatcoat"
-	desc = "A greatcoat enhanced with a special alloy for some extra protection and style for those with a commanding presence."
+	desc = "A greatcoat enchanced with a special alloy for some protection and style for those with a commanding presence."
 	icon_state = "hos"
 	item_state = "greatcoat"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
@@ -84,18 +77,13 @@
 
 /obj/item/clothing/suit/armor/vest/capcarapace
 	name = "captain's carapace"
-	desc = "A fireproof armored chestpiece reinforced with ceramic plates and plasteel pauldrons to provide additional protection whilst still offering maximum mobility and flexibility. Issued only to the station's finest, although it does chafe your nipples."
+	desc = "An armored vest reinforced with ceramic plates and pauldrons to provide additional protection whilst still offering maximum mobility and flexibility. Issued only to the station's finest, although it does chafe your nipples."
 	icon_state = "capcarapace"
 	item_state = "armor"
 	body_parts_covered = CHEST|GROIN
 	armor = list(melee = 50, bullet = 40, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0, fire = 100, acid = 90)
 	dog_fashion = null
 	resistance_flags = FIRE_PROOF
-
-/obj/item/clothing/suit/armor/vest/capcarapace/syndicate
-	name = "syndicate captain's vest"
-	desc = "A sinister looking vest of advanced armor worn over a black and red fireproof jacket. The gold collar and shoulders denote that this belongs to a high ranking syndicate officer."
-	icon_state = "syndievest"
 
 /obj/item/clothing/suit/armor/vest/capcarapace/alt
 	name = "captain's parade jacket"
@@ -105,15 +93,16 @@
 
 /obj/item/clothing/suit/armor/riot
 	name = "riot suit"
-	desc = "A suit of semi-flexible polycarbonate body armor with heavy padding to protect against melee attacks."
+	desc = "A suit of armor with heavy padding to protect against melee attacks."
 	icon_state = "riot"
 	item_state = "swat_suit"
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	armor = list(melee = 50, bullet = 10, laser = 10, energy = 10, bomb = 0, bio = 0, rad = 0, fire = 80, acid = 80)
+	flags_inv = HIDEJUMPSUIT
 	strip_delay = 80
-	equip_delay_other = 60
+	put_on_delay = 60
 
 /obj/item/clothing/suit/armor/bone
 	name = "bone armor"
@@ -126,13 +115,13 @@
 
 /obj/item/clothing/suit/armor/bulletproof
 	name = "bulletproof armor"
-	desc = "A Type III heavy bulletproof vest that excels in protecting the wearer against traditional projectile weaponry and explosives to a minor extent."
+	desc = "A bulletproof vest that excels in protecting the wearer against traditional projectile weaponry and explosives to a minor extent."
 	icon_state = "bulletproof"
 	item_state = "armor"
 	blood_overlay_type = "armor"
 	armor = list(melee = 15, bullet = 60, laser = 10, energy = 10, bomb = 40, bio = 0, rad = 0, fire = 50, acid = 50)
 	strip_delay = 70
-	equip_delay_other = 50
+	put_on_delay = 50
 
 /obj/item/clothing/suit/armor/laserproof
 	name = "reflector vest"
@@ -203,7 +192,7 @@
 	var/rad_amount= 15
 	reactivearmor_cooldown_duration = 100
 
-/obj/item/clothing/suit/armor/reactive/teleport/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+/obj/item/clothing/suit/armor/reactive/teleport/hit_reaction(mob/living/carbon/human/owner, attack_text, final_block_chance)
 	if(!active)
 		return 0
 	if(prob(hit_reaction_chance))
@@ -236,7 +225,7 @@
 	name = "reactive incendiary armor"
 	desc = "An experimental suit of armor with a reactive sensor array rigged to a flame emitter. For the stylish pyromaniac."
 
-/obj/item/clothing/suit/armor/reactive/fire/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+/obj/item/clothing/suit/armor/reactive/fire/hit_reaction(mob/living/carbon/human/owner, attack_text)
 	if(!active)
 		return 0
 	if(prob(hit_reaction_chance))
@@ -258,7 +247,7 @@
 	name = "reactive stealth armor"
 	desc = "An experimental suit of armor that renders the wearer invisible on detection of imminent harm, and creates a decoy that runs away from the owner. You can't fight what you can't see."
 
-/obj/item/clothing/suit/armor/reactive/stealth/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+/obj/item/clothing/suit/armor/reactive/stealth/hit_reaction(mob/living/carbon/human/owner, attack_text)
 	if(!active)
 		return 0
 	if(prob(hit_reaction_chance))
@@ -285,7 +274,7 @@
 	var/tesla_boom = FALSE
 	var/tesla_stun = FALSE
 
-/obj/item/clothing/suit/armor/reactive/tesla/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+/obj/item/clothing/suit/armor/reactive/tesla/hit_reaction(mob/living/carbon/human/owner, attack_text)
 	if(!active)
 		return 0
 	if(prob(hit_reaction_chance))
@@ -305,7 +294,7 @@
 	desc = "If you can't beat the memes, embrace them."
 	var/tele_range = 10
 
-/obj/item/clothing/suit/armor/reactive/table/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+/obj/item/clothing/suit/armor/reactive/table/hit_reaction(mob/living/carbon/human/owner, attack_text)
 	if(!active)
 		return 0
 	if(prob(hit_reaction_chance))
@@ -315,7 +304,7 @@
 			return
 		owner.visible_message("<span class='danger'>The reactive teleport system flings [H] clear of [attack_text] and slams them into a fabricated table!</span>")
 		owner.visible_message("<font color='red' size='3'>[H] GOES ON THE TABLE!!!</font>")
-		owner.Knockdown(40)
+		owner.Weaken(2)
 		var/list/turfs = new/list()
 		for(var/turf/T in orange(tele_range, H))
 			if(T.density)

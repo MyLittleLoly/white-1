@@ -97,9 +97,6 @@
 	buckle_lying = FALSE
 	can_ride_typecache = list(/mob/living/carbon/human)
 
-/mob/living/silicon/robot/get_cell()
-	return cell
-
 /mob/living/silicon/robot/Initialize(mapload)
 	spark_system = new /datum/effect_system/spark_spread()
 	spark_system.set_up(5, 0, src)
@@ -196,10 +193,6 @@
 
 /mob/living/silicon/robot/proc/pick_module()
 	if(module.type != /obj/item/weapon/robot_module)
-		return
-
-	if(wires.is_cut(WIRE_RESET_MODULE))
-		to_chat(src,"<span class='userdanger'>ERROR: Module installer reply timeout. Please check internal connections.</span>")
 		return
 
 	var/list/modulelist = list("Standard" = /obj/item/weapon/robot_module/standard, \
@@ -563,7 +556,7 @@
 	else if(ismonkey(M))
 		var/mob/living/carbon/monkey/george = M
 		//they can only hold things :(
-		if(isitem(george.get_active_held_item()))
+		if(istype(george.get_active_held_item(), /obj/item))
 			return check_access(george.get_active_held_item())
 	return 0
 
@@ -575,7 +568,7 @@
 	if(!L.len) //no requirements
 		return 1
 
-	if(!istype(I, /obj/item/weapon/card/id) && isitem(I))
+	if(!istype(I, /obj/item/weapon/card/id) && istype(I, /obj/item))
 		I = I.GetID()
 
 	if(!I || !I.access) //not ID or no access
@@ -591,7 +584,7 @@
 /mob/living/silicon/robot/update_icons()
 	cut_overlays()
 	icon_state = module.cyborg_base_icon
-	if(stat != DEAD && !(IsUnconscious() || IsStun() || IsKnockdown() || low_power_mode)) //Not dead, not stunned.
+	if(stat != DEAD && !(paralysis || stunned || weakened || low_power_mode)) //Not dead, not stunned.
 		if(!eye_lights)
 			eye_lights = new()
 		if(lamp_intensity > 2)
@@ -917,7 +910,7 @@
 		if(health <= -maxHealth) //die only once
 			death()
 			return
-		if(IsUnconscious() || IsStun() || IsKnockdown() || getOxyLoss() > maxHealth*0.5)
+		if(paralysis || stunned || weakened || getOxyLoss() > maxHealth*0.5)
 			if(stat == CONSCIOUS)
 				stat = UNCONSCIOUS
 				blind_eyes(1)
@@ -1085,8 +1078,7 @@
 		camera.c_tag = real_name	//update the camera name too
 	diag_hud_set_aishell()
 	mainframe.diag_hud_set_deployed()
-	if(mainframe.laws)
-		mainframe.laws.show_laws(mainframe) //Always remind the AI when switching
+	mainframe.show_laws() //Always remind the AI when switching
 	mainframe = null
 
 /mob/living/silicon/robot/attack_ai(mob/user)
@@ -1117,7 +1109,7 @@
 		return
 	if(incapacitated())
 		return
-	if(M.incapacitated())
+	if(M.restrained())
 		return
 	if(module)
 		if(!module.allow_riding)

@@ -51,7 +51,7 @@
 		throw EXCEPTION("No camera network")
 		user.unset_machine()
 		return
-	if (!(islist(network)))
+	if (!(istype(network,/list)))
 		throw EXCEPTION("Camera network is not a list")
 		user.unset_machine()
 		return
@@ -134,10 +134,12 @@
 	D["Cancel"] = "Cancel"
 	for(var/obj/machinery/camera/C in L)
 		if(!C.network)
-			stack_trace("Camera in a cameranet has no camera network")
+			spawn(0)
+				throw EXCEPTION("Camera in a cameranet has no camera network")
 			continue
-		if(!(islist(C.network)))
-			stack_trace("Camera in a cameranet has a non-list camera network")
+		if(!(istype(C.network,/list)))
+			spawn(0)
+				throw EXCEPTION("Camera in a cameranet has a non-list camera network")
 			continue
 		var/list/tempnetwork = C.network&network
 		if(tempnetwork.len)

@@ -28,7 +28,7 @@
 
 	var/list/buffer[NUMBER_OF_BUFFERS]
 
-	var/injectorready = 0	//world timer cooldown var
+	var/injectorready = 0	//Quick fix for issue 286 (screwdriver the screen twice to restore injector)	-Pete
 	var/current_screen = "mainmenu"
 	var/obj/machinery/dna_scannernew/connected = null
 	var/obj/item/weapon/disk/data/diskette = null
@@ -61,7 +61,8 @@
 			connected = locate(/obj/machinery/dna_scannernew, get_step(src, dir))
 			if(!isnull(connected))
 				break
-		injectorready = world.time + INJECTOR_TIMEOUT
+		spawn(250)
+			injectorready = 1
 		return
 	return
 
@@ -85,7 +86,7 @@
 	if(connected && connected.is_operational())
 		if(connected.occupant)	//set occupant_status message
 			viable_occupant = connected.occupant
-			if(viable_occupant.has_dna() && (!(RADIMMUNE in viable_occupant.dna.species.species_traits)) && (!(viable_occupant.disabilities & NOCLONE) || (connected.scan_level == 3))) //occupant is viable for dna modification
+			if(viable_occupant.has_dna() && (!(viable_occupant.disabilities & NOCLONE) || (connected.scan_level == 3)))	//occupent is viable for dna modification
 				occupant_status += "[viable_occupant.name] => "
 				switch(viable_occupant.stat)
 					if(CONSCIOUS)
@@ -212,7 +213,7 @@
 							else
 								temp_html += "<span class='linkOff'>Occupant</span>"
 							temp_html += "<a href='?src=\ref[src];task=setdelayed;num=[i];delayaction=[SCANNER_ACTION_UE]'>Occupant:Delayed</a> "
-							if(injectorready < world.time)
+							if(injectorready)
 								temp_html += "<a href='?src=\ref[src];task=injector;num=[i];text=ue'>Injector</a>"
 							else
 								temp_html += "<span class='linkOff'>Injector</span>"
@@ -226,7 +227,7 @@
 							else
 								temp_html += "<span class='linkOff'>Occupant</span>"
 							temp_html += "<a href='?src=\ref[src];task=setdelayed;num=[i];delayaction=[SCANNER_ACTION_UI]'>Occupant:Delayed</a> "
-							if(injectorready < world.time)
+							if(injectorready)
 								temp_html += "<a href='?src=\ref[src];task=injector;num=[i];text=ui'>Injector</a>"
 							else
 								temp_html += "<span class='linkOff'>Injector</span>"
@@ -239,7 +240,7 @@
 							else
 								temp_html += "<span class='linkOff'>Occupant</span>"
 							temp_html += "<a href='?src=\ref[src];task=setdelayed;num=[i];delayaction=[SCANNER_ACTION_MIXED]'>Occupant:Delayed</a> "
-							if(injectorready < world.time)
+							if(injectorready)
 								temp_html += "<a href='?src=\ref[src];task=injector;num=[i];text=mixed'>UI+UE Injector</a>"
 							else
 								temp_html += "<span class='linkOff'>UI+UE Injector</span>"
@@ -250,7 +251,7 @@
 							else
 								temp_html += "<span class='linkOff'>Occupant</span> "
 							temp_html += "<a href='?src=\ref[src];task=setdelayed;num=[i];delayaction=[SCANNER_ACTION_SE]'>Occupant:Delayed</a> "
-							if(injectorready < world.time )
+							if(injectorready)
 								temp_html += "<a href='?src=\ref[src];task=injector;num=[i];text=se'>Injector</a>"
 							else
 								temp_html += "<span class='linkOff'>Injector</span>"
@@ -390,7 +391,7 @@
 					if("mixed")
 						apply_buffer(SCANNER_ACTION_MIXED,num)
 		if("injector")
-			if(num && injectorready < world.time)
+			if(num && injectorready)
 				num = Clamp(num, 1, NUMBER_OF_BUFFERS)
 				var/list/buffer_slot = buffer[num]
 				if(istype(buffer_slot))
@@ -438,7 +439,9 @@
 								if(connected)
 									I.damage_coeff = connected.damage_coeff
 					if(I)
-						injectorready = world.time + INJECTOR_TIMEOUT
+						injectorready = 0
+						spawn(INJECTOR_TIMEOUT)
+							injectorready = 1
 		if("loaddisk")
 			if(num && diskette && diskette.fields)
 				num = Clamp(num, 1, NUMBER_OF_BUFFERS)

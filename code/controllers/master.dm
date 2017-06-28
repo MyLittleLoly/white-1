@@ -177,8 +177,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	to_chat(world, "<span class='boldannounce'>[msg]</span>")
 	log_world(msg)
 
-	if (!current_runlevel)
-		SetRunLevel(1)
+	SetRunLevel(1)
 
 	// Sort subsystems by display setting for easy access.
 	sortTim(subsystems, /proc/cmp_subsystem_display)

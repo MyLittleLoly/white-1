@@ -198,8 +198,6 @@
 	QDEL_NULL(proximity_monitor)
 	QDEL_NULL(language_holder)
 
-	unbuckle_all_mobs(force=1)
-
 	. = ..()
 	if(loc)
 		loc.handle_atom_del(src)
@@ -213,8 +211,7 @@
 
 // Previously known as HasEntered()
 // This is automatically called when something enters your square
-//oldloc = old location on atom, inserted when forceMove is called and ONLY when forceMove is called!
-/atom/movable/Crossed(atom/movable/AM, oldloc)
+/atom/movable/Crossed(atom/movable/AM)
 	return
 
 /atom/movable/Bump(atom/A, yes) //the "yes" arg is to differentiate our Bump proc from byond's, without it every Bump() call would become a double Bump().
@@ -250,7 +247,7 @@
 			for(var/atom/movable/AM in destination)
 				if(AM == src)
 					continue
-				AM.Crossed(src, oldloc)
+				AM.Crossed(src)
 
 		Moved(oldloc, 0)
 		return 1
@@ -440,8 +437,6 @@
 	if(!no_effect && (visual_effect_icon || used_item))
 		do_item_attack_animation(A, visual_effect_icon, used_item)
 
-	if(A == src)
-		return //don't do an animation if attacking self
 	var/pixel_x_diff = 0
 	var/pixel_y_diff = 0
 	var/final_pixel_y = initial(pixel_y)
@@ -595,7 +590,7 @@
 /atom/movable/proc/in_bounds()
 	. = FALSE
 	var/turf/currentturf = get_turf(src)
-	if(currentturf && (currentturf.z == ZLEVEL_CENTCOM || currentturf.z == ZLEVEL_STATION || currentturf.z == ZLEVEL_TRANSIT))
+	if(currentturf && (currentturf.z == ZLEVEL_CENTCOM || currentturf.z == ZLEVEL_STATION))
 		. = TRUE
 
 
@@ -685,14 +680,3 @@
 	set waitfor = FALSE
 	if(!anchored && has_gravity())
 		step(src, movedir)
-
-//Returns an atom's power cell, if it has one. Overload for individual items.
-/atom/movable/proc/get_cell()
-	return
-
-/atom/movable/proc/can_be_pulled(user)
-	if(src == user || !isturf(loc))
-		return FALSE
-	if(anchored || throwing)
-		return FALSE
-	return TRUE

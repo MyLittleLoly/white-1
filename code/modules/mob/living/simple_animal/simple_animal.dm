@@ -387,7 +387,7 @@
 		..()
 
 /mob/living/simple_animal/update_canmove()
-	if(IsUnconscious() || IsStun() || IsKnockdown() || stat || resting)
+	if(paralysis || stunned || weakened || stat || resting)
 		drop_all_held_items()
 		canmove = 0
 	else if(buckled)

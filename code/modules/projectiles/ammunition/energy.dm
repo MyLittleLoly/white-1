@@ -5,7 +5,7 @@
 	projectile_type = /obj/item/projectile/energy
 	var/e_cost = 100 //The amount of energy a cell needs to expend to create this shot.
 	var/select_name = "energy"
-	fire_sound = 'sound/weapons/laser.ogg'
+	fire_sound = 'sound/weapons/Laser.ogg'
 	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/energy
 
 /obj/item/ammo_casing/energy/chameleon
@@ -28,11 +28,6 @@
 /obj/item/ammo_casing/energy/lasergun
 	projectile_type = /obj/item/projectile/beam/laser
 	e_cost = 83
-	select_name = "kill"
-
-/obj/item/ammo_casing/energy/lasergun/old
-	projectile_type = /obj/item/projectile/beam/laser
-	e_cost = 200
 	select_name = "kill"
 
 /obj/item/ammo_casing/energy/laser/hos
@@ -93,13 +88,10 @@
 /obj/item/ammo_casing/energy/electrode/hos
 	e_cost = 200
 
-/obj/item/ammo_casing/energy/electrode/old
-	e_cost = 1000
-
 /obj/item/ammo_casing/energy/ion
 	projectile_type = /obj/item/projectile/ion
 	select_name = "ion"
-	fire_sound = 'sound/weapons/ionrifle.ogg'
+	fire_sound = 'sound/weapons/IonRifle.ogg'
 
 /obj/item/ammo_casing/energy/declone
 	projectile_type = /obj/item/projectile/energy/declone
@@ -109,7 +101,7 @@
 /obj/item/ammo_casing/energy/mindflayer
 	projectile_type = /obj/item/projectile/beam/mindflayer
 	select_name = "MINDFUCK"
-	fire_sound = 'sound/weapons/laser.ogg'
+	fire_sound = 'sound/weapons/Laser.ogg'
 
 /obj/item/ammo_casing/energy/flora
 	fire_sound = 'sound/effects/stealthoff.ogg'
@@ -169,7 +161,7 @@
 	projectile_type = /obj/item/projectile/energy/bolt
 	select_name = "bolt"
 	e_cost = 500
-	fire_sound = 'sound/weapons/genhit.ogg'
+	fire_sound = 'sound/weapons/Genhit.ogg'
 
 /obj/item/ammo_casing/energy/bolt/halloween
 	projectile_type = /obj/item/projectile/energy/bolt/halloween

@@ -71,7 +71,7 @@
 
 
 /obj/machinery/cell_charger/proc/removecell()
-	charging.update_icon()
+	charging.updateicon()
 	charging = null
 	chargelevel = -1
 	updateicon()

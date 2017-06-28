@@ -26,18 +26,18 @@
 
 	if (radiation)
 		if (radiation > 100)
-			if(!IsKnockdown())
+			if(!weakened)
 				emote("collapse")
-			Knockdown(200)
+			Weaken(10)
 			to_chat(src, "<span class='danger'>You feel weak.</span>")
 
 		switch(radiation)
 
 			if(50 to 75)
 				if(prob(5))
-					if(!IsKnockdown())
+					if(!weakened)
 						emote("collapse")
-					Knockdown(60)
+					Weaken(3)
 					to_chat(src, "<span class='danger'>You feel weak.</span>")
 
 			if(75 to 100)

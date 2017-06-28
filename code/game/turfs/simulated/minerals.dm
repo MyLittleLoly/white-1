@@ -26,7 +26,7 @@
 
 /turf/closed/mineral/Initialize()
 	if (!canSmoothWith)
-		canSmoothWith = list(/turf/closed/mineral, /turf/closed/indestructible)
+		canSmoothWith = list(/turf/closed)
 	pixel_y = -4
 	pixel_x = -4
 	icon = smooth_icon
@@ -41,13 +41,6 @@
 /turf/closed/mineral/shuttleRotate(rotation)
 	setDir(angle2dir(rotation+dir2angle(dir)))
 	queue_smooth(src)
-
-/turf/closed/mineral/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
-	if(turf_type)
-		underlay_appearance.icon = initial(turf_type.icon)
-		underlay_appearance.icon_state = initial(turf_type.icon_state)
-		return TRUE
-	return ..()
 
 
 /turf/closed/mineral/attackby(obj/item/weapon/pickaxe/P, mob/user, params)
@@ -179,7 +172,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/lava/smooth/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 	mineralSpawnChanceList = list(
 		/turf/closed/mineral/uranium/volcanic = 35, /turf/closed/mineral/diamond/volcanic = 30, /turf/closed/mineral/gold/volcanic = 45, /turf/closed/mineral/titanium/volcanic = 45,
@@ -200,7 +193,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/lava/smooth/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 	mineralChance = 10
@@ -222,7 +215,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/lava/smooth/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 	mineralSpawnChanceList = list(
 		/turf/closed/mineral/uranium/volcanic = 3, /turf/closed/mineral/diamond/volcanic = 1, /turf/closed/mineral/gold/volcanic = 8, /turf/closed/mineral/titanium/volcanic = 8,
@@ -241,7 +234,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 
@@ -255,7 +248,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 
@@ -269,7 +262,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 
@@ -283,7 +276,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 
@@ -297,7 +290,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 
@@ -311,7 +304,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 
@@ -325,7 +318,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 
@@ -348,7 +341,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1
 
 
@@ -356,7 +349,7 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt
 	baseturf = /turf/open/floor/plating/asteroid/basalt
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 
 /turf/closed/mineral/volcanic/lava_land_surface
 	environment_type = "basalt"
@@ -372,7 +365,7 @@
 	smooth = SMOOTH_MORE|SMOOTH_BORDER
 	canSmoothWith = list (/turf/closed)
 	baseturf = /turf/open/floor/plating/ashplanet/wateryrock
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	environment_type = "waste"
 	turf_type = /turf/open/floor/plating/ashplanet/rocky
 	defer_change = 1
@@ -386,7 +379,7 @@
 	spread = 0
 	scan_state = "rock_Gibtonite"
 	var/det_time = 8 //Countdown till explosion, but also rewards the player for how close you were to detonation when you defuse it
-	var/stage = GIBTONITE_UNSTRUCK //How far into the lifecycle of gibtonite we are
+	var/stage = 0 //How far into the lifecycle of gibtonite we are, 0 is untouched, 1 is active and attempting to detonate, 2 is benign and ready for extraction
 	var/activated_ckey = null //These are to track who triggered the gibtonite deposit for logging purposes
 	var/activated_name = null
 	var/mutable_appearance/activated_overlay
@@ -402,12 +395,12 @@
 	..()
 
 /turf/closed/mineral/gibtonite/proc/explosive_reaction(mob/user = null, triggered_by_explosion = 0)
-	if(stage == GIBTONITE_UNSTRUCK)
+	if(stage == 0)
 		activated_overlay = mutable_appearance('icons/turf/smoothrocks.dmi', "rock_Gibtonite_active", ON_EDGED_TURF_LAYER)
 		add_overlay(activated_overlay)
 		name = "gibtonite deposit"
 		desc = "An active gibtonite reserve. Run!"
-		stage = GIBTONITE_ACTIVE
+		stage = 1
 		visible_message("<span class='danger'>There was gibtonite inside! It's going to explode!</span>")
 		var/turf/bombturf = get_turf(src)
 		var/area/A = get_area(bombturf)
@@ -429,38 +422,38 @@
 
 /turf/closed/mineral/gibtonite/proc/countdown(notify_admins = 0)
 	set waitfor = 0
-	while(istype(src, /turf/closed/mineral/gibtonite) && stage == GIBTONITE_ACTIVE && det_time > 0 && mineralAmt >= 1)
+	while(istype(src, /turf/closed/mineral/gibtonite) && stage == 1 && det_time > 0 && mineralAmt >= 1)
 		det_time--
 		sleep(5)
 	if(istype(src, /turf/closed/mineral/gibtonite))
-		if(stage == GIBTONITE_ACTIVE && det_time <= 0 && mineralAmt >= 1)
+		if(stage == 1 && det_time <= 0 && mineralAmt >= 1)
 			var/turf/bombturf = get_turf(src)
 			mineralAmt = 0
-			stage = GIBTONITE_DETONATE
+			stage = 3
 			explosion(bombturf,1,3,5, adminlog = notify_admins)
 
 /turf/closed/mineral/gibtonite/proc/defuse()
-	if(stage == GIBTONITE_ACTIVE)
+	if(stage == 1)
 		cut_overlay(activated_overlay)
 		activated_overlay.icon_state = "rock_Gibtonite_inactive"
 		add_overlay(activated_overlay)
 		desc = "An inactive gibtonite reserve. The ore can be extracted."
-		stage = GIBTONITE_STABLE
+		stage = 2
 		if(det_time < 0)
 			det_time = 0
 		visible_message("<span class='notice'>The chain reaction was stopped! The gibtonite had [src.det_time] reactions left till the explosion!</span>")
 
 /turf/closed/mineral/gibtonite/gets_drilled(mob/user, triggered_by_explosion = 0)
-	if(stage == GIBTONITE_UNSTRUCK && mineralAmt >= 1) //Gibtonite deposit is activated
+	if(stage == 0 && mineralAmt >= 1) //Gibtonite deposit is activated
 		playsound(src,'sound/effects/hit_on_shattered_glass.ogg',50,1)
 		explosive_reaction(user, triggered_by_explosion)
 		return
-	if(stage == GIBTONITE_ACTIVE && mineralAmt >= 1) //Gibtonite deposit goes kaboom
+	if(stage == 1 && mineralAmt >= 1) //Gibtonite deposit goes kaboom
 		var/turf/bombturf = get_turf(src)
 		mineralAmt = 0
-		stage = GIBTONITE_DETONATE
+		stage = 3
 		explosion(bombturf,1,2,5, adminlog = 0)
-	if(stage == GIBTONITE_STABLE) //Gibtonite deposit is now benign and extractable. Depending on how close you were to it blowing up before defusing, you get better quality ore.
+	if(stage == 2) //Gibtonite deposit is now benign and extractable. Depending on how close you were to it blowing up before defusing, you get better quality ore.
 		var/obj/item/weapon/twohanded/required/gibtonite/G = new /obj/item/weapon/twohanded/required/gibtonite/(src)
 		if(det_time <= 0)
 			G.quality = 3
@@ -477,5 +470,5 @@
 	environment_type = "basalt"
 	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	baseturf = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	defer_change = 1

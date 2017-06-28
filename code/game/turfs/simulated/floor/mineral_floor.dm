@@ -151,14 +151,18 @@
 		honk()
 
 /turf/open/floor/mineral/bananium/proc/honk()
-	if(spam_flag < world.time)
+	if(!spam_flag)
+		spam_flag = 1
 		playsound(src, 'sound/items/bikehorn.ogg', 50, 1)
-		spam_flag = world.time + 20
+		spawn(20)
+			spam_flag = 0
 
 /turf/open/floor/mineral/bananium/proc/squeek()
-	if(spam_flag < world.time)
+	if(!spam_flag)
+		spam_flag = 1
 		playsound(src, "clownstep", 50, 1)
-		spam_flag = world.time + 10
+		spawn(10)
+			spam_flag = 0
 
 /turf/open/floor/mineral/bananium/airless
 	initial_gas_mix = "TEMP=2.7"

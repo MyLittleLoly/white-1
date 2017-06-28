@@ -22,9 +22,9 @@
 	charge_sections = 3
 	can_flashlight = 0 // Can't attach or detach the flashlight, and override it's icon update
 
-/obj/item/weapon/gun/energy/e_gun/mini/Initialize()
+/obj/item/weapon/gun/energy/e_gun/mini/New()
 	gun_light = new /obj/item/device/flashlight/seclite(src)
-	return ..()
+	..()
 
 /obj/item/weapon/gun/energy/e_gun/mini/update_icon()
 	..()
@@ -34,16 +34,7 @@
 /obj/item/weapon/gun/energy/e_gun/stun
 	name = "tactical energy gun"
 	desc = "Military issue energy gun, is able to fire stun rounds."
-	icon_state = "energytac"
-	ammo_x_offset = 2
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode/spec, /obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser)
-
-/obj/item/weapon/gun/energy/e_gun/old
-	name = "prototype energy gun"
-	desc = "NT-P:01 Prototype Energy Gun. Early stage development of a unique laser rifle that has multifaceted energy lens allowing the gun to alter the form of projectile it fires on command."
-	icon_state = "protolaser"
-	ammo_x_offset = 2
-	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/electrode/old)
 
 /obj/item/weapon/gun/energy/e_gun/mini/practice_phaser
 	name = "practice phaser"

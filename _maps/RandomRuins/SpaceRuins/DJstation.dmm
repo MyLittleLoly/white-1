@@ -96,6 +96,7 @@
 	desc = "A warning sign which reads 'HIGH VOLTAGE'";
 	icon_state = "shock";
 	name = "HIGH VOLTAGE";
+	pixel_x = 0;
 	pixel_y = -32
 	},
 /turf/open/floor/plating,
@@ -193,7 +194,8 @@
 	dir = 8;
 	freerange = 1;
 	listening = 1;
-	name = "Pirate Radio Listening Channel"
+	name = "Pirate Radio Listening Channel";
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel/cafeteria,
 /area/djstation)
@@ -244,7 +246,8 @@
 	dir = 8;
 	freerange = 1;
 	listening = 0;
-	name = "Pirate Radio Broadcast Channel"
+	name = "Pirate Radio Broadcast Channel";
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel/cafeteria,
 /area/djstation)
@@ -322,6 +325,7 @@
 /area/djstation)
 "be" = (
 /obj/structure/sink{
+	icon_state = "sink";
 	dir = 8;
 	pixel_x = -12;
 	pixel_y = 2
@@ -350,6 +354,7 @@
 	icon_state = "space";
 	layer = 4;
 	name = "EXTERNAL AIRLOCK";
+	pixel_x = 0;
 	pixel_y = -32
 	},
 /turf/open/floor/plasteel/cafeteria,

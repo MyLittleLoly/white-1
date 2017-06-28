@@ -22,10 +22,6 @@
 	if(!drop_stuff())
 		STOP_PROCESSING(SSobj, src)
 
-/turf/open/chasm/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
-	underlay_appearance.icon = 'icons/turf/floors.dmi'
-	underlay_appearance.icon_state = "basalt"
-	return TRUE
 
 /turf/open/chasm/attackby(obj/item/C, mob/user, params, area/area_restriction)
 	..()
@@ -35,7 +31,7 @@
 		if(!L)
 			if(R.use(1))
 				to_chat(user, "<span class='notice'>You construct a lattice.</span>")
-				playsound(src, 'sound/weapons/genhit.ogg', 50, 1)
+				playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
 				ReplaceWithLattice()
 			else
 				to_chat(user, "<span class='warning'>You need one rod to build a lattice.</span>")
@@ -46,7 +42,7 @@
 			var/obj/item/stack/tile/plasteel/S = C
 			if(S.use(1))
 				qdel(L)
-				playsound(src, 'sound/weapons/genhit.ogg', 50, 1)
+				playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
 				to_chat(user, "<span class='notice'>You build a floor.</span>")
 				ChangeTurf(/turf/open/floor/plating)
 			else
@@ -54,16 +50,8 @@
 		else
 			to_chat(user, "<span class='warning'>The plating is going to need some support! Place metal rods first.</span>")
 
-/turf/open/chasm/proc/is_safe()
-	//if anything matching this typecache is found in the chasm, we don't drop things
-	var/static/list/chasm_safeties_typecache = typecacheof(list(/obj/structure/lattice/catwalk, /obj/structure/stone_tile))
-	var/list/found_safeties = typecache_filter_list(contents, chasm_safeties_typecache)
-	return LAZYLEN(found_safeties)
-
 /turf/open/chasm/proc/drop_stuff(AM)
 	. = 0
-	if(is_safe())
-		return FALSE
 	var/thing_to_check = src
 	if(AM)
 		thing_to_check = list(AM)
@@ -107,7 +95,7 @@
 		AM.forceMove(T)
 		if(isliving(AM))
 			var/mob/living/L = AM
-			L.Knockdown(100)
+			L.Weaken(5)
 			L.adjustBruteLoss(30)
 
 
@@ -120,7 +108,7 @@
 
 
 /turf/open/chasm/straight_down/lava_land_surface
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	planetary_atmos = TRUE
 	baseturf = /turf/open/chasm/straight_down/lava_land_surface
 	light_range = 1.9 //slightly less range than lava
@@ -136,7 +124,7 @@
 	if(isliving(AM))
 		var/mob/living/L = AM
 		L.notransform = TRUE
-		L.Stun(200)
+		L.Stun(10)
 		L.resting = TRUE
 	var/oldtransform = AM.transform
 	var/oldcolor = AM.color
@@ -181,14 +169,9 @@
 /turf/open/chasm/jungle
 	icon = 'icons/turf/floors/junglechasm.dmi'
 	planetary_atmos = TRUE
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
-
-/turf/open/chasm/jungle/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
-	underlay_appearance.icon = 'icons/turf/floors.dmi'
-	underlay_appearance.icon_state = "dirt"
-	return TRUE
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 
 /turf/open/chasm/straight_down/jungle
 	icon = 'icons/turf/floors/junglechasm.dmi'
 	planetary_atmos = TRUE
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"

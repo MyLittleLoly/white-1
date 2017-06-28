@@ -1,7 +1,7 @@
 // The communications computer
 /obj/machinery/computer/communications
 	name = "communications console"
-	desc = "A console used for high-priority announcements and emergencies."
+	desc = "This can be used for various important functions. Still under developement."
 	icon_screen = "comm"
 	icon_keyboard = "tech_key"
 	req_access = list(GLOB.access_heads)
@@ -54,7 +54,7 @@
 /obj/machinery/computer/communications/Topic(href, href_list)
 	if(..())
 		return
-	if (z != ZLEVEL_STATION && z != ZLEVEL_CENTCOM) //Can only use on centcom and SS13
+	if (src.z > ZLEVEL_CENTCOM) //Can only use on centcom and SS13
 		to_chat(usr, "<span class='boldannounce'>Unable to establish a connection</span>: \black You're too far away from the station!")
 		return
 	usr.set_machine(src)
@@ -316,7 +316,7 @@
 				Nuke_request(input, usr)
 				to_chat(usr, "<span class='notice'>Request sent.</span>")
 				log_say("[key_name(usr)] has requested the nuclear codes from Centcomm")
-				priority_announce("The codes for the on-station nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self Destruct Codes Requested",'sound/ai/commandreport.ogg')
+				priority_announce("The codes for the on-station nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self Destruct Codes Requested",'sound/AI/commandreport.ogg')
 				CM.lastTimeUsed = world.time
 
 

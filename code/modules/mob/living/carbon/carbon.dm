@@ -102,7 +102,7 @@
 				hurt = FALSE
 	if(hit_atom.density && isturf(hit_atom))
 		if(hurt)
-			Knockdown(20)
+			Weaken(1)
 			take_bodypart_damage(10)
 	if(iscarbon(hit_atom) && hit_atom != src)
 		var/mob/living/carbon/victim = hit_atom
@@ -111,8 +111,8 @@
 		if(hurt)
 			victim.take_bodypart_damage(10)
 			take_bodypart_damage(10)
-			victim.Knockdown(20)
-			Knockdown(20)
+			victim.Weaken(1)
+			Weaken(1)
 			visible_message("<span class='danger'>[src] crashes into [victim], knocking them both over!</span>", "<span class='userdanger'>You violently crash into [victim]!</span>")
 		playsound(src,'sound/weapons/punch1.ogg',50,1)
 
@@ -258,7 +258,7 @@
 
 /mob/living/carbon/resist_fire()
 	fire_stacks -= 5
-	Knockdown(60, TRUE, TRUE)
+	Weaken(3, 1, 1)
 	spin(32,2)
 	visible_message("<span class='danger'>[src] rolls on the floor, trying to put themselves out!</span>", \
 		"<span class='notice'>You stop, drop, and roll!</span>")
@@ -379,6 +379,10 @@
 			return
 		return TRUE
 
+/mob/living/carbon/proc/is_mouth_covered(head_only = 0, mask_only = 0)
+	if( (!mask_only && head && (head.flags_cover & HEADCOVERSMOUTH)) || (!head_only && wear_mask && (wear_mask.flags_cover & MASKCOVERSMOUTH)) )
+		return 1
+
 /mob/living/carbon/get_standard_pixel_y_offset(lying = 0)
 	if(lying)
 		return -6
@@ -446,7 +450,7 @@
 		return 0
 	return ..()
 
-/mob/living/carbon/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE)
+/mob/living/carbon/proc/vomit(var/lost_nutrition = 10, var/blood = 0, var/stun = 1, var/distance = 0, var/message = 1, var/toxic = 0)
 	if(dna && dna.species && NOHUNGER in dna.species.species_traits)
 		return 1
 
@@ -455,7 +459,7 @@
 			visible_message("<span class='warning'>[src] dry heaves!</span>", \
 							"<span class='userdanger'>You try to throw up, but there's nothing in your stomach!</span>")
 		if(stun)
-			Knockdown(200)
+			Weaken(10)
 		return 1
 
 	if(is_mouth_covered()) //make this add a blood/vomit overlay later it'll be hilarious
@@ -468,13 +472,10 @@
 			visible_message("<span class='danger'>[src] throws up!</span>", "<span class='userdanger'>You throw up!</span>")
 
 	if(stun)
-		Stun(80)
+		Stun(4)
 
 	playsound(get_turf(src), 'sound/effects/splat.ogg', 50, 1)
 	var/turf/T = get_turf(src)
-	if(!blood)
-		nutrition -= lost_nutrition
-		adjustToxLoss(-3)
 	for(var/i=0 to distance)
 		if(blood)
 			if(T)
@@ -484,6 +485,8 @@
 		else
 			if(T)
 				T.add_vomit_floor(src, toxic)//toxic barf looks different
+			nutrition -= lost_nutrition
+			adjustToxLoss(-3)
 		T = get_step(T, dir)
 		if (is_blocked_turf(T))
 			break
@@ -683,7 +686,7 @@
 		if(health<= HEALTH_THRESHOLD_DEAD)
 			death()
 			return
-		if(IsUnconscious() || IsSleeping() || getOxyLoss() > 50 || (status_flags & FAKEDEATH) || health <= HEALTH_THRESHOLD_CRIT)
+		if(paralysis || sleeping || getOxyLoss() > 50 || (status_flags & FAKEDEATH) || health <= HEALTH_THRESHOLD_CRIT)
 			if(stat == CONSCIOUS)
 				stat = UNCONSCIOUS
 				blind_eyes(1)

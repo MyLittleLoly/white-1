@@ -30,19 +30,19 @@
 
 /obj/machinery/telecomms/relay/proc/can(datum/signal/signal)
 	if(!on)
-		return FALSE
+		return 0
 	if(!is_freq_listening(signal))
-		return FALSE
-	return TRUE
+		return 0
+	return 1
 
 /obj/machinery/telecomms/relay/proc/can_send(datum/signal/signal)
 	if(!can(signal))
-		return FALSE
+		return 0
 	return broadcasting
 
 /obj/machinery/telecomms/relay/proc/can_receive(datum/signal/signal)
 	if(!can(signal))
-		return FALSE
+		return 0
 	return receiving
 
 /obj/machinery/telecomms/relay/New()

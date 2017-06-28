@@ -24,9 +24,6 @@
 	var/settableTemperatureMedian = 30 + T0C
 	var/settableTemperatureRange = 30
 
-/obj/machinery/space_heater/get_cell()
-	return cell
-
 /obj/machinery/space_heater/New()
 	..()
 	cell = new(src)

@@ -39,7 +39,7 @@
 	var/check_records = 1 //Does it check security records?
 	var/arrest_type = 0 //If true, don't handcuff
 	var/projectile = /obj/item/projectile/energy/electrode //Holder for projectile type
-	var/shoot_sound = 'sound/weapons/taser.ogg'
+	var/shoot_sound = 'sound/weapons/Taser.ogg'
 
 
 /mob/living/simple_animal/bot/ed209/Initialize(mapload,created_name,created_lasercolor)
@@ -152,23 +152,8 @@ Auto Patrol[]"},
 			declare_arrests = !declare_arrests
 			update_controls()
 
-/mob/living/simple_animal/bot/ed209/proc/judgement_criteria()
-	var/final = FALSE 
-	if(idcheck)
-		final = final|JUDGE_IDCHECK
-	if(check_records)
-		final = final|JUDGE_RECORDCHECK
-	if(weaponscheck)
-		final = final|JUDGE_WEAPONCHECK
-	if(emagged)
-		final = final|JUDGE_EMAGGED
-	//ED209's ignore monkeys
-	final = final|JUDGE_IGNOREMONKEYS
-	return final
-
 /mob/living/simple_animal/bot/ed209/proc/retaliate(mob/living/carbon/human/H)
-	var/judgement_criteria = judgement_criteria()
-	threatlevel = H.assess_threat(judgement_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+	threatlevel = H.assess_threat(src)
 	threatlevel += 6
 	if(threatlevel >= 4)
 		target = H
@@ -214,13 +199,12 @@ Auto Patrol[]"},
 	if(disabled)
 		return
 
-	var/judgement_criteria = judgement_criteria()
 	var/list/targets = list()
 	for(var/mob/living/carbon/C in view(7,src)) //Let's find us a target
 		var/threatlevel = 0
 		if((C.stat) || (C.lying))
 			continue
-		threatlevel = C.assess_threat(judgement_criteria, lasercolor, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threatlevel = C.assess_threat(src, lasercolor)
 		//speak(C.real_name + text(": threat: []", threatlevel))
 		if(threatlevel < 4 )
 			continue
@@ -271,7 +255,7 @@ Auto Patrol[]"},
 		if(BOT_PREP_ARREST)		// preparing to arrest target
 
 			// see if he got away. If he's no no longer adjacent or inside a closet or about to get up, we hunt again.
-			if(!Adjacent(target) || !isturf(target.loc) ||  target.AmountKnockdown() < 40)
+			if(!Adjacent(target) || !isturf(target.loc) ||  target.weakened < 2)
 				back_to_hunt()
 				return
 
@@ -298,7 +282,7 @@ Auto Patrol[]"},
 				back_to_idle()
 				return
 
-			if(!Adjacent(target) || !isturf(target.loc) || (target.loc != target_lastloc && target.AmountKnockdown() < 40)) //if he's changed loc and about to get up or not adjacent or got into a closet, we prep arrest again.
+			if(!Adjacent(target) || !isturf(target.loc) || (target.loc != target_lastloc && target.weakened < 2)) //if he's changed loc and about to get up or not adjacent or got into a closet, we prep arrest again.
 				back_to_hunt()
 				return
 			else
@@ -337,7 +321,6 @@ Auto Patrol[]"},
 		return
 	anchored = 0
 	threatlevel = 0
-	var/judgement_criteria = judgement_criteria()
 	for (var/mob/living/carbon/C in view(7,src)) //Let's find us a criminal
 		if((C.stat) || (C.handcuffed))
 			continue
@@ -345,7 +328,7 @@ Auto Patrol[]"},
 		if((C.name == oldtarget_name) && (world.time < last_found + 100))
 			continue
 
-		threatlevel = C.assess_threat(judgement_criteria, lasercolor, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threatlevel = C.assess_threat(src, lasercolor)
 
 		if(!threatlevel)
 			continue
@@ -354,7 +337,7 @@ Auto Patrol[]"},
 			target = C
 			oldtarget_name = C.name
 			speak("Level [threatlevel] infraction alert!")
-			playsound(loc, pick('sound/voice/ed209_20sec.ogg', 'sound/voice/edplaceholder.ogg'), 50, 0)
+			playsound(loc, pick('sound/voice/ed209_20sec.ogg', 'sound/voice/EDPlaceholder.ogg'), 50, 0)
 			visible_message("<b>[src]</b> points at [C.name]!")
 			mode = BOT_HUNT
 			spawn(0)
@@ -381,15 +364,15 @@ Auto Patrol[]"},
 
 	if(!lasercolor)
 		var/obj/item/weapon/gun/energy/e_gun/advtaser/G = new /obj/item/weapon/gun/energy/e_gun/advtaser(Tsec)
-		G.cell.charge = 0
+		G.power_supply.charge = 0
 		G.update_icon()
 	else if(lasercolor == "b")
 		var/obj/item/weapon/gun/energy/laser/bluetag/G = new /obj/item/weapon/gun/energy/laser/bluetag(Tsec)
-		G.cell.charge = 0
+		G.power_supply.charge = 0
 		G.update_icon()
 	else if(lasercolor == "r")
 		var/obj/item/weapon/gun/energy/laser/redtag/G = new /obj/item/weapon/gun/energy/laser/redtag(Tsec)
-		G.cell.charge = 0
+		G.power_supply.charge = 0
 		G.update_icon()
 
 	if(prob(50))
@@ -421,7 +404,7 @@ Auto Patrol[]"},
 			projectile = /obj/item/projectile/beam
 	else
 		if(!lasercolor)
-			shoot_sound = 'sound/weapons/taser.ogg'
+			shoot_sound = 'sound/weapons/Taser.ogg'
 			projectile = /obj/item/projectile/energy/electrode
 		else if(lasercolor == "b")
 			projectile = /obj/item/projectile/beam/lasertag/bluetag
@@ -521,7 +504,7 @@ Auto Patrol[]"},
 		return
 	if(iscarbon(A))
 		var/mob/living/carbon/C = A
-		if(!C.IsStun() || arrest_type)
+		if(!C.stunned || arrest_type)
 			stun_attack(A)
 		else if(C.canBeHandcuffed() && !C.handcuffed)
 			cuff(A)
@@ -534,17 +517,17 @@ Auto Patrol[]"},
 	shootAt(A)
 
 /mob/living/simple_animal/bot/ed209/proc/stun_attack(mob/living/carbon/C)
-	playsound(loc, 'sound/weapons/egloves.ogg', 50, 1, -1)
+	playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1, -1)
 	icon_state = "[lasercolor]ed209-c"
 	spawn(2)
 		icon_state = "[lasercolor]ed209[on]"
 	var/threat = 5
-	C.Knockdown(100)
+	C.Weaken(5)
+	C.Stun(5)
 	C.stuttering = 5
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
-		var/judgement_criteria = judgement_criteria()
-		threat = H.assess_threat(judgement_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threat = H.assess_threat(src)
 	add_logs(src,C,"stunned")
 	if(declare_arrests)
 		var/area/location = get_area(src)

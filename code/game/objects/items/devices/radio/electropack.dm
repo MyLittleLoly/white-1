@@ -78,14 +78,14 @@
 					on = !( on )
 					icon_state = "electropack[on]"
 		if(!( master ))
-			if(ismob(loc))
+			if(istype(loc, /mob))
 				attack_self(loc)
 			else
 				for(var/mob/M in viewers(1, src))
 					if(M.client)
 						attack_self(M)
 		else
-			if(ismob(master.loc))
+			if(istype(master.loc, /mob))
 				attack_self(master.loc)
 			else
 				for(var/mob/M in viewers(1, master))
@@ -100,21 +100,21 @@
 	if(!signal || signal.encryption != code)
 		return
 
-	if(isliving(loc) && on)
+	if(ismob(loc) && on)
 		if(shock_cooldown != 0)
 			return
 		shock_cooldown = 1
 		spawn(100)
 			shock_cooldown = 0
-		var/mob/living/L = loc
-		step(L, pick(GLOB.cardinal))
+		var/mob/M = loc
+		step(M, pick(GLOB.cardinal))
 
-		to_chat(L, "<span class='danger'>You feel a sharp shock!</span>")
+		to_chat(M, "<span class='danger'>You feel a sharp shock!</span>")
 		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
-		s.set_up(3, 1, L)
+		s.set_up(3, 1, M)
 		s.start()
 
-		L.Knockdown(100)
+		M.Weaken(5)
 
 	if(master)
 		master.receive_signal()

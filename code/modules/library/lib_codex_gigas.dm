@@ -5,15 +5,14 @@
 #define SUFFIX 5
 
 /obj/item/weapon/book/codex_gigas
-	name = "\improper Codex Gigas"
-	desc = "A book documenting the nature of devils."
+	name = "Codex Gigas"
 	icon_state ="demonomicon"
 	throw_speed = 1
 	throw_range = 10
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	author = "Forces beyond your comprehension"
 	unique = 1
-	title = "the Codex Gigas"
+	title = "The codex gigas"
 	var/inUse = 0
 	var/currentName = ""
 	var/currentSection = PRE_TITLE
@@ -30,7 +29,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/U = user
 		if(U.check_acedia())
-			to_chat(user, "<span class='notice'>None of this matters, why are you reading this? You put [title] down.</span>")
+			to_chat(user, "<span class='notice'>None of this matters, why are you reading this?  You put the [title] down.</span>")
 			return
 	user.visible_message("[user] opens [title] and begins reading intently.")
 	ask_name(user)
@@ -61,7 +60,7 @@
 	inUse = FALSE
 
 /obj/item/weapon/book/codex_gigas/proc/display_devil(datum/antagonist/devil/devil, mob/reader, devilName)
-	reader << browse("Information on [devilName]<br><br><br>[GLOB.lawlorify[LORE][devil.ban]]<br>[GLOB.lawlorify[LORE][devil.bane]]<br>[GLOB.lawlorify[LORE][devil.obligation]]<br>[GLOB.lawlorify[LORE][devil.banish]]<br>[devil.ascendable?"This devil may ascend given enough souls.":""]", "window=book[window_size != null ? ";size=[window_size]" : ""]")
+	reader << browse("Information on [devilName]<br><br><br>[GLOB.lawlorify[LORE][devil.ban]]<br>[GLOB.lawlorify[LORE][devil.bane]]<br>[GLOB.lawlorify[LORE][devil.obligation]]<br>[GLOB.lawlorify[LORE][devil.banish]]", "window=book[window_size != null ? ";size=[window_size]" : ""]")
 
 /obj/item/weapon/book/codex_gigas/proc/ask_name(mob/reader)
 	ui_interact(reader)
@@ -91,6 +90,8 @@
 			currentSection = SYLLABLE
 	else if(GLOB.devil_suffix.Find(action))
 		currentSection = SUFFIX
+	else
+		to_chat(world, "Codex gigas failure [action]")
 	return currentSection != oldSection
 
 /obj/item/weapon/book/codex_gigas/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \

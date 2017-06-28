@@ -208,8 +208,6 @@
 	var/generate_minimaps = 0
 	var/grey_assistants = 0
 
-	var/id_console_jobslot_delay = 30
-
 	var/lavaland_budget = 60
 	var/space_budget = 16
 
@@ -263,10 +261,6 @@
 
 	var/mice_roundstart = 10 // how many wire chewing rodents spawn at roundstart.
 
-	var/irc_announce_new_game = FALSE
-
-	var/list/policies = list()
-
 /datum/configuration/New()
 	gamemode_cache = typecacheof(/datum/game_mode,TRUE)
 	for(var/T in gamemode_cache)
@@ -290,7 +284,6 @@
 /datum/configuration/proc/Reload()
 	load("config/config.txt")
 	load("config/game_options.txt","game_options")
-	load("config/policies.txt", "policies")
 	loadsql("config/dbconfig.txt")
 	if (maprotation)
 		loadmaplist("config/maps.txt")
@@ -416,8 +409,6 @@
 					usewhitelist = TRUE
 				if("allow_metadata")
 					allow_Metadata = 1
-				if("id_console_jobslot_delay")
-					id_console_jobslot_delay = text2num(value)
 				if("inactivity_period")
 					inactivity_period = text2num(value) * 10 //documented as seconds in config.txt
 				if("afk_period")
@@ -432,7 +423,7 @@
 					popup_admin_pm = 1
 				if("allow_holidays")
 					allow_holidays = 1
-				if("useircbot")	//tgs2 support
+				if("useircbot")
 					useircbot = 1
 				if("ticklag")
 					var/ticklag = text2num(value)
@@ -545,8 +536,6 @@
 					error_silence_time = text2num(value)
 				if("error_msg_delay")
 					error_msg_delay = text2num(value)
-				if("irc_announce_new_game")
-					irc_announce_new_game = TRUE
 				else
 					GLOB.config_error_log << "Unknown setting in configuration: '[name]'"
 
@@ -782,8 +771,6 @@
 					mice_roundstart = text2num(value)
 				else
 					GLOB.config_error_log << "Unknown setting in configuration: '[name]'"
-		else if(type == "policies")
-			policies[name] = value
 
 	fps = round(fps)
 	if(fps <= 0)
@@ -835,8 +822,6 @@
 				defaultmap = currentmap
 			if ("endmap")
 				maplist[currentmap.map_name] = currentmap
-				currentmap = null
-			if ("disabled")
 				currentmap = null
 			else
 				GLOB.config_error_log << "Unknown command in map vote config: '[command]'"

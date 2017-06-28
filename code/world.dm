@@ -18,7 +18,7 @@
 
 	SetupExternalRSC()
 
-	GLOB.config_error_log = GLOB.world_href_log = GLOB.world_runtime_log = GLOB.world_attack_log = GLOB.world_game_log = file("data/logs/config_error.log") //temporary file used to record errors with loading config, moved to log directory once logging is set bl
+	GLOB.config_error_log = file("data/logs/config_error.log") //temporary file used to record errors with loading config, moved to log directory once logging is set bl
 
 	make_datum_references_lists()	//initialises global lists for referencing frequently used datums (so that we only ever do it once)
 
@@ -28,12 +28,11 @@
 
 	SetupLogs()
 
-	if(!RunningService())	//tgs2 support
-		GLOB.revdata.DownloadPRDetails()
+	GLOB.revdata.DownloadPRDetails()
 
 	load_motd()
 	load_admins()
-	LoadVerbs(/datum/verbs/menu)
+	load_menu()
 	if(config.usewhitelist)
 		load_whitelist()
 	LoadBans()
@@ -41,9 +40,6 @@
 	GLOB.timezoneOffset = text2num(time2text(0,"hh")) * 36000
 
 	Master.Initialize(10, FALSE)
-
-	if(config.irc_announce_new_game)
-		IRCBroadcast("New round starting on [SSmapping.config.map_name]!")
 
 /world/proc/SetupExternalRSC()
 #if (PRELOAD_RSC == 0)
@@ -94,35 +90,30 @@
 	if(GLOB.round_id)
 		log_game("Round ID: [GLOB.round_id]")
 
+#define IRC_STATUS_THROTTLE 50
 /world/Topic(T, addr, master, key)
-	var/list/input = params2list(T)
-	
-	var/pinging = ("ping" in input)
-	var/playing = ("players" in input)
-	
-	if(!pinging && !playing && config && config.log_world_topic)
+	if(config && config.log_world_topic)
 		GLOB.world_game_log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
 
-	if(input[SERVICE_CMD_PARAM_KEY])
-		return ServiceCommand(input)
+	var/list/input = params2list(T)
 	var/key_valid = (global.comms_allowed && input["key"] == global.comms_key)
+	var/static/last_irc_status = 0
 
-	if(pinging)
+	if("ping" in input)
 		var/x = 1
 		for (var/client/C in GLOB.clients)
 			x++
 		return x
 
-	else if(playing)
+	else if("players" in input)
 		var/n = 0
 		for(var/mob/M in GLOB.player_list)
 			if(M.client)
 				n++
 		return n
 
-	else if("ircstatus" in input)	//tgs2 support
-		var/static/last_irc_status = 0
-		if(world.time - last_irc_status < 50)
+	else if("ircstatus" in input)
+		if(world.time - last_irc_status < IRC_STATUS_THROTTLE)
 			return
 		var/list/adm = get_admin_counts()
 		var/list/allmins = adm["total"]
@@ -190,20 +181,20 @@
 			if(input["crossmessage"] == "News_Report")
 				minor_announce(input["message"], "Breaking Update From [input["message_sender"]]")
 
-	else if("adminmsg" in input)	//tgs2 support
+	else if("adminmsg" in input)
 		if(!key_valid)
 			return "Bad Key"
 		else
 			return IrcPm(input["adminmsg"],input["msg"],input["sender"])
 
-	else if("namecheck" in input)	//tgs2 support
+	else if("namecheck" in input)
 		if(!key_valid)
 			return "Bad Key"
 		else
 			log_admin("IRC Name Check: [input["sender"]] on [input["namecheck"]]")
 			message_admins("IRC name checking on [input["namecheck"]] from [input["sender"]]")
 			return keywords_lookup(input["namecheck"],1)
-	else if("adminwho" in input)	//tgs2 support
+	else if("adminwho" in input)
 		if(!key_valid)
 			return "Bad Key"
 		else
@@ -229,7 +220,6 @@
 		C.AnnouncePR(final_composed)
 
 /world/Reboot(reason = 0, fast_track = FALSE)
-	ServiceReboot() //handles alternative actions if necessary
 	if (reason || fast_track) //special reboot, do none of the normal stuff
 		if (usr)
 			log_admin("[key_name(usr)] Has requested an immediate world restart via client side debugging tools")
@@ -238,7 +228,7 @@
 	else
 		to_chat(world, "<span class='boldannounce'>Rebooting world...</span>")
 		Master.Shutdown()	//run SS shutdowns
-	log_world("World rebooted at [time_stamp()]")
+	log_world("World rebooted at [time_stamp()]");
 	..()
 
 /world/proc/load_motd()

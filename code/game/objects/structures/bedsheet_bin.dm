@@ -53,10 +53,6 @@ LINEN BINS
 /obj/item/weapon/bedsheet/green
 	icon_state = "sheetgreen"
 	item_color = "green"
-	
-/obj/item/weapon/bedsheet/grey
-	icon_state = "sheetgrey"
-	item_color = "grey"
 
 /obj/item/weapon/bedsheet/orange
 	icon_state = "sheetorange"

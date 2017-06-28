@@ -25,7 +25,6 @@
 	icon_state = "blackcorner"
 
 
-
 /turf/open/floor/plasteel/white
 	icon_state = "white"
 /turf/open/floor/plasteel/airless/white

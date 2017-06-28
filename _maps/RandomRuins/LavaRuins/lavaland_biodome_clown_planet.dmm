@@ -83,7 +83,7 @@
 /turf/closed/wall/r_wall{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "an" = (
 /obj/structure/disposalpipe/segment{
 	dir = 2;
@@ -93,7 +93,7 @@
 /turf/closed/wall/r_wall{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "ao" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -103,7 +103,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "ap" = (
 /obj/structure/disposalpipe/segment{
 	dir = 2;
@@ -113,7 +113,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aq" = (
 /obj/structure/disposalpipe/trunk,
 /obj/structure/disposaloutlet{
@@ -122,7 +122,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "ar" = (
 /obj/structure/disposalpipe/segment{
 	invisibility = 101
@@ -131,7 +131,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "as" = (
 /obj/effect/mob_spawn/human/corpse/damaged,
 /obj/effect/decal/cleanable/blood/old,
@@ -142,7 +142,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "at" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -153,7 +153,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "au" = (
 /obj/structure/disposalpipe/segment{
 	invisibility = 101
@@ -161,7 +161,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "av" = (
 /obj/structure/disposalpipe/sortjunction{
 	dir = 1;
@@ -172,7 +172,7 @@
 /turf/closed/wall/r_wall{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aw" = (
 /obj/structure/window/reinforced,
 /obj/structure/disposalpipe/segment{
@@ -181,7 +181,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "ax" = (
 /obj/effect/decal/cleanable/pie_smudge,
 /obj/structure/disposalpipe/segment{
@@ -191,7 +191,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "ay" = (
 /obj/structure/disposalpipe/segment{
 	dir = 1;
@@ -203,7 +203,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "az" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -214,7 +214,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aA" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -224,7 +224,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aB" = (
 /obj/structure/disposalpipe/segment{
 	dir = 8;
@@ -235,20 +235,20 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aC" = (
 /turf/open/indestructible{
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aD" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/indestructible{
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aE" = (
 /obj/effect/decal/cleanable/cobweb{
 	icon_state = "cobweb2"
@@ -257,7 +257,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aF" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -268,7 +268,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aG" = (
 /obj/structure/disposalpipe/segment{
 	dir = 1;
@@ -279,7 +279,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aH" = (
 /obj/structure/disposalpipe/segment{
 	dir = 8;
@@ -291,7 +291,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aI" = (
 /obj/structure/disposalpipe/segment{
 	dir = 1;
@@ -303,7 +303,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aJ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 1;
@@ -313,7 +313,7 @@
 /turf/closed/wall/r_wall{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aK" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -324,7 +324,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aL" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -333,7 +333,7 @@
 /turf/closed/wall/r_wall{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aM" = (
 /obj/structure/disposalpipe/segment{
 	dir = 2;
@@ -344,13 +344,13 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aN" = (
 /obj/structure/disposalpipe/segment{
 	invisibility = 101
 	},
 /turf/open/floor/plating,
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aO" = (
 /obj/item/weapon/bikehorn,
 /obj/structure/disposalpipe/segment{
@@ -361,7 +361,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aP" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -370,7 +370,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aQ" = (
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
@@ -383,7 +383,7 @@
 	invisibility = 101
 	},
 /turf/open/floor/plating,
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aS" = (
 /obj/structure/disposalpipe/segment{
 	dir = 8;
@@ -393,7 +393,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aT" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/disposalpipe/segment{
@@ -403,14 +403,14 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aU" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aV" = (
 /obj/structure/disposalpipe/segment{
 	dir = 2;
@@ -422,7 +422,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aW" = (
 /obj/item/weapon/bikehorn,
 /obj/effect/decal/cleanable/dirt,
@@ -433,7 +433,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aX" = (
 /obj/structure/disposalpipe/trunk{
 	dir = 4
@@ -444,7 +444,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aY" = (
 /obj/item/weapon/bikehorn,
 /obj/structure/disposalpipe/segment{
@@ -454,7 +454,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "aZ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -463,14 +463,14 @@
 /turf/open/indestructible{
 	icon_state = "darkredfull"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "ba" = (
 /obj/effect/decal/cleanable/pie_smudge,
 /turf/open/indestructible{
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bb" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -479,7 +479,7 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bc" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -491,7 +491,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bd" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -505,7 +505,7 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "be" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -516,7 +516,7 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bf" = (
 /obj/structure/disposalpipe/segment{
 	dir = 2;
@@ -528,7 +528,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bg" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -538,7 +538,7 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bh" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -548,7 +548,7 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bi" = (
 /obj/structure/disposalpipe/segment{
 	dir = 2;
@@ -558,7 +558,7 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bj" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -567,24 +567,20 @@
 /turf/open/indestructible{
 	icon_state = "light_on"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bk" = (
 /obj/structure/disposalpipe/segment{
 	invisibility = 101
 	},
-/obj/machinery/light/small{
-	brightness = 3;
-	dir = 8
-	},
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bl" = (
 /turf/open/indestructible{
 	icon_state = "light_on"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bm" = (
 /obj/structure/disposalpipe/segment{
 	dir = 1;
@@ -594,7 +590,7 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bn" = (
 /obj/structure/disposalpipe/segment{
 	dir = 8;
@@ -604,27 +600,28 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bo" = (
 /obj/machinery/light{
+	icon_state = "tube1";
 	dir = 4
 	},
 /turf/open/floor/plating/asteroid/basalt/lava_land_surface,
 /area/ruin/powered)
 "bp" = (
 /turf/closed/mineral/clown,
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bq" = (
 /obj/item/weapon/pickaxe,
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "br" = (
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bs" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -634,7 +631,7 @@
 /turf/open/indestructible{
 	icon_state = "darkredfull"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bt" = (
 /obj/structure/disposalpipe/segment{
 	dir = 1;
@@ -644,7 +641,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bu" = (
 /obj/item/weapon/bikehorn,
 /obj/structure/disposalpipe/segment{
@@ -656,7 +653,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bv" = (
 /obj/machinery/light{
 	dir = 8
@@ -672,14 +669,14 @@
 	icon_state = "darkredfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "by" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/indestructible{
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bz" = (
 /obj/machinery/disposal/deliveryChute{
 	dir = 1
@@ -688,13 +685,13 @@
 /turf/open/indestructible{
 	icon_state = "white"
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bA" = (
 /turf/open/indestructible{
 	icon_state = "darkredfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bB" = (
 /turf/open/indestructible/sound{
 	icon_state = "bananium";
@@ -702,7 +699,7 @@
 	sound = 'sound/effects/clownstep1.ogg';
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bC" = (
 /obj/structure/disposalpipe/junction{
 	dir = 1;
@@ -714,7 +711,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bD" = (
 /obj/structure/mecha_wreckage/honker,
 /obj/structure/disposalpipe/segment{
@@ -724,7 +721,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bE" = (
 /obj/effect/decal/cleanable/oil,
 /obj/structure/disposalpipe/segment{
@@ -735,7 +732,7 @@
 /turf/open/floor/plating{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bF" = (
 /obj/effect/decal/cleanable/cobweb{
 	icon_state = "cobweb2"
@@ -746,7 +743,7 @@
 	sound = 'sound/effects/clownstep1.ogg';
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bG" = (
 /obj/item/weapon/grown/bananapeel{
 	color = "#2F3000";
@@ -762,7 +759,7 @@
 	sound = 'sound/effects/clownstep1.ogg';
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bI" = (
 /obj/effect/mob_spawn/human/corpse/damaged,
 /obj/effect/decal/cleanable/blood/old,
@@ -770,7 +767,7 @@
 	icon_state = "darkyellowfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bJ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -780,7 +777,7 @@
 	icon_state = "darkredfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bK" = (
 /obj/structure/disposalpipe/segment{
 	dir = 8;
@@ -791,19 +788,19 @@
 	icon_state = "darkredfull";
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bL" = (
 /obj/item/weapon/reagent_containers/food/drinks/trophy/gold_cup,
 /obj/structure/table/glass,
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bM" = (
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bN" = (
 /obj/machinery/disposal/deliveryChute,
 /obj/structure/disposalpipe/trunk{
@@ -812,7 +809,7 @@
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bO" = (
 /obj/effect/decal/cleanable/cobweb,
 /turf/open/indestructible/sound{
@@ -821,59 +818,56 @@
 	sound = 'sound/effects/clownstep1.ogg';
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bP" = (
 /obj/structure/statue/bananium/clown,
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bQ" = (
 /obj/structure/table/glass,
 /obj/item/weapon/grown/bananapeel/bluespace,
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bR" = (
 /obj/structure/table/glass,
 /obj/item/clothing/shoes/clown_shoes/banana_shoes,
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bS" = (
 /obj/item/weapon/coin/clown,
 /obj/item/weapon/coin/clown,
 /obj/item/weapon/coin/clown,
 /obj/item/weapon/coin/clown,
-/obj/machinery/light/small{
-	dir = 8
-	},
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bT" = (
 /obj/item/slime_extract/rainbow,
 /obj/structure/table/glass,
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bU" = (
 /obj/item/weapon/bikehorn/airhorn,
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bV" = (
 /obj/structure/table/glass,
 /obj/item/weapon/gun/magic/staff/honk,
 /turf/open/floor/carpet{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bW" = (
 /obj/item/weapon/bikehorn,
 /turf/open/indestructible/sound{
@@ -882,7 +876,7 @@
 	sound = 'sound/effects/clownstep1.ogg';
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bX" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
@@ -897,7 +891,7 @@
 	sound = 'sound/effects/clownstep1.ogg';
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "bZ" = (
 /obj/machinery/door/airlock/clown,
 /turf/open/indestructible/sound{
@@ -906,7 +900,7 @@
 	sound = 'sound/effects/clownstep1.ogg';
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "ca" = (
 /obj/item/weapon/bikehorn,
 /obj/effect/decal/cleanable/dirt,
@@ -916,588 +910,13 @@
 	sound = 'sound/effects/clownstep1.ogg';
 	wet = 5
 	},
-/area/ruin/powered/clownplanet)
+/area/ruin/powered)
 "cb" = (
 /obj/machinery/light{
 	dir = 1
 	},
 /turf/open/floor/plating/asteroid/basalt/lava_land_surface,
 /area/ruin/powered)
-"cc" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cd" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"ce" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cf" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cg" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"ch" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"ci" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cj" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"ck" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cl" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cm" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cn" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"co" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cp" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cq" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cr" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cs" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"ct" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cu" = (
-/turf/open/floor/plating{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cv" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cw" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cx" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cy" = (
-/turf/open/floor/plating{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cz" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cA" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cB" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cC" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cD" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cE" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cF" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cG" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cH" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cI" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cJ" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cK" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cL" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cM" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cN" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cO" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cP" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cQ" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cR" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cS" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cT" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cU" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cV" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cW" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cX" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cY" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"cZ" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"da" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"db" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dc" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dd" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"de" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"df" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dg" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dh" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"di" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dj" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dk" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dl" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dm" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dn" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"do" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dp" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dq" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dr" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"ds" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dt" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"du" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dv" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dw" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dx" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dy" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dz" = (
-/turf/closed/wall/r_wall{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dA" = (
-/obj/machinery/light/small,
-/turf/open/floor/noslip{
-	baseturf = /turf/open/floor/plating/lava/smooth;
-	initial_gas_mix = "o2=14;n2=23;TEMP=300"
-	},
-/area/ruin/powered)
-"dB" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/indestructible{
-	icon_state = "darkyellowfull";
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dC" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4;
-	invisibility = 101
-	},
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/indestructible{
-	icon_state = "darkyellowfull";
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dD" = (
-/obj/structure/disposalpipe/segment{
-	dir = 2;
-	icon_state = "pipe-c";
-	invisibility = 101
-	},
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/indestructible{
-	icon_state = "darkyellowfull";
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dE" = (
-/obj/structure/disposalpipe/segment{
-	dir = 2;
-	icon_state = "pipe-c";
-	invisibility = 101
-	},
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/small{
-	dir = 8
-	},
-/turf/open/indestructible{
-	icon_state = "darkyellowfull";
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dF" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4;
-	invisibility = 101
-	},
-/obj/machinery/light/small{
-	brightness = 3;
-	dir = 8
-	},
-/turf/open/indestructible{
-	icon_state = "white"
-	},
-/area/ruin/powered/clownplanet)
-"dG" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4;
-	invisibility = 101
-	},
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/indestructible{
-	icon_state = "white"
-	},
-/area/ruin/powered/clownplanet)
-"dH" = (
-/obj/structure/disposalpipe/segment{
-	dir = 8;
-	icon_state = "pipe-c";
-	invisibility = 101
-	},
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/indestructible{
-	icon_state = "white"
-	},
-/area/ruin/powered/clownplanet)
-"dI" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/indestructible{
-	icon_state = "darkredfull";
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dJ" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/indestructible{
-	icon_state = "darkredfull";
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dK" = (
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/carpet{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dL" = (
-/obj/item/weapon/coin/clown,
-/obj/item/weapon/coin/clown,
-/obj/item/weapon/coin/clown,
-/obj/item/weapon/coin/clown,
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/floor/carpet{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/clownplanet)
-"dM" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/indestructible/sound{
-	icon_state = "bananium";
-	name = "bananium floor";
-	sound = 'sound/effects/clownstep1.ogg';
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dN" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/indestructible/sound{
-	icon_state = "bananium";
-	name = "bananium floor";
-	sound = 'sound/effects/clownstep1.ogg';
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dO" = (
-/obj/machinery/light,
-/turf/open/indestructible/sound{
-	icon_state = "bananium";
-	name = "bananium floor";
-	sound = 'sound/effects/clownstep1.ogg';
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
-"dP" = (
-/obj/machinery/light,
-/turf/open/indestructible/sound{
-	icon_state = "bananium";
-	name = "bananium floor";
-	sound = 'sound/effects/clownstep1.ogg';
-	wet = 5
-	},
-/area/ruin/powered/clownplanet)
 
 (1,1,1) = {"
 aa
@@ -1646,7 +1065,7 @@ ak
 am
 aN
 aS
-dE
+aV
 aH
 bf
 aJ
@@ -1676,7 +1095,7 @@ aa
 ah
 ak
 ak
-cc
+ah
 aF
 at
 ar
@@ -1718,7 +1137,7 @@ ar
 aJ
 aL
 aL
-cc
+ah
 bx
 bA
 bB
@@ -1751,16 +1170,16 @@ aL
 aX
 aL
 bb
-dF
+bb
 bp
-cc
-dI
+ah
+bA
 bA
 bB
-cc
-cc
+ah
+ah
 bH
-cc
+ah
 bB
 bB
 bB
@@ -1788,8 +1207,8 @@ bb
 bb
 bq
 bp
-cc
-cc
+ah
+ah
 bA
 bB
 bB
@@ -1798,7 +1217,7 @@ bB
 bB
 ca
 bH
-dO
+bB
 ah
 ak
 ak
@@ -1826,7 +1245,7 @@ bA
 bA
 bA
 bB
-cc
+ah
 bB
 bB
 bH
@@ -1845,8 +1264,8 @@ ae
 ah
 ak
 ao
-ch
-dB
+al
+ar
 aH
 az
 az
@@ -1856,12 +1275,12 @@ bg
 bj
 bl
 bp
-cc
+ah
 bA
 bA
 bB
 bB
-cc
+ah
 bB
 bB
 bB
@@ -1887,18 +1306,18 @@ an
 aB
 aL
 bb
-dG
+bb
 br
-cc
-cc
+ah
+ah
 bA
 bB
 bB
-cc
-cc
+ah
+ah
 bB
 bB
-cc
+ah
 bB
 bH
 ak
@@ -1912,7 +1331,7 @@ ab
 ad
 ah
 ak
-cc
+ah
 at
 ar
 aB
@@ -1923,15 +1342,15 @@ aB
 aL
 aL
 bs
-ch
+al
 aJ
-cc
-cc
-cc
+ah
+ah
+ah
 bP
 bS
-cc
-dM
+ah
+bB
 bB
 bH
 ca
@@ -1959,13 +1378,13 @@ aA
 aV
 ay
 az
-cc
-cc
+ah
+ah
 bL
 bM
 bM
 bM
-cc
+ah
 bB
 bH
 bH
@@ -1983,10 +1402,10 @@ al
 al
 au
 ar
-ch
+al
 ar
 aT
-ch
+al
 ax
 ar
 aH
@@ -1994,13 +1413,13 @@ aD
 aA
 aM
 aG
-cc
-dK
+ah
+bM
 bQ
 bT
 bM
-cc
-cc
+ah
+ah
 bH
 bB
 bB
@@ -2012,7 +1431,7 @@ ah
 (16,1,1) = {"
 ac
 ag
-dA
+ac
 ah
 ak
 ao
@@ -2028,7 +1447,7 @@ bt
 aM
 aG
 aV
-ch
+al
 bN
 bM
 bU
@@ -2037,7 +1456,7 @@ bZ
 bB
 bH
 bB
-cc
+ah
 ak
 bX
 ak
@@ -2062,12 +1481,12 @@ bu
 by
 bC
 aD
-cc
+ah
 bM
 bR
 bV
 bM
-cc
+ah
 bB
 bB
 bB
@@ -2083,7 +1502,7 @@ ac
 ah
 ah
 ak
-cc
+ah
 az
 az
 az
@@ -2096,12 +1515,12 @@ aG
 ba
 aL
 bI
-cc
+ah
 bL
 bM
 bM
 bM
-cc
+ah
 bB
 bB
 bB
@@ -2117,25 +1536,25 @@ ad
 ah
 ak
 ak
-cc
+ah
 az
 az
 aO
 aA
 aA
 aL
-cc
-cc
+ah
+ah
 aZ
-cc
+ah
 bD
-cc
+ah
 bB
-cc
+ah
 bP
-dL
-cc
-dN
+bS
+ah
+bB
 bB
 bH
 bH
@@ -2150,8 +1569,8 @@ aa
 ad
 ah
 ak
-cc
-cc
+ah
+ah
 aA
 aA
 aA
@@ -2161,13 +1580,13 @@ aL
 bh
 bk
 bn
-cc
+ah
 bE
 aJ
 bB
 bB
-cc
-cc
+ah
+ah
 bY
 bB
 bB
@@ -2184,9 +1603,9 @@ aa
 ae
 ah
 ak
-cc
-cc
-dC
+ah
+ah
+aA
 aK
 aL
 az
@@ -2196,12 +1615,12 @@ bb
 bl
 bl
 bp
-cc
+ah
 bJ
 bA
 bB
 bB
-cc
+ah
 bB
 bH
 bB
@@ -2230,9 +1649,9 @@ bb
 bl
 bl
 bz
-ch
+al
 bK
-cc
+ah
 bB
 bB
 bH
@@ -2240,7 +1659,7 @@ bH
 bH
 bB
 bW
-dP
+bB
 ah
 bX
 ak
@@ -2252,8 +1671,8 @@ aa
 aa
 ah
 ak
-cc
-cc
+ah
+ah
 aC
 aA
 aA
@@ -2264,7 +1683,7 @@ bi
 bm
 br
 bp
-cc
+ah
 bA
 bA
 bB
@@ -2286,8 +1705,8 @@ aa
 aa
 ah
 ak
-cc
-cc
+ah
+ah
 aD
 aA
 aL
@@ -2295,17 +1714,17 @@ aA
 aL
 aL
 bh
-dH
+bn
 bp
-cc
-dJ
+ah
+bA
 bA
 bB
 bB
 bB
 bB
 bB
-cc
+ah
 bB
 bB
 ak
@@ -2321,7 +1740,7 @@ aa
 ah
 ak
 ak
-cc
+ah
 aE
 aA
 aA
@@ -2329,8 +1748,8 @@ aA
 aM
 aB
 aL
-cc
-cc
+ah
+ah
 bA
 bA
 bB
@@ -2355,15 +1774,15 @@ aa
 ah
 ah
 ak
-cc
-cc
+ah
+ah
 aM
 aB
-dD
+aM
 ar
 ar
 aS
-cc
+ah
 ak
 ah
 bF
@@ -2372,7 +1791,7 @@ bB
 ah
 bB
 bB
-cc
+ah
 bB
 bB
 ak
@@ -2391,13 +1810,13 @@ ah
 ah
 ak
 ak
-cc
-cu
-cc
+ah
+aQ
+ah
 ba
 aC
-cu
-cc
+aQ
+ah
 ak
 ah
 ah
@@ -2430,7 +1849,7 @@ ak
 aU
 aU
 aU
-cc
+ah
 ak
 ah
 ah

@@ -154,7 +154,7 @@
 	return FALSE
 
 /obj/machinery/smartfridge/proc/load(obj/item/O)
-	if(ismob(O.loc))
+	if(istype(O.loc,/mob))
 		var/mob/M = O.loc
 		if(!M.transferItemToLoc(O, src))
 			to_chat(usr, "<span class='warning'>\the [O] is stuck to your hand, you cannot put it in \the [src]!</span>")

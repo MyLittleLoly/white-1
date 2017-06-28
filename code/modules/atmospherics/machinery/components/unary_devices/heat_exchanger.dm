@@ -7,8 +7,6 @@
 
 	can_unwrench = 1
 
-	layer = LOW_OBJ_LAYER
-
 	var/obj/machinery/atmospherics/components/unary/heat_exchanger/partner = null
 	var/update_cycle
 

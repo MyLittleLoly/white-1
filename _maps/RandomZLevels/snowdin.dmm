@@ -259,7 +259,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel{
 	baseturf = /turf/open/floor/plating/asteroid/snow;
@@ -528,7 +529,8 @@
 /area/awaymission/snowdin/base)
 "br" = (
 /obj/machinery/light{
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /obj/machinery/iv_drip,
 /turf/open/floor/plasteel{
@@ -588,7 +590,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel{
 	baseturf = /turf/open/floor/plating/asteroid/snow;
@@ -2125,6 +2128,8 @@
 "fN" = (
 /obj/structure/table/wood,
 /obj/machinery/light/built{
+	tag = "icon-tube1 (EAST)";
+	icon_state = "tube1";
 	dir = 4
 	},
 /turf/open/floor/plasteel{
@@ -2254,7 +2259,8 @@
 /obj/machinery/button/door{
 	id = "sekret";
 	name = "shutter control";
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/darkred{
 	baseturf = /turf/open/floor/plating/asteroid/snow
@@ -2422,6 +2428,7 @@
 "gB" = (
 /obj/structure/table,
 /obj/machinery/light{
+	icon_state = "tube1";
 	dir = 4
 	},
 /turf/open/floor/plasteel/darkbrown{
@@ -2480,6 +2487,8 @@
 /area/awaymission/snowdin/post)
 "gI" = (
 /obj/machinery/light/built{
+	tag = "icon-tube1 (WEST)";
+	icon_state = "tube1";
 	dir = 8
 	},
 /turf/open/floor/plasteel/darkbrown{
@@ -2635,6 +2644,8 @@
 /area/awaymission/snowdin/post)
 "hd" = (
 /obj/machinery/light/built{
+	tag = "icon-tube1 (WEST)";
+	icon_state = "tube1";
 	dir = 8
 	},
 /turf/open/floor/plasteel{
@@ -3578,7 +3589,8 @@
 	dir = 9
 	},
 /turf/open/floor/plasteel/black{
-	baseturf = /turf/open/floor/plating/asteroid/snow
+	baseturf = /turf/open/floor/plating/asteroid/snow;
+	tag = "icon-warndark (NORTHWEST)"
 	},
 /area/awaymission/snowdin/sekret)
 "jJ" = (
@@ -3586,7 +3598,8 @@
 	dir = 5
 	},
 /turf/open/floor/plasteel/black{
-	baseturf = /turf/open/floor/plating/asteroid/snow
+	baseturf = /turf/open/floor/plating/asteroid/snow;
+	tag = "icon-warndark (NORTHEAST)"
 	},
 /area/awaymission/snowdin/sekret)
 "jK" = (
@@ -3655,6 +3668,7 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/black{
+	tag = "icon-warndark (EAST)";
 	baseturf = /turf/open/floor/plating/asteroid/snow
 	},
 /area/awaymission/snowdin/sekret)
@@ -3727,7 +3741,8 @@
 	dir = 9
 	},
 /turf/open/floor/plasteel/black{
-	baseturf = /turf/open/floor/plating/asteroid/snow
+	baseturf = /turf/open/floor/plating/asteroid/snow;
+	tag = "icon-warndark (NORTHWEST)"
 	},
 /area/awaymission/snowdin/sekret)
 "kb" = (
@@ -3736,7 +3751,8 @@
 	dir = 5
 	},
 /turf/open/floor/plasteel/black{
-	baseturf = /turf/open/floor/plating/asteroid/snow
+	baseturf = /turf/open/floor/plating/asteroid/snow;
+	tag = "icon-warndark (NORTHEAST)"
 	},
 /area/awaymission/snowdin/sekret)
 "kc" = (
@@ -4072,6 +4088,7 @@
 	dir = 10
 	},
 /turf/open/floor/plasteel/black{
+	tag = "icon-warndark (SOUTHWEST)";
 	baseturf = /turf/open/floor/plating/asteroid/snow
 	},
 /area/awaymission/snowdin/sekret)
@@ -4083,6 +4100,7 @@
 	dir = 6
 	},
 /turf/open/floor/plasteel/black{
+	tag = "icon-warndark (SOUTHEAST)";
 	baseturf = /turf/open/floor/plating/asteroid/snow
 	},
 /area/awaymission/snowdin/sekret)
@@ -4249,7 +4267,8 @@
 	dir = 8;
 	freerange = 1;
 	listening = 1;
-	name = "Pirate Radio Listening Channel"
+	name = "Pirate Radio Listening Channel";
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel/purple{
 	baseturf = /turf/open/floor/plating/asteroid/snow
@@ -4331,7 +4350,8 @@
 	dir = 8;
 	freerange = 1;
 	listening = 0;
-	name = "Pirate Radio Broadcast Channel"
+	name = "Pirate Radio Broadcast Channel";
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel/purple{
 	baseturf = /turf/open/floor/plating/asteroid/snow
@@ -4373,6 +4393,8 @@
 /obj/structure/bed,
 /obj/item/weapon/bedsheet,
 /obj/machinery/light/built{
+	tag = "icon-tube1 (EAST)";
+	icon_state = "tube1";
 	dir = 4
 	},
 /obj/effect/landmark/awaystart,
@@ -4505,6 +4527,8 @@
 /area/awaymission/snowdin/sekret)
 "lX" = (
 /obj/structure/chair/comfy/beige{
+	tag = "icon-comfychair (EAST)";
+	icon_state = "comfychair";
 	dir = 4
 	},
 /turf/open/floor/wood{
@@ -4716,7 +4740,7 @@
 /area/awaymission/snowdin/sekret)
 "mx" = (
 /obj/structure/table/reinforced,
-/obj/item/weapon/storage/backpack/duffelbag/syndie/ammo/smg,
+/obj/item/weapon/storage/backpack/dufflebag/syndie/ammo/smg,
 /turf/open/floor/plasteel{
 	baseturf = /turf/open/floor/plating/asteroid/snow;
 	wet = 0
@@ -4734,6 +4758,8 @@
 /area/awaymission/snowdin)
 "mz" = (
 /obj/machinery/light/built{
+	tag = "icon-tube1 (NORTH)";
+	icon_state = "tube1";
 	dir = 1
 	},
 /turf/open/floor/plating{
@@ -4916,7 +4942,9 @@
 "mU" = (
 /obj/structure/sink{
 	dir = 4;
-	pixel_x = 11
+	icon_state = "sink";
+	pixel_x = 11;
+	pixel_y = 0
 	},
 /obj/structure/mirror{
 	pixel_x = 30
@@ -5079,7 +5107,9 @@
 	},
 /area/awaymission/snowdin)
 "np" = (
-/obj/structure/shuttle/engine/propulsion/left,
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_l"
+	},
 /turf/open/floor/plating,
 /area/awaymission/snowdin)
 "nq" = (
@@ -5087,7 +5117,9 @@
 /turf/open/floor/plating,
 /area/awaymission/snowdin)
 "nr" = (
-/obj/structure/shuttle/engine/propulsion/right,
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_r"
+	},
 /turf/open/floor/plating,
 /area/awaymission/snowdin)
 "ns" = (
@@ -5169,7 +5201,8 @@
 /area/awaymission/snowdin/sekret)
 "nA" = (
 /obj/machinery/light{
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /turf/open/floor/plating/asteroid/snow,
 /area/awaymission/snowdin)

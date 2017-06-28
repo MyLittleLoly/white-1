@@ -16,7 +16,6 @@
 	var/datum/radio_frequency/radio_connection
 
 	level = 1
-	layer = GAS_SCRUBBER_LAYER
 
 /obj/machinery/atmospherics/components/unary/outlet_injector/Destroy()
 	if(SSradio)

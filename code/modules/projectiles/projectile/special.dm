@@ -59,7 +59,7 @@
 	if(istype(target, /obj/mecha))
 		var/obj/mecha/M = target
 		M.take_damage(anti_armour_damage)
-	if(issilicon(target))
+	if(istype(target, /mob/living/silicon))
 		var/mob/living/silicon/S = target
 		S.take_overall_damage(anti_armour_damage*0.75, anti_armour_damage*0.25)
 	return 1
@@ -183,12 +183,12 @@
 		return ..()
 	if(!gun)
 		qdel(src)
-	gun.create_portal(src, get_turf(src))
+	gun.create_portal(src)
 
 /obj/item/projectile/bullet/frag12
 	name ="explosive slug"
 	damage = 25
-	knockdown = 50
+	weaken = 5
 
 /obj/item/projectile/bullet/frag12/on_hit(atom/target, blocked = 0)
 	..()
@@ -242,7 +242,6 @@
 	//Between normal and advanced for damage, made a beam so not the turret does not destroy glass
 	name = "plasma beam"
 	damage = 6
-	range = 7
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE
 
 

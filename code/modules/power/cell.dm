@@ -19,16 +19,13 @@
 	var/ratingdesc = TRUE
 	var/grown_battery = FALSE // If it's a grown that acts as a battery, add a wire overlay to it.
 
-/obj/item/weapon/stock_parts/cell/get_cell()
-	return src
-
 /obj/item/weapon/stock_parts/cell/New()
 	..()
 	START_PROCESSING(SSobj, src)
 	charge = maxcharge
 	if(ratingdesc)
 		desc += " This one has a power rating of [maxcharge], and you should not swallow it."
-	update_icon()
+	updateicon()
 
 /obj/item/weapon/stock_parts/cell/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -49,7 +46,7 @@
 	else
 		return PROCESS_KILL
 
-/obj/item/weapon/stock_parts/cell/update_icon()
+/obj/item/weapon/stock_parts/cell/proc/updateicon()
 	cut_overlays()
 	if(grown_battery)
 		add_overlay("grown_wires")
@@ -321,16 +318,3 @@
 
 /obj/item/weapon/stock_parts/cell/emproof/corrupt()
 	return
-
-/obj/item/weapon/stock_parts/cell/beam_rifle
-	name = "beam rifle capacitor"
-	desc = "A high powered capacitor that can provide huge amounts of energy in an instant"
-	maxcharge = 50000
-	chargerate = 5000	//Extremely energy intensive
-	rating = 4
-
-/obj/item/weapon/stock_parts/cell/beam_rifle/corrupt()
-	return
-
-/obj/item/weapon/stock_parts/cell/beam_rifle/emp_act(severity)
-	charge = Clamp((charge-(10000/severity)),0,maxcharge)

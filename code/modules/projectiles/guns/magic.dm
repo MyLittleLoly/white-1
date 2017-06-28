@@ -44,8 +44,8 @@
 		charges--//... drain a charge
 		recharge_newshot()
 
-/obj/item/weapon/gun/magic/Initialize()
-	. = ..()
+/obj/item/weapon/gun/magic/New()
+	..()
 	charges = max_charges
 	chambered = new ammo_type(src)
 	if(can_charge)

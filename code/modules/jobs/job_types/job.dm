@@ -134,7 +134,7 @@
 
 	var/backpack = /obj/item/weapon/storage/backpack
 	var/satchel  = /obj/item/weapon/storage/backpack/satchel
-	var/duffelbag = /obj/item/weapon/storage/backpack/duffelbag
+	var/dufflebag = /obj/item/weapon/storage/backpack/dufflebag
 	var/box = /obj/item/weapon/storage/box/survival
 
 	var/pda_slot = slot_belt
@@ -145,20 +145,18 @@
 			back = /obj/item/weapon/storage/backpack //Grey backpack
 		if(GSATCHEL)
 			back = /obj/item/weapon/storage/backpack/satchel //Grey satchel
-		if(GDUFFELBAG)
-			back = /obj/item/weapon/storage/backpack/duffelbag //Grey Duffel bag
+		if(GDUFFLEBAG)
+			back = /obj/item/weapon/storage/backpack/dufflebag //Grey Dufflebag
 		if(LSATCHEL)
 			back = /obj/item/weapon/storage/backpack/satchel/leather //Leather Satchel
 		if(DSATCHEL)
 			back = satchel //Department satchel
-		if(DDUFFELBAG)
-			back = duffelbag //Department duffel bag
+		if(DDUFFLEBAG)
+			back = dufflebag //Department dufflebag
 		else
 			back = backpack //Department backpack
 
-	if(box)
-		if(!backpack_contents)
-			backpack_contents = list()
+	if(backpack_contents && box)
 		backpack_contents.Insert(1, box) // Box always takes a first slot in backpack
 		backpack_contents[box] = 1
 

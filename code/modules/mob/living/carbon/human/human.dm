@@ -36,6 +36,9 @@
 	//initialise organs
 	create_internal_organs()
 
+	if(mind)
+		mind.martial_art = mind.default_martial_art
+
 	handcrafting = new()
 
 	..()
@@ -501,7 +504,7 @@
 							to_chat(usr, "<span class='warning'>Unable to locate a data core entry for this person.</span>")
 
 /mob/living/carbon/human/proc/canUseHUD()
-	return !(src.stat || IsKnockdown() || IsStun() || src.restrained())
+	return !(src.stat || src.weakened || src.stunned || src.restrained())
 
 /mob/living/carbon/human/can_inject(mob/user, error_msg, target_zone, var/penetrate_thick = 0)
 	. = 1 // Default to returning true.
@@ -549,8 +552,8 @@
 	else
 		return null
 
-/mob/living/carbon/human/assess_threat(judgement_criteria, lasercolor = "", datum/callback/weaponcheck=null)
-	if(judgement_criteria & JUDGE_EMAGGED)
+/mob/living/carbon/human/assess_threat(mob/living/simple_animal/bot/secbot/judgebot, lasercolor)
+	if(judgebot.emagged == 2)
 		return 10 //Everyone is a criminal!
 
 	var/threatcount = 0
@@ -577,20 +580,20 @@
 
 	//Check for ID
 	var/obj/item/weapon/card/id/idcard = get_idcard()
-	if( (judgement_criteria & JUDGE_IDCHECK) && !idcard && name=="Unknown")
+	if(judgebot.idcheck && !idcard && name=="Unknown")
 		threatcount += 4
 
 	//Check for weapons
-	if( (judgement_criteria & JUDGE_WEAPONCHECK) && weaponcheck)
+	if(judgebot.weaponscheck)
 		if(!idcard || !(GLOB.access_weapons in idcard.access))
 			for(var/obj/item/I in held_items)
-				if(weaponcheck.Invoke(I))
+				if(judgebot.check_for_weapons(I))
 					threatcount += 4
-			if(weaponcheck.Invoke(belt))
+			if(judgebot.check_for_weapons(belt))
 				threatcount += 2
 
 	//Check for arrest warrant
-	if(judgement_criteria & JUDGE_RECORDCHECK)
+	if(judgebot.check_records)
 		var/perpname = get_face_name(get_id_name())
 		var/datum/data/record/R = find_record("name", perpname, GLOB.data_core.security)
 		if(R && R.fields["criminal"])
@@ -882,7 +885,7 @@
 			visible_message("<span class='warning'>[src] dry heaves!</span>", \
 							"<span class='userdanger'>You try to throw up, but there's nothing in your stomach!</span>")
 		if(stun)
-			Knockdown(200)
+			Weaken(10)
 		return 1
 	..()
 

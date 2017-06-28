@@ -37,7 +37,7 @@
 	ranged = 1
 	retreat_distance = 5
 	minimum_distance = 5
-	projectilesound = 'sound/weapons/gunshot.ogg'
+	projectilesound = 'sound/weapons/Gunshot.ogg'
 	casingtype = /obj/item/ammo_casing/n762
 
 

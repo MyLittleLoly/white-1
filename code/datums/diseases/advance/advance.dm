@@ -399,7 +399,7 @@
 			AD.Refresh()
 
 		for(var/mob/living/carbon/human/H in shuffle(GLOB.living_mob_list))
-			if(H.z != ZLEVEL_STATION)
+			if(H.z != 1)
 				continue
 			if(!H.HasDisease(D))
 				H.ForceContractDisease(D)

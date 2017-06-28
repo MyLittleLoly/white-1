@@ -19,7 +19,7 @@
 		inview = 0
 
 	if(!ninjacost(cost))
-		if(iscarbon(energyKatana.loc))
+		if(istype(energyKatana.loc, /mob/living/carbon))
 			var/mob/living/carbon/C = energyKatana.loc
 			C.transferItemToLoc(energyKatana, get_turf(energyKatana), TRUE)
 

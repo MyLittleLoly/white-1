@@ -15,36 +15,36 @@
 /area/ruin/powered)
 "e" = (
 /turf/open/floor/plating/lava/smooth,
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "f" = (
 /obj/item/weapon/reagent_containers/syringe/gluttony,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "g" = (
 /obj/effect/gluttony,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "h" = (
 /obj/item/weapon/veilrender/vealrender,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "i" = (
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "j" = (
 /obj/item/trash/plate,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "k" = (
 /obj/machinery/door/airlock/uranium,
 /obj/structure/fans/tiny/invisible,
@@ -57,113 +57,37 @@
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "m" = (
 /obj/item/trash/raisins,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "n" = (
 /obj/item/trash/pistachios,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "o" = (
 /obj/item/trash/popcorn,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "p" = (
 /obj/item/trash/semki,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 "q" = (
 /obj/item/trash/syndi_cakes,
 /turf/open/floor/plasteel/freezer{
 	baseturf = /turf/open/floor/plating/lava/smooth
 	},
-/area/ruin/powered/gluttony)
-"r" = (
-/obj/effect/gluttony,
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"s" = (
-/obj/effect/gluttony,
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"t" = (
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"u" = (
-/obj/effect/gluttony,
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"v" = (
-/obj/machinery/light/small,
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"w" = (
-/obj/machinery/light/small,
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"x" = (
-/obj/machinery/light/small,
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"y" = (
-/obj/machinery/light/small,
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"z" = (
-/obj/item/trash/plate,
-/obj/machinery/light/small{
-	dir = 8
-	},
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
-"A" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/floor/plasteel/freezer{
-	baseturf = /turf/open/floor/plating/lava/smooth
-	},
-/area/ruin/powered/gluttony)
+/area/ruin/powered)
 
 (1,1,1) = {"
 a
@@ -287,7 +211,7 @@ c
 d
 i
 i
-v
+i
 d
 c
 b
@@ -329,7 +253,7 @@ c
 c
 c
 d
-t
+i
 i
 m
 d
@@ -353,7 +277,7 @@ d
 d
 g
 m
-w
+i
 d
 d
 d
@@ -370,7 +294,7 @@ c
 d
 e
 d
-r
+g
 g
 g
 g
@@ -378,7 +302,7 @@ g
 i
 p
 i
-z
+j
 l
 i
 d
@@ -414,7 +338,7 @@ c
 d
 e
 d
-s
+g
 g
 g
 g
@@ -422,7 +346,7 @@ i
 g
 i
 l
-A
+i
 i
 q
 d
@@ -441,7 +365,7 @@ d
 d
 g
 i
-x
+i
 d
 d
 d
@@ -461,7 +385,7 @@ c
 c
 c
 d
-u
+g
 i
 i
 d
@@ -507,7 +431,7 @@ c
 d
 j
 i
-y
+i
 d
 c
 b

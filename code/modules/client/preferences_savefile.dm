@@ -2,7 +2,7 @@
 #define SAVEFILE_VERSION_MIN	15
 
 //This is the current version, anything below this will attempt to update (if it's not obsolete)
-#define SAVEFILE_VERSION_MAX	18
+#define SAVEFILE_VERSION_MAX	17
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
 	This proc checks if the current directory of the savefile S needs updating
@@ -154,9 +154,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["uses_glasses_colour"]>> uses_glasses_colour
 	S["clientfps"]			>> clientfps
 	S["parallax"]			>> parallax
-	S["menuoptions"]		>> menuoptions
-	S["enable_tips"]		>> enable_tips
-	S["tip_delay"]			>> tip_delay
+	S["menuoptions"]			>> menuoptions
 
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
@@ -219,8 +217,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["clientfps"]			<< clientfps
 	S["parallax"]			<< parallax
 	S["menuoptions"]		<< menuoptions
-	S["enable_tips"]		<< enable_tips
-	S["tip_delay"]			<< tip_delay
 
 	return 1
 

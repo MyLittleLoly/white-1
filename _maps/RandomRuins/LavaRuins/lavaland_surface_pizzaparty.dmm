@@ -78,7 +78,8 @@
 /area/ruin/unpowered)
 "l" = (
 /obj/machinery/light{
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /obj/structure/table/wood,
 /obj/effect/spawner/lootdrop{
@@ -224,6 +225,7 @@
 /area/space)
 "C" = (
 /obj/structure/chair/wood/wings{
+	tag = "icon-wooden_chair_wings (EAST)";
 	icon_state = "wooden_chair_wings";
 	dir = 4
 	},
@@ -290,6 +292,7 @@
 /area/ruin/unpowered)
 "K" = (
 /obj/structure/chair/wood/wings{
+	tag = "icon-wooden_chair_wings (NORTH)";
 	icon_state = "wooden_chair_wings";
 	dir = 1
 	},
@@ -331,7 +334,8 @@
 /area/ruin/unpowered)
 "P" = (
 /obj/machinery/light{
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood{

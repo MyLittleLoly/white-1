@@ -15,7 +15,8 @@
 	var/max_n_of_items = 10 // whatever fat fuck made this a global var needs to look at themselves in the mirror sometime
 	var/efficiency = 0
 
-//Microwaving doesn't use recipes, instead it calls the microwave_act of the objects. For food, this creates something based on the food's cooked_type
+
+// see code/modules/food/recipes_microwave.dm for recipes
 
 /*******************
 *   Initialising

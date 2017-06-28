@@ -3,9 +3,9 @@
 	return FALSE
 
 /mob/living/silicon/pai/emp_act(severity)
-	take_holo_damage(50/severity)
-	Knockdown(400/severity)
-	silent = max(30/severity, silent)
+	take_holo_damage(severity * 25)
+	fullstun(severity * 10)
+	silent = max(severity * 15, silent)
 	if(holoform)
 		fold_in(force = TRUE)
 	//Need more effects that aren't instadeath or permanent law corruption.
@@ -18,10 +18,10 @@
 			qdel(src)
 		if(2)
 			fold_in(force = 1)
-			Knockdown(400)
+			fullstun(20)
 		if(3)
 			fold_in(force = 1)
-			Knockdown(200)
+			fullstun(10)
 
 /mob/living/silicon/pai/attack_hand(mob/living/carbon/human/user)
 	switch(user.a_intent)
@@ -64,6 +64,9 @@
 	hit_slowdown += amount
 	return amount
 
+/mob/living/silicon/pai/proc/fullstun(amount)
+	Weaken(amount)
+
 /mob/living/silicon/pai/adjustBruteLoss(amount, updating_health = TRUE, forced = FALSE)
 	return take_holo_damage(amount)
 
@@ -80,10 +83,10 @@
 	return FALSE
 
 /mob/living/silicon/pai/adjustStaminaLoss(amount)
-	take_holo_damage(amount & 0.25)
+	take_holo_damage(amount/4)
 
 /mob/living/silicon/pai/adjustBrainLoss(amount)
-	Knockdown(amount * 0.2)
+	fullstun(amount/10)
 
 /mob/living/silicon/pai/getBruteLoss()
 	return emittermaxhealth - emitterhealth

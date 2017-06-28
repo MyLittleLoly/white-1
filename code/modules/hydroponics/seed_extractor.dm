@@ -191,7 +191,7 @@
 		to_chat(usr, "<span class='notice'>\The [src] is full.</span>")
 		return 0
 
-	if(ismob(O.loc))
+	if(istype(O.loc,/mob))
 		var/mob/M = O.loc
 		if(!M.drop_item())
 			return 0

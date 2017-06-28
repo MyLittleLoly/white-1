@@ -81,15 +81,21 @@
 /obj/effect/temp_visual/ratvar/volt_hit
 	name = "volt blast"
 	layer = ABOVE_MOB_LAYER
-	duration = 8
+	duration = 5
 	icon_state = "volt_hit"
 	light_range = 1.5
 	light_power = 2
 	light_color = LIGHT_COLOR_ORANGE
 	var/mob/user
-	var/damage = 25
+	var/damage = 20
 
-/obj/effect/temp_visual/ratvar/volt_hit/Initialize(mapload, caster)
+/obj/effect/temp_visual/ratvar/volt_hit/Initialize(mapload, caster, multiplier)
+	if(multiplier)
+		damage *= multiplier
+	duration = max(round(damage * 0.2), 1)
+	. = ..()
+
+/obj/effect/temp_visual/ratvar/volt_hit/true/Initialize(mapload, caster, multiplier)
 	. = ..()
 	user = caster
 	if(user)
@@ -139,20 +145,6 @@
 	pixel_x = rand(-8, 8)
 	pixel_y = rand(-10, 10)
 	animate(src, alpha = 0, time = 3, easing = EASE_OUT)
-
-/obj/effect/temp_visual/ratvar/prolonging_prism
-	icon = 'icons/effects/64x64.dmi'
-	icon_state = "prismhex1"
-	layer = RIPPLE_LAYER
-	pixel_y = -16
-	pixel_x = -16
-	duration = 30
-
-/obj/effect/temp_visual/ratvar/prolonging_prism/Initialize(mapload, set_appearance)
-	. = ..()
-	if(set_appearance)
-		appearance = set_appearance
-	animate(src, alpha = 0, time = duration, easing = BOUNCE_EASING)
 
 /obj/effect/temp_visual/ratvar/spearbreak
 	icon = 'icons/effects/64x64.dmi'

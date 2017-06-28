@@ -46,8 +46,7 @@ Difficulty: Very Hard
 	del_on_death = 1
 	medal_type = MEDAL_PREFIX
 	score_type = COLOSSUS_SCORE
-	crusher_loot = list(/obj/structure/closet/crate/necropolis/colossus/crusher)
-	loot = list(/obj/structure/closet/crate/necropolis/colossus)
+	loot = list(/obj/effect/spawner/lootdrop/anomalous_crystal, /obj/item/organ/vocal_cords/colossus)
 	butcher_results = list(/obj/item/weapon/ore/diamond = 5, /obj/item/stack/sheet/sinew = 5, /obj/item/stack/sheet/animalhide/ashdrake = 10, /obj/item/stack/sheet/bone = 30)
 	deathmessage = "disintegrates, leaving a glowing core in its wake."
 	death_sound = 'sound/magic/demon_dies.ogg'
@@ -445,6 +444,13 @@ Difficulty: Very Hard
 /obj/machinery/anomalous_crystal/ex_act()
 	ActivationReaction(null, ACTIVATE_BOMB)
 
+/obj/effect/spawner/lootdrop/anomalous_crystal
+	name = "anomalous crystal spawner"
+
+/obj/effect/spawner/lootdrop/anomalous_crystal/Initialize()
+	loot = subtypesof(/obj/machinery/anomalous_crystal)
+	. = ..()
+
 /obj/machinery/anomalous_crystal/honk //Strips and equips you as a clown. I apologize for nothing
 	observer_desc = "This crystal strips and equips its targets as clowns."
 	possible_methods = list(ACTIVATE_MOB_BUMP, ACTIVATE_SPEECH)
@@ -542,7 +548,8 @@ Difficulty: Very Hard
 
 /obj/machinery/anomalous_crystal/emitter/Initialize()
 	. = ..()
-	generated_projectile = pick(/obj/item/projectile/colossus)
+	generated_projectile = pick(/obj/item/projectile/magic/aoe/fireball/infernal,/obj/item/projectile/magic/aoe/lightning,/obj/item/projectile/magic/spellblade,
+								 /obj/item/projectile/bullet/meteorshot, /obj/item/projectile/beam/xray, /obj/item/projectile/colossus)
 
 	var/proj_name = initial(generated_projectile.name)
 	observer_desc = "This crystal generates \a [proj_name] when activated."
@@ -581,8 +588,6 @@ Difficulty: Very Hard
 				var/mob/living/carbon/human/H = i
 				if(H.stat == DEAD)
 					H.set_species(/datum/species/shadow, 1)
-					H.regenerate_limbs()
-					H.regenerate_organs()
 					H.revive(1,0)
 					H.disabilities |= NOCLONE //Free revives, but significantly limits your options for reviving except via the crystal
 					H.grab_ghost(force = TRUE)
@@ -683,7 +688,7 @@ Difficulty: Very Hard
 	observer_desc = "This crystal \"refreshes\" items that it affects, rendering them as new."
 	activation_method = ACTIVATE_TOUCH
 	cooldown_add = 50
-	activation_sound = 'sound/magic/timeparadox2.ogg'
+	activation_sound = 'sound/magic/TIMEPARADOX2.ogg'
 	var/list/banned_items_typecache = list(/obj/item/weapon/storage, /obj/item/weapon/implant, /obj/item/weapon/implanter, /obj/item/weapon/disk/nuclear, /obj/item/projectile, /obj/item/weapon/spellbook)
 
 /obj/machinery/anomalous_crystal/refresher/Initialize()
@@ -697,7 +702,7 @@ Difficulty: Very Hard
 		var/turf/T = get_step(src, dir)
 		new /obj/effect/temp_visual/emp/pulse(T)
 		for(var/i in T)
-			if(isitem(i) && !is_type_in_typecache(i, banned_items_typecache))
+			if(istype(i, /obj/item) && !is_type_in_typecache(i, banned_items_typecache))
 				var/obj/item/W = i
 				if(!W.admin_spawned)
 					L += W
@@ -735,7 +740,7 @@ Difficulty: Very Hard
 
 /obj/structure/closet/stasis/process()
 	if(holder_animal)
-		if(holder_animal.stat == DEAD)
+		if(holder_animal.stat == DEAD && !QDELETED(holder_animal))
 			dump_contents()
 			holder_animal.gib()
 			return
@@ -763,7 +768,7 @@ Difficulty: Very Hard
 		L.disabilities &= ~MUTE
 		L.status_flags &= ~GODMODE
 		L.notransform = 0
-		if(holder_animal)
+		if(holder_animal && !QDELETED(holder_animal))
 			holder_animal.mind.transfer_to(L)
 			L.mind.RemoveSpell(/obj/effect/proc_holder/spell/targeted/exit_possession)
 		if(kill || !isanimal(loc))

@@ -91,11 +91,6 @@
 	icon_state = "[icon_state][rand(1, 6)]"
 	..()
 
-/obj/structure/flora/tree/jungle/small
-	pixel_y = 0
-	pixel_x = -32
-	icon = 'icons/obj/flora/jungletreesmall.dmi'
-
 //grass
 /obj/structure/flora/grass
 	name = "grass"
@@ -386,5 +381,5 @@
 	pixel_y = -16
 
 /obj/structure/flora/rock/pile/largejungle/Initialize()
-	. = ..()
+	..()
 	icon_state = "[initial(icon_state)][rand(1,3)]"

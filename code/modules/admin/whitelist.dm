@@ -10,7 +10,7 @@ GLOBAL_PROTECT(whitelist)
 			continue
 		if(findtextEx(line,"#",1,2))
 			continue
-		GLOB.whitelist += ckey(line)
+		GLOB.whitelist += line
 
 	if(!GLOB.whitelist.len)
 		GLOB.whitelist = null

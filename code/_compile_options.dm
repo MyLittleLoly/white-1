@@ -69,5 +69,7 @@
 #error You need version 511 or higher
 #endif
 
- #define SERVICE_CMD_PARAM_KEY "serviceCommsKey"
- 
+
+#ifndef SERVERTOOLS
+#define SERVERTOOLS 0
+#endif

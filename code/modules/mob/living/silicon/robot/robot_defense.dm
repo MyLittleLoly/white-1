@@ -23,7 +23,7 @@
 					"<span class='userdanger'>[M] has disabled [src]'s active module!</span>", null, COMBAT_MESSAGE_RANGE)
 				add_logs(M, src, "disarmed", "[I ? " removing \the [I]" : ""]")
 			else
-				Stun(40)
+				Stun(2)
 				step(src,get_dir(M,src))
 				add_logs(M, src, "pushed")
 				visible_message("<span class='danger'>[M] has forced back [src]!</span>", \
@@ -56,7 +56,7 @@
 	add_fingerprint(user)
 	if(opened && !wiresexposed && !issilicon(user))
 		if(cell)
-			cell.update_icon()
+			cell.updateicon()
 			cell.add_fingerprint(user)
 			user.put_in_active_hand(cell)
 			to_chat(user, "<span class='notice'>You remove \the [cell].</span>")
@@ -80,9 +80,9 @@
 /mob/living/silicon/robot/emp_act(severity)
 	switch(severity)
 		if(1)
-			Stun(160)
+			Stun(8)
 		if(2)
-			Stun(60)
+			Stun(3)
 	..()
 
 
@@ -135,7 +135,7 @@
 		return
 
 	SetEmagged(1)
-	SetStun(60) //Borgs were getting into trouble because they would attack the emagger before the new laws were shown
+	SetStunned(3) //Borgs were getting into trouble because they would attack the emagger before the new laws were shown
 	lawupdate = 0
 	connected_ai = null
 	message_admins("[key_name_admin(user)] emagged cyborg [key_name_admin(src)].  Laws overridden.")

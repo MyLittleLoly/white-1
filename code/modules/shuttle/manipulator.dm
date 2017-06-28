@@ -285,9 +285,6 @@
 
 		message_admins(msg)
 		WARNING(msg)
-		return
-	//Everything fine
-	S.on_bought()
 
 /obj/machinery/shuttle_manipulator/proc/unload_preview()
 	if(preview_shuttle)

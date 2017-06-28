@@ -425,6 +425,8 @@
 	})
 "aU" = (
 /obj/machinery/light/small/built{
+	tag = "icon-bulb1 (EAST)";
+	icon_state = "bulb1";
 	dir = 4
 	},
 /obj/structure/sign/pods{
@@ -874,6 +876,8 @@
 	pixel_x = 32
 	},
 /obj/machinery/light/small/built{
+	tag = "icon-bulb1 (EAST)";
+	icon_state = "bulb1";
 	dir = 4
 	},
 /turf/open/floor/plating/asteroid/basalt{
@@ -1212,7 +1216,8 @@
 "cE" = (
 /obj/structure/sign/vacuum{
 	name = "\improper LOW AIR AREA";
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 0
 	},
 /obj/item/stack/rods,
 /turf/open/floor/plasteel{
@@ -1280,6 +1285,8 @@
 	})
 "cM" = (
 /obj/machinery/light{
+	tag = "icon-tube1 (WEST)";
+	icon_state = "tube1";
 	dir = 8
 	},
 /turf/open/floor/plating{
@@ -1402,7 +1409,8 @@
 "cZ" = (
 /obj/structure/sign/vacuum{
 	name = "\improper LOW AIR AREA";
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel{
 	baseturf = /turf/open/floor/plating/asteroid/basalt;
@@ -1564,6 +1572,8 @@
 	})
 "dq" = (
 /obj/machinery/light/small/built{
+	tag = "icon-bulb1 (EAST)";
+	icon_state = "bulb1";
 	dir = 4
 	},
 /obj/structure/spider/stickyweb,
@@ -1676,6 +1686,8 @@
 /area/awaymission/northblock)
 "dE" = (
 /obj/machinery/light/small/built{
+	tag = "icon-bulb1 (WEST)";
+	icon_state = "bulb1";
 	dir = 8
 	},
 /turf/open/floor/wood{
@@ -1835,6 +1847,8 @@
 /area/awaymission/northblock)
 "eb" = (
 /obj/machinery/light/small/built{
+	tag = "icon-bulb1 (WEST)";
+	icon_state = "bulb1";
 	dir = 8
 	},
 /turf/open/floor/wood{
@@ -2008,6 +2022,8 @@
 /area/awaymission/BMPship)
 "ez" = (
 /obj/machinery/light/small/built{
+	tag = "icon-bulb1 (NORTH)";
+	icon_state = "bulb1";
 	dir = 1
 	},
 /obj/machinery/suit_storage_unit/mining{
@@ -2381,6 +2397,8 @@
 /area/awaymission/BMPship)
 "fr" = (
 /obj/machinery/light/small/built{
+	tag = "icon-bulb1 (NORTH)";
+	icon_state = "bulb1";
 	dir = 1
 	},
 /obj/structure/spider/stickyweb,

@@ -294,11 +294,10 @@
 /obj/item/bodypart/head/attach_limb(mob/living/carbon/C, special)
 	//Transfer some head appearance vars over
 	if(brain)
-		if(brainmob)
-			brainmob.container = null //Reset brainmob head var.
-			brainmob.loc = brain //Throw mob into brain.
-			brain.brainmob = brainmob //Set the brain to use the brainmob
-			brainmob = null //Set head brainmob var to null
+		brainmob.container = null //Reset brainmob head var.
+		brainmob.loc = brain //Throw mob into brain.
+		brain.brainmob = brainmob //Set the brain to use the brainmob
+		brainmob = null //Set head brainmob var to null
 		brain.Insert(C) //Now insert the brain proper
 		brain = null //No more brain in the head
 

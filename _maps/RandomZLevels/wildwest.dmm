@@ -59,7 +59,8 @@
 /area/awaymission/wwvault)
 "an" = (
 /turf/open/floor/plasteel/cult{
-	name = "engraved floor"
+	name = "engraved floor";
+	tag = "icon-cult"
 	},
 /area/awaymission/wwvault)
 "ao" = (
@@ -175,7 +176,8 @@
 	info = "meat grinder requires sacri"
 	},
 /turf/open/floor/plasteel/cult{
-	name = "engraved floor"
+	name = "engraved floor";
+	tag = "icon-cult"
 	},
 /area/awaymission/wwvault)
 "aM" = (
@@ -187,7 +189,8 @@
 "aO" = (
 /obj/effect/mob_spawn/human/corpse/syndicatecommando,
 /turf/open/floor/plasteel/cult{
-	name = "engraved floor"
+	name = "engraved floor";
+	tag = "icon-cult"
 	},
 /area/awaymission/wwvault)
 "aP" = (

@@ -20,7 +20,7 @@
 
 		if(issilicon(M))
 			M << sound('sound/weapons/flash.ogg')
-			M.Knockdown(rand(100,200))
+			M.Weaken(rand(5,10))
 
 	for(var/obj/machinery/light/L in range(4, user))
 		L.on = 1

@@ -13,8 +13,8 @@
 /obj/item/borg/stun/attack(mob/living/M, mob/living/user)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(H.check_shields(src, 0, "[M]'s [name]", MELEE_ATTACK))
-			playsound(M, 'sound/weapons/genhit.ogg', 50, 1)
+		if(H.check_shields(0, "[M]'s [name]", src, MELEE_ATTACK))
+			playsound(M, 'sound/weapons/Genhit.ogg', 50, 1)
 			return FALSE
 	if(iscyborg(user))
 		var/mob/living/silicon/robot/R = user
@@ -22,13 +22,14 @@
 			return
 
 	user.do_attack_animation(M)
-	M.Knockdown(100)
+	M.Weaken(5)
 	M.apply_effect(STUTTER, 5)
+	M.Stun(5)
 
 	M.visible_message("<span class='danger'>[user] has prodded [M] with [src]!</span>", \
 					"<span class='userdanger'>[user] has prodded you with [src]!</span>")
 
-	playsound(loc, 'sound/weapons/egloves.ogg', 50, 1, -1)
+	playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1, -1)
 
 	add_logs(user, M, "stunned", src, "(INTENT: [uppertext(user.a_intent)])")
 
@@ -110,7 +111,7 @@
 							"<span class='warning'>You bop [M] on the head!</span>")
 				playsound(loc, 'sound/weapons/tap.ogg', 50, 1, -1)
 		if(2)
-			if(scooldown < world.time)
+			if(!scooldown)
 				if(M.health >= 0)
 					if(ishuman(M)||ismonkey(M))
 						M.electrocute_act(5, "[user]", safety = 1)
@@ -127,9 +128,11 @@
 								"<span class='danger'>You shock [M] to no effect.</span>")
 					playsound(loc, 'sound/effects/sparks2.ogg', 50, 1, -1)
 					user.cell.charge -= 500
-					scooldown = world.time + 20
+					scooldown = TRUE
+					spawn(20)
+					scooldown = FALSE
 		if(3)
-			if(ccooldown < world.time)
+			if(!ccooldown)
 				if(M.health >= 0)
 					if(ishuman(M))
 						user.visible_message("<span class='userdanger'>[user] crushes [M] in their grip!</span>", \
@@ -140,7 +143,9 @@
 					playsound(loc, 'sound/weapons/smash.ogg', 50, 1, -1)
 					M.adjustBruteLoss(15)
 					user.cell.charge -= 300
-					ccooldown = world.time + 10
+					ccooldown = TRUE
+					spawn(10)
+					ccooldown = FALSE
 
 /obj/item/borg/cyborghug/peacekeeper
 	shockallowed = TRUE
@@ -153,11 +158,10 @@
 	icon_state = "charger_draw"
 	flags = NOBLUDGEON
 	var/mode = "draw"
-	var/static/list/charge_machines = typecacheof(list(/obj/machinery/cell_charger, /obj/machinery/recharger, /obj/machinery/recharge_station, /obj/machinery/mech_bay_recharge_port))
-	var/static/list/charge_items = typecacheof(list(/obj/item/weapon/stock_parts/cell, /obj/item/weapon/gun/energy))
-
-/obj/item/borg/charger/Initialize()
-	. = ..()
+	var/list/charge_machines = list(/obj/machinery/cell_charger, /obj/machinery/recharger,
+		/obj/machinery/recharge_station, /obj/machinery/mech_bay_recharge_port)
+	var/list/charge_items = list(/obj/item/weapon/stock_parts/cell, /obj/item/weapon/gun/energy,
+		)
 
 /obj/item/borg/charger/update_icon()
 	..()
@@ -310,7 +314,7 @@
 			if(M.get_ear_protection() == FALSE)
 				M.confused += 6
 		audible_message("<font color='red' size='7'>HUMAN HARM</font>")
-		playsound(get_turf(src), 'sound/ai/harmalarm.ogg', 70, 3)
+		playsound(get_turf(src), 'sound/AI/harmalarm.ogg', 70, 3)
 		cooldown = world.time + 200
 		log_game("[user.ckey]([user]) used a Cyborg Harm Alarm in ([user.x],[user.y],[user.z])")
 		if(iscyborg(user))
@@ -329,7 +333,7 @@
 					C.stuttering += 10
 					C.Jitter(10)
 				if(2)
-					C.Knockdown(40)
+					C.Weaken(2)
 					C.confused += 10
 					C.stuttering += 15
 					C.Jitter(25)
@@ -500,12 +504,10 @@
 		S.change_head_color(color2)
 		dropped = TRUE
 
-#define PKBORG_DAMPEN_CYCLE_DELAY 20
-
 //Peacekeeper Cyborg Projectile Dampenening Field
 /obj/item/borg/projectile_dampen
 	name = "Hyperkinetic Dampening projector"
-	desc = "A device that projects a dampening field that weakenss kinetic energy above a certain threshold. <span class='boldnotice'>Projects a field that drains power per second \
+	desc = "A device that projects a dampening field that weakens kinetic energy above a certain threshold. <span class='boldnotice'>Projects a field that drains power per second \
 		while active, that will weaken and slow damaging projectiles inside its field.</span> Still being a prototype, it tends to induce a charge on ungrounded metallic surfaces."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "shield"
@@ -524,7 +526,6 @@
 	var/image/projectile_effect
 	var/field_radius = 3
 	var/active = FALSE
-	var/cycle_delay = 0
 
 /obj/item/borg/projectile_dampen/debug
 	maxenergy = 50000
@@ -544,31 +545,29 @@
 	return ..()
 
 /obj/item/borg/projectile_dampen/attack_self(mob/user)
-	if(cycle_delay > world.time)
-		to_chat(user, "<span class='boldwarning'>\the [src] is still recycling its projectors!</span>")
-		return
-	cycle_delay = world.time + PKBORG_DAMPEN_CYCLE_DELAY
-	active = !active
-	if(active)
-		activate_field(user)
+	if(!istype(dampening_field))
+		activate_field()
+		active = TRUE
 	else
 		deactivate_field()
-	update_icon()
+		active = FALSE
 	to_chat(user, "<span class='boldnotice'>You [active? "activate":"deactivate"] the [src].</span>")
 
 /obj/item/borg/projectile_dampen/update_icon()
+	. = ..()
 	icon_state = "[initial(icon_state)][active]"
 
 /obj/item/borg/projectile_dampen/proc/activate_field()
-	if(istype(dampening_field))
-		QDEL_NULL(dampening_field)
-	dampening_field = make_field(/datum/proximity_monitor/advanced/peaceborg_dampener, list("current_range" = field_radius, "host" = src, "projector" = src))
+	if(!istype(dampening_field))
+		dampening_field = make_field(/datum/proximity_monitor/advanced/peaceborg_dampener, list("current_range" = field_radius, "host" = src, "projector" = src))
+	update_icon()
 
 /obj/item/borg/projectile_dampen/proc/deactivate_field()
 	QDEL_NULL(dampening_field)
-	visible_message("<span class='warning'>\The [src] shuts off!</span>")
-	for(var/P in tracked)
+	visible_message("<span class='warning'>The [src] shuts off!</span>")
+	for(var/obj/item/projectile/P in tracked)
 		restore_projectile(P)
+	update_icon()
 
 /obj/item/borg/projectile_dampen/dropped()
 	. = ..()
@@ -577,10 +576,6 @@
 /obj/item/borg/projectile_dampen/equipped()
 	. = ..()
 	host = loc
-
-/obj/item/borg/projectile_dampen/on_mob_death()
-	deactivate_field()
-	. = ..()
 
 /obj/item/borg/projectile_dampen/process()
 	process_recharge()

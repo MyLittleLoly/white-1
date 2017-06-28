@@ -450,9 +450,9 @@
 		return 1
 	if(restrained())
 		return 1
-	if(IsUnconscious())
+	if(paralysis)
 		return 1
-	if(IsStun())
+	if(stunned)
 		return 1
 	if(stat)
 		return 1
@@ -632,7 +632,7 @@
 		if(!TARGET in blacklistItems)
 			insert_into_backpack() // dump random item into backpack to make space
 			//---------ITEMS
-			if(isitem(TARGET))
+			if(istype(TARGET, /obj/item))
 				if(istype(TARGET, /obj/item/weapon))
 					var/obj/item/weapon/W = TARGET
 					if(W.force >= best_force || prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
@@ -939,7 +939,7 @@
 					retal = 1
 					retal_target = traitorTarget
 				if(SNPC_STEALTH)
-					if(ismob(traitorTarget)) // it's inside something, lets kick their shit in
+					if(istype(traitorTarget,/mob)) // it's inside something, lets kick their shit in
 						var/mob/M = traitorTarget
 						if(!M.stat)
 							retal = 1
@@ -1536,11 +1536,11 @@
 										if(ispath(A,/obj/item/ammo_casing/energy/electrode))
 											stunning = 1
 									var/shouldFire = 1
-									var/mob/living/stunCheck = TARGET
-									if(stunning && isliving(stunCheck) && stunCheck.IsStun())
+									var/mob/stunCheck = TARGET
+									if(stunning && stunCheck.stunned)
 										shouldFire = 0
 									if(shouldFire)
-										if(P.cell.charge <= 10) // can shoot seems to bug out for tasers, using this hacky method instead
+										if(P.power_supply.charge <= 10) // can shoot seems to bug out for tasers, using this hacky method instead
 											P.update_icon()
 											npcDrop(P,1)
 										else

@@ -54,7 +54,7 @@
 	if(target.anchored)
 		return
 
-	if(isitem(target))
+	if(istype(target, /obj/item))
 		var/obj/item/I = target
 		if(!I.can_be_package_wrapped())
 			return

@@ -213,7 +213,7 @@
 				set_coefficient = 1
 			else
 				set_coefficient = 0.5
-	var/call_time = SSshuttle.emergencyCallTime * set_coefficient * engine_coeff
+	var/call_time = SSshuttle.emergencyCallTime * set_coefficient
 	switch(mode)
 		// The shuttle can not normally be called while "recalling", so
 		// if this proc is called, it's via admin fiat
@@ -230,12 +230,10 @@
 	else
 		SSshuttle.emergencyLastCallLoc = null
 
-	priority_announce("The emergency shuttle has been called. [redAlert ? "Red Alert state confirmed: Dispatching priority shuttle. " : "" ]It will arrive in [timeLeft(600)] minutes.[reason][SSshuttle.emergencyLastCallLoc ? "\n\nCall signal traced. Results can be viewed on any communications console." : "" ]", null, 'sound/ai/shuttlecalled.ogg', "Priority")
+	priority_announce("The emergency shuttle has been called. [redAlert ? "Red Alert state confirmed: Dispatching priority shuttle. " : "" ]It will arrive in [timeLeft(600)] minutes.[reason][SSshuttle.emergencyLastCallLoc ? "\n\nCall signal traced. Results can be viewed on any communications console." : "" ]", null, 'sound/AI/shuttlecalled.ogg', "Priority")
 
 /obj/docking_port/mobile/emergency/cancel(area/signalOrigin)
 	if(mode != SHUTTLE_CALL)
-		return
-	if(SSshuttle.emergencyNoRecall)
 		return
 
 	invertTimer()
@@ -245,7 +243,7 @@
 		SSshuttle.emergencyLastCallLoc = signalOrigin
 	else
 		SSshuttle.emergencyLastCallLoc = null
-	priority_announce("The emergency shuttle has been recalled.[SSshuttle.emergencyLastCallLoc ? " Recall signal traced. Results can be viewed on any communications console." : "" ]", null, 'sound/ai/shuttlerecalled.ogg', "Priority")
+	priority_announce("The emergency shuttle has been recalled.[SSshuttle.emergencyLastCallLoc ? " Recall signal traced. Results can be viewed on any communications console." : "" ]", null, 'sound/AI/shuttlerecalled.ogg', "Priority")
 
 /obj/docking_port/mobile/emergency/proc/is_hijacked()
 	var/has_people = FALSE
@@ -296,10 +294,8 @@
 				mode = SHUTTLE_DOCKED
 				setTimer(SSshuttle.emergencyDockTime)
 				send2irc("Server", "The Emergency Shuttle has docked with the station.")
-				priority_announce("The Emergency Shuttle has docked with the station. You have [timeLeft(600)] minutes to board the Emergency Shuttle.", null, 'sound/ai/shuttledock.ogg', "Priority")
-				if(dbcon.Connect())
-					var/DBQuery/query_round_shuttle_name = dbcon.NewQuery("UPDATE [format_table_name("round")] SET shuttle_name = '[name]' WHERE id = [GLOB.round_id]")
-					query_round_shuttle_name.Execute()
+				priority_announce("The Emergency Shuttle has docked with the station. You have [timeLeft(600)] minutes to board the Emergency Shuttle.", null, 'sound/AI/shuttledock.ogg', "Priority")
+				SSblackbox.add_details("emergency_shuttle", src.name)
 
 				// Gangs only have one attempt left if the shuttle has
 				// docked with the station to prevent suffering from
@@ -359,7 +355,7 @@
 				enterTransit()
 				mode = SHUTTLE_ESCAPE
 				launch_status = ENDGAME_LAUNCHED
-				setTimer(SSshuttle.emergencyEscapeTime * engine_coeff)
+				setTimer(SSshuttle.emergencyEscapeTime)
 				priority_announce("The Emergency Shuttle has left the station. Estimate [timeLeft(600)] minutes until the shuttle docks at Central Command.", null, null, "Priority")
 
 		if(SHUTTLE_STRANDED)
@@ -387,8 +383,7 @@
 						if(istype(M, /obj/docking_port/mobile/pod))
 							M.dock(SSshuttle.getDock("[M.id]_away")) //Escape pods dock at centcomm
 						else
-							M.launch_status = ENDGAME_TRANSIT
-							//Mapping a new docking point for each ship mappers could potentially want docking with centcomm would take up lots of space, just let them keep flying off into the sunset for their greentext
+							continue //Mapping a new docking point for each ship mappers could potentially want docking with centcomm would take up lots of space, just let them keep flying off into the sunset for their greentext
 
 				// now move the actual emergency shuttle to centcomm
 				// unless the shuttle is "hijacked"
@@ -402,16 +397,6 @@
 				dock_id(destination_dock)
 				mode = SHUTTLE_ENDGAME
 				timer = 0
-
-/obj/docking_port/mobile/emergency/transit_failure()
-	..()
-	message_admins("Moving emergency shuttle directly to centcom dock to prevent deadlock.")
-
-	mode = SHUTTLE_ESCAPE
-	launch_status = ENDGAME_LAUNCHED
-	setTimer(SSshuttle.emergencyEscapeTime)
-	priority_announce("The Emergency Shuttle preparing for direct jump. Estimate [timeLeft(600)] minutes until the shuttle docks at Central Command.", null, null, "Priority")
-
 
 /obj/docking_port/mobile/pod
 	name = "escape pod"

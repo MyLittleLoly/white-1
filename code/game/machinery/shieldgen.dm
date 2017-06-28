@@ -42,14 +42,16 @@
 /obj/structure/emergency_shield/play_attack_sound(damage, damage_type = BRUTE, damage_flag = 0)
 	switch(damage_type)
 		if(BURN)
-			playsound(loc, 'sound/effects/empulse.ogg', 75, 1)
+			playsound(loc, 'sound/effects/EMPulse.ogg', 75, 1)
 		if(BRUTE)
-			playsound(loc, 'sound/effects/empulse.ogg', 75, 1)
+			playsound(loc, 'sound/effects/EMPulse.ogg', 75, 1)
 
 /obj/structure/emergency_shield/take_damage(damage, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
 	if(.) //damage was dealt
-		new /obj/effect/temp_visual/impact_effect/ion(loc)
+		set_opacity(1)
+		spawn(20)
+			set_opacity(0)
 
 /obj/structure/emergency_shield/sanguine
 	name = "sanguine barrier"
@@ -84,24 +86,23 @@
 	req_access = list(GLOB.access_engine)
 	max_integrity = 100
 	obj_integrity = 100
-	var/active = FALSE
-	var/list/deployed_shields
+	var/active = 0
+	var/list/deployed_shields = list()
 	var/locked = 0
 	var/shield_range = 4
 
-/obj/machinery/shieldgen/Initialize(mapload)
-	. = ..()
-	deployed_shields = list()
-	if(mapload && active && anchored)
-		shields_up()
-
 /obj/machinery/shieldgen/Destroy()
-	QDEL_LIST(deployed_shields)
+	for(var/obj/structure/emergency_shield/ES in deployed_shields)
+		qdel(ES)
+	deployed_shields = list()
 	return ..()
 
 
 /obj/machinery/shieldgen/proc/shields_up()
-	active = TRUE
+	if(active)
+		return 0 //If it's already turned on, how did this get called?
+
+	active = 1
 	update_icon()
 
 	for(var/turf/target_tile in range(shield_range, src))
@@ -110,9 +111,15 @@
 				deployed_shields += new /obj/structure/emergency_shield(target_tile)
 
 /obj/machinery/shieldgen/proc/shields_down()
-	active = FALSE
+	if(!active)
+		return 0 //If it's already off, how did this get called?
+
+	active = 0
 	update_icon()
-	QDEL_LIST(deployed_shields)
+
+	for(var/obj/structure/emergency_shield/ES in deployed_shields)
+		qdel(ES)
+	deployed_shields.Cut()
 
 /obj/machinery/shieldgen/process()
 	if((stat & BROKEN) && active)
@@ -429,9 +436,9 @@
 /obj/machinery/shieldwall/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
 	switch(damage_type)
 		if(BURN)
-			playsound(loc, 'sound/effects/empulse.ogg', 75, 1)
+			playsound(loc, 'sound/effects/EMPulse.ogg', 75, 1)
 		if(BRUTE)
-			playsound(loc, 'sound/effects/empulse.ogg', 75, 1)
+			playsound(loc, 'sound/effects/EMPulse.ogg', 75, 1)
 
 //the shield wall is immune to damage but it drains the stored power of the generators.
 /obj/machinery/shieldwall/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
