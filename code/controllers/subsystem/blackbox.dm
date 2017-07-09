@@ -199,7 +199,7 @@ SUBSYSTEM_DEF(blackbox)
 	var/y_coord = sanitizeSQL(L.y)
 	var/z_coord = sanitizeSQL(L.z)
 	var/map = sanitizeSQL(SSmapping.config.map_name)
-	var/DBQuery/query_report_death = dbcon.NewQuery("INSERT INTO [format_table_name("death")] (pod, x_coord, y_coord, z_coord, mapname, server_ip, server_port, round_id, tod, job, special, name, byondkey, laname, lakey, bruteloss, fireloss, brainloss, oxyloss, toxloss, cloneloss, staminaloss) VALUES ('[sqlpod]', '[x_coord]', '[y_coord]', '[z_coord]', '[map]', INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]', [GLOB.round_id], '[SQLtime()]', '[sqljob]', '[sqlspecial]', '[sqlname]', '[sqlkey]', '[laname]', '[lakey]', [sqlbrute], [sqlfire], [sqlbrain], [sqloxy], [sqltox], [sqlclone], [sqlstamina])")
+	var/DBQuery/query_report_death = dbcon.NewQuery("INSERT INTO [format_table_name("death")] (name, byondkey, job, special, pod, tod, laname, lakey, gender, bruteloss, fireloss, brainloss, oxyloss, toxloss, cloneloss, staminaloss, coord, mapname, server_ip, server_port) VALUES ('[sqlname]', '[sqlkey]', '[sqljob]', '[sqlspecial]', '[sqlpod]', '[SQLtime()]', '[laname]', '[lakey]', '[sqlgender]', [sqlbrute], [sqlfire], [sqlbrain], [sqloxy], [sqltox], [sqlclone], [sqlstamina], '[coord]', '[map]', INET_ATON('[world.internet_address]'), '[world.port]')")
 	query_report_death.Execute()
 
 /datum/controller/subsystem/blackbox/proc/Seal()
