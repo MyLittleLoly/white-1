@@ -221,9 +221,11 @@ GLOBAL_PROTECT(admin_ranks)
 		var/datum/DBQuery/query_load_admins = SSdbcore.NewQuery("SELECT ckey, rank FROM [format_table_name("admin")]")
 		if(!query_load_admins.Execute())
 			return
+			
 		while(query_load_admins.NextRow())
 			var/ckey = ckey(query_load_admins.item[1])
 			var/rank = ckeyEx(query_load_admins.item[2])
+
 			if(target && ckey != target)
 				continue
 
