@@ -81,7 +81,7 @@
 		report = config.intercept
 	addtimer(CALLBACK(GLOBAL_PROC, .proc/display_roundstart_logout_report), ROUNDSTART_LOGOUT_REPORT_TIME)
 
-	if(SSdbcore.Connect())
+	if(dbcon.Connect())
 		var/sql
 		if(SSticker && SSticker.mode)
 			sql += "game_mode = '[SSticker.mode]'"
@@ -90,7 +90,7 @@
 				sql += ", "
 			sql += "commit_hash = '[GLOB.revdata.originmastercommit]'"
 		if(sql)
-			var/datum/DBQuery/query_round_game_mode = SSdbcore.NewQuery("UPDATE [format_table_name("round")] SET [sql] WHERE id = [GLOB.round_id]")
+			var/DBQuery/query_round_game_mode = dbcon.NewQuery("UPDATE [format_table_name("round")] SET [sql] WHERE id = [GLOB.round_id]")
 			query_round_game_mode.Execute()
 	if(report)
 		addtimer(CALLBACK(src, .proc/send_intercept, 0), rand(waittime_l, waittime_h))
