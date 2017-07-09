@@ -43,14 +43,14 @@ SUBSYSTEM_DEF(mapping)
 	loading_ruins = TRUE
 	var/mining_type = config.minetype
 	if (mining_type == "lavaland")
-		seedRuins(list(ZLEVEL_LAVALAND), global.config.lavaland_budget, /area/lavaland/surface/outdoors/unexplored, lava_ruins_templates)
+		seedRuins(list(5), global.config.lavaland_budget, /area/lavaland/surface/outdoors/unexplored, lava_ruins_templates)
 		spawn_rivers()
 
 	// deep space ruins
 	var/space_zlevels = list()
 	for(var/i in ZLEVEL_SPACEMIN to ZLEVEL_SPACEMAX)
 		switch(i)
-			if(ZLEVEL_MINING, ZLEVEL_LAVALAND, ZLEVEL_EMPTY_SPACE, ZLEVEL_TRANSIT)
+			if(ZLEVEL_MINING, ZLEVEL_LAVALAND, ZLEVEL_EMPTY_SPACE)
 				continue
 			else
 				space_zlevels += i
@@ -119,12 +119,8 @@ SUBSYSTEM_DEF(mapping)
 	INIT_ANNOUNCE("Loading [config.map_name]...")
 	TryLoadZ(config.GetFullMapPath(), FailedZs, ZLEVEL_STATION)
 	INIT_ANNOUNCE("Loaded station in [(REALTIMEOFDAY - start_time)/10]s!")
+	SSblackbox.add_details("map_name", config.map_name)
 
-	/*
-	if(dbcon.Connect())
-		var/DBQuery/query_round_map_name = dbcon.NewQuery("UPDATE [format_table_name("round")] SET map_name = '[config.map_name]' WHERE id = [GLOB.round_id]")
-		query_round_map_name.Execute()
-	*/
 	if(config.minetype != "lavaland")
 		INIT_ANNOUNCE("WARNING: A map without lavaland set as it's minetype was loaded! This is being ignored! Update the maploader code!")
 
@@ -134,7 +130,7 @@ SUBSYSTEM_DEF(mapping)
 		var/msg = "RED ALERT! The following map files failed to load: [FailedZs[1]]"
 		if(FailedZs.len > 1)
 			for(var/I in 2 to FailedZs.len)
-				msg += ", [FailedZs[I]]"
+				msg += ", [I]"
 		msg += ". Yell at your server host!"
 		INIT_ANNOUNCE(msg)
 #undef INIT_ANNOUNCE
@@ -212,7 +208,7 @@ SUBSYSTEM_DEF(mapping)
 	var/list/banned = generateMapList("config/lavaruinblacklist.txt")
 	banned += generateMapList("config/spaceruinblacklist.txt")
 
-	for(var/item in sortList(subtypesof(/datum/map_template/ruin), /proc/cmp_ruincost_priority))
+	for(var/item in subtypesof(/datum/map_template/ruin))
 		var/datum/map_template/ruin/ruin_type = item
 		// screen out the abstract subtypes
 		if(!initial(ruin_type.id))
