@@ -1,6 +1,5 @@
 GLOBAL_LIST_EMPTY(admin_ranks)								//list of all admin_rank datums
 GLOBAL_PROTECT(admin_ranks)
-
 /*
 /datum/admin_rank
 	var/name = "NoRank"
@@ -28,9 +27,6 @@ GLOBAL_PROTECT(admin_ranks)
 /datum/admin_rank/vv_edit_var(var_name, var_value)
 	return FALSE
 
-#if DM_VERSION > 512
-#error remove the rejuv keyword from this proc
-#endif
 /proc/admin_keyword_to_flag(word, previous_rights=0)
 	var/flag = 0
 	switch(ckey(word))
@@ -52,8 +48,8 @@ GLOBAL_PROTECT(admin_ranks)
 			flag = R_POSSESS
 		if("stealth")
 			flag = R_STEALTH
-		if("poll")
-			flag = R_POLL
+		if("rejuv","rejuvinate")
+			flag = R_REJUVINATE
 		if("varedit")
 			flag = R_VAREDIT
 		if("everything","host","all")
@@ -64,9 +60,6 @@ GLOBAL_PROTECT(admin_ranks)
 			flag = R_SPAWN
 		if("@","prev")
 			flag = previous_rights
-		if("rejuv","rejuvinate")
-			stack_trace("Legacy keyword rejuvinate used defaulting to R_ADMIN")
-			flag = R_ADMIN
 	return flag
 
 /proc/admin_keyword_to_path(word) //use this with verb keywords eg +/client/proc/blah
@@ -74,11 +67,6 @@ GLOBAL_PROTECT(admin_ranks)
 
 // Adds/removes rights to this admin_rank
 /datum/admin_rank/proc/process_keyword(word, previous_rights=0)
-	if(IsAdminAdvancedProcCall())
-		var/msg = " has tried to elevate permissions!"
-		message_admins("[key_name_admin(usr)][msg]")
-		log_admin_private("[key_name(usr)][msg]")
-		return
 	var/flag = admin_keyword_to_flag(word, previous_rights)
 	if(flag)
 		switch(text2ascii(word,1))
@@ -102,7 +90,7 @@ GLOBAL_PROTECT(admin_ranks)
 /datum/admins/proc/check_keyword(word)
 	var/flag = admin_keyword_to_flag(word)
 	if(flag)
-		return ((rights & flag) == flag) //true only if right has everything in flag
+		return ((rank.rights & flag) == flag) //true only if right has everything in flag
 	else
 		var/path = admin_keyword_to_path(word)
 		for(var/i in owner.verbs) //this needs to be a foreach loop for some reason. in operator and verbs.Find() don't work
@@ -181,9 +169,9 @@ GLOBAL_PROTECT(admin_ranks)
 		for(var/A in world.GetConfig("admin"))
 			world.SetConfig("APP/admin", A, null)
 
-	//var/list/rank_names = list()
-	//for(var/datum/admin_rank/R in GLOB.admin_ranks)
-	//	rank_names[R.name] = R
+//	var/list/rank_names = list()
+//	for(var/datum/admin_rank/R in GLOB.admin_ranks)
+//		rank_names[R.name] = R
 
 	if(config.admin_legacy_system)
 		//load text from file
@@ -205,7 +193,7 @@ GLOBAL_PROTECT(admin_ranks)
 			if(!ckey || !rank || (target && ckey != target))
 				continue
 
-			var/datum/admins/D = new(rank, 65535, ckey)	//create the admin datum and store it for later use
+			var/datum/admins/D = new /datum/admins(rank, 65535, ckey)	//create the admin datum and store it for later use
 			if(!D)
 				continue									//will occur if an invalid rank is provided
 			if(D.rights & R_DEBUG) //grant profile access
@@ -222,19 +210,18 @@ GLOBAL_PROTECT(admin_ranks)
 		var/DBQuery/query_load_admins = dbcon.NewQuery("SELECT ckey, rank, flags FROM [format_table_name("admin")]")
 		if(!query_load_admins.Execute())
 			return
-
 		while(query_load_admins.NextRow())
 			var/ckey = ckey(query_load_admins.item[1])
 			var/rank = query_load_admins.item[2]
-
 			if(target && ckey != target)
 				continue
-			var/rights = query_load_admins.item[3]
-			if(rank == null)
-				WARNING("Admin rank ([rank]) does not exist.")
-				continue
 
-			var/datum/admins/D = new(rank, rights, ckey)				//create the admin datum and store it for later use
+			if(rank == "Removed")	continue
+			var/rights = query_load_admins.item[3]
+			if(istext(rights))
+				rights = text2num(rights)
+
+			var/datum/admins/D = new /datum/admins(rank, rights, ckey)				//create the admin datum and store it for later use
 			if(!D)
 				continue									//will occur if an invalid rank is provided
 			if(D.rights & R_DEBUG) //grant profile access
@@ -267,7 +254,6 @@ GLOBAL_PROTECT(admin_ranks)
 	remove_admin_verbs()
 	holder.associate(src)
 #endif
-
 /*
 /datum/admins/proc/edit_rights_topic(list/href_list)
 	if(!check_rights(R_PERMISSIONS))
@@ -338,7 +324,7 @@ GLOBAL_PROTECT(admin_ranks)
 			R = rank_names[new_rank]
 			if(!R)	//rank with that name doesn't exist yet - make it
 				if(D)
-					R = new(new_rank, D.rights, D.rank.adds, D.rank.subs)	//duplicate our previous admin_rank but with a new name
+					R = new(new_rank, D.rank.rights, D.rank.adds, D.rank.subs)	//duplicate our previous admin_rank but with a new name
 				else
 					R = new(new_rank)							//blank new admin_rank
 				GLOB.admin_ranks += R
@@ -395,5 +381,4 @@ GLOBAL_PROTECT(admin_ranks)
 
 	var/DBQuery/query_admin_rank_update = dbcon.NewQuery("UPDATE [format_table_name("player")] SET lastadminrank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
 	query_admin_rank_update.Execute()
-
 */
