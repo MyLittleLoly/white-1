@@ -485,13 +485,13 @@
 					return
 				minutes = GLOB.CMinutes + mins
 				duration = GetExp(minutes)
-				reason = input(usr,"Please State Reason.","Reason",reason2) as message|null
+				reason = sanitize_russian(input(usr,"Please State Reason.","Reason",reason2) as message|null)
 				if(!reason)
 					return
 			if("No")
 				temp = 0
 				duration = "Perma"
-				reason = input(usr,"Please State Reason.","Reason",reason2) as message|null
+				reason = sanitize_russian(input(usr,"Please State Reason.","Reason",reason2) as message|null)
 				if(!reason)
 					return
 
@@ -535,7 +535,7 @@
 
 		else switch(alert("Appearance ban [M.ckey]?",,"Yes","No", "Cancel"))
 			if("Yes")
-				var/reason = input(usr,"Please State Reason.","Reason") as message|null
+				var/reason = sanitize_russian(input(usr,"Please State Reason.","Reason") as message|null)
 				if(!reason)
 					return
 				if(!DB_ban_record(BANTYPE_JOB_PERMA, M, -1, reason, "appearance"))
@@ -912,7 +912,7 @@
 					if(mins <= 0)
 						to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
 						return
-					var/reason = input(usr,"Please State Reason.","Reason") as message|null
+					var/reason = sanitize_russian(input(usr,"Please State Reason.","Reason") as message|null)
 					if(!reason)
 						return
 
@@ -939,7 +939,7 @@
 					href_list["jobban2"] = 1 // lets it fall through and refresh
 					return 1
 				if("No")
-					var/reason = input(usr,"Please State Reason","Reason") as message|null
+					var/reason = sanitize_russian(input(usr,"Please State Reason","Reason") as message|null)
 					if(reason)
 						var/msg
 						for(var/job in notbannedlist)
@@ -1108,7 +1108,7 @@
 				if(mins <= 0)
 					to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
 					return
-				var/reason = input(usr,"Please State Reason.","Reason") as message|null
+				var/reason = sanitize_russian(input(usr,"Please State Reason.","Reason") as message|null)
 				if(!reason)
 					return
 				if(!DB_ban_record(BANTYPE_TEMP, M, mins, reason))
@@ -1132,7 +1132,7 @@
 					AH.Resolve()
 				qdel(M.client)
 			if("No")
-				var/reason = input(usr,"Please State Reason.","Reason") as message|null
+				var/reason = sanitize_russian(input(usr,"Please State Reason.","Reason") as message|null)
 				if(!reason)
 					return
 				switch(alert(usr,"IP ban?",,"Yes","No","Cancel"))
@@ -1707,7 +1707,7 @@
 			return
 
 		message_admins("[src.owner] has started answering [key_name(H)]'s Centcomm request.")
-		var/input = input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from Centcom", "")
+		var/input = rhtml_encode(input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from Centcom", ""))
 		if(!input)
 			message_admins("[src.owner] decided not to answer [key_name(H)]'s Centcomm request.")
 			return
@@ -1727,7 +1727,7 @@
 			return
 
 		message_admins("[src.owner] has started answering [key_name(H)]'s syndicate request.")
-		var/input = input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from The Syndicate", "")
+		var/input = rhtml_encode(input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from The Syndicate", ""))
 		if(!input)
 			message_admins("[src.owner] decided not to answer [key_name(H)]'s syndicate request.")
 			return

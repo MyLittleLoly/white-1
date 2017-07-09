@@ -358,7 +358,7 @@
 			output += "<br><B>Objective #[obj_count++]</B>: [objective.explanation_text]"
 
 	if(window)
-		recipient << browse(output,"window=memory")
+		recipient << browse(sanitize_russian(output),"window=memory")
 	else if(objectives.len || memory)
 		to_chat(recipient, "<i>[output]</i>")
 
@@ -750,7 +750,7 @@
 
 	out += "<a href='?src=\ref[src];obj_announce=1'>Announce objectives</a><br><br>"
 
-	usr << browse(out, "window=edit_memory[src];size=500x600")
+	usr << browse(russian_text2html(out), "window=edit_memory[src];size=500x600")
 
 
 /datum/mind/Topic(href, href_list)

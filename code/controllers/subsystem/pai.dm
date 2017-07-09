@@ -188,7 +188,7 @@ SUBSYSTEM_DEF(pai)
 
 	dat += "</table>"
 
-	user << browse(dat, "window=findPai")
+	user << browse(russian_text2html(dat), "window=findPai")
 
 /datum/paiCandidate
 	var/name

@@ -18,4 +18,4 @@
 			if(!fexists(F))
 				to_chat(src, "<span class='danger'>No [subject] logfile was found.</span>")
 				return
-			src << browse(F,"window=investigate[subject];size=800x300")
+			src << browse(sanitize_russian(F),"window=investigate[subject];size=800x300")

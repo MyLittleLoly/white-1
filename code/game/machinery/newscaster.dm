@@ -119,9 +119,9 @@ GLOBAL_LIST_EMPTY(allCasters)
 /datum/newscaster/feed_network/proc/SubmitArticle(msg, author, channel_name, obj/item/weapon/photo/photo, adminMessage = 0, allow_comments = 1)
 	var/datum/newscaster/feed_message/newMsg = new /datum/newscaster/feed_message
 	newMsg.author = author
-	newMsg.body = msg
+	newMsg.body = sanitize_russian(msg)
 	newMsg.time_stamp = "[worldtime2text()]"
-	newMsg.is_admin_message = adminMessage
+	newMsg.is_admin_message = sanitize_russian(adminMessage)
 	newMsg.locked = !allow_comments
 	if(photo)
 		newMsg.img = photo.img
@@ -984,7 +984,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 					dat+="<BR><I>There is a small scribble near the end of this page... It reads: \"[scribble]\"</I>"
 				dat+= "<HR><DIV STYLE='float:left;'><A href='?src=\ref[src];prev_page=1'>Previous Page</A></DIV>"
 		dat+="<BR><HR><div align='center'>[curr_page+1]</div>"
-		human_user << browse(dat, "window=newspaper_main;size=300x400")
+		human_user << browse(sanitize_russian(dat), "window=newspaper_main;size=300x400")
 		onclose(human_user, "newspaper_main")
 	else
 		to_chat(user, "The paper is full of unintelligible symbols!")

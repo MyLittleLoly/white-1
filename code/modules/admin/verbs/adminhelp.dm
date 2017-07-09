@@ -164,7 +164,8 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 //is_bwoink is TRUE if this ticket was started by an admin PM
 /datum/admin_help/New(msg, client/C, is_bwoink)
 	//clean the input msg
-	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
+	msg = strip_html_properly(sanitize(copytext(msg,1,MAX_MESSAGE_LEN)))
+	var/original_msg = rhtml_encode(msg)
 	if(!msg || !C || !C.mob)
 		qdel(src)
 		return
@@ -185,8 +186,6 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 
 	TimeoutVerb()
 
-	var/parsed_message = keywords_lookup(msg)
-
 	statclick = new(null, src)
 	_interactions = list()
 
@@ -194,7 +193,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		AddInteraction("<font color='blue'>[key_name_admin(usr)] PM'd [LinkedReplyName()]</font>")
 		message_admins("<font color='blue'>Ticket [TicketHref("#[id]")] created</font>")
 	else
-		MessageNoRecipient(parsed_message)
+		MessageNoRecipient(original_msg)
 
 		//send it to irc if nobody is on and tell us how many were on
 		var/admin_number_present = send2irc_adminless_only(initiator_ckey, "Ticket #[id]: [name]")

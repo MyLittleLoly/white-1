@@ -382,7 +382,7 @@
 
 	//to_chat(world, "Channelname: [src.admincaster_feed_channel.channel_name] [src.admincaster_feed_channel.author]")
 	//to_chat(world, "Msg: [src.admincaster_feed_message.author] [src.admincaster_feed_message.body]")
-	usr << browse(dat, "window=admincaster_main;size=400x600")
+	usr << browse(sanitize_russian(dat), "window=admincaster_main;size=400x600")
 	onclose(usr, "admincaster_main")
 
 
@@ -408,7 +408,7 @@
 	if(marked_datum && istype(marked_datum, /atom))
 		dat += "<A href='?src=\ref[src];dupe_marked_datum=1'>Duplicate Marked Datum</A><br>"
 
-	usr << browse(dat, "window=admin2;size=210x200")
+	usr << browse(sanitize_russian(dat), "window=admin2;size=210x200")
 	return
 
 /////////////////////////////////////////////////////////////////////////////////////////////////admins2.dm merge
