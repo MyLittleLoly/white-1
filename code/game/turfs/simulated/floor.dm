@@ -77,34 +77,6 @@
 				src.break_tile()
 				src.hotspot_expose(1000,CELL_VOLUME)
 
-//Joctopus Crawl
-//Secret Tau-Ceti development
-/turf/open/floor/attack_hand(mob/user as mob)
-	if(user.resting)
-		if(!density)
-			var/crawl_time = 5
-			var/atom/U
-			for(U in src)
-				if(U.density)
-					return
-			var/togo
-			if(src.y == user.y + 1)
-				togo = NORTH
-			else if(src.y == user.y - 1)
-				togo = SOUTH
-			else if(src.x == user.x + 1)
-				togo = EAST
-			else if(src.x == user.x - 1)
-				togo = WEST
-			visible_message("<span class='danger'>[user] trying to crawl on [src]!</span>", "<span class='userdanger'>You trying to crawl on [src].</span>")
-			if(do_after(user, crawl_time*2, 1, null))
-				step(user, togo)
-			return
-		else
-			..(user)
-	else
-		..(user)
-
 /turf/open/floor/is_shielded()
 	for(var/obj/structure/A in contents)
 		if(A.level == 3)
@@ -234,11 +206,13 @@
 		if(RCD_FLOORWALL)
 			return list("mode" = RCD_FLOORWALL, "delay" = 20, "cost" = 16)
 		if(RCD_AIRLOCK)
-			return list("mode" = RCD_AIRLOCK, "delay" = 50, "cost" = 16)
+			if(the_rcd.airlock_glass)
+				return list("mode" = RCD_AIRLOCK, "delay" = 50, "cost" = 20)
+			else return list("mode" = RCD_AIRLOCK, "delay" = 50, "cost" = 16)
 		if(RCD_DECONSTRUCT)
 			return list("mode" = RCD_DECONSTRUCT, "delay" = 50, "cost" = 33)
 		if(RCD_WINDOWGRILLE)
-			return list("mode" = RCD_WINDOWGRILLE, "delay" = 40, "cost" = 4)
+			return list("mode" = RCD_WINDOWGRILLE, "delay" = 10, "cost" = 4)
 	return FALSE
 
 /turf/open/floor/rcd_act(mob/user, obj/item/weapon/construction/rcd/the_rcd, passed_mode)

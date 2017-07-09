@@ -14,6 +14,7 @@
 	flavour_text = "<font size=3><b>Y</b></font><b>ou are a sentient ecosystem - an example of the mastery over life that your creators possessed. Your masters, benevolent as they were, created uncounted \
 	seed vaults and spread them across the universe to every planet they could chart. You are in one such seed vault. Your goal is to cultivate and spread life wherever it will go while waiting \
 	for contact from your creators. Estimated time of last contact: Deployment, 5x10^3 millennia ago.</b>"
+	assignedrole = "Lifebringer"
 
 /obj/effect/mob_spawn/human/seed_vault/special(mob/living/new_spawn)
 	var/plant_name = pick("Tomato", "Potato", "Broccoli", "Carrot", "Ambrosia", "Pumpkin", "Ivy", "Kudzu", "Banana", "Moss", "Flower", "Bloom", "Root", "Bark", "Glowshroom", "Petal", "Leaf", \
@@ -44,6 +45,7 @@
 	density = 0
 	flavour_text = "<font size=3><b>Y</b></font><b>ou are an ash walker. Your tribe worships <span class='danger'>the Necropolis</span>. The wastes are sacred ground, its monsters a blessed bounty. \
 	You have seen lights in the distance... they foreshadow the arrival of outsiders that seek to tear apart the Necropolis and its domain. Fresh sacrifices for your nest.</b>"
+	assignedrole = "Ash Walker"
 
 /obj/effect/mob_spawn/human/ash_walker/special(mob/living/new_spawn)
 	new_spawn.real_name = random_unique_lizard_name(gender)
@@ -82,6 +84,7 @@
 	mob_species = /datum/species/shadow
 	flavour_text = "<font size=3><b>Y</b></font><b>ou are cursed. Years ago, you sacrificed the lives of your trusted friends and the humanity of yourself to reach the Wish Granter. Though you \
 	did so, it has come at a cost: your very body rejects the light, dooming you to wander endlessly in this horrible wasteland.</b>"
+	assignedrole = "Exile"
 
 /obj/effect/mob_spawn/human/exile/Destroy()
 	new/obj/structure/fluff/empty_sleeper(get_turf(src))
@@ -152,6 +155,10 @@
 				H.real_name = H.dna.species.random_name()
 		else
 			H.real_name = name
+	if(has_owner)
+		new_spawn.mind.assigned_role = "Servant Golem"
+	else
+		new_spawn.mind.assigned_role = "Free Golem"
 
 /obj/effect/mob_spawn/human/golem/attack_hand(mob/user)
 	if(isgolem(user) && can_transfer)
@@ -193,6 +200,7 @@
 	flavour_text = "<font size=3><b>Y</b></font><b>ou've been stranded in this godless prison of a planet for longer than you can remember. Each day you barely scrape by, and between the terrible \
 	conditions of your makeshift shelter, the hostile creatures, and the ash drakes swooping down from the cloudless skies, all you can wish for is the feel of soft grass between your toes and \
 	the fresh air of Earth. These thoughts are dispelled by yet another recollection of how you got here... "
+	assignedrole = "Hermit"
 
 /obj/effect/mob_spawn/human/hermit/Initialize(mapload)
 	. = ..()
@@ -239,6 +247,7 @@
 	flavour_text = "<font size=3><b>W</b></font><b>hat...? Where are you? Where are the others? This is still the animal hospital - you should know, you've been an intern here for weeks - but \
 	everyone's gone. One of the cats scratched you just a few minutes ago. That's why you were in the pod - to heal the scratch. The scabs are still fresh; you see them right now. So where is \
 	everyone? Where did they go? What happened to the hospital? And is that <i>smoke</i> you smell? You need to find someone else. Maybe they can tell you what happened.</b>"
+	assignedrole = "Translocated Vet"
 
 //Prisoner containment sleeper: Spawns in crashed prison ships in lavaland. Ghosts become escaped prisoners and are advised to find a way out of the mess they've gotten themselves into.
 /obj/effect/mob_spawn/human/prisoner_transport
@@ -252,6 +261,7 @@
 	death = FALSE
 	flavour_text = "<font size=3><b>G</b></font><b>ood. It seems as though your ship crashed. You're a prisoner, sentenced to hard work in one of Nanotrasen's labor camps, but it seems as \
 	though fate has other plans for you. You remember that you were convicted of "
+	assignedrole = "Escaped Prisoner"
 
 /obj/effect/mob_spawn/human/prisoner_transport/special(mob/living/L)
 	L.real_name = "NTP #LL-0[rand(111,999)]" //Nanotrasen Prisoner #Lavaland-(numbers)
@@ -290,6 +300,7 @@
 	outfit = /datum/outfit/hotelstaff
 	flavour_text = "You are a staff member of a top-of-the-line space hotel! Cater to guests and <font size=6><b>DON'T</b></font> leave the hotel, lest the manager fire you for\
 		dereliction of duty!"
+	assignedrole = "Hotel Staff"
 
 /datum/outfit/hotelstaff
 	name = "Hotel Staff"
@@ -334,6 +345,7 @@
 	id_access = "assistant"
 	var/obj/effect/proc_holder/spell/targeted/summon_friend/spell
 	var/datum/mind/owner
+	assignedrole = "SuperFriend"
 
 /obj/effect/mob_spawn/human/demonic_friend/Initialize(mapload, datum/mind/owner_mind, obj/effect/proc_holder/spell/targeted/summon_friend/summoning_spell)
 	. = ..()
@@ -371,3 +383,142 @@
 	back = /obj/item/weapon/storage/backpack
 	implants = list(/obj/item/weapon/implant/mindshield) //No revolutionaries, he's MY friend.
 	id = /obj/item/weapon/card/id
+
+/obj/effect/mob_spawn/human/syndicate
+	name = "Syndicate Operative"
+	roundstart = FALSE
+	death = FALSE
+	icon = 'icons/obj/Cryogenic2.dmi'
+	icon_state = "sleeper_s"
+	id_access_list = list(GLOB.access_syndicate)
+	outfit = /datum/outfit/syndicate_empty
+	assignedrole = "Space Syndicate"	//I know this is really dumb, but Syndicate operative is nuke ops
+
+/datum/outfit/syndicate_empty
+	name = "Syndicate Operative Empty"
+	uniform = /obj/item/clothing/under/syndicate
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/combat
+	ears = /obj/item/device/radio/headset/syndicate/alt
+	back = /obj/item/weapon/storage/backpack
+	implants = list(/obj/item/weapon/implant/weapons_auth)
+	id = /obj/item/weapon/card/id
+
+/datum/outfit/syndicate_empty/post_equip(mob/living/carbon/human/H)
+	H.faction |= "syndicate"
+
+/obj/effect/mob_spawn/human/syndicate/battlecruiser
+	name = "Syndicate Battlecruiser Ship Operative"
+	flavour_text = "<font size=3>You are a crewmember aboard the syndicate flagship: the SBC Starfury. <span class='danger'><b>Your job is to follow your captain's orders, maintain the ship, and keep the engine running.</b></span> If you are not familiar with how the supermatter engine functions: <b>do not attempt to start it.</b><br><br><span class='danger'><b>The armory is not a candy store, and your role is not to assault the station directly, leave that work to the assault operatives.</b></span></font>"
+	outfit = /datum/outfit/syndicate_empty/SBC
+
+/datum/outfit/syndicate_empty/SBC
+	name = "Syndicate Battlecruiser Ship Operative"
+	l_pocket = /obj/item/weapon/gun/ballistic/automatic/pistol
+	r_pocket = /obj/item/weapon/kitchen/knife/combat/survival
+	belt = /obj/item/weapon/storage/belt/military/assault
+
+/obj/effect/mob_spawn/human/syndicate/battlecruiser/assault
+	name = "Syndicate Battlecruiser Assault Operative"
+	flavour_text = "<font size=3>You are an assault operative aboard the syndicate flagship: the SBC Starfury. <span class='danger'><b>Your job is to follow your captain's orders, keep intruders out of the ship, and assault Space Station 13.</b></span> There is an armory, multiple assault ships, and beam cannons to attack the station with.<br><br><span class='danger'><b>Work as a team with your fellow operatives and work out a plan of attack. If you are overwhelmed, escape back to your ship!</b></span></font>"
+	outfit = /datum/outfit/syndicate_empty/SBC/assault
+
+/datum/outfit/syndicate_empty/SBC/assault
+	name = "Syndicate Battlecruiser Assault Operative"
+	uniform = /obj/item/clothing/under/syndicate/combat
+	l_pocket = /obj/item/ammo_box/magazine/m10mm
+	r_pocket = /obj/item/weapon/kitchen/knife/combat/survival
+	belt = /obj/item/weapon/storage/belt/military
+	suit = /obj/item/clothing/suit/armor/vest
+	suit_store = /obj/item/weapon/gun/ballistic/automatic/pistol
+	back = /obj/item/weapon/storage/backpack/security
+	mask = /obj/item/clothing/mask/gas/syndicate
+
+/obj/effect/mob_spawn/human/syndicate/battlecruiser/captain
+	name = "Syndicate Battlecruiser Captain"
+	flavour_text = "<font size=3>You are the captain aboard the syndicate flagship: the SBC Starfury. <span class='danger'><b>Your job is to oversee your crew, defend the ship, and destroy Space Station 13.</b></span> The ship has an armory, multiple ships, beam cannons, and multiple crewmembers to accomplish this goal.<br><br><span class='danger'><b>As the captain, this whole operation falls on your shoulders.</b></span> You do not need to nuke the station, causing sufficient damage and preventing your ship from being destroyed will be enough.</font>"
+	outfit = /datum/outfit/syndicate_empty/SBC/assault/captain
+	id_access_list = list(150,151)
+
+/datum/outfit/syndicate_empty/SBC/assault/captain
+	name = "Syndicate Battlecruiser Captain"
+	l_pocket = /obj/item/weapon/melee/energy/sword/saber/red
+	r_pocket = /obj/item/weapon/melee/classic_baton/telescopic
+	suit = /obj/item/clothing/suit/armor/vest/capcarapace/syndicate
+	suit_store = /obj/item/weapon/gun/ballistic/revolver/mateba
+	back = /obj/item/weapon/storage/backpack/satchel/leather
+	head = /obj/item/clothing/head/HoS/syndicate
+	mask = /obj/item/clothing/mask/cigarette/cigar/havana
+	glasses = /obj/item/clothing/glasses/thermal/eyepatch
+
+//Ancient cryogenic sleepers. Players become NT crewmen from a hundred year old space station, now on the verge of collapse.
+/obj/effect/mob_spawn/human/oldsec
+	name = "old cryogenics pod"
+	desc = "A humming cryo pod. You can barely recognise a security uniform underneath the built up ice. The machine is attempting to wake up its occupant"
+	mob_name = "a security officer"
+	icon = 'icons/obj/cryogenic2.dmi'
+	icon_state = "sleeper"
+	roundstart = FALSE
+	death = FALSE
+	random = TRUE
+	mob_species = /datum/species/human
+	flavour_text = "<font size=3><b>Y</b></font><b>ou are a security officer working for NanoTrasen, stationed onboard a state of the art research station. You vaguely recall rushing into a \
+	cryogenics pod due to a oncoming radiation storm. The last thing you remember is the station's Artifical Program telling you that you would only be asleep for eight hours. As you open \
+	your eyes, everything seems rusted and broken, a dark feeling sweels in your gut as you climb out of your pod."
+	uniform = /obj/item/clothing/under/rank/security
+	shoes = /obj/item/clothing/shoes/jackboots
+	id = /obj/item/weapon/card/id/away/old/sec
+	r_pocket = /obj/item/weapon/restraints/handcuffs
+	l_pocket = /obj/item/device/assembly/flash/handheld
+	assignedrole = "Ancient Crew"
+
+/obj/effect/mob_spawn/human/oldsec/Destroy()
+	new/obj/structure/showcase/oldpod/used(get_turf(src))
+	return ..()
+
+/obj/effect/mob_spawn/human/oldeng
+	name = "old cryogenics pod"
+	desc = "A humming cryo pod. You can barely recognise a engineering uniform underneath the built up ice. The machine is attempting to wake up its occupant"
+	mob_name = "a engineer"
+	icon = 'icons/obj/cryogenic2.dmi'
+	icon_state = "sleeper"
+	roundstart = FALSE
+	death = FALSE
+	random = TRUE
+	mob_species = /datum/species/human
+	flavour_text = "<font size=3><b>Y</b></font><b>ou are a engineer working for NanoTrasen, stationed onboard a state of the art research station. You vaguely recall rushing into a \
+	cryogenics pod due to a oncoming radiation storm. The last thing you remember is the station's Artifical Program telling you that you would only be asleep for eight hours. As you open \
+	your eyes, everything seems rusted and broken, a dark feeling sweels in your gut as you climb out of your pod."
+	uniform = /obj/item/clothing/under/rank/engineer
+	shoes = /obj/item/clothing/shoes/workboots
+	id = /obj/item/weapon/card/id/away/old/eng
+	gloves = /obj/item/clothing/gloves/color/fyellow/old
+	l_pocket = /obj/item/weapon/tank/internals/emergency_oxygen
+	assignedrole = "Ancient Crew"
+
+/obj/effect/mob_spawn/human/oldeng/Destroy()
+	new/obj/structure/showcase/oldpod/used(get_turf(src))
+	return ..()
+
+/obj/effect/mob_spawn/human/oldsci
+	name = "old cryogenics pod"
+	desc = "A humming cryo pod. You can barely recognise a science uniform underneath the built up ice. The machine is attempting to wake up its occupant"
+	mob_name = "a scientist"
+	icon = 'icons/obj/cryogenic2.dmi'
+	icon_state = "sleeper"
+	roundstart = FALSE
+	death = FALSE
+	random = TRUE
+	mob_species = /datum/species/human
+	flavour_text = "<font size=3><b>Y</b></font><b>ou are a scientist working for NanoTrasen, stationed onboard a state of the art research station. You vaguely recall rushing into a \
+	cryogenics pod due to a oncoming radiation storm. The last thing you remember is the station's Artifical Program telling you that you would only be asleep for eight hours. As you open \
+	your eyes, everything seems rusted and broken, a dark feeling sweels in your gut as you climb out of your pod."
+	uniform = /obj/item/clothing/under/rank/scientist
+	shoes = /obj/item/clothing/shoes/laceup
+	id = /obj/item/weapon/card/id/away/old/sci
+	l_pocket = /obj/item/stack/medical/bruise_pack
+	assignedrole = "Ancient Crew"
+
+/obj/effect/mob_spawn/human/oldsci/Destroy()
+	new/obj/structure/showcase/oldpod/used(get_turf(src))
+	return ..()

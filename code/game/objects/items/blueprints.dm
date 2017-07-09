@@ -188,7 +188,7 @@
 
 /proc/create_area(mob/living/creator)
 	var/res = detect_room(get_turf(creator))
-	if(!istype(res,/list))
+	if(!islist(res))
 		switch(res)
 			if(ROOM_ERR_SPACE)
 				to_chat(creator, "<span class='warning'>The new area must be completely airtight.</span>")
@@ -201,7 +201,7 @@
 				return
 
 	var/list/turfs = res
-	var/str = stripped_input(creator,"New area name:", "Blueprint Editing", "", MAX_NAME_LEN)
+	var/str = trim(stripped_input(creator,"New area name:", "Blueprint Editing", "", MAX_NAME_LEN))
 	if(!str || !length(str)) //cancel
 		return
 	if(length(str) > 50)
@@ -246,7 +246,7 @@
 /obj/item/areaeditor/proc/edit_area()
 	var/area/A = get_area()
 	var/prevname = "[A.name]"
-	var/str = stripped_input(usr,"New area name:", "Area Creation", "", MAX_NAME_LEN)
+	var/str = trim(stripped_input(usr,"New area name:", "Area Creation", "", MAX_NAME_LEN))
 	if(!str || !length(str) || str==prevname) //cancel
 		return
 	if(length(str) > 50)

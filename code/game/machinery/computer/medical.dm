@@ -22,6 +22,9 @@
 
 	light_color = LIGHT_COLOR_BLUE
 
+/obj/machinery/computer/med_data/syndie
+	icon_keyboard = "syndie_key"
+
 /obj/machinery/computer/med_data/attackby(obj/item/O, mob/user, params)
 	if(istype(O, /obj/item/weapon/card/id) && !scan)
 		if(!user.drop_item())
@@ -314,7 +317,7 @@
 								src.active1.fields["sex"] = "Male"
 					if("age")
 						if(active1)
-							var/t1 = input("Please input age:", "Med. records", src.active1.fields["age"], null) as num
+							var/t1 = input("Please input age:", "Med. records", src.active1.fields["age"], null)  as num
 							if(!canUseMedicalRecordsConsole(usr, t1, a1))
 								return
 							src.active1.fields["age"] = t1
@@ -332,7 +335,7 @@
 							src.active2.fields["mi_dis"] = t1
 					if("mi_dis_d")
 						if(active2)
-							var/t1 = stripped_multiline_input("Please summarize minor dis.:", "Med. records", src.active2.fields["mi_dis_d"], null)
+							var/t1 = stripped_input("Please summarize minor dis.:", "Med. records", src.active2.fields["mi_dis_d"], null)
 							if(!canUseMedicalRecordsConsole(usr, t1, null, a2))
 								return
 							src.active2.fields["mi_dis_d"] = t1
@@ -344,7 +347,7 @@
 							src.active2.fields["ma_dis"] = t1
 					if("ma_dis_d")
 						if(active2)
-							var/t1 = stripped_multiline_input("Please summarize major dis.:", "Med. records", src.active2.fields["ma_dis_d"], null)
+							var/t1 = stripped_input("Please summarize major dis.:", "Med. records", src.active2.fields["ma_dis_d"], null)
 							if(!canUseMedicalRecordsConsole(usr, t1, null, a2))
 								return
 							src.active2.fields["ma_dis_d"] = t1
@@ -356,7 +359,7 @@
 							src.active2.fields["alg"] = t1
 					if("alg_d")
 						if(active2)
-							var/t1 = stripped_multiline_input("Please summarize allergies:", "Med. records", src.active2.fields["alg_d"], null)
+							var/t1 = stripped_input("Please summarize allergies:", "Med. records", src.active2.fields["alg_d"], null)
 							if(!canUseMedicalRecordsConsole(usr, t1, null, a2))
 								return
 							src.active2.fields["alg_d"] = t1
@@ -368,13 +371,13 @@
 							src.active2.fields["cdi"] = t1
 					if("cdi_d")
 						if(active2)
-							var/t1 = stripped_multiline_input("Please summarize diseases:", "Med. records", src.active2.fields["cdi_d"], null)
+							var/t1 = stripped_input("Please summarize diseases:", "Med. records", src.active2.fields["cdi_d"], null)
 							if(!canUseMedicalRecordsConsole(usr, t1, null, a2))
 								return
 							src.active2.fields["cdi_d"] = t1
 					if("notes")
 						if(active2)
-							var/t1 = stripped_multiline_input("Please summarize notes:", "Med. records", src.active2.fields["notes"], null)
+							var/t1 = stripped_input("Please summarize notes:", "Med. records", src.active2.fields["notes"], null)
 							if(!canUseMedicalRecordsConsole(usr, t1, null, a2))
 								return
 							src.active2.fields["notes"] = t1
@@ -554,7 +557,7 @@
 						P.name = text("MR-[] '[]'", GLOB.data_core.medicalPrintCount, src.active1.fields["name"])
 					else
 						P.info += "<B>Medical Record Lost!</B><BR>"
-						P.name = sanitize_russian(text("MR-[] '[]'", GLOB.data_core.medicalPrintCount, "Record Lost"))
+						P.name = text("MR-[] '[]'", GLOB.data_core.medicalPrintCount, "Record Lost")
 					P.info += "</TT>"
 					src.printing = null
 

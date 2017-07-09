@@ -24,7 +24,6 @@
 			<A href='?src=\ref[src];secrets=list_lawchanges'>Show last [length(GLOB.lawchanges)] law changes</A><BR>
 			<A href='?src=\ref[src];secrets=showailaws'>Show AI Laws</A><BR>
 			<A href='?src=\ref[src];secrets=showgm'>Show Game Mode</A><BR>
-			<A href='?src=\ref[src];secrets=show_current_watchlist'>Show online players in the watchlist</A><BR>
 			<A href='?src=\ref[src];secrets=manifest'>Show Crew Manifest</A><BR>
 			<A href='?src=\ref[src];secrets=DNA'>List DNA (Blood)</A><BR>
 			<A href='?src=\ref[src];secrets=fingerprints'>List Fingerprints</A><BR>
@@ -102,7 +101,7 @@
 				dat += "<li>[l]</li>"
 			if(!GLOB.admin_log.len)
 				dat += "No-one has done anything this round!"
-			usr << browse(sanitize_russian(dat), "window=admin_log")
+			usr << browse(dat, "window=admin_log")
 
 		if("list_job_debug")
 			var/dat = "<B>Job Debug info.</B><HR>"
@@ -121,7 +120,7 @@
 			if(GLOB.admin_datums)
 				for(var/ckey in GLOB.admin_datums)
 					var/datum/admins/D = GLOB.admin_datums[ckey]
-					dat += "[ckey] - [D.rank] - [rights2text(D.rights," ")]<br>"
+					dat += "[ckey] - [D.rank.name]<br>"
 				usr << browse(dat, "window=showadmins;size=600x500")
 
 		if("tdomereset")
@@ -175,7 +174,7 @@
 		if("list_bombers")
 			if(!check_rights(R_ADMIN))
 				return
-			var/dat = "<B>Bombing List<HR>"
+			var/dat = "<B>Bombing List</B><HR>"
 			for(var/l in GLOB.bombers)
 				dat += text("[l]<BR>")
 			usr << browse(dat, "window=bombers")
@@ -335,31 +334,18 @@
 			if(!objective)
 				return
 			SSblackbox.add_details("admin_secrets_fun_used","Traitor All ([objective])")
-			for(var/mob/living/carbon/human/H in GLOB.player_list)
-				if(H.stat == 2 || !H.client || !H.mind) continue
+			for(var/mob/living/H in GLOB.player_list)
+				if(!(ishuman(H)||istype(H, /mob/living/silicon/))) continue
+				if(H.stat == 2 || !H.client || !H.mind || ispAI(H)) continue
 				if(is_special_character(H)) continue
-				//traitorize(H, objective, 0)
-				SSticker.mode.traitors += H.mind
-				H.mind.special_role = "traitor"
+				H.mind.add_antag_datum(ANTAG_DATUM_TRAITOR_CUSTOM)
+				var/datum/antagonist/traitor/traitordatum = H.mind.has_antag_datum(ANTAG_DATUM_TRAITOR) //original datum self deletes
 				var/datum/objective/new_objective = new
 				new_objective.owner = H
 				new_objective.explanation_text = objective
-				H.mind.objectives += new_objective
-				SSticker.mode.greet_traitor(H.mind)
-				//SSticker.mode.forge_traitor_objectives(H.mind)
-				SSticker.mode.finalize_traitor(H.mind)
-			for(var/mob/living/silicon/A in GLOB.player_list)
-				if(A.stat == 2 || !A.client || !A.mind) continue
-				if(ispAI(A)) continue
-				else if(is_special_character(A)) continue
-				SSticker.mode.traitors += A.mind
-				A.mind.special_role = "traitor"
-				var/datum/objective/new_objective = new
-				new_objective.owner = A
-				new_objective.explanation_text = objective
-				A.mind.objectives += new_objective
-				SSticker.mode.greet_traitor(A.mind)
-				SSticker.mode.finalize_traitor(A.mind)
+				traitordatum.add_objective(new_objective)
+				traitordatum.equip(FALSE)
+				traitordatum.greet()
 			message_admins("<span class='adminnotice'>[key_name_admin(usr)] used everyone is a traitor secret. Objective is [objective]</span>")
 			log_admin("[key_name(usr)] used everyone is a traitor secret. Objective is [objective]")
 
@@ -404,7 +390,7 @@
 			SSblackbox.add_details("admin_secrets_fun_used","Chinese Cartoons")
 			message_admins("[key_name_admin(usr)] made everything kawaii.")
 			for(var/mob/living/carbon/human/H in GLOB.mob_list)
-				H << sound('sound/AI/animes.ogg')
+				H << sound('sound/ai/animes.ogg')
 
 				if(H.dna.species.id == "human")
 					if(H.dna.features["tail_human"] == "None" || H.dna.features["ears"] == "None")
@@ -471,7 +457,7 @@
 				if(W.z == ZLEVEL_STATION && !istype(get_area(W), /area/bridge) && !istype(get_area(W), /area/crew_quarters) && !istype(get_area(W), /area/security/prison))
 					W.req_access = list()
 			message_admins("[key_name_admin(usr)] activated Egalitarian Station mode")
-			priority_announce("Centcom airlock control override activated. Please take this time to get acquainted with your coworkers.", null, 'sound/AI/commandreport.ogg')
+			priority_announce("Centcom airlock control override activated. Please take this time to get acquainted with your coworkers.", null, 'sound/ai/commandreport.ogg')
 
 		if("guns")
 			if(!check_rights(R_FUN))

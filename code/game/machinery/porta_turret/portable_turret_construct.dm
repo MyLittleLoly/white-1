@@ -174,7 +174,7 @@
 		if(!Adjacent(user))
 			return
 
-		finish_name = russian_html2text(t)
+		finish_name = t
 		return
 	return ..()
 

@@ -1,10 +1,10 @@
 /mob/dead/observer/say(message)
-	message = strip_html_properly(trim(copytext(sanitize(message), 1, MAX_MESSAGE_LEN)))
+	message = trim(copytext(sanitize(message), 1, MAX_MESSAGE_LEN))
 
 	if (!message)
 		return
 
-	log_say("Ghost/[src.key] : [message]")
+	log_talk(src,"Ghost/[src.key] : [message]", LOGSAY)
 
 	. = src.say_dead(message)
 

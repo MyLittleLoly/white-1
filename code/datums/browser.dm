@@ -66,7 +66,7 @@
 
 	return {"<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<head>
 		[head_content]
@@ -92,6 +92,10 @@
 	"}
 
 /datum/browser/proc/open(use_onclose = 1)
+	if(isnull(window_id))	//null check because this can potentially nuke goonchat
+		WARNING("Browser [title] tried to open with a null ID")
+		to_chat(user, "<span class='userdanger'>The [title] browser you tried to open failed a sanity check! Please report this on github!</span>")
+		return
 	var/window_size = ""
 	if (width && height)
 		window_size = "size=[width]x[height];"
@@ -99,7 +103,7 @@
 		send_asset_list(user, stylesheets, verify=FALSE)
 	if (scripts.len)
 		send_asset_list(user, scripts, verify=FALSE)
-	user << browse(sanitize_russian(get_content()), "window=[window_id];[window_size][window_options]")
+	user << browse(get_content(), "window=[window_id];[window_size][window_options]")
 	if (use_onclose)
 		setup_onclose()
 
@@ -111,7 +115,10 @@
 			break
 
 /datum/browser/proc/close()
-	user << browse(null, "window=[window_id]")
+	if(!isnull(window_id))//null check because this can potentially nuke goonchat
+		user << browse(null, "window=[window_id]")
+	else
+		WARNING("Browser [title] tried to close with a null ID")
 
 /datum/browser/alert
 	var/selectedbutton = 0

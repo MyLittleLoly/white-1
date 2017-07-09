@@ -1,4 +1,4 @@
-//#define DEBUG					//Enables byond profiling and full runtime logs - note, this may also be defined in your .dme file
+#define DEBUG					//Enables byond profiling and full runtime logs - note, this may also be defined in your .dme file
 								//Enables in-depth debug messages to runtime log (used for debugging)
 //#define TESTING				//By using the testing("message") proc you can create debug-feedback for people with this
 								//uncommented, but not visible in the release version)
@@ -69,7 +69,9 @@
 #error You need version 511 or higher
 #endif
 
+ #define SERVICE_CMD_PARAM_KEY "serviceCommsKey"
 
-#ifndef SERVERTOOLS
-#define SERVERTOOLS 0
-#endif
+//Update this whenever the db schema changes 
+//make sure you add an update to the schema_version stable in the db changelog
+#define DB_MAJOR_VERSION 3
+#define DB_MINOR_VERSION 0

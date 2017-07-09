@@ -202,6 +202,7 @@
 			to_chat(H, "<span class='heavy_brass'>The world before you suddenly glows a brilliant yellow. You hear the whooshing steam and clanking cogs of a billion billion machines, and all at once \
 			you see the truth. Ratvar, the Clockwork Justiciar, lies derelict and forgotten in an unseen realm, and he has selected you as one of his harbringers. You are now a servant of \
 			Ratvar, and you will bring him back.</span>")
+			H.playsound_local(get_turf(H), 'sound/ambience/antag/clockcultalr.ogg', 100, FALSE, pressure_affected = FALSE)
 			add_servant_of_ratvar(H, TRUE)
 			SSticker.mode.equip_servant(H)
 			candidates.Remove(H)
@@ -287,7 +288,7 @@
 
 // DEATH SQUADS
 /datum/admins/proc/makeDeathsquad()
-	var/mission = sanitize_russian(input("Assign a mission to the deathsquad", "Assign Mission", "Leave no witnesses."))
+	var/mission = input("Assign a mission to the deathsquad", "Assign Mission", "Leave no witnesses.")
 	var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to be considered for an elite Nanotrasen Strike Team?", "deathsquad", null)
 	var/squadSpawned = 0
 

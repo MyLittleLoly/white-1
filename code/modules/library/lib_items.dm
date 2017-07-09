@@ -81,7 +81,7 @@
 				to_chat(user, "<span class='notice'>You empty \the [I] into \the [src].</span>")
 				update_icon()
 			else if(istype(I, /obj/item/weapon/pen))
-				var/newname = stripped_input(usr, "What would you like to title this bookshelf?")
+				var/newname = stripped_input(user, "What would you like to title this bookshelf?")
 				if(!newname)
 					return
 				else
