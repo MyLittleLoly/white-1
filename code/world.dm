@@ -32,7 +32,7 @@
 
 	load_motd()
 	load_admins()
-	LoadVerbs(/datum/verbs/menu)
+	load_menu()
 	if(config.usewhitelist)
 		load_whitelist()
 	LoadBans()
