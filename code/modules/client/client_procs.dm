@@ -162,12 +162,11 @@ GLOBAL_LIST(external_rsc_urls)
 	GLOB.ahelp_tickets.ClientLogin(src)
 
 	//Admin Authorisation
-	var/localhost_addresses = list("127.0.0.1", "::1")
+	var/localhost_addresses = list()
 	if(address && (address in localhost_addresses))
-		var/datum/admin_rank/localhost_rank = new("!localhost!", 65535)
-		if(localhost_rank)
-			var/datum/admins/localhost_holder = new(localhost_rank, ckey)
-			localhost_holder.associate(src)
+		var/datum/admins/localhost_holder = new("!localhost!", 65535, ckey)
+		localhost_holder.associate(src)
+		/*
 	if(config.autoadmin)
 		if(!GLOB.admin_datums[ckey])
 			var/datum/admin_rank/autorank
@@ -179,7 +178,7 @@ GLOBAL_LIST(external_rsc_urls)
 				to_chat(world, "Autoadmin rank not found")
 			else
 				var/datum/admins/D = new(autorank, ckey)
-				GLOB.admin_datums[ckey] = D
+				GLOB.admin_datums[ckey] = D*/
 	holder = GLOB.admin_datums[ckey]
 	if(holder)
 		GLOB.admins |= src
@@ -410,7 +409,7 @@ GLOBAL_LIST(external_rsc_urls)
 		related_accounts_cid += "[query_get_related_cid.item[1]], "
 	var/admin_rank = "Player"
 	if (src.holder && src.holder.rank)
-		admin_rank = src.holder.rank.name
+		admin_rank = src.holder.rank
 	else
 		if (check_randomizer(connectiontopic))
 			return

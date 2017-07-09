@@ -235,7 +235,7 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	if(holder)
 		control_freak = CONTROL_FREAK_SKIN | CONTROL_FREAK_MACROS
 
-		var/rights = holder.rank.rights
+		var/rights = holder.rights
 		verbs += GLOB.admin_verbs_default
 		if(rights & R_BUILDMODE)
 			verbs += /client/proc/togglebuildmodeself
@@ -262,10 +262,10 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 		if(rights & R_SPAWN)
 			verbs += GLOB.admin_verbs_spawn
 
-		for(var/path in holder.rank.adds)
-			verbs += path
-		for(var/path in holder.rank.subs)
-			verbs -= path
+		//for(var/path in holder.rank.adds)
+		//	verbs += path
+		//for(var/path in holder.rank.subs)
+		//	verbs -= path
 
 /client/proc/remove_admin_verbs()
 	verbs.Remove(
@@ -299,8 +299,8 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 		/client/proc/cmd_admin_areatest,
 		/client/proc/readmin
 		)
-	if(holder)
-		verbs.Remove(holder.rank.adds)
+	//if(holder)
+	//	verbs.Remove(holder.rank.adds)
 
 /client/proc/hide_most_verbs()//Allows you to keep some functionality while hiding some verbs
 	set name = "Adminverbs - Hide Most"

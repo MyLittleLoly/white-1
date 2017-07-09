@@ -120,7 +120,7 @@
 			if(GLOB.admin_datums)
 				for(var/ckey in GLOB.admin_datums)
 					var/datum/admins/D = GLOB.admin_datums[ckey]
-					dat += "[ckey] - [D.rank.name]<br>"
+					dat += "[ckey] - [rights2text(D.rights, " ")]<br>"
 				usr << browse(dat, "window=showadmins;size=600x500")
 
 		if("tdomereset")

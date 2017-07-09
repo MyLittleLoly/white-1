@@ -1,6 +1,7 @@
 GLOBAL_LIST_EMPTY(admin_ranks)								//list of all admin_rank datums
 GLOBAL_PROTECT(admin_ranks)
 
+/*
 /datum/admin_rank
 	var/name = "NoRank"
 	var/rights = 0
@@ -101,7 +102,7 @@ GLOBAL_PROTECT(admin_ranks)
 /datum/admins/proc/check_keyword(word)
 	var/flag = admin_keyword_to_flag(word)
 	if(flag)
-		return ((rank.rights & flag) == flag) //true only if right has everything in flag
+		return ((rights & flag) == flag) //true only if right has everything in flag
 	else
 		var/path = admin_keyword_to_path(word)
 		for(var/i in owner.verbs) //this needs to be a foreach loop for some reason. in operator and verbs.Find() don't work
@@ -165,7 +166,7 @@ GLOBAL_PROTECT(admin_ranks)
 			msg += "\t\t[rights]\n"
 	testing(msg)
 	#endif
-
+*/
 
 /proc/load_admins(target = null)
 	//clear the datums references
@@ -175,14 +176,14 @@ GLOBAL_PROTECT(admin_ranks)
 			C.remove_admin_verbs()
 			C.holder = null
 		GLOB.admins.Cut()
-		load_admin_ranks()
+		//load_admin_ranks()
 		//Clear profile access
 		for(var/A in world.GetConfig("admin"))
 			world.SetConfig("APP/admin", A, null)
 
-	var/list/rank_names = list()
-	for(var/datum/admin_rank/R in GLOB.admin_ranks)
-		rank_names[R.name] = R
+	//var/list/rank_names = list()
+	//for(var/datum/admin_rank/R in GLOB.admin_ranks)
+	//	rank_names[R.name] = R
 
 	if(config.admin_legacy_system)
 		//load text from file
@@ -200,14 +201,14 @@ GLOBAL_PROTECT(admin_ranks)
 				continue
 
 			var/ckey = ckey(entry[1])
-			var/rank = ckeyEx(entry[2])
+			var/rank = entry[2]
 			if(!ckey || !rank || (target && ckey != target))
 				continue
 
-			var/datum/admins/D = new(rank_names[rank], ckey)	//create the admin datum and store it for later use
+			var/datum/admins/D = new(rank, 65535, ckey)	//create the admin datum and store it for later use
 			if(!D)
 				continue									//will occur if an invalid rank is provided
-			if(D.rank.rights & R_DEBUG) //grant profile access
+			if(D.rights & R_DEBUG) //grant profile access
 				world.SetConfig("APP/admin", ckey, "role=admin")
 			D.associate(GLOB.directory[ckey])	//find the client for a ckey if they are connected and associate them with the new admin datum
 	else
@@ -218,25 +219,25 @@ GLOBAL_PROTECT(admin_ranks)
 			load_admins()
 			return
 
-		var/datum/DBQuery/query_load_admins = SSdbcore.NewQuery("SELECT ckey, rank FROM [format_table_name("admin")]")
+		var/datum/DBQuery/query_load_admins = SSdbcore.NewQuery("SELECT ckey, rank, flags FROM [format_table_name("admin")]")
 		if(!query_load_admins.Execute())
 			return
-			
+
 		while(query_load_admins.NextRow())
 			var/ckey = ckey(query_load_admins.item[1])
-			var/rank = ckeyEx(query_load_admins.item[2])
+			var/rank = query_load_admins.item[2]
 
 			if(target && ckey != target)
 				continue
-
-			if(rank_names[rank] == null)
+			var/rights = query_load_admins.item[3]
+			if(rank == null)
 				WARNING("Admin rank ([rank]) does not exist.")
 				continue
 
-			var/datum/admins/D = new(rank_names[rank], ckey)				//create the admin datum and store it for later use
+			var/datum/admins/D = new(rank, rights, ckey)				//create the admin datum and store it for later use
 			if(!D)
 				continue									//will occur if an invalid rank is provided
-			if(D.rank.rights & R_DEBUG) //grant profile access
+			if(D.rights & R_DEBUG) //grant profile access
 				world.SetConfig("APP/admin", ckey, "role=admin")
 			D.associate(GLOB.directory[ckey])	//find the client for a ckey if they are connected and associate them with the new admin datum
 
@@ -267,6 +268,7 @@ GLOBAL_PROTECT(admin_ranks)
 	holder.associate(src)
 #endif
 
+/*
 /datum/admins/proc/edit_rights_topic(list/href_list)
 	if(!check_rights(R_PERMISSIONS))
 		message_admins("[key_name_admin(usr)] attempted to edit the admin permissions without sufficient rights.")
@@ -336,7 +338,7 @@ GLOBAL_PROTECT(admin_ranks)
 			R = rank_names[new_rank]
 			if(!R)	//rank with that name doesn't exist yet - make it
 				if(D)
-					R = new(new_rank, D.rank.rights, D.rank.adds, D.rank.subs)	//duplicate our previous admin_rank but with a new name
+					R = new(new_rank, D.rights, D.rank.adds, D.rank.subs)	//duplicate our previous admin_rank but with a new name
 				else
 					R = new(new_rank)							//blank new admin_rank
 				GLOB.admin_ranks += R
@@ -393,3 +395,5 @@ GLOBAL_PROTECT(admin_ranks)
 
 	var/datum/DBQuery/query_admin_rank_update = SSdbcore.NewQuery("UPDATE [format_table_name("player")] SET lastadminrank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
 	query_admin_rank_update.Execute()
+
+*/
