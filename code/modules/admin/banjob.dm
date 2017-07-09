@@ -4,9 +4,6 @@
 		return 0
 
 	if(!M.client) //no cache. fallback to a datum/DBQuery
-		if(!dbcon.Connect())
-			return 0
-
 		var/DBQuery/query_jobban_check_ban = dbcon.NewQuery("SELECT reason FROM [format_table_name("ban")] WHERE ckey = '[sanitizeSQL(M.ckey)]' AND (bantype = 'JOB_PERMABAN'  OR (bantype = 'JOB_TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned) AND job = '[sanitizeSQL(rank)]'")
 		if(!query_jobban_check_ban.warn_execute())
 			return
@@ -27,10 +24,6 @@
 /proc/jobban_buildcache(client/C)
 	if(C && istype(C))
 		C.jobbancache = list()
-
-		if(!dbcon.Connect())
-			return FALSE
-			
 		var/DBQuery/query_jobban_build_cache = dbcon.NewQuery("SELECT job, reason FROM [format_table_name("ban")] WHERE ckey = '[sanitizeSQL(C.ckey)]' AND (bantype = 'JOB_PERMABAN'  OR (bantype = 'JOB_TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned)")
 		if(!query_jobban_build_cache.warn_execute())
 			return

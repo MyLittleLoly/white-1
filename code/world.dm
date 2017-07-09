@@ -73,21 +73,20 @@
 				message_admins("Could not get schema version from db")
 		else
 			log_world("Your server failed to establish a connection with the database.")
-
-/world/proc/SetRoundID()
-	if(config.sql_enabled)
-		if(dbcon.Connect())
-			var/DBQuery/query_round_start = dbcon.NewQuery("INSERT INTO [format_table_name("feedback")] SELECT null, Now(), IFNULL(MAX(round_id),0)+1, \"server_ip\", 0, \"[world.internet_address]:[world.port]\" FROM [format_table_name("feedback")]")
-			query_round_start.Execute()
-			var/DBQuery/query_round_last_id = dbcon.NewQuery("SELECT MAX(round_id) FROM [format_table_name("feedback")]")
-			query_round_last_id.Execute()
-			if(query_round_last_id.NextRow())
-				GLOB.round_id = query_round_last_id.item[1]
 		if(dbcon2.doConnect("dbi:mysql:forum2:[global.sqladdress]:[global.sqlport]","[global.sqlfdbklogin]","[global.sqlfdbkpass]"))
 			log_world("Donations database connection established.")
 		else
 			log_world("ACHTUNG! DONATES HAVE BEEN STOLEN!")
 
+/world/proc/SetRoundID()
+	if(config.sql_enabled)
+		if(dbcon.Connect())
+			var/DBQuery/query_round_start = dbcon.NewQuery("INSERT INTO [format_table_name("round")] (start_datetime, server_ip, server_port) VALUES (Now(), INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]')")
+			query_round_start.Execute()
+			var/DBQuery/query_round_last_id = dbcon.NewQuery("SELECT LAST_INSERT_ID()")
+			query_round_last_id.Execute()
+			if(query_round_last_id.NextRow())
+				GLOB.round_id = query_round_last_id.item[1]
 
 /world/proc/SetupLogs()
 	GLOB.log_directory = "data/logs/[time2text(world.realtime, "YYYY/MM/DD")]/round-"

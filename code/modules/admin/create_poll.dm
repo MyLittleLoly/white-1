@@ -3,7 +3,7 @@
 	set category = "Special Verbs"
 	if(!check_rights(R_POLL))
 		return
-	if(!dbcon.IsConnected())
+	if(!dbcon.Connect())
 		to_chat(src, "<span class='danger'>Failed to establish database connection.</span>")
 		return
 	var/polltype = input("Choose poll type.","Poll Type") in list("Single Option","Text Reply","Rating","Multiple Choice", "Instant Runoff Voting")|null
