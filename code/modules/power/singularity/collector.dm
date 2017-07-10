@@ -10,7 +10,10 @@ GLOBAL_LIST_EMPTY(rad_collectors)
 	density = 1
 	req_access = list(GLOB.access_engine_equip)
 //	use_power = NO_POWER_USE
+<<<<<<< HEAD
 	obj_integrity = 350
+=======
+>>>>>>> pr/191
 	max_integrity = 350
 	integrity_failure = 80
 	var/obj/item/weapon/tank/internals/plasma/loaded_tank = null
