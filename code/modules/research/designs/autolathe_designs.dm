@@ -139,6 +139,14 @@
 	build_path = /obj/item/weapon/electronics/apc
 	category = list("initial", "Electronics")
 
+/datum/design/poddoor_board
+	name = "Blast Door Electronics"
+	id = "poddoor_board"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 50, MAT_GLASS = 50)
+	build_path = /obj/item/device/assembly/control
+	category = list("initial", "Electronics")
+
 /datum/design/airlock_board
 	name = "Airlock Electronics"
 	id = "airlock_board"

@@ -99,6 +99,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 GLOBAL_LIST_INIT(plasteel_recipes, list ( \
 	new/datum/stack_recipe("AI core", /obj/structure/AIcore, 4, time = 50, one_per_turf = TRUE), \
 	new/datum/stack_recipe("bomb assembly", /obj/machinery/syndicatebomb/empty, 10, time = 50), \
+	new/datum/stack_recipe("Blast Door Assembly", /obj/structure/poddoor_assembly, 20, time = 100, one_per_turf = 1) \
 ))
 
 /obj/item/stack/sheet/plasteel
