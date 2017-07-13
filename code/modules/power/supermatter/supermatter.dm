@@ -393,11 +393,6 @@
 	if(damage > warning_point) // while the core is still damaged and it's still worth noting its status
 		if((REALTIMEOFDAY - lastwarning) / 10 >= WARNING_DELAY)
 			alarm()
-<<<<<<< HEAD
-			var/stability = num2text(round((damage / explosion_point) * 100))
-=======
->>>>>>> pr/191
-
 			if(damage > emergency_point)
 				radio.talk_into(src, "[emergency_alert] Integrity: [get_integrity()]%", common_channel, get_spans(), get_default_language())
 				lastwarning = REALTIMEOFDAY
@@ -491,11 +486,6 @@
 /obj/machinery/power/supermatter_shard/attack_paw(mob/user)
 	dust_mob(user, cause = "monkey attack")
 
-<<<<<<< HEAD
-/obj/machinery/power/supermatter_shard/attack_robot(mob/user)
-	if(Adjacent(user))
-		return attack_hand(user)
-=======
 /obj/machinery/power/supermatter_shard/attack_animal(mob/living/simple_animal/S)
 	var/murder
 	if(!S.melee_damage_upper && !S.melee_damage_lower)
@@ -510,7 +500,6 @@
 /obj/machinery/power/supermatter_shard/attack_robot(mob/user)
 	if(Adjacent(user))
 		dust_mob(user, cause = "cyborg attack")
->>>>>>> pr/191
 
 /obj/machinery/power/supermatter_shard/attack_ai(mob/user)
 	return

@@ -219,10 +219,6 @@
 	req_access = list(GLOB.access_teleporter)
 	flags = CONDUCT
 	use_power = NO_POWER_USE
-<<<<<<< HEAD
-	obj_integrity = 300
-=======
->>>>>>> pr/191
 	max_integrity = 300
 	var/active = FALSE
 	var/power = 0
