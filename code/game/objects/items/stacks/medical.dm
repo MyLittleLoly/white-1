@@ -9,6 +9,7 @@
 	throw_speed = 3
 	throw_range = 7
 	resistance_flags = FLAMMABLE
+	obj_integrity = 40
 	max_integrity = 40
 	novariants = FALSE
 	var/heal_brute = 0

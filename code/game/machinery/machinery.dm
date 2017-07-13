@@ -99,6 +99,7 @@ Class Procs:
 	verb_say = "beeps"
 	verb_yell = "blares"
 	pressure_resistance = 15
+	obj_integrity = 200
 	max_integrity = 200
 
 	var/stat = 0

@@ -217,6 +217,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	attack_verb = list("bashed", "battered", "bludgeoned", "thrashed", "whacked")
 	resistance_flags = FLAMMABLE
+	obj_integrity = 150
 	max_integrity = 150
 	var/obj/machinery/launchpad/briefcase/pad
 

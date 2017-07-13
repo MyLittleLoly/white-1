@@ -55,7 +55,9 @@
 
 /obj/structure/table/abductor/wabbajack
 	name = "wabbajack altar"
-	desc = "Whether you're sleeping or waking, it's going to be quite chaotic."
+	desc = "Whether you're sleeping or waking, it's going to be \
+		quite chaotic."
+	obj_integrity = 1000
 	max_integrity = 1000
 	verb_say = "chants"
 	var/obj/machinery/power/emitter/energycannon/magical/our_statue
@@ -181,6 +183,7 @@
 /obj/structure/table/wood/bar
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	flags = NODECONSTRUCT
+	obj_integrity = 1000
 	max_integrity = 1000
 	var/boot_dir = 1
 

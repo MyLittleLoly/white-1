@@ -5,6 +5,7 @@
 	name = "holo sign"
 	icon = 'icons/effects/effects.dmi'
 	anchored = 1
+	obj_integrity = 1
 	max_integrity = 1
 	armor = list(melee = 0, bullet = 50, laser = 50, energy = 50, bomb = 0, bio = 0, rad = 0, fire = 20, acid = 20)
 	var/obj/item/weapon/holosign_creator/projector
@@ -45,6 +46,7 @@
 	icon_state = "holosign_sec"
 	pass_flags = LETPASSTHROW
 	density = 1
+	obj_integrity = 20
 	max_integrity = 20
 	var/allow_walk = 1 //can we pass through it on walk intent
 
@@ -87,6 +89,7 @@
 	name = "Energy Field"
 	desc = "A fragile energy field that blocks movement. Excels at blocking lethal projectiles."
 	density = 1
+	obj_integrity = 10
 	max_integrity = 10
 	allow_walk = 0
 
@@ -100,6 +103,7 @@
 /obj/structure/holosign/barrier/cyborg/hacked
 	name = "Charged Energy Field"
 	desc = "A powerful energy field that blocks movement. Energy arcs off it"
+	obj_integrity = 20
 	max_integrity = 20
 	var/shockcd = 0
 

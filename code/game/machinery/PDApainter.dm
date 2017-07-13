@@ -7,6 +7,7 @@
 	anchored = 1
 	var/obj/item/device/pda/storedpda = null
 	var/list/colorlist = list()
+	obj_integrity = 200
 	max_integrity = 200
 
 

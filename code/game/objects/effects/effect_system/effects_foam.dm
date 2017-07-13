@@ -201,6 +201,7 @@
 	name = "foamed metal"
 	desc = "A lightweight foamed metal wall."
 	gender = PLURAL
+	obj_integrity = 20
 	max_integrity = 20
 	CanAtmosPass = ATMOS_PASS_DENSITY
 
@@ -235,6 +236,7 @@
 	return !density
 
 /obj/structure/foamedmetal/iron
+	obj_integrity = 50
 	max_integrity = 50
 	icon_state = "ironfoam"
 
@@ -245,6 +247,7 @@
 	opacity = FALSE
 	icon_state = "atmos_resin"
 	alpha = 120
+	obj_integrity = 10
 	max_integrity = 10
 	layer = EDGED_TURF_LAYER
 

@@ -584,6 +584,7 @@
 
 /obj/item/toy/cards
 	resistance_flags = FLAMMABLE
+	obj_integrity = 50
 	max_integrity = 50
 	var/parentdeck = null
 	var/deckstyle = "nanotrasen"

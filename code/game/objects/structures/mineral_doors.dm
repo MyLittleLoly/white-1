@@ -14,6 +14,7 @@
 	var/state = 0 //closed, 1 == open
 	var/isSwitchingStates = 0
 	var/close_delay = -1 //-1 if does not auto close.
+	obj_integrity = 200
 	max_integrity = 200
 	armor = list(melee = 10, bullet = 0, laser = 0, energy = 100, bomb = 10, bio = 100, rad = 100, fire = 50, acid = 50)
 	var/sheetType = /obj/item/stack/sheet/metal
@@ -143,12 +144,14 @@
 
 /obj/structure/mineral_door/iron
 	name = "iron door"
+	obj_integrity = 300
 	max_integrity = 300
 
 /obj/structure/mineral_door/silver
 	name = "silver door"
 	icon_state = "silver"
 	sheetType = /obj/item/stack/sheet/mineral/silver
+	obj_integrity = 300
 	max_integrity = 300
 
 /obj/structure/mineral_door/gold
@@ -160,6 +163,7 @@
 	name = "uranium door"
 	icon_state = "uranium"
 	sheetType = /obj/item/stack/sheet/mineral/uranium
+	obj_integrity = 300
 	max_integrity = 300
 	light_range = 2
 
@@ -167,6 +171,7 @@
 	name = "sandstone door"
 	icon_state = "sandstone"
 	sheetType = /obj/item/stack/sheet/mineral/sandstone
+	obj_integrity = 100
 	max_integrity = 100
 
 /obj/structure/mineral_door/transparent
@@ -202,6 +207,7 @@
 	name = "diamond door"
 	icon_state = "diamond"
 	sheetType = /obj/item/stack/sheet/mineral/diamond
+	obj_integrity = 1000
 	max_integrity = 1000
 
 /obj/structure/mineral_door/wood
@@ -211,6 +217,7 @@
 	closeSound = 'sound/effects/doorcreaky.ogg'
 	sheetType = /obj/item/stack/sheet/mineral/wood
 	resistance_flags = FLAMMABLE
+	obj_integrity = 200
 	max_integrity = 200
 
 /obj/structure/mineral_door/paperframe
@@ -221,6 +228,7 @@
 	sheetType = /obj/item/stack/sheet/paperframes
 	sheetAmount = 3
 	resistance_flags = FLAMMABLE
+	obj_integrity = 20
 	max_integrity = 20
 
 /obj/structure/mineral_door/paperframe/Initialize()

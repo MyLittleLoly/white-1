@@ -158,6 +158,7 @@
 	list_reagents = list("sugar" = 3, "ethanol" = 2, "stabilizing_agent" = 3, "minttoxin" = 2)
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
+	obj_integrity = 100
 	max_integrity = 100
 	seed = /obj/item/seeds/lavaland/polypore
 
@@ -208,6 +209,7 @@
 	icon_state = "mushroom_bowl"
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = FLAMMABLE
+	obj_integrity = 200
 	max_integrity = 200
 
 //what you can craft with these things

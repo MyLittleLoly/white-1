@@ -4,6 +4,7 @@
 	name = "\improper AI core"
 	icon = 'icons/mob/ai.dmi'
 	icon_state = "0"
+	obj_integrity = 500
 	max_integrity = 500
 	var/state = 0
 	var/datum/ai_laws/laws = new()

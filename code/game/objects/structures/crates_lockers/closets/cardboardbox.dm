@@ -5,6 +5,7 @@
 	icon_state = "cardboard"
 	mob_storage_capacity = 1
 	resistance_flags = FLAMMABLE
+	obj_integrity = 70
 	max_integrity = 70
 	integrity_failure = 0
 	can_weld_shut = 0
@@ -60,7 +61,7 @@
 	name = "large metal box"
 	desc = "THE COWARDS! THE FOOLS!"
 	icon_state = "metalbox"
-	max_integrity = 500
+	obj_integrity = 500
 	mob_storage_capacity = 5
 	resistance_flags = 0
 	move_speed_multiplier = 2
