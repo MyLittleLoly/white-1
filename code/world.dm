@@ -61,7 +61,11 @@
 	if(config.sql_enabled)
 		if(dbcon.Connect())
 			log_world("Database connection established.")
+<<<<<<< HEAD
 			var/DBQuery/db_version = dbcon.NewQuery("SELECT major, minor FROM [format_table_name("schema_version")]")
+=======
+			var/datum/DBQuery/db_version = SSdbcore.NewQuery("SELECT major, minor FROM [format_table_name("schema_version")]")
+>>>>>>> pr/191
 			db_version.Execute()
 			if(db_version.NextRow())
 				var/db_major = db_version.item[1]
@@ -73,6 +77,7 @@
 				message_admins("Could not get schema version from db")
 		else
 			log_world("Your server failed to establish a connection with the database.")
+<<<<<<< HEAD
 		if(dbcon2.doConnect("dbi:mysql:forum2:[global.sqladdress]:[global.sqlport]","[global.sqlfdbklogin]","[global.sqlfdbkpass]"))
 			log_world("Donations database connection established.")
 		else
@@ -82,6 +87,13 @@
 	if(config.sql_enabled)
 		if(dbcon.Connect())
 			var/DBQuery/query_round_start = dbcon.NewQuery("INSERT INTO [format_table_name("round")] (start_datetime, server_ip, server_port) VALUES (Now(), INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]')")
+=======
+
+/world/proc/SetRoundID()
+	if(config.sql_enabled)
+		if(SSdbcore.Connect())
+			var/datum/DBQuery/query_round_start = SSdbcore.NewQuery("INSERT INTO [format_table_name("round")] (start_datetime, server_ip, server_port) VALUES (Now(), INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]')")
+>>>>>>> pr/191
 			query_round_start.Execute()
 			var/DBQuery/query_round_last_id = dbcon.NewQuery("SELECT LAST_INSERT_ID()")
 			query_round_last_id.Execute()

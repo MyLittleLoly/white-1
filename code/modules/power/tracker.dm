@@ -11,7 +11,10 @@
 	anchored = 1
 	density = 1
 	use_power = NO_POWER_USE
+<<<<<<< HEAD
 	obj_integrity = 250
+=======
+>>>>>>> pr/191
 	max_integrity = 250
 	integrity_failure = 50
 
