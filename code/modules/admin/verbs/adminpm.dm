@@ -55,7 +55,7 @@
 
 	if(AH)
 		message_admins("[key_name_admin(src)] has started replying to [key_name(C, 0, 0)]'s admin help.")
-	var/msg = input(src,"Message:", "Private message to [key_name(C, 0, 0)]") as text|null
+	var/msg = rhtml_encode(input(src,"Message:", "Private message to [key_name(C, 0, 0)]") as text|null)
 	if (!msg)
 		message_admins("[key_name_admin(src)] has cancelled their reply to [key_name(C, 0, 0)]'s admin help.")
 		return
@@ -110,7 +110,7 @@
 
 		//get message text, limit it's length.and clean/escape html
 		if(!msg)
-			msg = input(src,"Message:", "Private message to [key_name(recipient, 0, 0)]") as text|null
+			msg = rhtml_encode(input(src,"Message:", "Private message to [key_name(recipient, 0, 0)]") as text|null)
 
 			if(!msg)
 				return
@@ -131,7 +131,7 @@
 
 	//clean the message if it's not sent by a high-rank admin
 	if(!check_rights(R_SERVER|R_DEBUG,0)||irc)//no sending html to the poor bots
-		msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
+		msg = sanitize_russian(copytext(msg,1,MAX_MESSAGE_LEN))
 		if(!msg)
 			return
 
@@ -173,6 +173,9 @@
 			if(holder)	//sender is an admin but recipient is not. Do BIG RED TEXT
 				if(!recipient.current_ticket)
 					new /datum/admin_help(msg, recipient, TRUE)
+					recipient << 'sound/misc/ebanut_v_jivot.ogg'
+				else
+					recipient << 'sound/effects/adminhelp.ogg'
 
 				to_chat(recipient, "<font color='red' size='4'><b>-- Administrator private message --</b></font>")
 				to_chat(recipient, "<font color='red'>Admin PM from-<b>[key_name(src, recipient, 0)]</b>: [msg]</font>")
@@ -182,7 +185,7 @@
 				admin_ticket_log(recipient, "<font color='blue'>PM From [key_name_admin(src)]: [keywordparsedmsg]</font>")
 
 				//always play non-admin recipients the adminhelp sound
-				recipient << 'sound/effects/adminhelp.ogg'
+//				recipient << 'sound/effects/adminhelp.ogg'
 
 				//AdminPM popup for ApocStation and anybody else who wants to use it. Set it with POPUP_ADMIN_PM in config.txt ~Carn
 				if(config.popup_admin_pm)

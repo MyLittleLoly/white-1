@@ -542,7 +542,7 @@
 
 		else switch(alert("Appearance ban [M.ckey]?",,"Yes","No", "Cancel"))
 			if("Yes")
-				var/reason = input(usr,"Please State Reason.","Reason") as message|null
+				var/reason = sanitize_russian(input(usr,"Please State Reason.","Reason") as message|null)
 				if(!reason)
 					return
 				if(!DB_ban_record(BANTYPE_JOB_PERMA, M, -1, reason, "appearance"))
@@ -919,7 +919,7 @@
 					if(mins <= 0)
 						to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
 						return
-					var/reason = input(usr,"Please State Reason.","Reason") as message|null
+					var/reason = sanitize_russian(input(usr,"Please State Reason.","Reason") as message|null)
 					if(!reason)
 						return
 
@@ -946,7 +946,7 @@
 					href_list["jobban2"] = 1 // lets it fall through and refresh
 					return 1
 				if("No")
-					var/reason = input(usr,"Please State Reason","Reason") as message|null
+					var/reason = sanitize_russian(input(usr,"Please State Reason","Reason") as message|null)
 					if(reason)
 						var/msg
 						for(var/job in notbannedlist)
@@ -981,7 +981,7 @@
 				var/reason = jobban_isbanned(M, job)
 				if(!reason)
 					continue //skip if it isn't jobbanned anyway
-				switch(alert("Job: '[job]' Reason: '[reason]' Un-jobban?","Please Confirm","Yes","No"))
+				switch(alert("Job: '[job]' Reason: '[replacetext(reason,"�","�")]' Un-jobban?","Please Confirm","Yes","No"))
 					if("Yes")
 						ban_unban_log_save("[key_name(usr)] unjobbanned [key_name(M)] from [job]")
 						log_admin_private("[key_name(usr)] unbanned [key_name(M)] from [job]")
@@ -1096,7 +1096,7 @@
 			return
 		if(query_get_message_edits.NextRow())
 			var/edit_log = query_get_message_edits.item[1]
-			usr << browse(edit_log,"window=noteedits")
+			usr << browse(sanitize_russian(edit_log,"window=noteedits"),1)
 
 	else if(href_list["newban"])
 		if(!check_rights(R_BAN))
@@ -1714,7 +1714,7 @@
 			return
 
 		message_admins("[src.owner] has started answering [key_name(H)]'s Centcomm request.")
-		var/input = input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from Centcom", "")
+		var/input = rhtml_encode(input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from Centcom", ""))
 		if(!input)
 			message_admins("[src.owner] decided not to answer [key_name(H)]'s Centcomm request.")
 			return
@@ -1734,7 +1734,7 @@
 			return
 
 		message_admins("[src.owner] has started answering [key_name(H)]'s syndicate request.")
-		var/input = input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from The Syndicate", "")
+		var/input = rhtml_encode(input(src.owner, "Please enter a message to reply to [key_name(H)] via their headset.","Outgoing message from The Syndicate", ""))
 		if(!input)
 			message_admins("[src.owner] decided not to answer [key_name(H)]'s syndicate request.")
 			return
@@ -2259,5 +2259,12 @@
 		var/list/dat = list("Related accounts by [uppertext(href_list["showrelatedacc"])]:")
 		dat += thing_to_check
 
-		usr << browse(dat.Join("<br>"), "window=related_[C];size=420x300")
+	else if(href_list["announcetritor"])
+		var/zhirobas = href_list["announcetritor"]
+		priority_announce("��� ����� �������� ��� ��������� ���� ������� �������� ����������, ���������� �� ��������: [zhirobas]. ���������� ���������� ��� ��� �����������.", null, 'sound/AI/commandreport.ogg')
+		print_command_report("We have made certain that the following crewmember is a syndicate agent: [zhirobas]. Exterminate on sight.", null, FALSE)
 
+	else if(href_list["announcechange"])
+		var/zhirobas = href_list["announcechange"]
+		priority_announce("��� ����� �������� ��� ��������� ���� ������� �������� ������� ������������ ���������, ��������� ��������� ����� �������: [zhirobas]. ���������� ���������� ��� ��� �����������.", null, 'sound/AI/commandreport.ogg')
+		print_command_report("We have made certain that the following crewmember is a dangerous creature able to change its appearance: [zhirobas]. Exterminate on sight.", null, FALSE)

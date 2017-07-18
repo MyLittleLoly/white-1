@@ -1406,6 +1406,9 @@ GLOBAL_PROTECT(valid_HTTPSGet)
 
 #define UNTIL(X) while(!(X)) stoplag()
 
+/proc/to_chat(target, message)
+	target << russian_html2text(sanitize_russian(message))
+
 /proc/pass()
 	return
 

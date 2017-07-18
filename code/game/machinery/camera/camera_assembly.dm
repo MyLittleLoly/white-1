@@ -84,7 +84,7 @@
 					to_chat(user, "<span class='warning'>No input found, please hang up and try your call again!</span>")
 					return
 
-				var/list/tempnetwork = splittext(input, ",")
+				var/list/tempnetwork = splittext(sanitize_russian(input), ",")
 				if(tempnetwork.len < 1)
 					to_chat(user, "<span class='warning'>No network found, please hang up and try your call again!</span>")
 					return

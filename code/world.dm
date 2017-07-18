@@ -253,7 +253,7 @@
 	..()
 
 /world/proc/load_motd()
-	GLOB.join_motd = file2text("config/motd.txt") + "<br>" + GLOB.revdata.GetTestMergeInfo()
+	GLOB.join_motd = sanitize_russian(file2text("config/motd.txt")) + "<br>" + GLOB.revdata.GetTestMergeInfo()
 
 /world/proc/update_status()
 	var/s = ""

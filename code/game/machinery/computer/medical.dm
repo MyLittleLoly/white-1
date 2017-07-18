@@ -557,7 +557,7 @@
 						P.name = text("MR-[] '[]'", GLOB.data_core.medicalPrintCount, src.active1.fields["name"])
 					else
 						P.info += "<B>Medical Record Lost!</B><BR>"
-						P.name = text("MR-[] '[]'", GLOB.data_core.medicalPrintCount, "Record Lost")
+						P.name = sanitize_russian(text("MR-[] '[]'", GLOB.data_core.medicalPrintCount, "Record Lost"))
 					P.info += "</TT>"
 					src.printing = null
 

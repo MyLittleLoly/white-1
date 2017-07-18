@@ -101,7 +101,7 @@
 				dat += "<li>[l]</li>"
 			if(!GLOB.admin_log.len)
 				dat += "No-one has done anything this round!"
-			usr << browse(dat, "window=admin_log")
+			usr << browse(sanitize_russian(dat), "window=admin_log")
 
 		if("list_job_debug")
 			var/dat = "<B>Job Debug info.</B><HR>"

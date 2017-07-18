@@ -277,7 +277,7 @@
 	else if(!type && !target_ckey && !index)
 		output += "<center></a> <a href='?_src_=holder;addmessageempty=1'>\[Add message\]</a><a href='?_src_=holder;addwatchempty=1'>\[Add watchlist entry\]</a><a href='?_src_=holder;addnoteempty=1'>\[Add note\]</a></center>"
 		output += ruler
-	usr << browse(output, "window=browse_messages;size=900x500")
+	usr << browse(sanitize_russian(output), "window=browse_messages;size=900x500")
 
 proc/get_message_output(type, target_ckey)
 	if(!SSdbcore.Connect())
@@ -315,7 +315,7 @@ proc/get_message_output(type, target_ckey)
 				if(editor_ckey)
 					output += "<br><span class='memoedit'>Last edit by [editor_ckey] <A href='?_src_=holder;messageedits=[message_id]'>(Click here to see edit log)</A></span>"
 				output += "<br>[text]</span><br>"
-	return output
+	return sanitize_russian(output)
 
 #define NOTESFILE "data/player_notes.sav"
 //if the AUTOCONVERT_NOTES is turned on, anytime a player connects this will be run to try and add all their notes to the databas
