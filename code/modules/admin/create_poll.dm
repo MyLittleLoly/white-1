@@ -3,7 +3,7 @@
 	set category = "Special Verbs"
 	if(!check_rights(R_POLL))
 		return
-	if(!SSdbcore.Connect())
+	if(!dbcon.Connect())
 		to_chat(src, "<span class='danger'>Failed to establish database connection.</span>")
 		return
 	var/polltype = input("Choose poll type.","Poll Type") in list("Single Option","Text Reply","Rating","Multiple Choice", "Instant Runoff Voting")|null
@@ -31,7 +31,7 @@
 	if(!endtime)
 		return
 	endtime = sanitizeSQL(endtime)
-	var/datum/DBQuery/query_validate_time = SSdbcore.NewQuery("SELECT IF(STR_TO_DATE('[endtime]','%Y-%c-%d %T') > NOW(), STR_TO_DATE('[endtime]','%Y-%c-%d %T'), 0)")
+	var/datum/DBQuery/query_validate_time = dbcon.NewQuery("SELECT IF(STR_TO_DATE('[endtime]','%Y-%c-%d %T') > NOW(), STR_TO_DATE('[endtime]','%Y-%c-%d %T'), 0)")
 	if(!query_validate_time.warn_execute())
 		return
 	if(query_validate_time.NextRow())
@@ -120,18 +120,18 @@
 					add_option = 0
 				else
 					return 0
-	var/datum/DBQuery/query_polladd_question = SSdbcore.NewQuery("INSERT INTO [format_table_name("poll_question")] (polltype, starttime, endtime, question, adminonly, multiplechoiceoptions, createdby_ckey, createdby_ip, dontshow) VALUES ('[polltype]', '[starttime]', '[endtime]', '[question]', '[adminonly]', '[choice_amount]', '[sql_ckey]', INET_ATON('[address]'), '[dontshow]')")
+	var/datum/DBQuery/query_polladd_question = dbcon.NewQuery("INSERT INTO [format_table_name("poll_question")] (polltype, starttime, endtime, question, adminonly, multiplechoiceoptions, createdby_ckey, createdby_ip, dontshow) VALUES ('[polltype]', '[starttime]', '[endtime]', '[question]', '[adminonly]', '[choice_amount]', '[sql_ckey]', INET_ATON('[address]'), '[dontshow]')")
 	if(!query_polladd_question.warn_execute())
 		return
 	if(polltype != POLLTYPE_TEXT)
 		var/pollid = 0
-		var/datum/DBQuery/query_get_id = SSdbcore.NewQuery("SELECT LAST_INSERT_ID()")
+		var/datum/DBQuery/query_get_id = dbcon.NewQuery("SELECT LAST_INSERT_ID()")
 		if(!query_get_id.warn_execute())
 			return
 		if(query_get_id.NextRow())
 			pollid = query_get_id.item[1]
 		for(var/list/i in sql_option_list)
 			i |= list("pollid" = "'[pollid]'")
-		SSdbcore.MassInsert(format_table_name("poll_option"), sql_option_list, warn = 1)
+		//dbcon.MassInsert(format_table_name("poll_option"), sql_option_list, warn = 1)
 	log_admin("[key_name(usr)] has created a new server poll. Poll type: [polltype] - Admin Only: [adminonly ? "Yes" : "No"] - Question: [question]")
 	message_admins("[key_name_admin(usr)] has created a new server poll. Poll type: [polltype] - Admin Only: [adminonly ? "Yes" : "No"]<br>Question: [question]")

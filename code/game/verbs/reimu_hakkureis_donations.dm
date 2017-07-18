@@ -211,12 +211,12 @@ proc/load_donator(ckey)
 //	var/DBConnection/dbcon2 = new()
 //	dbcon2.doConnect("dbi:mysql:forum2:[global.sqladdress]:[global.sqlport]","[global.sqlfdbklogin]","[global.sqlfdbkpass]") //pidorasy
 
-	if(!SSdbcore.IsConnected())
+	if(!dbcon.IsConnected())
 //		world.log << "Failed to connect to database [dbcon2.ErrorMsg()] in load_donator([ckey])."
 //		world.log << "Failed to connect to database in load_donator([ckey])."
 		return 0
 
-	var/datum/DBQuery/query_donator = SSdbcore.NewQuery("SELECT round(sum) FROM Z_donators WHERE byond='[ckey]'")
+	var/datum/DBQuery/query_donator = dbcon.NewQuery("SELECT round(sum) FROM Z_donators WHERE byond='[ckey]'")
 	query_donator.warn_execute()
 	while(query_donator.NextRow())
 		var/money = round(text2num(query_donator.item[1]))

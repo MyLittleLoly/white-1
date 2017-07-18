@@ -10,7 +10,7 @@
 /proc/showAccounts(var/mob/user, var/targetkey)
 	var/output = "<center><table border='1'> <caption>Совпадение по computerID</caption><tr> <th width='100px' >ckey</th><th width='100px'>firstseen</th><th width='100px'>lastseen</th><th width='100px'>ip</th><th width='100px'>computerid </th></tr>"
 
-	var/datum/DBQuery/query = SSdbcore.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]')")
+	var/datum/DBQuery/query = dbcon.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]')")
 	query.warn_execute()
 	while(query.NextRow())
 		output+="<tr><td>[query.item[1]]</td>"
@@ -23,7 +23,7 @@
 
 	output += "<center><table border='1'> <caption>Совпадение по IP</caption><tr> <th width='100px' >ckey</th><th width='100px'>firstseen</th><th width='100px'>lastseen</th><th width='100px'>ip</th><th width='100px'>computerid </th></tr>"
 
-	query = SSdbcore.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]'))")
+	query = dbcon.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]'))")
 	query.warn_execute()
 	while(query.NextRow())
 		output+="<tr><td>[query.item[1]]</td>"
@@ -45,7 +45,7 @@
 
 	for (var/client/C in GLOB.clients)
 		t1 =""
-		var/datum/DBQuery/query_ip = SSdbcore.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]'))")
+		var/datum/DBQuery/query_ip = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]'))")
 		query_ip.warn_execute()
 		var/c = 0
 
@@ -59,7 +59,7 @@
 
 	for (var/client/C in GLOB.clients)
 		t1 =""
-		var/datum/DBQuery/query_cid = SSdbcore.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]')")
+		var/datum/DBQuery/query_cid = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]')")
 		query_cid.warn_execute()
 		var/c = 0
 		while(query_cid.NextRow())

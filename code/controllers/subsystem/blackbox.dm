@@ -23,14 +23,14 @@ SUBSYSTEM_DEF(blackbox)
 
 //poll population
 /datum/controller/subsystem/blackbox/fire()
-	if(!SSdbcore.Connect())
+	if(!dbcon.Connect())
 		return
 	var/playercount = 0
 	for(var/mob/M in GLOB.player_list)
 		if(M.client)
 			playercount += 1
 	var/admincount = GLOB.admins.len
-	var/datum/DBQuery/query_record_playercount = SSdbcore.NewQuery("INSERT INTO [format_table_name("legacy_population")] (playercount, admincount, time, server_ip, server_port) VALUES ([playercount], [admincount], '[SQLtime()]', INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]')")
+	var/datum/DBQuery/query_record_playercount = dbcon.NewQuery("INSERT INTO [format_table_name("legacy_population")] (playercount, admincount, time, server_ip, server_port) VALUES ([playercount], [admincount], '[SQLtime()]', INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]')")
 	query_record_playercount.Execute()
 
 /datum/controller/subsystem/blackbox/Recover()
@@ -88,7 +88,7 @@ SUBSYSTEM_DEF(blackbox)
 	add_details("radio_usage","PDA-[pda_msg_amt]")
 	add_details("radio_usage","RC-[rc_msg_amt]")
 
-	if (!SSdbcore.Connect())
+	if (!dbcon.Connect())
 		return
 
 	var/list/sqlrowlist = list()
@@ -99,7 +99,7 @@ SUBSYSTEM_DEF(blackbox)
 	if (!length(sqlrowlist))
 		return
 
-	SSdbcore.MassInsert(format_table_name("feedback"), sqlrowlist, ignore_errors = TRUE, delayed = TRUE)
+	//dbcon.MassInsert(format_table_name("feedback"), sqlrowlist, ignore_errors = TRUE, delayed = TRUE)
 
 
 /datum/controller/subsystem/blackbox/proc/LogBroadcast(blackbox_msg, freq)
@@ -171,7 +171,7 @@ SUBSYSTEM_DEF(blackbox)
 /datum/controller/subsystem/blackbox/proc/ReportDeath(mob/living/L)
 	if(sealed)
 		return
-	if(!SSdbcore.Connect())
+	if(!dbcon.Connect())
 		return
 	if(!L || !L.key || !L.mind)
 		return
@@ -199,7 +199,7 @@ SUBSYSTEM_DEF(blackbox)
 	var/y_coord = sanitizeSQL(L.y)
 	var/z_coord = sanitizeSQL(L.z)
 	var/map = sanitizeSQL(SSmapping.config.map_name)
-	var/datum/DBQuery/query_report_death = SSdbcore.NewQuery("INSERT INTO [format_table_name("death")] (pod, x_coord, y_coord, z_coord, mapname, server_ip, server_port, round_id, tod, job, special, name, byondkey, laname, lakey, bruteloss, fireloss, brainloss, oxyloss, toxloss, cloneloss, staminaloss) VALUES ('[sqlpod]', '[x_coord]', '[y_coord]', '[z_coord]', '[map]', INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]', [GLOB.round_id], '[SQLtime()]', '[sqljob]', '[sqlspecial]', '[sqlname]', '[sqlkey]', '[laname]', '[lakey]', [sqlbrute], [sqlfire], [sqlbrain], [sqloxy], [sqltox], [sqlclone], [sqlstamina])")
+	var/datum/DBQuery/query_report_death = dbcon.NewQuery("INSERT INTO [format_table_name("death")] (pod, x_coord, y_coord, z_coord, mapname, server_ip, server_port, round_id, tod, job, special, name, byondkey, laname, lakey, bruteloss, fireloss, brainloss, oxyloss, toxloss, cloneloss, staminaloss) VALUES ('[sqlpod]', '[x_coord]', '[y_coord]', '[z_coord]', '[map]', INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]', [GLOB.round_id], '[SQLtime()]', '[sqljob]', '[sqlspecial]', '[sqlname]', '[sqlkey]', '[laname]', '[lakey]', [sqlbrute], [sqlfire], [sqlbrain], [sqloxy], [sqltox], [sqlclone], [sqlstamina])")
 	query_report_death.Execute()
 
 /datum/controller/subsystem/blackbox/proc/Seal()
