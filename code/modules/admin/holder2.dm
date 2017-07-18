@@ -2,8 +2,8 @@ GLOBAL_LIST_EMPTY(admin_datums)
 GLOBAL_PROTECT(admin_datums)
 
 /datum/admins
-	var/rank = "Pedal"
-	var/rights = 0
+	var/datum/admin_rank/rank
+
 	var/client/owner	= null
 	var/fakekey			= null
 
@@ -17,18 +17,16 @@ GLOBAL_PROTECT(admin_datums)
 	var/datum/newscaster/feed_channel/admincaster_feed_channel = new /datum/newscaster/feed_channel
 	var/admin_signature
 
-/datum/admins/New(R = "Pedal", new_rights = 0, ckey)
+/datum/admins/New(datum/admin_rank/R, ckey)
 	if(!ckey)
 		QDEL_IN(src, 0)
 		throw EXCEPTION("Admin datum created without a ckey")
 		return
-//	if(!istype(R))
-//		spawn(0)
-//			del(src)
-//		throw EXCEPTION("Admin datum created without a rank")
-//		return
+	if(!istype(R))
+		QDEL_IN(src, 0)
+		throw EXCEPTION("Admin datum created without a rank")
+		return
 	rank = R
-	rights = new_rights
 	admin_signature = "Nanotrasen Officer #[rand(0,9)][rand(0,9)][rand(0,9)]"
 	GLOB.admin_datums[ckey] = src
 
@@ -55,12 +53,12 @@ GLOBAL_PROTECT(admin_datums)
 /datum/admins/proc/check_if_greater_rights_than_holder(datum/admins/other)
 	if(!other)
 		return 1 //they have no rights
-	if(rights == 65535)
+	if(rank.rights == 65535)
 		return 1 //we have all the rights
 	if(src == other)
 		return 1 //you always have more rights than yourself
-	if(rights != other.rights)
-		if( (rights & other.rights) == other.rights )
+	if(rank.rights != other.rank.rights)
+		if( (rank.rights & other.rank.rights) == other.rank.rights )
 			return 1 //we have all the rights they have and more
 	return 0
 
@@ -101,7 +99,7 @@ you will have to do something like if(client.rights & R_ADMIN) yourself.
 //This proc checks whether subject has at least ONE of the rights specified in rights_required.
 /proc/check_rights_for(client/subject, rights_required)
 	if(subject && subject.holder && subject.holder.rank)
-		if(rights_required && !(rights_required & subject.holder.rights))
+		if(rights_required && !(rights_required & subject.holder.rank.rights))
 			return 0
 		return 1
 	return 0

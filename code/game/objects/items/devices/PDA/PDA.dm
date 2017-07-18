@@ -220,7 +220,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 				dat += "<a href='byond://?src=\ref[src];choice=Edit'>Edit</a><br>"
 				if(notescanned)
 					dat += "(This is a scanned image, editing it may cause some text formatting to change.)<br>"
-				dat += "<HR><font face=\"[PEN_FONT]\">[sanitize_russian(!notehtml ? note : notehtml)]</font>"
+				dat += "<HR><font face=\"[PEN_FONT]\">[(!notehtml ? note : notehtml)]</font>"
 
 			if (2)
 				dat += "<h4><img src=pda_mail.png> SpaceMessenger V3.9.6</h4>"
@@ -556,7 +556,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 
 	if (!silent)
 		playsound(loc, 'sound/machines/twobeep.ogg', 50, 1)
-		audible_message("[icon(src)] *[ttone]*", null, 3)
+		audible_message("[bicon(src)] *[ttone]*", null, 3)
 	//Search for holder of the PDA.
 	var/mob/living/L = null
 	if(loc && isliving(loc))
@@ -573,7 +573,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 			hrefstart = "<a href='?src=\ref[L];track=[html_encode(source.owner)]'>"
 			hrefend = "</a>"
 
-		to_chat(L, "[\icon(src)] <b>Message from [hrefstart][source.owner] ([source.ownjob])[hrefend], </b>\"[msg.message]\"[msg.get_photo_ref()] (<a href='byond://?src=\ref[src];choice=Message;skiprefresh=1;target=\ref[source]'>Reply</a>)")
+		to_chat(L, "[\bicon(src)] <b>Message from [hrefstart][source.owner] ([source.ownjob])[hrefend], </b>\"[msg.message]\"[msg.get_photo_ref()] (<a href='byond://?src=\ref[src];choice=Message;skiprefresh=1;target=\ref[source]'>Reply</a>)")
 
 	update_icon()
 	add_overlay(icon_alert)

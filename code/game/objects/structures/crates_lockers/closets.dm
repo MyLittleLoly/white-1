@@ -3,7 +3,7 @@
 	desc = "It's a basic storage unit."
 	icon = 'icons/obj/closet.dmi'
 	icon_state = "generic"
-	density = 1
+	density = TRUE
 	var/icon_door = null
 	var/icon_door_override = FALSE //override to have open overlay use icon different to its base's
 	var/secure = FALSE //secure locker or not, also used if overriding a non-secure locker with a secure door overlay to add fancy lights
@@ -81,8 +81,8 @@
 	else if(secure && !opened)
 		to_chat(user, "<span class='notice'>Alt-click to [locked ? "unlock" : "lock"].</span>")
 
-/obj/structure/closet/CanPass(atom/movable/mover, turf/target, height=0)
-	if(height == 0 || wall_mounted)
+/obj/structure/closet/CanPass(atom/movable/mover, turf/target)
+	if(wall_mounted)
 		return 1
 	return !density
 
@@ -130,7 +130,7 @@
 	playsound(loc, open_sound, 15, 1, -3)
 	opened = 1
 	if(!dense_when_open)
-		density = 0
+		density = FALSE
 	climb_time *= 0.5 //it's faster to climb onto an open thing
 	dump_contents()
 	update_icon()
@@ -182,7 +182,7 @@
 	playsound(loc, close_sound, 15, 1, -3)
 	climb_time = initial(climb_time)
 	opened = 0
-	density = 1
+	density = TRUE
 	update_icon()
 	return 1
 
@@ -381,8 +381,8 @@
 			to_chat(user, "<span class='warning'>You fail to break out of [src]!</span>")
 
 /obj/structure/closet/proc/bust_open()
-	welded = 0 //applies to all lockers
-	locked = 0 //applies to critter crates and secure lockers only
+	welded = FALSE //applies to all lockers
+	locked = FALSE //applies to critter crates and secure lockers only
 	broken = 1 //applies to secure lockers only
 	open()
 
@@ -415,9 +415,9 @@
 		user.visible_message("<span class='warning'>Sparks fly from [src]!</span>",
 						"<span class='warning'>You scramble [src]'s lock, breaking it open!</span>",
 						"<span class='italics'>You hear a faint electrical spark.</span>")
-		playsound(src.loc, 'sound/effects/sparks4.ogg', 50, 1)
+		playsound(src, "sparks", 50, 1)
 		broken = 1
-		locked = 0
+		locked = FALSE
 		update_icon()
 
 /obj/structure/closet/get_remote_view_fullscreens(mob/user)

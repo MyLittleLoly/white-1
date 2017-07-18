@@ -382,7 +382,7 @@
 
 	//to_chat(world, "Channelname: [src.admincaster_feed_channel.channel_name] [src.admincaster_feed_channel.author]")
 	//to_chat(world, "Msg: [src.admincaster_feed_message.author] [src.admincaster_feed_message.body]")
-	usr << browse(sanitize_russian(dat), "window=admincaster_main;size=400x600")
+	usr << browse(dat, "window=admincaster_main;size=400x600")
 	onclose(usr, "admincaster_main")
 
 
@@ -408,7 +408,7 @@
 	if(marked_datum && istype(marked_datum, /atom))
 		dat += "<A href='?src=\ref[src];dupe_marked_datum=1'>Duplicate Marked Datum</A><br>"
 
-	usr << browse(sanitize_russian(dat), "window=admin2;size=210x200")
+	usr << browse(dat, "window=admin2;size=210x200")
 	return
 
 /////////////////////////////////////////////////////////////////////////////////////////////////admins2.dm merge
@@ -425,19 +425,27 @@
 	var/list/options = list("Regular Restart", "Hard Restart (No Delay/Feeback Reason)", "Hardest Restart (No actions, just reboot)")
 	if(world.RunningService())
 		options += "Service Restart (Force restart DD)";
-	var result = input(usr, "Select reboot method", "World Reboot", options[1]) as null|anything in options
-	if(result)
-		SSblackbox.add_details("admin_verb","Reboot World") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-		switch(result)
-			if("Regular Restart")
-				SSticker.Reboot("Initiated by [usr.client.holder.fakekey ? "Admin" : usr.key].", "admin reboot - by [usr.key] [usr.client.holder.fakekey ? "(stealth)" : ""]", 10)
-			if("Hard Restart (No Delay, No Feeback Reason)")
-				world.Reboot()
-			if("Hardest Restart (No actions, just reboot)")
-				world.Reboot(fast_track = TRUE)
-			if("Service Restart (Force restart DD)")
-				GLOB.reboot_mode = REBOOT_MODE_HARD
-				world.ServiceReboot()
+
+	var/rebootconfirm
+	if(SSticker.admin_delay_notice)
+		if(alert(usr, "Are you sure? An admin has already delayed the round end for the following reason: [SSticker.admin_delay_notice]", "Confirmation", "Yes", "No") == "Yes")
+			rebootconfirm = TRUE
+	else
+		rebootconfirm = TRUE
+	if(rebootconfirm)
+		var result = input(usr, "Select reboot method", "World Reboot", options[1]) as null|anything in options
+		if(result)
+			SSblackbox.add_details("admin_verb","Reboot World") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+			switch(result)
+				if("Regular Restart")
+					SSticker.Reboot("Initiated by [usr.client.holder.fakekey ? "Admin" : usr.key].", "admin reboot - by [usr.key] [usr.client.holder.fakekey ? "(stealth)" : ""]", 10)
+				if("Hard Restart (No Delay, No Feeback Reason)")
+					world.Reboot()
+				if("Hardest Restart (No actions, just reboot)")
+					world.Reboot(fast_track = TRUE)
+				if("Service Restart (Force restart DD)")
+					GLOB.reboot_mode = REBOOT_MODE_HARD
+					world.ServiceReboot()
 
 /datum/admins/proc/end_round()
 	set category = "Server"

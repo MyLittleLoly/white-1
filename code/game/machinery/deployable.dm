@@ -11,8 +11,8 @@
 /obj/structure/barricade
 	name = "chest high wall"
 	desc = "Looks like this would make good cover."
-	anchored = 1
-	density = 1
+	anchored = TRUE
+	density = TRUE
 	max_integrity = 100
 	var/proj_pass_rate = 50 //How many projectiles will pass the cover. Lower means stronger cover
 	var/material = METAL
@@ -37,9 +37,7 @@
 	else
 		return ..()
 
-/obj/structure/barricade/CanPass(atom/movable/mover, turf/target, height=0)//So bullets will fly over and stuff.
-	if(height==0)
-		return 1
+/obj/structure/barricade/CanPass(atom/movable/mover, turf/target)//So bullets will fly over and stuff.
 	if(locate(/obj/structure/barricade) in get_turf(mover))
 		return 1
 	else if(istype(mover, /obj/item/projectile))
@@ -88,8 +86,8 @@
 	desc = "A deployable barrier. Provides good cover in fire fights."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "barrier0"
-	density = 0
-	anchored = 0
+	density = FALSE
+	anchored = FALSE
 	max_integrity = 180
 	proj_pass_rate = 20
 	armor = list(melee = 10, bullet = 50, laser = 50, energy = 50, bomb = 10, bio = 100, rad = 100, fire = 10, acid = 0)
@@ -104,8 +102,8 @@
 
 /obj/structure/barricade/security/proc/deploy()
 	icon_state = "barrier1"
-	density = 1
-	anchored = 1
+	density = TRUE
+	anchored = TRUE
 	if(deploy_message)
 		visible_message("<span class='warning'>[src] deploys!</span>")
 

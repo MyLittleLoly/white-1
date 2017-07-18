@@ -3,8 +3,8 @@
 
 /obj/structure/mineral_door
 	name = "metal door"
-	density = 1
-	anchored = 1
+	density = TRUE
+	anchored = TRUE
 	opacity = TRUE
 
 	icon = 'icons/obj/doors/mineral_doors.dmi'
@@ -28,7 +28,7 @@
 	air_update_turf(1)
 
 /obj/structure/mineral_door/Destroy()
-	density = 0
+	density = FALSE
 	air_update_turf(1)
 	return ..()
 
@@ -37,10 +37,10 @@
 	..()
 	move_update_air(T)
 
-/obj/structure/mineral_door/Bumped(atom/user)
+/obj/structure/mineral_door/CollidedWith(atom/movable/AM)
 	..()
 	if(!state)
-		return TryToSwitchState(user)
+		return TryToSwitchState(AM)
 
 /obj/structure/mineral_door/attack_ai(mob/user) //those aren't machinery, they're just big fucking slabs of a mineral
 	if(isAI(user)) //so the AI can't open it
@@ -55,7 +55,7 @@
 /obj/structure/mineral_door/attack_hand(mob/user)
 	return TryToSwitchState(user)
 
-/obj/structure/mineral_door/CanPass(atom/movable/mover, turf/target, height=0)
+/obj/structure/mineral_door/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover, /obj/effect/beam))
 		return !opacity
 	return !density
@@ -89,7 +89,7 @@
 	set_opacity(FALSE)
 	flick("[initial_state]opening",src)
 	sleep(10)
-	density = 0
+	density = FALSE
 	state = 1
 	air_update_turf(1)
 	update_icon()
@@ -108,7 +108,7 @@
 	playsound(loc, closeSound, 100, 1)
 	flick("[initial_state]closing",src)
 	sleep(10)
-	density = 1
+	density = TRUE
 	set_opacity(TRUE)
 	state = 0
 	air_update_turf(1)

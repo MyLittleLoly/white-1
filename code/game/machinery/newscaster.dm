@@ -17,7 +17,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 	var/icon/img = null
 	var/time_stamp = ""
 	var/list/datum/newscaster/feed_comment/comments = list()
-	var/locked = 0
+	var/locked = FALSE
 	var/caption = ""
 	var/creationTime
 	var/authorCensor
@@ -58,7 +58,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 /datum/newscaster/feed_channel
 	var/channel_name = ""
 	var/list/datum/newscaster/feed_message/messages = list()
-	var/locked = 0
+	var/locked = FALSE
 	var/author = ""
 	var/censored = 0
 	var/list/authorCensorTime = list()
@@ -119,9 +119,9 @@ GLOBAL_LIST_EMPTY(allCasters)
 /datum/newscaster/feed_network/proc/SubmitArticle(msg, author, channel_name, obj/item/weapon/photo/photo, adminMessage = 0, allow_comments = 1)
 	var/datum/newscaster/feed_message/newMsg = new /datum/newscaster/feed_message
 	newMsg.author = author
-	newMsg.body = sanitize_russian(msg)
+	newMsg.body = msg
 	newMsg.time_stamp = "[worldtime2text()]"
-	newMsg.is_admin_message = sanitize_russian(adminMessage)
+	newMsg.is_admin_message = adminMessage
 	newMsg.locked = !allow_comments
 	if(photo)
 		newMsg.img = photo.img
@@ -183,7 +183,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 	var/securityCaster = 0
 	var/unit_no = 0
 	var/alert_delay = 500
-	var/alert = 0
+	var/alert = FALSE
 	var/scanned_user = "Unknown"
 	var/msg = ""
 	var/obj/item/weapon/photo/photo = null
@@ -191,7 +191,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 	var/c_locked=0
 	var/datum/newscaster/feed_channel/viewing_channel = null
 	var/allow_comments = 1
-	anchored = 1
+	anchored = TRUE
 
 /obj/machinery/newscaster/security_unit
 	name = "security newscaster"
@@ -983,7 +983,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 					dat+="<BR><I>There is a small scribble near the end of this page... It reads: \"[scribble]\"</I>"
 				dat+= "<HR><DIV STYLE='float:left;'><A href='?src=\ref[src];prev_page=1'>Previous Page</A></DIV>"
 		dat+="<BR><HR><div align='center'>[curr_page+1]</div>"
-		human_user << browse(sanitize_russian(dat), "window=newspaper_main;size=300x400")
+		human_user << browse(dat, "window=newspaper_main;size=300x400")
 		onclose(human_user, "newspaper_main")
 	else
 		to_chat(user, "The paper is full of unintelligible symbols!")

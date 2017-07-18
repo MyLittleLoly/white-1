@@ -13,7 +13,7 @@
 
 	var/universal_translate = 0 // set to 1 if it can translate nonhuman speech
 
-	req_access = list(GLOB.access_tcomsat)
+	req_access = list(ACCESS_TCOMSAT)
 	circuit = /obj/item/weapon/circuitboard/computer/comm_server
 
 /obj/machinery/computer/telecomms/server/attack_hand(mob/user)
@@ -136,7 +136,7 @@
 
 
 
-	user << browse(russian_text2html(dat), "window=comm_monitor;size=575x400")
+	user << browse(dat, "window=comm_monitor;size=575x400")
 	onclose(user, "server_control")
 
 	temp = ""

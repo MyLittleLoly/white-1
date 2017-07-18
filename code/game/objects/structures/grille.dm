@@ -3,8 +3,8 @@
 	name = "grille"
 	icon = 'icons/obj/structures.dmi'
 	icon_state = "grille"
-	density = 1
-	anchored = 1
+	density = TRUE
+	anchored = TRUE
 	flags = CONDUCT
 	pressure_resistance = 5*ONE_ATMOSPHERE
 	layer = BELOW_OBJ_LAYER
@@ -49,17 +49,11 @@
 		new /obj/structure/grille/ratvar(src.loc)
 	qdel(src)
 
-/obj/structure/grille/Bumped(atom/user)
-	if(ismob(user))
-		var/tile_density = FALSE
-		for(var/atom/movable/AM in get_turf(src))
-			if(AM == src)
-				continue
-			if(AM.density && AM.layer >= layer)
-				tile_density = TRUE
-				break
-		if(!tile_density)
-			shock(user, 70)
+/obj/structure/grille/CollidedWith(atom/movable/AM)
+	if(!ismob(AM))
+		return
+	var/mob/M = AM
+	shock(M, 70)
 
 
 /obj/structure/grille/attack_paw(mob/user)
@@ -89,8 +83,7 @@
 		take_damage(20, BRUTE, "melee", 1)
 
 
-/obj/structure/grille/CanPass(atom/movable/mover, turf/target, height=0)
-	if(height==0) return 1
+/obj/structure/grille/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && mover.checkpass(PASSGRILLE))
 		return 1
 	else
@@ -156,7 +149,7 @@
 					WD = new/obj/structure/window/fulltile(loc) //normal window
 				WD.setDir(dir_to_set)
 				WD.ini_dir = dir_to_set
-				WD.anchored = 0
+				WD.anchored = FALSE
 				WD.state = 0
 				ST.use(2)
 				to_chat(user, "<span class='notice'>You place [WD] on [src].</span>")
@@ -238,7 +231,7 @@
 
 /obj/structure/grille/broken // Pre-broken grilles for map placement
 	icon_state = "brokengrille"
-	density = 0
+	density = FALSE
 	obj_integrity = 20
 	broken = 1
 	rods_amount = 1
@@ -274,7 +267,7 @@
 
 /obj/structure/grille/ratvar/broken
 	icon_state = "brokenratvargrille"
-	density = 0
+	density = FALSE
 	obj_integrity = 20
 	broken = 1
 	rods_amount = 1

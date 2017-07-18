@@ -434,7 +434,7 @@
 	new /obj/effect/temp_visual/swarmer/disintegration(get_turf(target))
 	do_attack_animation(target)
 	changeNext_move(CLICK_CD_MELEE)
-	target.ex_act(3)
+	target.ex_act(EXPLODE_LIGHT)
 
 
 /mob/living/simple_animal/hostile/swarmer/proc/DisperseTarget(mob/living/target)
@@ -550,7 +550,7 @@
 	desc = "A quickly assembled trap that electrifies living beings and overwhelms machine sensors. Will not retain its form if damaged enough."
 	icon_state = "trap"
 	max_integrity = 10
-	density = 0
+	density = FALSE
 
 /obj/structure/swarmer/trap/Crossed(atom/movable/AM)
 	if(isliving(AM))

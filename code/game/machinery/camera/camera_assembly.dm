@@ -42,7 +42,7 @@
 			if(istype(W, /obj/item/weapon/weldingtool))
 				if(weld(W, user))
 					to_chat(user, "<span class='notice'>You weld the assembly securely into place.</span>")
-					anchored = 1
+					anchored = TRUE
 					state = 2
 				return
 
@@ -70,7 +70,7 @@
 				if(weld(W, user))
 					to_chat(user, "<span class='notice'>You unweld the assembly from its place.</span>")
 					state = 1
-					anchored = 1
+					anchored = TRUE
 				return
 
 
@@ -84,7 +84,7 @@
 					to_chat(user, "<span class='warning'>No input found, please hang up and try your call again!</span>")
 					return
 
-				var/list/tempnetwork = splittext(sanitize_russian(input), ",")
+				var/list/tempnetwork = splittext(input, ",")
 				if(tempnetwork.len < 1)
 					to_chat(user, "<span class='warning'>No network found, please hang up and try your call again!</span>")
 					return

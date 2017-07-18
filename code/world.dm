@@ -59,9 +59,9 @@
 
 /world/proc/CheckSchemaVersion()
 	if(config.sql_enabled)
-		if(dbcon.Connect())
+		if(SSdbcore.Connect())
 			log_world("Database connection established.")
-			var/DBQuery/db_version = dbcon.NewQuery("SELECT major, minor FROM [format_table_name("schema_version")]")
+			var/datum/DBQuery/db_version = SSdbcore.NewQuery("SELECT major, minor FROM [format_table_name("schema_version")]")
 			db_version.Execute()
 			if(db_version.NextRow())
 				var/db_major = db_version.item[1]
@@ -76,10 +76,10 @@
 
 /world/proc/SetRoundID()
 	if(config.sql_enabled)
-		if(dbcon.Connect())
-			var/DBQuery/query_round_start = dbcon.NewQuery("INSERT INTO [format_table_name("round")] (start_datetime, server_ip, server_port) VALUES (Now(), INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]')")
+		if(SSdbcore.Connect())
+			var/datum/DBQuery/query_round_start = SSdbcore.NewQuery("INSERT INTO [format_table_name("round")] (start_datetime, server_ip, server_port) VALUES (Now(), INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]')), '[world.port]')")
 			query_round_start.Execute()
-			var/DBQuery/query_round_last_id = dbcon.NewQuery("SELECT LAST_INSERT_ID()")
+			var/datum/DBQuery/query_round_last_id = SSdbcore.NewQuery("SELECT LAST_INSERT_ID()")
 			query_round_last_id.Execute()
 			if(query_round_last_id.NextRow())
 				GLOB.round_id = query_round_last_id.item[1]
@@ -107,10 +107,10 @@
 
 /world/Topic(T, addr, master, key)
 	var/list/input = params2list(T)
-
+	
 	var/pinging = ("ping" in input)
 	var/playing = ("players" in input)
-
+	
 	if(!pinging && !playing && config && config.log_world_topic)
 		GLOB.world_game_log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
 
@@ -249,11 +249,11 @@
 	else
 		to_chat(world, "<span class='boldannounce'>Rebooting world...</span>")
 		Master.Shutdown()	//run SS shutdowns
-	log_world("World rebooted at [time_stamp()]");
+	log_world("World rebooted at [time_stamp()]")
 	..()
 
 /world/proc/load_motd()
-	GLOB.join_motd = sanitize_russian(file2text("config/motd.txt")) + "<br>" + GLOB.revdata.GetTestMergeInfo()
+	GLOB.join_motd = file2text("config/motd.txt") + "<br>" + GLOB.revdata.GetTestMergeInfo()
 
 /world/proc/update_status()
 	var/s = ""
@@ -262,12 +262,11 @@
 		s += "<b>[config.server_name]</b> &#8212; "
 
 	s += "<b>[station_name()]</b>";
-//	s += " ("
-//	s += "<a href=\"http://\">" //Change this to wherever you want the hub to link to.
-//	s += "[game_version]"
-//	s += "Default"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
-//	s += "</a>"
-//	s += ")"
+	s += " ("
+	s += "<a href=\"http://\">" //Change this to wherever you want the hub to link to.
+	s += "Default"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
+	s += "</a>"
+	s += ")"
 
 	var/list/features = list()
 

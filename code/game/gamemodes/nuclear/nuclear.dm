@@ -118,7 +118,7 @@
 	if(foundIDs.len)
 		for(var/obj/item/weapon/card/id/ID in foundIDs)
 			ID.name = "lead agent card"
-			ID.access += GLOB.access_syndicate_leader
+			ID.access += ACCESS_SYNDICATE_LEADER
 	else
 		message_admins("Warning: Nuke Ops spawned without access to leave their spawn area!")
 
@@ -288,7 +288,7 @@
 		text += "<br>"
 		text += "(Syndicates used [TC_uses] TC) [purchases]"
 		if(TC_uses == 0 && station_was_nuked && !are_operatives_dead())
-			text += "<BIG>[icon(icon('icons/badass.dmi', "badass"))]</BIG>"
+			text += "<BIG>[bicon(icon('icons/badass.dmi', "badass"))]</BIG>"
 		to_chat(world, text)
 	return 1
 

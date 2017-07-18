@@ -31,8 +31,6 @@
 	sleep(10)
 	cooldown = 0
 
-/obj/item/device/assembly/control/attack_self()
-	id = input("Choose channel ID for [src].", "Channel ID", src.id)
 
 /obj/item/device/assembly/control/airlock
 	name = "airlock controller"
