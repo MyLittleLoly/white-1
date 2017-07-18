@@ -1,6 +1,6 @@
 GLOBAL_LIST_EMPTY(admin_ranks)								//list of all admin_rank datums
 GLOBAL_PROTECT(admin_ranks)
-/*
+
 /datum/admin_rank
 	var/name = "NoRank"
 	var/rights = 0
@@ -27,6 +27,9 @@ GLOBAL_PROTECT(admin_ranks)
 /datum/admin_rank/vv_edit_var(var_name, var_value)
 	return FALSE
 
+#if DM_VERSION > 512
+#error remove the rejuv keyword from this proc
+#endif
 /proc/admin_keyword_to_flag(word, previous_rights=0)
 	var/flag = 0
 	switch(ckey(word))
@@ -48,8 +51,8 @@ GLOBAL_PROTECT(admin_ranks)
 			flag = R_POSSESS
 		if("stealth")
 			flag = R_STEALTH
-		if("rejuv","rejuvinate")
-			flag = R_REJUVINATE
+		if("poll")
+			flag = R_POLL
 		if("varedit")
 			flag = R_VAREDIT
 		if("everything","host","all")
@@ -60,6 +63,9 @@ GLOBAL_PROTECT(admin_ranks)
 			flag = R_SPAWN
 		if("@","prev")
 			flag = previous_rights
+		if("rejuv","rejuvinate")
+			stack_trace("Legacy keyword rejuvinate used defaulting to R_ADMIN")
+			flag = R_ADMIN
 	return flag
 
 /proc/admin_keyword_to_path(word) //use this with verb keywords eg +/client/proc/blah
@@ -67,6 +73,11 @@ GLOBAL_PROTECT(admin_ranks)
 
 // Adds/removes rights to this admin_rank
 /datum/admin_rank/proc/process_keyword(word, previous_rights=0)
+	if(IsAdminAdvancedProcCall())
+		var/msg = " has tried to elevate permissions!"
+		message_admins("[key_name_admin(usr)][msg]")
+		log_admin_private("[key_name(usr)][msg]")
+		return
 	var/flag = admin_keyword_to_flag(word, previous_rights)
 	if(flag)
 		switch(text2ascii(word,1))
@@ -86,6 +97,7 @@ GLOBAL_PROTECT(admin_ranks)
 					if(!adds.Remove(path))
 						subs += path	//-
 
+
 // Checks for (keyword-formatted) rights on this admin
 /datum/admins/proc/check_keyword(word)
 	var/flag = admin_keyword_to_flag(word)
@@ -100,6 +112,9 @@ GLOBAL_PROTECT(admin_ranks)
 
 //load our rank - > rights associations
 /proc/load_admin_ranks()
+	if(IsAdminAdvancedProcCall())
+		to_chat(usr, "<span class='admin prefix'>Admin Reload blocked: Advanced ProcCall detected.</span>")
+		return
 	GLOB.admin_ranks.Cut()
 
 	if(config.admin_legacy_system)
@@ -132,7 +147,7 @@ GLOBAL_PROTECT(admin_ranks)
 			load_admin_ranks()
 			return
 
-		var/DBQuery/query_load_admin_ranks = dbcon.NewQuery("SELECT rank, flags FROM [format_table_name("admin_ranks")]")
+		var/datum/DBQuery/query_load_admin_ranks = dbcon.NewQuery("SELECT rank, flags FROM [format_table_name("admin_ranks")]")
 		if(!query_load_admin_ranks.Execute())
 			return
 		while(query_load_admin_ranks.NextRow())
@@ -154,9 +169,12 @@ GLOBAL_PROTECT(admin_ranks)
 			msg += "\t\t[rights]\n"
 	testing(msg)
 	#endif
-*/
+
 
 /proc/load_admins(target = null)
+	if(IsAdminAdvancedProcCall())
+		to_chat(usr, "<span class='admin prefix'>Admin Reload blocked: Advanced ProcCall detected.</span>")
+		return
 	//clear the datums references
 	if(!target)
 		GLOB.admin_datums.Cut()
@@ -164,14 +182,14 @@ GLOBAL_PROTECT(admin_ranks)
 			C.remove_admin_verbs()
 			C.holder = null
 		GLOB.admins.Cut()
-		//load_admin_ranks()
+		load_admin_ranks()
 		//Clear profile access
 		for(var/A in world.GetConfig("admin"))
 			world.SetConfig("APP/admin", A, null)
 
-//	var/list/rank_names = list()
-//	for(var/datum/admin_rank/R in GLOB.admin_ranks)
-//		rank_names[R.name] = R
+	var/list/rank_names = list()
+	for(var/datum/admin_rank/R in GLOB.admin_ranks)
+		rank_names[R.name] = R
 
 	if(config.admin_legacy_system)
 		//load text from file
@@ -189,14 +207,14 @@ GLOBAL_PROTECT(admin_ranks)
 				continue
 
 			var/ckey = ckey(entry[1])
-			var/rank = entry[2]
+			var/rank = ckeyEx(entry[2])
 			if(!ckey || !rank || (target && ckey != target))
 				continue
 
-			var/datum/admins/D = new /datum/admins(rank, 65535, ckey)	//create the admin datum and store it for later use
+			var/datum/admins/D = new(rank_names[rank], ckey)	//create the admin datum and store it for later use
 			if(!D)
 				continue									//will occur if an invalid rank is provided
-			if(D.rights & R_DEBUG) //grant profile access
+			if(D.rank.rights & R_DEBUG) //grant profile access
 				world.SetConfig("APP/admin", ckey, "role=admin")
 			D.associate(GLOB.directory[ckey])	//find the client for a ckey if they are connected and associate them with the new admin datum
 	else
@@ -207,24 +225,23 @@ GLOBAL_PROTECT(admin_ranks)
 			load_admins()
 			return
 
-		var/DBQuery/query_load_admins = dbcon.NewQuery("SELECT ckey, rank, flags FROM [format_table_name("admin")]")
+		var/datum/DBQuery/query_load_admins = dbcon.NewQuery("SELECT ckey, rank FROM [format_table_name("admin")]")
 		if(!query_load_admins.Execute())
 			return
 		while(query_load_admins.NextRow())
 			var/ckey = ckey(query_load_admins.item[1])
-			var/rank = query_load_admins.item[2]
+			var/rank = ckeyEx(query_load_admins.item[2])
 			if(target && ckey != target)
 				continue
 
-			if(rank == "Removed")	continue
-			var/rights = query_load_admins.item[3]
-			if(istext(rights))
-				rights = text2num(rights)
+			if(rank_names[rank] == null)
+				WARNING("Admin rank ([rank]) does not exist.")
+				continue
 
-			var/datum/admins/D = new /datum/admins(rank, rights, ckey)				//create the admin datum and store it for later use
+			var/datum/admins/D = new(rank_names[rank], ckey)				//create the admin datum and store it for later use
 			if(!D)
 				continue									//will occur if an invalid rank is provided
-			if(D.rights & R_DEBUG) //grant profile access
+			if(D.rank.rights & R_DEBUG) //grant profile access
 				world.SetConfig("APP/admin", ckey, "role=admin")
 			D.associate(GLOB.directory[ckey])	//find the client for a ckey if they are connected and associate them with the new admin datum
 
@@ -254,11 +271,14 @@ GLOBAL_PROTECT(admin_ranks)
 	remove_admin_verbs()
 	holder.associate(src)
 #endif
-/*
+
 /datum/admins/proc/edit_rights_topic(list/href_list)
 	if(!check_rights(R_PERMISSIONS))
 		message_admins("[key_name_admin(usr)] attempted to edit the admin permissions without sufficient rights.")
 		log_admin("[key_name(usr)] attempted to edit the admin permissions without sufficient rights.")
+		return
+	if(IsAdminAdvancedProcCall())
+		to_chat(usr, "<span class='admin prefix'>Admin Edit blocked: Advanced ProcCall detected.</span>")
 		return
 
 	var/adm_ckey
@@ -361,7 +381,6 @@ GLOBAL_PROTECT(admin_ranks)
 			if(!findtext(D.rank.name, "([adm_ckey])"))	//not a modified subrank, need to duplicate the admin_rank datum to prevent modifying others too
 				D.rank = new("[D.rank.name]([adm_ckey])", D.rank.rights, D.rank.adds, D.rank.subs)	//duplicate our previous admin_rank but with a new name
 				//we don't add this clone to the admin_ranks list, as it is unique to that ckey
-
 			D.rank.process_keyword(keyword)
 
 			var/client/C = GLOB.directory[adm_ckey]	//find the client with the specified ckey (if they are logged in)
@@ -379,6 +398,5 @@ GLOBAL_PROTECT(admin_ranks)
 	var/sql_ckey = sanitizeSQL(ckey)
 	var/sql_admin_rank = sanitizeSQL(newrank)
 
-	var/DBQuery/query_admin_rank_update = dbcon.NewQuery("UPDATE [format_table_name("player")] SET lastadminrank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
+	var/datum/DBQuery/query_admin_rank_update = dbcon.NewQuery("UPDATE [format_table_name("player")] SET lastadminrank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
 	query_admin_rank_update.Execute()
-*/

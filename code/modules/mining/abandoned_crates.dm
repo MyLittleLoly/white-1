@@ -72,7 +72,7 @@
 			new /obj/item/clothing/head/helmet/space(src)
 		if(61 to 62)
 			for(var/i in 1 to 5)
-				/*new /obj/item/clothing/head/kitty(src)*/
+				new /obj/item/clothing/head/kitty(src)
 				new /obj/item/clothing/neck/petcollar(src)
 		if(63 to 64)
 			for(var/i in 1 to rand(4, 7))
@@ -167,7 +167,7 @@
 						sanitycheck = null //if a digit is repeated, reject the input
 			if (input == code)
 				to_chat(user, "<span class='notice'>The crate unlocks!</span>")
-				locked = 0
+				locked = FALSE
 				cut_overlays()
 				add_overlay("securecrateg")
 			else if (input == null || sanitycheck == null || length(input) != codelen)

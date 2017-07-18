@@ -24,6 +24,7 @@ GLOBAL_LIST_INIT(admin_verbs_admin, world.AVerbsAdmin())
 /world/proc/AVerbsAdmin()
 	return list(
 	/client/proc/invisimin,				/*allows our mob to go invisible/visible*/
+//	/datum/admins/proc/show_traitor_panel,	/*interface which shows a mob's mind*/ -Removed due to rare practical use. Moved to debug verbs ~Errorage
 	/client/proc/checkAccount,
 	/datum/admins/proc/show_player_panel,	/*shows an interface for individual players, with various links (links require additional flags*/
 	/client/proc/game_panel,			/*game panel, allows to change game-mode etc*/
@@ -47,6 +48,7 @@ GLOBAL_LIST_INIT(admin_verbs_admin, world.AVerbsAdmin())
 	/client/proc/jumptocoord,			/*we ghost and jump to a coordinate*/
 	/client/proc/Getmob,				/*teleports a mob to our location*/
 	/client/proc/Getkey,				/*teleports a mob with a certain ckey to our location*/
+//	/client/proc/sendmob,				/*sends a mob somewhere*/ -Removed due to it needing two sorting procs to work, which were executed every time an admin right-clicked. ~Errorage
 	/client/proc/checkAllAccounts,
 	/client/proc/jumptoarea,
 	/client/proc/jumptokey,				/*allows us to jump to the location of a mob with a certain ckey*/
@@ -63,7 +65,11 @@ GLOBAL_LIST_INIT(admin_verbs_admin, world.AVerbsAdmin())
 	/client/proc/toggle_AI_interact, /*toggle admin ability to interact with machines as an AI*/
 	/client/proc/customiseSNPC, /* Customise any interactive crewmembers in the world */
 	/client/proc/resetSNPC, /* Resets any interactive crewmembers in the world */
-	/client/proc/open_shuttle_manipulator /* Opens shuttle manipulator UI */
+	/client/proc/open_shuttle_manipulator, /* Opens shuttle manipulator UI */
+	/client/proc/deadchat,
+	/client/proc/toggleprayers,
+	/client/proc/toggleadminhelpsound,
+	/client/proc/respawn_character
 	)
 GLOBAL_PROTECT(admin_verbs_ban)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(/client/proc/unban_panel,/client/proc/DB_ban_panel,/client/proc/stickybanpanel))
@@ -148,15 +154,15 @@ GLOBAL_LIST_INIT(admin_verbs_debug, world.AVerbsDebug())
 	/client/proc/clear_dynamic_transit,
 	/client/proc/toggle_medal_disable,
 	/client/proc/view_runtimes,
-	/client/proc/pump_random_event,/client/proc/sql_query,
+	/client/proc/pump_random_event,
 	/client/proc/cmd_display_init_log
 	)
 GLOBAL_PROTECT(admin_verbs_possess)
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess,/proc/release))
 GLOBAL_PROTECT(admin_verbs_permissions)
-GLOBAL_LIST_INIT(admin_verbs_permissions, list(/client/proc/edit_admin_permissions,/client/proc/create_poll))
-GLOBAL_PROTECT(admin_verbs_rejuv)
-GLOBAL_LIST_INIT(admin_verbs_rejuv, list(/client/proc/respawn_character))
+GLOBAL_LIST_INIT(admin_verbs_permissions, list(/client/proc/edit_admin_permissions))
+GLOBAL_PROTECT(admin_verbs_poll)
+GLOBAL_LIST_INIT(admin_verbs_poll, list(/client/proc/create_poll))
 
 //verbs which can be hidden - needs work
 GLOBAL_PROTECT(admin_verbs_hideable)
@@ -172,7 +178,7 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	/client/proc/admin_ghost,
 	/client/proc/toggle_view_range,
 	/datum/admins/proc/view_txt_log,
-//	/datum/admins/proc/view_atk_log,
+	/datum/admins/proc/view_atk_log,
 	/client/proc/cmd_admin_subtle_message,
 	/client/proc/cmd_admin_check_contents,
 	/datum/admins/proc/access_news_network,
@@ -231,7 +237,7 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	if(holder)
 		control_freak = CONTROL_FREAK_SKIN | CONTROL_FREAK_MACROS
 
-		var/rights = holder.rights
+		var/rights = holder.rank.rights
 		verbs += GLOB.admin_verbs_default
 		if(rights & R_BUILDMODE)
 			verbs += /client/proc/togglebuildmodeself
@@ -251,17 +257,17 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 			verbs += GLOB.admin_verbs_permissions
 		if(rights & R_STEALTH)
 			verbs += /client/proc/stealth
-		if(rights & R_REJUVINATE)
-			verbs += GLOB.admin_verbs_rejuv
+		if(rights & R_ADMIN)
+			verbs += GLOB.admin_verbs_poll
 		if(rights & R_SOUNDS)
 			verbs += GLOB.admin_verbs_sounds
 		if(rights & R_SPAWN)
 			verbs += GLOB.admin_verbs_spawn
 
-		//for(var/path in holder.adds)
-		//	verbs += path
-		//for(var/path in holder.subs)
-		//	verbs -= path
+		for(var/path in holder.rank.adds)
+			verbs += path
+		for(var/path in holder.rank.subs)
+			verbs -= path
 
 /client/proc/remove_admin_verbs()
 	verbs.Remove(
@@ -275,12 +281,11 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 		GLOB.admin_verbs_possess,
 		GLOB.admin_verbs_permissions,
 		/client/proc/stealth,
-		GLOB.admin_verbs_rejuv,
+		GLOB.admin_verbs_poll,
 		GLOB.admin_verbs_sounds,
 		GLOB.admin_verbs_spawn,
 		/*Debug verbs added by "show debug verbs"*/
 		/client/proc/Cell,
-		/client/proc/do_not_use_these,
 		/client/proc/camera_view,
 		/client/proc/sec_camera_report,
 		/client/proc/intercom_view,
@@ -296,8 +301,8 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 		/client/proc/cmd_admin_areatest,
 		/client/proc/readmin
 		)
-	//if(holder)
-	//	verbs.Remove(holder.adds)
+	if(holder)
+		verbs.Remove(holder.rank.adds)
 
 /client/proc/hide_most_verbs()//Allows you to keep some functionality while hiding some verbs
 	set name = "Adminverbs - Hide Most"
