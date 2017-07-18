@@ -11,7 +11,7 @@
 	var/output = "<center><table border='1'> <caption>Совпадение по computerID</caption><tr> <th width='100px' >ckey</th><th width='100px'>firstseen</th><th width='100px'>lastseen</th><th width='100px'>ip</th><th width='100px'>computerid </th></tr>"
 
 	var/DBQuery/query = SSdbcore.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]')")
-	query.Execute()
+	query.warn_execute()
 	while(query.NextRow())
 		output+="<tr><td>[query.item[1]]</td>"
 		output+="<td>[query.item[2]]</td>"
@@ -24,7 +24,7 @@
 	output += "<center><table border='1'> <caption>Совпадение по IP</caption><tr> <th width='100px' >ckey</th><th width='100px'>firstseen</th><th width='100px'>lastseen</th><th width='100px'>ip</th><th width='100px'>computerid </th></tr>"
 
 	query = SSdbcore.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]'))")
-	query.Execute()
+	query.warn_execute()
 	while(query.NextRow())
 		output+="<tr><td>[query.item[1]]</td>"
 		output+="<td>[query.item[2]]</td>"
@@ -47,7 +47,7 @@
 	for (var/client/C in GLOB.clients)
 		t1 =""
 		var/DBQuery/query = SSdbcore.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]'))")
-		query.Execute()
+		query.warn_execute()
 		var/c = 0
 
 		while(query.NextRow())
@@ -61,7 +61,7 @@
 	for (var/client/C in GLOB.clients)
 		t1 =""
 		var/DBQuery/query = SSdbcore.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]')")
-		query.Execute()
+		query.warn_execute()
 		var/c = 0
 		while(query.NextRow())
 			c++
