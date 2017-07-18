@@ -33,7 +33,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	icon_state = "0-1"
 	var/d1 = 0   // cable direction 1 (see above)
 	var/d2 = 1   // cable direction 2 (see above)
-	layer = WIRE_LAYER //Above pipes, which are at GAS_PIPE_LAYER
+	layer = WIRE_LAYER //Above hidden pipes, GAS_PIPE_HIDDEN_LAYER
 	var/cable_color = "red"
 	var/obj/item/stack/cable_coil/stored
 
@@ -66,9 +66,8 @@ By design, d1 is the smallest direction and d2 is the highest
 	icon = 'icons/obj/power_cond/power_cond_white.dmi'
 
 // the power cable object
-/obj/structure/cable/New()
-	..()
-
+/obj/structure/cable/Initialize()
+	. = ..()
 
 	// ensure d1 & d2 reflect the icon_state for entering and exiting cable
 	var/dash = findtext(icon_state, "-")
@@ -391,7 +390,7 @@ By design, d1 is the smallest direction and d2 is the highest
 			qdel(PN)
 
 // cut the cable's powernet at this cable and updates the powergrid
-/obj/structure/cable/proc/cut_cable_from_powernet()
+/obj/structure/cable/proc/cut_cable_from_powernet(remove=TRUE)
 	var/turf/T1 = loc
 	var/list/P_list
 	if(!T1)
@@ -413,7 +412,8 @@ By design, d1 is the smallest direction and d2 is the highest
 
 	var/obj/O = P_list[1]
 	// remove the cut cable from its turf and powernet, so that it doesn't get count in propagate_network worklist
-	loc = null
+	if(remove)
+		loc = null
 	powernet.remove_cable(src) //remove the cut cable from its powernet
 
 	spawn(0) //so we don't rebuild the network X times when singulo/explosion destroys a line of X cables
@@ -426,43 +426,6 @@ By design, d1 is the smallest direction and d2 is the highest
 		for(var/obj/machinery/power/P in T1)
 			if(!P.connect_to_network()) //can't find a node cable on a the turf to connect to
 				P.disconnect_from_network() //remove from current network
-
-// Ugly procs that ensure proper separation and reconnection of wires on shuttle movement/rotation
-/obj/structure/cable/beforeShuttleMove(turf/T1, rotation)
-	var/on_edge = FALSE
-	var/A = get_area(src)
-
-	for(var/D in GLOB.alldirs)
-		if(A != get_area(get_step(src, D)))
-			on_edge = TRUE
-			break
-
-	if(on_edge && powernet)
-		var/tmp_loc = loc
-		cut_cable_from_powernet()
-		loc = tmp_loc
-
-/obj/structure/cable/afterShuttleMove()
-	var/on_edge = FALSE
-	var/A = get_area(src)
-
-	for(var/D in GLOB.alldirs)
-		if(A != get_area(get_step(src, D)))
-			on_edge = TRUE
-			break
-
-	if(on_edge)
-		var/datum/powernet/PN = new()
-		PN.add_cable(src)
-
-		mergeConnectedNetworks(d1) //merge the powernet with adjacents powernets
-		mergeConnectedNetworks(d2)
-		mergeConnectedNetworksOnTurf() //merge the powernet with on turf powernets
-
-		if(d1 & (d1 - 1))// if the cable is layed diagonally, check the others 2 possible directions
-			mergeDiagonalsNetworks(d1)
-		if(d2 & (d2 - 1))
-			mergeDiagonalsNetworks(d2)
 
 /obj/structure/cable/shuttleRotate(rotation)
 	//..() is not called because wires are not supposed to have a non-default direction
@@ -510,6 +473,7 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 	slot_flags = SLOT_BELT
 	attack_verb = list("whipped", "lashed", "disciplined", "flogged")
 	singular_name = "cable piece"
+	full_w_class = WEIGHT_CLASS_SMALL
 
 /obj/item/stack/cable_coil/cyborg
 	is_cyborg = 1
@@ -528,8 +492,8 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 		user.visible_message("<span class='suicide'>[user] is strangling [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	return(OXYLOSS)
 
-/obj/item/stack/cable_coil/New(loc, new_amount = null, var/param_color = null)
-	..()
+/obj/item/stack/cable_coil/Initialize(mapload, new_amount = null, param_color = null)
+	. = ..()
 	if(new_amount) // MAXCOIL by default
 		amount = new_amount
 	if(param_color)
@@ -780,9 +744,9 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 /obj/item/stack/cable_coil/cut
 	item_state = "coil_red2"
 
-/obj/item/stack/cable_coil/cut/New(loc)
-	..()
-	src.amount = rand(1,2)
+/obj/item/stack/cable_coil/cut/Initialize(mapload)
+	. =..()
+	amount = rand(1,2)
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	update_icon()
@@ -820,10 +784,11 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 	item_color = "white"
 	icon_state = "coil_white"
 
-/obj/item/stack/cable_coil/random/New()
+/obj/item/stack/cable_coil/random/Initialize(mapload)
+	. = ..()
 	item_color = pick("red","orange","yellow","green","cyan","blue","pink","white")
 	icon_state = "coil_[item_color]"
-	..()
+
 
 /obj/item/stack/cable_coil/random/five
 	amount = 5

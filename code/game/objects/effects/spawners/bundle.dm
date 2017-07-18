@@ -42,11 +42,11 @@
 		/obj/item/clothing/mask/cigarette/cigar/havana,
 		/obj/item/clothing/shoes/jackboots)
 
-obj/effect/spawner/bundle/costume/nyangirl
+/obj/effect/spawner/bundle/costume/nyangirl
 	name = "nyangirl costume spawner"
 	items = list(
 		/obj/item/clothing/under/schoolgirl,
-		/*obj/item/clothing/head/kitty,*/
+		/obj/item/clothing/head/kitty,
 		/obj/item/clothing/glasses/sunglasses/blindfold)
 
 /obj/effect/spawner/bundle/costume/maid
@@ -60,7 +60,7 @@ obj/effect/spawner/bundle/costume/nyangirl
 /obj/effect/spawner/bundle/costume/butler
 	name = "butler costume spawner"
 	items = list(
-		/obj/item/clothing/tie/waistcoat,
+		/obj/item/clothing/accessory/waistcoat,
 		/obj/item/clothing/under/suit_jacket,
 		/obj/item/clothing/head/that)
 
@@ -73,7 +73,7 @@ obj/effect/spawner/bundle/costume/nyangirl
 /obj/effect/spawner/bundle/costume/prig
 	name = "prig costume spawner"
 	items = list(
-		/obj/item/clothing/tie/waistcoat,
+		/obj/item/clothing/accessory/waistcoat,
 		/obj/item/clothing/glasses/monocle,
 		/obj/effect/spawner/lootdrop/minor/bowler_or_that,
 		/obj/item/clothing/shoes/sneakers/black,

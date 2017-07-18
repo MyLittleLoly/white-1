@@ -19,7 +19,7 @@
 
 	. = ..()
 
-	locked = 0 //unlock cover
+	locked = FALSE //unlock cover
 
 	update_canmove()
 	if(camera && camera.status)
@@ -32,4 +32,4 @@
 
 	unbuckle_all_mobs(TRUE)
 
-	//sql_report_death(src)
+	SSblackbox.ReportDeath(src)

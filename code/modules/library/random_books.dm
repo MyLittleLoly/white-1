@@ -20,7 +20,7 @@
 /obj/structure/bookcase/random
 	var/category = null
 	var/book_count = 2
-	anchored = 1
+	anchored = TRUE
 	state = 2
 
 /obj/structure/bookcase/random/Initialize(mapload)
@@ -45,7 +45,7 @@
 	if(prob(25))
 		category = null
 	var/c = category? " AND category='[sanitizeSQL(category)]'" :""
-	var/DBQuery/query_get_random_books = dbcon.NewQuery("SELECT * FROM [format_table_name("library")] WHERE isnull(deleted)[c] GROUP BY title ORDER BY rand() LIMIT [amount];") // isdeleted copyright (c) not me
+	var/datum/DBQuery/query_get_random_books = dbcon.NewQuery("SELECT * FROM [format_table_name("library")] WHERE isnull(deleted)[c] GROUP BY title ORDER BY rand() LIMIT [amount];") // isdeleted copyright (c) not me
 	if(query_get_random_books.Execute())
 		while(query_get_random_books.NextRow())
 			var/obj/item/weapon/book/B = new(location)
