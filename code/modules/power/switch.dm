@@ -10,10 +10,10 @@
 	icon_state = "switch-dbl-up"
 	var/icon_state_on = "switch-dbl-down"
 	var/icon_state_off = "switch-dbl-up"
-	density = FALSE
-	anchored = TRUE
-	var/on = FALSE  //up is off, down is on
-	var/busy = FALSE //set to 1 when you start pulling
+	density = 0
+	anchored = 1
+	var/on = 0  //up is off, down is on
+	var/busy = 0 //set to 1 when you start pulling
 
 /obj/structure/powerswitch/simple
 	icon_state = "switch-up"
@@ -40,7 +40,7 @@
 
 	..()
 
-	busy = TRUE
+	busy = 1
 	for(var/mob/O in viewers(user))
 		O.show_message(text("\red [user] started pulling the [src]."), 1)
 
@@ -48,7 +48,7 @@
 		set_state(!on)
 		for(var/mob/O in viewers(user))
 			O.show_message(text("\red [user] flipped the [src] into the [on ? "on": "off"] position."), 1)
-	busy = FALSE
+	busy = 0
 
 /obj/structure/powerswitch/proc/set_state(var/state)
 	on = state

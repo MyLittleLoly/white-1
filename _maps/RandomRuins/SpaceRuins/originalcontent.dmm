@@ -12,12 +12,16 @@
 /area/template_noop)
 "ad" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /turf/template_noop,
 /area/template_noop)
 "ae" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /turf/template_noop,
@@ -27,6 +31,8 @@
 /area/ruin/powered)
 "ag" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHWEST)";
+	icon_state = "paper";
 	dir = 10
 	},
 /turf/template_noop,
@@ -34,12 +40,16 @@
 "ah" = (
 /obj/structure/fluff/paper/corner,
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /turf/template_noop,
 /area/template_noop)
 "ai" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHEAST)";
+	icon_state = "paper";
 	dir = 6
 	},
 /turf/template_noop,
@@ -50,42 +60,58 @@
 	opacity = 0
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "ak" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHWEST)";
+	icon_state = "paper";
 	dir = 9
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "al" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "am" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHEAST)";
+	icon_state = "paper";
 	dir = 5
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "an" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "ao" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (EAST)";
+	icon_state = "papercorner";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
@@ -95,12 +121,16 @@
 /area/ruin/powered)
 "aq" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "ar" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /turf/open/indestructible/paper,
@@ -117,36 +147,50 @@
 /area/ruin/powered)
 "au" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (EAST)";
+	icon_state = "paperstack";
 	dir = 4
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "av" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (EAST)";
+	icon_state = "papercorner";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aw" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /turf/template_noop,
 /area/template_noop)
 "ax" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "ay" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHWEST)";
+	icon_state = "paper";
 	dir = 10
 	},
 /turf/open/indestructible/paper,
@@ -157,6 +201,8 @@
 /area/ruin/powered)
 "aA" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /turf/open/indestructible/paper,
@@ -164,21 +210,29 @@
 "aB" = (
 /obj/structure/fluff/paper/stack,
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTH)";
+	icon_state = "paperstack";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aC" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHEAST)";
+	icon_state = "paper";
 	dir = 5
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHWEST)";
+	icon_state = "paper";
 	dir = 9
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aD" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /obj/structure/fluff/paper/corner,
@@ -187,18 +241,26 @@
 /area/ruin/powered)
 "aE" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aF" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/barricade/wooden,
@@ -206,9 +268,13 @@
 /area/ruin/powered)
 "aG" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHWEST)";
+	icon_state = "paper";
 	dir = 10
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /obj/structure/barricade/wooden,
@@ -216,9 +282,13 @@
 /area/ruin/powered)
 "aH" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHEAST)";
+	icon_state = "paper";
 	dir = 5
 	},
 /obj/structure/barricade/wooden,
@@ -226,12 +296,16 @@
 /area/ruin/powered)
 "aI" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTH)";
+	icon_state = "paperstack";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aJ" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /obj/structure/fluff/paper/corner,
@@ -239,6 +313,8 @@
 /area/ruin/powered)
 "aK" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/fluff/paper,
@@ -246,9 +322,13 @@
 /area/ruin/powered)
 "aL" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /mob/living/simple_animal/hostile/stickman,
@@ -256,15 +336,21 @@
 /area/ruin/powered)
 "aM" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (SOUTHWEST)";
+	icon_state = "paperstack";
 	dir = 10
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aN" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
@@ -276,27 +362,39 @@
 /area/ruin/powered)
 "aP" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aQ" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHWEST)";
+	icon_state = "paper";
 	dir = 10
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aR" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /turf/open/indestructible/paper,
@@ -308,12 +406,16 @@
 /area/ruin/powered)
 "aT" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHEAST)";
+	icon_state = "paper";
 	dir = 6
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aU" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /obj/structure/fluff/paper,
@@ -321,15 +423,21 @@
 /area/ruin/powered)
 "aV" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHEAST)";
+	icon_state = "paper";
 	dir = 6
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (EAST)";
+	icon_state = "papercorner";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aW" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/fluff/paper/stack,
@@ -342,21 +450,29 @@
 "aY" = (
 /obj/structure/fluff/paper/corner,
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (EAST)";
+	icon_state = "papercorner";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "aZ" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "ba" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /mob/living/simple_animal/hostile/stickman/dog,
@@ -364,42 +480,58 @@
 /area/ruin/powered)
 "bb" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bc" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHWEST)";
+	icon_state = "paper";
 	dir = 9
 	},
 /turf/template_noop,
 /area/template_noop)
 "bd" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /turf/template_noop,
 /area/template_noop)
 "be" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (EAST)";
+	icon_state = "papercorner";
 	dir = 4
 	},
 /turf/template_noop,
 /area/template_noop)
 "bf" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTHWEST)";
+	icon_state = "paperstack";
 	dir = 9
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bg" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/item/toy/crayon/yellow,
@@ -407,6 +539,8 @@
 /area/ruin/powered)
 "bh" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/item/toy/crayon/red,
@@ -414,6 +548,8 @@
 /area/ruin/powered)
 "bi" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/fluff/paper/corner,
@@ -422,15 +558,21 @@
 "bj" = (
 /obj/structure/fluff/paper,
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (EAST)";
+	icon_state = "papercorner";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bk" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /mob/living/simple_animal/hostile/stickman,
@@ -438,6 +580,8 @@
 /area/ruin/powered)
 "bl" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTHWEST)";
+	icon_state = "paperstack";
 	dir = 9
 	},
 /turf/open/indestructible/paper,
@@ -449,24 +593,34 @@
 /area/ruin/powered)
 "bn" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHWEST)";
+	icon_state = "paper";
 	dir = 9
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHWEST)";
+	icon_state = "paper";
 	dir = 10
 	},
 /turf/template_noop,
 /area/template_noop)
 "bo" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (EAST)";
+	icon_state = "papercorner";
 	dir = 4
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /turf/template_noop,
 /area/template_noop)
 "bp" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/item/toy/crayon/rainbow,
@@ -474,18 +628,26 @@
 /area/ruin/powered)
 "bq" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (EAST)";
+	icon_state = "paperstack";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "br" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (EAST)";
+	icon_state = "paperstack";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
@@ -504,24 +666,34 @@
 /area/ruin/powered)
 "bv" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTH)";
+	icon_state = "paperstack";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bw" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/template_noop,
 /area/template_noop)
 "bx" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHEAST)";
+	icon_state = "paper";
 	dir = 5
 	},
 /turf/template_noop,
@@ -532,6 +704,8 @@
 /area/ruin/powered)
 "bz" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTHWEST)";
+	icon_state = "paperstack";
 	dir = 9
 	},
 /obj/structure/fluff/paper,
@@ -554,15 +728,21 @@
 "bC" = (
 /obj/item/toy/crayon/yellow,
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bD" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /turf/open/indestructible/paper,
@@ -573,10 +753,14 @@
 /area/ruin/powered)
 "bF" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTH)";
+	icon_state = "paperstack";
 	dir = 1
 	},
 /obj/structure/fluff/paper/stack,
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
@@ -588,6 +772,8 @@
 /area/ruin/powered)
 "bH" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/item/toy/crayon/yellow,
@@ -595,6 +781,8 @@
 /area/ruin/powered)
 "bI" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHWEST)";
+	icon_state = "paper";
 	dir = 9
 	},
 /obj/structure/closet/crate/bin,
@@ -614,6 +802,8 @@
 /area/ruin/powered)
 "bJ" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/easel,
@@ -627,6 +817,8 @@
 /area/ruin/powered)
 "bK" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHEAST)";
+	icon_state = "paper";
 	dir = 5
 	},
 /obj/structure/table/wood,
@@ -635,9 +827,13 @@
 /area/ruin/powered)
 "bL" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (SOUTHEAST)";
+	icon_state = "paperstack";
 	dir = 6
 	},
 /turf/open/indestructible/paper,
@@ -649,6 +845,8 @@
 "bN" = (
 /obj/structure/fluff/paper/corner,
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
@@ -659,6 +857,8 @@
 	opacity = 0
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/fluff/paper,
@@ -666,34 +866,48 @@
 /area/ruin/powered)
 "bP" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (WEST)";
+	icon_state = "papercorner";
 	dir = 8
 	},
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (EAST)";
+	icon_state = "paperstack";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bQ" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /obj/structure/fluff/paper/stack,
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTH)";
+	icon_state = "paperstack";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bR" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (EAST)";
+	icon_state = "paperstack";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bS" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTH)";
+	icon_state = "paperstack";
 	dir = 1
 	},
 /obj/structure/fluff/paper/stack,
@@ -701,15 +915,21 @@
 /area/ruin/powered)
 "bT" = (
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (SOUTHEAST)";
+	icon_state = "paperstack";
 	dir = 6
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "bU" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /mob/living/simple_animal/hostile/stickman,
@@ -721,6 +941,8 @@
 /area/ruin/powered)
 "bW" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/structure/easel,
@@ -742,6 +964,8 @@
 /area/ruin/powered)
 "bZ" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/bed,
@@ -750,6 +974,8 @@
 /area/ruin/powered)
 "ca" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHWEST)";
+	icon_state = "paper";
 	dir = 10
 	},
 /obj/structure/table/wood,
@@ -758,6 +984,8 @@
 /area/ruin/powered)
 "cb" = (
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTHWEST)";
+	icon_state = "paperstack";
 	dir = 9
 	},
 /obj/item/toy/crayon/purple,
@@ -769,6 +997,8 @@
 /area/ruin/powered)
 "cd" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/table/wood,
@@ -778,15 +1008,21 @@
 /area/ruin/powered)
 "ce" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (EAST)";
+	icon_state = "papercorner";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "cf" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/structure/fluff/paper/stack,
@@ -794,6 +1030,8 @@
 /area/ruin/powered)
 "cg" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (EAST)";
+	icon_state = "paper";
 	dir = 4
 	},
 /obj/structure/table/wood,
@@ -810,12 +1048,16 @@
 "ci" = (
 /obj/structure/fluff/paper,
 /obj/structure/fluff/paper/corner{
+	tag = "icon-papercorner (NORTH)";
+	icon_state = "papercorner";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "cj" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /mob/living/simple_animal/hostile/stickman,
@@ -823,9 +1065,13 @@
 /area/ruin/powered)
 "ck" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHEAST)";
+	icon_state = "paper";
 	dir = 6
 	},
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTHEAST)";
+	icon_state = "paper";
 	dir = 5
 	},
 /turf/open/indestructible/paper,
@@ -833,6 +1079,8 @@
 "cl" = (
 /obj/structure/fluff/paper/corner,
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (EAST)";
+	icon_state = "paperstack";
 	dir = 4
 	},
 /turf/open/indestructible/paper,
@@ -846,6 +1094,8 @@
 /area/ruin/powered)
 "cn" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHEAST)";
+	icon_state = "paper";
 	dir = 6
 	},
 /obj/structure/table/wood,
@@ -857,6 +1107,8 @@
 "co" = (
 /obj/structure/fluff/paper,
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (NORTHWEST)";
+	icon_state = "paperstack";
 	dir = 9
 	},
 /obj/item/toy/crayon/blue,
@@ -864,6 +1116,8 @@
 /area/ruin/powered)
 "cp" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (SOUTHWEST)";
+	icon_state = "paper";
 	dir = 10
 	},
 /obj/machinery/photocopier,
@@ -890,6 +1144,8 @@
 "cs" = (
 /obj/structure/fluff/paper,
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /mob/living/simple_animal/hostile/stickman/dog,
@@ -898,15 +1154,21 @@
 "ct" = (
 /obj/structure/fluff/paper,
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "cu" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (WEST)";
+	icon_state = "paper";
 	dir = 8
 	},
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (SOUTHEAST)";
+	icon_state = "paperstack";
 	dir = 6
 	},
 /turf/open/indestructible/paper,
@@ -914,12 +1176,16 @@
 "cv" = (
 /obj/structure/fluff/paper,
 /obj/structure/fluff/paper/stack{
+	tag = "icon-paperstack (SOUTHEAST)";
+	icon_state = "paperstack";
 	dir = 6
 	},
 /turf/open/indestructible/paper,
 /area/ruin/powered)
 "cw" = (
 /obj/structure/fluff/paper{
+	tag = "icon-paper (NORTH)";
+	icon_state = "paper";
 	dir = 1
 	},
 /mob/living/simple_animal/hostile/stickman/ranged,

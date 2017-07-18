@@ -1,6 +1,6 @@
 /obj/effect/decal
 	name = "decal"
-	anchored = TRUE
+	anchored = 1
 	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
 /obj/effect/decal/ex_act(severity, target)
@@ -19,19 +19,19 @@
 	var/group = TURF_DECAL_PAINT
 	icon = 'icons/turf/decals.dmi'
 	icon_state = "warningline"
-	anchored = TRUE
+	anchored = 1
 
 //in case we need some special decals
 /obj/effect/turf_decal/proc/get_decal()
 	return image(icon='icons/turf/decals.dmi',icon_state=icon_state,dir=dir,layer=TURF_LAYER)
 
-/obj/effect/turf_decal/Initialize()
-	..()
+/obj/effect/turf_decal/Initialize(mapload)
 	var/turf/T = loc
 	if(!istype(T)) //you know this will happen somehow
 		CRASH("Turf decal initialized in an object/nullspace")
 	T.add_decal(get_decal(),group)
-	return INITIALIZE_HINT_QDEL
+	qdel(src)
+
 
 /obj/effect/turf_decal/stripes/line
 	icon_state = "warningline"
@@ -65,6 +65,3 @@
 
 /obj/effect/turf_decal/sand/plating
 	icon_state = "sandyplating"
-
-/obj/effect/turf_decal/plaque
-	icon_state = "plaque"

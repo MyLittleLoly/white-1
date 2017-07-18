@@ -106,7 +106,8 @@
 		if(!msg)
 			charge_counter = charge_max
 			return
-		log_talk(user,"RevenantTransmit: [key_name(user)]->[key_name(M)] : [msg]",LOGSAY)
+
+		log_say("RevenantTransmit: [key_name(user)]->[key_name(M)] : [msg]")
 		to_chat(user, "<span class='revenboldnotice'>You transmit to [M]:</span> <span class='revennotice'>[msg]</span>")
 		to_chat(M, "<span class='revenboldnotice'>You hear something behind you talking...</span> <span class='revennotice'>[msg]</span>")
 		for(var/ded in GLOB.dead_mob_list)
@@ -285,15 +286,15 @@
 	for(var/mob/living/simple_animal/bot/bot in T)
 		if(!bot.emagged)
 			new /obj/effect/temp_visual/revenant(bot.loc)
-			bot.locked = FALSE
-			bot.open = TRUE
+			bot.locked = 0
+			bot.open = 1
 			bot.emag_act()
 	for(var/mob/living/carbon/human/human in T)
 		if(human == user)
 			continue
 		to_chat(human, "<span class='revenwarning'>You feel [pick("your sense of direction flicker out", "a stabbing pain in your head", "your mind fill with static")].</span>")
 		new /obj/effect/temp_visual/revenant(human.loc)
-		human.emp_act(EMP_HEAVY)
+		human.emp_act(1)
 	for(var/obj/thing in T)
 		if(istype(thing, /obj/machinery/dominator) || istype(thing, /obj/machinery/power/apc) || istype(thing, /obj/machinery/power/smes)) //Doesn't work on dominators, SMES and APCs, to prevent kekkery
 			continue
@@ -303,12 +304,12 @@
 			thing.emag_act(null)
 		else
 			if(!istype(thing, /obj/machinery/clonepod)) //I hate everything but mostly the fact there's no better way to do this without just not affecting it at all
-				thing.emp_act(EMP_HEAVY)
+				thing.emp_act(1)
 	for(var/mob/living/silicon/robot/S in T) //Only works on cyborgs, not AI
 		playsound(S, 'sound/machines/warning-buzzer.ogg', 50, 1)
 		new /obj/effect/temp_visual/revenant(S.loc)
 		S.spark_system.start()
-		S.emp_act(EMP_HEAVY)
+		S.emp_act(1)
 
 //Blight: Infects nearby humans and in general messes living stuff up.
 /obj/effect/proc_holder/spell/aoe_turf/revenant/blight

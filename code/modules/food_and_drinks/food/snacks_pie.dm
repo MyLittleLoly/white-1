@@ -38,7 +38,7 @@
 				creamoverlay.icon_state = "creampie_lizard"
 			else
 				creamoverlay.icon_state = "creampie_human"
-			H.Knockdown(20) //splat!
+			H.Weaken(1) //splat!
 			H.adjust_blurriness(1)
 			visible_message("<span class='userdanger'>[H] was creamed by [src]!!</span>")
 			H.add_overlay(creamoverlay)

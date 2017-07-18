@@ -42,12 +42,12 @@
 	origin_tech = "engineering=3"
 
 /obj/machinery/computer/sat_control
-	name = "satellite control"
+	name = "Satellite control"
 	desc = "Used to control the satellite network."
 	circuit = /obj/item/weapon/circuitboard/machine/computer/sat_control
 	var/notice
 
-/obj/machinery/computer/sat_control/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
+/obj/machinery/computer/sat_control/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		ui = new(user, src, ui_key, "sat_control", name, 400, 305, master_ui, state)
@@ -94,7 +94,7 @@
 	icon_state = "sat_inactive"
 	var/mode = "NTPROBEV0.8"
 	var/active = FALSE
-	density = TRUE
+	density = 1
 	use_power = FALSE
 	var/static/gid = 0
 	var/id = 0
@@ -116,10 +116,10 @@
 	active = !active
 	if(active)
 		animate(src, pixel_y = 2, time = 10, loop = -1)
-		anchored = TRUE
+		anchored = 1
 	else
 		animate(src, pixel_y = 0, time = 10)
-		anchored = FALSE
+		anchored = 0
 	update_icon()
 
 /obj/machinery/satellite/update_icon()
@@ -176,8 +176,7 @@
 		change_meteor_chance(0.5)
 
 /obj/machinery/satellite/meteor_shield/emag_act()
-	if(emagged)
-		return
-	emagged = TRUE
-	if(active)
-		change_meteor_chance(2)
+	if(!emagged)
+		emagged = 1
+		if(active)
+			change_meteor_chance(2)

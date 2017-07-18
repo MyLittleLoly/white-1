@@ -139,7 +139,7 @@
 		if(E)
 			var/datum/round_event/event = E.runEvent()
 			if(event.announceWhen>0)
-				event.processing = FALSE
+				event.processing = 0
 				var/prompt = alert(usr, "Would you like to alert the crew?", "Alert", "Yes", "No", "Cancel")
 				switch(prompt)
 					if("Cancel")
@@ -147,7 +147,7 @@
 						return
 					if("No")
 						event.announceWhen = -1
-				event.processing = TRUE
+				event.processing = 1
 			message_admins("[key_name_admin(usr)] has triggered an event. ([E.name])")
 			log_admin("[key_name(usr)] has triggered an event. ([E.name])")
 		return
@@ -238,7 +238,92 @@
 		create_message("note", banckey, null, banreason, null, null, 0, 0)
 
 	else if(href_list["editrights"])
-		edit_rights_topic(href_list)
+		if(!check_rights(R_PERMISSIONS))
+			message_admins("[key_name(usr)] attempted to edit the admin permissions without sufficient rights.")
+			return
+
+		var/adm_ckey
+
+		var/task = href_list["editrights"]
+		if(task == "add")
+			var/new_ckey = ckey(input(usr,"New admin's ckey","Admin ckey", null) as text|null)
+			if(!new_ckey)	return
+			if(new_ckey in GLOB.admin_datums)
+				usr << "<font color='red'>Error: Topic 'editrights': [new_ckey] is already an admin</font>"
+				return
+			adm_ckey = new_ckey
+			task = "rank"
+		else if(task != "show")
+			adm_ckey = ckey(href_list["ckey"])
+			if(!adm_ckey)
+				usr << "<font color='red'>Error: Topic 'editrights': No valid ckey</font>"
+				return
+
+		var/datum/admins/D = GLOB.admin_datums[adm_ckey]
+
+		if(task == "remove")
+			if(alert("Are you sure you want to remove [adm_ckey]?","Message","Yes","Cancel") == "Yes")
+				if(!D)	return
+				GLOB.admin_datums -= adm_ckey
+				D.disassociate()
+
+				message_admins("[key_name_admin(usr)] removed [adm_ckey] from the admins list")
+				log_admin_rank_modification(adm_ckey, "Removed")
+
+		else if(task == "rank")
+			var/new_rank
+			if(GLOB.admin_ranks.len)
+				new_rank = input("Please select a rank", "New rank", null, null) as null|anything in (GLOB.admin_ranks|"*New Rank*")
+			else
+				new_rank = input("Please select a rank", "New rank", null, null) as null|anything in list("Judge","Architect", "Executor", "Hound", "*New Rank*")
+
+			var/rights = 0
+			if(D)
+				rights = D.rights
+			switch(new_rank)
+				if(null,"") return
+				if("*New Rank*")
+					new_rank = input("Please input a new rank", "New custom rank", null, null) as null|text
+					if(config.admin_legacy_system)
+						new_rank = ckeyEx(new_rank)
+					if(!new_rank)
+						usr << "<font color='red'>Error: Topic 'editrights': Invalid rank</font>"
+						return
+					if(config.admin_legacy_system)
+						if(GLOB.admin_ranks.len)
+							if(new_rank in GLOB.admin_ranks)
+								rights = GLOB.admin_ranks[new_rank]		//we typed a rank which already exists, use its rights
+							else
+								GLOB.admin_ranks[new_rank] = 0			//add the new rank to admin_ranks
+				else
+					if(config.admin_legacy_system)
+						new_rank = ckeyEx(new_rank)
+						rights = GLOB.admin_ranks[new_rank]				//we input an existing rank, use its rights
+
+			if(D)
+				D.disassociate()								//remove adminverbs and unlink from client
+				D.rank = new_rank								//update the rank
+				D.rights = rights								//update the rights based on admin_ranks (default: 0)
+			else
+				D = new /datum/admins(new_rank, rights, adm_ckey)
+
+			var/client/C = GLOB.directory[adm_ckey]						//find the client with the specified ckey (if they are logged in)
+			D.associate(C)											//link up with the client and add verbs
+
+			log_admin_rank_modification(adm_ckey, new_rank)
+
+		else if(task == "permissions")
+			if(!D)	return
+			var/list/permissionlist = list()
+			for(var/i=1, i<=R_MAXPERMISSION, i<<=1)		//that <<= is shorthand for i = i << 1. Which is a left bitshift
+				permissionlist[rights2text(i)] = i
+			var/new_permission = input("Select a permission to turn on/off", "Permission toggle", null, null) as null|anything in permissionlist
+			if(!new_permission)	return
+			D.rights ^= permissionlist[new_permission]
+
+			log_admin_permission_modification(adm_ckey, permissionlist[new_permission], new_permission)
+
+		edit_admin_permissions()
 
 	else if(href_list["call_shuttle"])
 		if(!check_rights(R_ADMIN))
@@ -348,17 +433,10 @@
 	else if(href_list["delay_round_end"])
 		if(!check_rights(R_SERVER))
 			return
-		if(!SSticker.delay_end)
-			SSticker.admin_delay_notice = input(usr, "Enter a reason for delaying the round end", "Round Delay Reason") as null|text
-			if(isnull(SSticker.admin_delay_notice))
-				return
-		else
-			SSticker.admin_delay_notice = null
+
 		SSticker.delay_end = !SSticker.delay_end
-		var/reason = SSticker.delay_end ? "for reason: [SSticker.admin_delay_notice]" : "."//laziness
-		var/msg = "[SSticker.delay_end ? "delayed" : "undelayed"] the round end [reason]"
-		log_admin("[key_name(usr)] [msg]")
-		message_admins("[key_name_admin(usr)] [msg]")
+		log_admin("[key_name(usr)] [SSticker.delay_end ? "delayed the round end" : "has made the round end normally"].")
+		message_admins("<span class='adminnotice'>[key_name(usr)] [SSticker.delay_end ? "delayed the round end" : "has made the round end normally"].</span>")
 		href_list["secrets"] = "check_antagonist"
 
 	else if(href_list["end_round"])
@@ -487,8 +565,7 @@
 				if(minutes > GLOB.CMinutes)
 					mins = minutes - GLOB.CMinutes
 				mins = input(usr,"How long (in minutes)? (Default: 1440)","Ban time",mins ? mins : 1440) as num|null
-				if(mins <= 0)
-					to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
+				if(!mins)
 					return
 				minutes = GLOB.CMinutes + mins
 				duration = GetExp(minutes)
@@ -842,6 +919,12 @@
 		else
 			dat += "<td width='20%'><a href='?src=\ref[src];jobban3=alien candidate;jobban4=\ref[M]'>Alien</a></td>"
 
+		//Borer
+		if(jobban_isbanned(M, "borer") || isbanned_dept)
+			dat += "<td width='20%'><a href='?src=\ref[src];jobban3=borer;jobban4=\ref[M]'><font color=red>Borer</font></a></td>"
+		else
+			dat += "<td width='20%'><a href='?src=\ref[src];jobban3=borer;jobban4=\ref[M]'>Borer</a></td>"
+
 		dat += "</tr></table>"
 		usr << browse(dat, "window=jobban2;size=800x450")
 		return
@@ -916,8 +999,7 @@
 			switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
 				if("Yes")
 					var/mins = input(usr,"How long (in minutes)?","Ban time",1440) as num|null
-					if(mins <= 0)
-						to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
+					if(!mins)
 						return
 					var/reason = sanitize_russian(input(usr,"Please State Reason.","Reason") as message|null)
 					if(!reason)
@@ -981,7 +1063,7 @@
 				var/reason = jobban_isbanned(M, job)
 				if(!reason)
 					continue //skip if it isn't jobbanned anyway
-				switch(alert("Job: '[job]' Reason: '[replacetext(reason,"пїЅ","пїЅ")]' Un-jobban?","Please Confirm","Yes","No"))
+				switch(alert("Job: '[job]' Reason: '[replacetext(reason,"я","Я")]' Un-jobban?","Please Confirm","Yes","No"))
 					if("Yes")
 						ban_unban_log_save("[key_name(usr)] unjobbanned [key_name(M)] from [job]")
 						log_admin_private("[key_name(usr)] unbanned [key_name(M)] from [job]")
@@ -1091,7 +1173,7 @@
 
 	else if(href_list["messageedits"])
 		var/message_id = sanitizeSQL("[href_list["messageedits"]]")
-		var/datum/DBQuery/query_get_message_edits = dbcon.NewQuery("SELECT edits FROM [format_table_name("messages")] WHERE id = '[message_id]'")
+		var/DBQuery/query_get_message_edits = dbcon.NewQuery("SELECT edits FROM [format_table_name("messages")] WHERE id = '[message_id]'")
 		if(!query_get_message_edits.warn_execute())
 			return
 		if(query_get_message_edits.NextRow())
@@ -1112,8 +1194,7 @@
 		switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
 			if("Yes")
 				var/mins = input(usr,"How long (in minutes)?","Ban time",1440) as num|null
-				if(mins <= 0)
-					to_chat(usr, "<span class='danger'>[mins] is not a valid duration.</span>")
+				if(!mins)
 					return
 				var/reason = input(usr,"Please State Reason.","Reason") as message|null
 				if(!reason)
@@ -1341,24 +1422,23 @@
 			return
 
 		var/mob/M = locate(href_list["tdome1"])
-		if(!isliving(M))
-			to_chat(usr, "This can only be used on instances of type /mob/living.")
+		if(!ismob(M))
+			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		if(isAI(M))
 			to_chat(usr, "This cannot be used on instances of type /mob/living/silicon/ai.")
 			return
-		var/mob/living/L = M
 
-		for(var/obj/item/I in L)
-			L.dropItemToGround(I, TRUE)
+		for(var/obj/item/I in M)
+			M.dropItemToGround(I, TRUE)
 
-		L.Unconscious(100)
+		M.Paralyse(5)
 		sleep(5)
-		L.forceMove(pick(GLOB.tdome1))
+		M.loc = pick(GLOB.tdome1)
 		spawn(50)
-			to_chat(L, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
-		log_admin("[key_name(usr)] has sent [key_name(L)] to the thunderdome. (Team 1)")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(L)] to the thunderdome. (Team 1)")
+			to_chat(M, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
+		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Team 1)")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Team 1)")
 
 	else if(href_list["tdome2"])
 		if(!check_rights(R_FUN))
@@ -1368,24 +1448,23 @@
 			return
 
 		var/mob/M = locate(href_list["tdome2"])
-		if(!isliving(M))
-			to_chat(usr, "This can only be used on instances of type /mob/living.")
+		if(!ismob(M))
+			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		if(isAI(M))
 			to_chat(usr, "This cannot be used on instances of type /mob/living/silicon/ai.")
 			return
-		var/mob/living/L = M
 
-		for(var/obj/item/I in L)
-			L.dropItemToGround(I, TRUE)
+		for(var/obj/item/I in M)
+			M.dropItemToGround(I, TRUE)
 
-		L.Unconscious(100)
+		M.Paralyse(5)
 		sleep(5)
-		L.forceMove(pick(GLOB.tdome2))
+		M.loc = pick(GLOB.tdome2)
 		spawn(50)
-			to_chat(L, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
-		log_admin("[key_name(usr)] has sent [key_name(L)] to the thunderdome. (Team 2)")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(L)] to the thunderdome. (Team 2)")
+			to_chat(M, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
+		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Team 2)")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Team 2)")
 
 	else if(href_list["tdomeadmin"])
 		if(!check_rights(R_FUN))
@@ -1395,21 +1474,20 @@
 			return
 
 		var/mob/M = locate(href_list["tdomeadmin"])
-		if(!isliving(M))
-			to_chat(usr, "This can only be used on instances of type /mob/living.")
+		if(!ismob(M))
+			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		if(isAI(M))
 			to_chat(usr, "This cannot be used on instances of type /mob/living/silicon/ai.")
 			return
-		var/mob/living/L = M
 
-		L.Unconscious(100)
+		M.Paralyse(5)
 		sleep(5)
-		L.forceMove(pick(GLOB.tdomeadmin))
+		M.loc = pick(GLOB.tdomeadmin)
 		spawn(50)
-			to_chat(L, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
-		log_admin("[key_name(usr)] has sent [key_name(L)] to the thunderdome. (Admin.)")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(L)] to the thunderdome. (Admin.)")
+			to_chat(M, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
+		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Admin.)")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Admin.)")
 
 	else if(href_list["tdomeobserve"])
 		if(!check_rights(R_FUN))
@@ -1419,31 +1497,30 @@
 			return
 
 		var/mob/M = locate(href_list["tdomeobserve"])
-		if(!isliving(M))
-			to_chat(usr, "This can only be used on instances of type /mob/living.")
+		if(!ismob(M))
+			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		if(isAI(M))
 			to_chat(usr, "This cannot be used on instances of type /mob/living/silicon/ai.")
 			return
-		var/mob/living/L = M
 
-		for(var/obj/item/I in L)
-			L.dropItemToGround(I, TRUE)
+		for(var/obj/item/I in M)
+			M.dropItemToGround(I, TRUE)
 
-		if(ishuman(L))
-			var/mob/living/carbon/human/observer = L
+		if(ishuman(M))
+			var/mob/living/carbon/human/observer = M
 			observer.equip_to_slot_or_del(new /obj/item/clothing/under/suit_jacket(observer), slot_w_uniform)
 			observer.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(observer), slot_shoes)
-		L.Unconscious(100)
+		M.Paralyse(5)
 		sleep(5)
-		L.forceMove(pick(GLOB.tdomeobserve))
+		M.loc = pick(GLOB.tdomeobserve)
 		spawn(50)
-			to_chat(L, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
-		log_admin("[key_name(usr)] has sent [key_name(L)] to the thunderdome. (Observer.)")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(L)] to the thunderdome. (Observer.)")
+			to_chat(M, "<span class='adminnotice'>You have been sent to the Thunderdome.</span>")
+		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Observer.)")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Observer.)")
 
 	else if(href_list["revive"])
-		if(!check_rights(R_ADMIN))
+		if(!check_rights(R_REJUVINATE))
 			return
 
 		var/mob/living/L = locate(href_list["revive"])
@@ -1747,7 +1824,7 @@
 	else if(href_list["reject_custom_name"])
 		if(!check_rights(R_ADMIN))
 			return
-		var/obj/item/weapon/station_charter/charter = locate(href_list["reject_custom_name"])
+		var/obj/item/station_charter/charter = locate(href_list["reject_custom_name"])
 		if(istype(charter))
 			charter.reject_proposed(usr)
 	else if(href_list["jumpto"])
@@ -1932,10 +2009,10 @@
 							O.setDir(obj_dir)
 							if(obj_name)
 								O.name = obj_name
-								if(ismob(O))
+								if(istype(O,/mob))
 									var/mob/M = O
 									M.real_name = obj_name
-							if(where == "inhand" && isliving(usr) && isitem(O))
+							if(where == "inhand" && isliving(usr) && istype(O, /obj/item))
 								var/mob/living/L = usr
 								var/obj/item/I = O
 								L.put_in_hands(I)
@@ -2248,7 +2325,7 @@
 
 	else if(href_list["showrelatedacc"])
 		var/client/C = locate(href_list["client"]) in GLOB.clients
-		var/thing_to_check
+		var/list/thing_to_check
 		if(href_list["showrelatedacc"] == "cid")
 			thing_to_check = C.related_accounts_cid
 		else
@@ -2256,15 +2333,18 @@
 		thing_to_check = splittext(thing_to_check, ", ")
 
 
-		var/list/dat = list("Related accounts by [uppertext(href_list["showrelatedacc"])]:")
-		dat += thing_to_check
+		var/dat = "Related accounts by [uppertext(href_list["showrelatedacc"])]:<br>"
+		for(var/thing in thing_to_check)
+			dat += "[thing]<br>"
+
+		usr << browse(dat, "size=420x300")
 
 	else if(href_list["announcetritor"])
 		var/zhirobas = href_list["announcetritor"]
-		priority_announce("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: [zhirobas]. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.", null, 'sound/AI/commandreport.ogg')
+		priority_announce("Нам стало известно что следующий член экипажа является предателем, работающим на Синдикат: [zhirobas]. Необходимо уничтожить его при обнаружении.", null, 'sound/AI/commandreport.ogg')
 		print_command_report("We have made certain that the following crewmember is a syndicate agent: [zhirobas]. Exterminate on sight.", null, FALSE)
 
 	else if(href_list["announcechange"])
 		var/zhirobas = href_list["announcechange"]
-		priority_announce("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: [zhirobas]. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.", null, 'sound/AI/commandreport.ogg')
+		priority_announce("Нам стало известно что следующий член экипажа является опасным инопланетным существом, способным принимать чужие обличия: [zhirobas]. Необходимо уничтожить его при обнаружении.", null, 'sound/AI/commandreport.ogg')
 		print_command_report("We have made certain that the following crewmember is a dangerous creature able to change its appearance: [zhirobas]. Exterminate on sight.", null, FALSE)

@@ -26,8 +26,8 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 	var/list/freq_listening = list() // list of frequencies to tune into: if none, will listen to all
 
 	var/machinetype = 0 // just a hacky way of preventing alike machines from pairing
-	var/toggled = TRUE 	// Is it toggled on
-	var/on = TRUE
+	var/toggled = 1 	// Is it toggled on
+	var/on = 1
 	var/long_range_link = 0	// Can you link it across Z levels or on the otherside of the map? (Relay & Hub)
 	var/hide = 0				// Is it a hidden machine?
 	var/listening_level = 0	// 0 = auto set in New() - this is the z level that the machine is listening to.
@@ -124,13 +124,13 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 	..()
 
 /obj/machinery/telecomms/proc/is_freq_listening(datum/signal/signal)
-	// return TRUE if found, FALSE if not found
+	// return 1 if found, 0 if not found
 	if(!signal)
-		return FALSE
+		return 0
 	if((signal.frequency in freq_listening) || (!freq_listening.len))
-		return TRUE
+		return 1
 	else
-		return FALSE
+		return 0
 
 
 /obj/machinery/telecomms/New()
@@ -142,6 +142,11 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 		//Defaults to our Z level!
 		var/turf/position = get_turf(src)
 		listening_level = position.z
+
+/obj/machinery/telecomms/onShuttleMove(turf/T1, rotation)
+	. = ..()
+	if(. && T1) // Update listening Z, just in case you have telecomm relay on a shuttle
+		listening_level = T1.z
 
 /obj/machinery/telecomms/Initialize(mapload)
 	..()
@@ -166,7 +171,7 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 /obj/machinery/telecomms/proc/add_link(obj/machinery/telecomms/T)
 	var/turf/position = get_turf(src)
 	var/turf/T_position = get_turf(T)
-	if((position.z == T_position.z) || (long_range_link && T.long_range_link))
+	if((position.z == T_position.z) || (src.long_range_link && T.long_range_link))
 		if(src != T)
 			for(var/x in autolinkers)
 				if(x in T.autolinkers)
@@ -188,11 +193,11 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 
 	if(toggled)
 		if(stat & (BROKEN|NOPOWER|EMPED)) // if powered, on. if not powered, off. if too damaged, off
-			on = FALSE
+			on = 0
 		else
-			on = TRUE
+			on = 1
 	else
-		on = FALSE
+		on = 0
 
 /obj/machinery/telecomms/process()
 	update_power()

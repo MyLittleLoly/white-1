@@ -1,13 +1,15 @@
-/mob/CanPass(atom/movable/mover, turf/target)
+/mob/CanPass(atom/movable/mover, turf/target, height=0)
+	if(height==0)
+		return 1
 	if(istype(mover, /obj/item/projectile) || mover.throwing)
 		return (!density || lying)
 	if(mover.checkpass(PASSMOB))
-		return TRUE
+		return 1
 	if(buckled == mover)
-		return TRUE
+		return 1
 	if(ismob(mover))
 		if (mover in buckled_mobs)
-			return TRUE
+			return 1
 	return (!mover.density || !density || lying)
 
 
@@ -107,34 +109,31 @@
 			mob.control_object.loc = get_step(mob.control_object,direct)
 	return
 
-#define MOVEMENT_DELAY_BUFFER 0.75
-#define MOVEMENT_DELAY_BUFFER_DELTA 1.25
+
 /client/Move(n, direct)
 	if(world.time < move_delay)
-		return FALSE
-	var/old_move_delay = move_delay
+		return 0
 	move_delay = world.time+world.tick_lag //this is here because Move() can now be called mutiple times per tick
 	if(!mob || !mob.loc)
-		return FALSE
-	var/oldloc = mob.loc
+		return 0
 	if(mob.notransform)
-		return FALSE	//This is sota the goto stop mobs from moving var
+		return 0	//This is sota the goto stop mobs from moving var
 	if(mob.control_object)
 		return Move_object(direct)
 	if(!isliving(mob))
 		return mob.Move(n,direct)
 	if(mob.stat == DEAD)
 		mob.ghostize()
-		return FALSE
+		return 0
 	if(moving)
-		return FALSE
+		return 0
 	if(mob.force_moving)
-		return FALSE
+		return 0
 	if(isliving(mob))
 		var/mob/living/L = mob
 		if(L.incorporeal_move)	//Move though walls
 			Process_Incorpmove(direct)
-			return FALSE
+			return 0
 
 	if(mob.remote_control)					//we're controlling something, our movement is relayed to it
 		return mob.remote_control.relaymove(mob, direct)
@@ -149,26 +148,22 @@
 		return mob.buckled.relaymove(mob, direct)
 
 	if(!mob.canmove)
-		return FALSE
+		return 0
 
 	if(isobj(mob.loc) || ismob(mob.loc))	//Inside an object, tell it we moved
 		var/atom/O = mob.loc
 		return O.relaymove(mob, direct)
 
 	if(!mob.Process_Spacemove(direct))
-		return FALSE
+		return 0
 
 	//We are now going to move
 	moving = 1
-	var/delay = mob.movement_delay()
-	if (old_move_delay + (delay*MOVEMENT_DELAY_BUFFER_DELTA) + MOVEMENT_DELAY_BUFFER > world.time)
-		move_delay = old_move_delay + delay
-	else
-		move_delay = delay + world.time
+	move_delay = mob.movement_delay() + world.time
 
 	if(mob.confused)
 		if(mob.confused > 40)
-			step(mob, pick(GLOB.cardinals))
+			step(mob, pick(GLOB.cardinal))
 		else if(prob(mob.confused * 1.5))
 			step(mob, angle2dir(dir2angle(direct) + pick(90, -90)))
 		else if(prob(mob.confused * 3))
@@ -183,21 +178,10 @@
 		if(mob.throwing)
 			mob.throwing.finalize(FALSE)
 
-	if(LAZYLEN(mob.user_movement_hooks))
-		for(var/obj/O in mob.user_movement_hooks)
-			O.intercept_user_move(direct, mob, n, oldloc)
+	for(var/obj/O in mob)
+		O.on_mob_move(direct, src)
 
 	return .
-
-/mob/Moved(oldLoc, dir)
-	. = ..()
-	for(var/obj/O in contents)
-		O.on_mob_move(dir, src, oldLoc)
-
-/mob/setDir(newDir)
-	. = ..()
-	for(var/obj/O in contents)
-		O.on_mob_turn(newDir, src)
 
 
 ///Process_Grab()
@@ -207,13 +191,14 @@
 	if(mob.pulledby)
 		if(mob.incapacitated(ignore_restraints = 1))
 			move_delay = world.time + 10
-			return TRUE
+			return 1
 		else if(mob.restrained(ignore_grab = 1))
 			move_delay = world.time + 10
 			to_chat(src, "<span class='warning'>You're restrained! You can't move!</span>")
-			return TRUE
+			return 1
 		else
 			return mob.resist_grab(1)
+
 
 ///Process_Incorpmove
 ///Called by client/Move()
@@ -224,10 +209,10 @@
 		return
 	var/mob/living/L = mob
 	switch(L.incorporeal_move)
-		if(INCORPOREAL_MOVE_BASIC)
+		if(1)
 			L.loc = get_step(L, direct)
 			L.setDir(direct)
-		if(INCORPOREAL_MOVE_SHADOW)
+		if(2)
 			if(prob(50))
 				var/locx
 				var/locy
@@ -265,7 +250,7 @@
 				new /obj/effect/temp_visual/dir_setting/ninja/shadow(mobloc, L.dir)
 				L.loc = get_step(L, direct)
 			L.setDir(direct)
-		if(INCORPOREAL_MOVE_JAUNT) //Incorporeal move, but blocked by holy-watered tiles and salt piles.
+		if(3) //Incorporeal move, but blocked by holy-watered tiles and salt piles.
 			var/turf/open/floor/stepTurf = get_step(L, direct)
 			for(var/obj/effect/decal/cleanable/salt/S in stepTurf)
 				to_chat(L, "<span class='warning'>[S] bars your passage!</span>")
@@ -279,23 +264,23 @@
 			else
 				L.loc = get_step(L, direct)
 				L.setDir(direct)
-	return TRUE
+	return 1
 
 
 ///Process_Spacemove
 ///Called by /client/Move()
 ///For moving in space
-///return TRUE for movement 0 for none
+///Return 1 for movement 0 for none
 /mob/Process_Spacemove(movement_dir = 0)
 	if(..())
-		return TRUE
+		return 1
 	var/atom/movable/backup = get_spacemove_backup()
 	if(backup)
 		if(istype(backup) && movement_dir && !backup.anchored)
 			if(backup.newtonian_move(turn(movement_dir, 180))) //You're pushing off something movable, so it moves
 				to_chat(src, "<span class='info'>You push off of [backup] to propel yourself.</span>")
-		return TRUE
-	return FALSE
+		return 1
+	return 0
 
 /mob/get_spacemove_backup()
 	for(var/A in orange(1, get_turf(src)))
@@ -327,7 +312,7 @@
 	return has_gravity()
 
 /mob/proc/mob_negates_gravity()
-	return FALSE
+	return 0
 
 //moves the mob/object we're pulling
 /mob/proc/Move_Pulled(atom/A)

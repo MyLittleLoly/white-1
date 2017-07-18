@@ -7,9 +7,9 @@
 	desc = "New generation hot dog stand."
 	icon = 'icons/obj/kitchen.dmi'
 	icon_state = "foodcart"
-	density = TRUE
-	anchored = FALSE
-	use_power = NO_POWER_USE
+	density = 1
+	anchored = 0
+	use_power = 0
 	var/food_stored = 0
 	var/glasses = 0
 	var/portion = 10

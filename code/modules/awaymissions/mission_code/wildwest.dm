@@ -14,9 +14,9 @@
 	icon = 'icons/obj/device.dmi'
 	icon_state = "syndbeacon"
 
-	anchored = TRUE
-	density = TRUE
-	use_power = NO_POWER_USE
+	anchored = 1
+	density = 1
+	use_power = 0
 
 	var/chargesa = 1
 	var/insistinga = 0
@@ -85,25 +85,22 @@
 /obj/effect/meatgrinder
 	name = "Meat Grinder"
 	desc = "What is that thing?"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	icon = 'icons/mob/blob.dmi'
 	icon_state = "blobpod"
 	var/triggered = 0
 
-/obj/effect/meatgrinder/Crossed(atom/movable/AM)
-	CollidedWith(AM)
+/obj/effect/meatgrinder/Crossed(AM)
+	Bumped(AM)
 
-/obj/effect/meatgrinder/CollidedWith(atom/movable/AM)
+/obj/effect/meatgrinder/Bumped(mob/M)
 
 	if(triggered)
 		return
-	if(!ishuman(AM))
-		return
 
-	var/mob/living/carbon/human/M = AM
-
-	if(M.stat != DEAD && M.ckey)
+	if(ishuman(M) && M.stat != DEAD && M.ckey)
+		for(var/mob/O in viewers(world.view, src.loc))
 		visible_message("<span class='warning'>[M] triggered the [src]!</span>")
 		triggered = 1
 

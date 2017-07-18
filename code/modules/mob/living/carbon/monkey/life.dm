@@ -16,7 +16,7 @@
 			if(stat == CONSCIOUS)
 				if(!handle_combat())
 					if(prob(33) && canmove && isturf(loc) && !pulledby)
-						step(src, pick(GLOB.cardinals))
+						step(src, pick(GLOB.cardinal))
 					if(prob(1))
 						emote(pick("scratch","jump","roll","tail"))
 			else
@@ -26,18 +26,18 @@
 
 	if (radiation)
 		if (radiation > 100)
-			if(!IsKnockdown())
+			if(!weakened)
 				emote("collapse")
-			Knockdown(200)
+			Weaken(10)
 			to_chat(src, "<span class='danger'>You feel weak.</span>")
 
 		switch(radiation)
 
 			if(50 to 75)
 				if(prob(5))
-					if(!IsKnockdown())
+					if(!weakened)
 						emote("collapse")
-					Knockdown(60)
+					Weaken(3)
 					to_chat(src, "<span class='danger'>You feel weak.</span>")
 
 			if(75 to 100)
@@ -47,6 +47,10 @@
 					emote("gasp")
 					domutcheck()
 		..()
+
+/mob/living/carbon/monkey/handle_chemicals_in_body()
+	if(reagents)
+		reagents.metabolize(src, can_overdose=1)
 
 /mob/living/carbon/monkey/handle_breath_temperature(datum/gas_mixture/breath)
 	if(abs(310.15 - breath.temperature) > 50)

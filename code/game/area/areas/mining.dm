@@ -2,19 +2,19 @@
 
 /area/mine
 	icon_state = "mining"
-	has_gravity = TRUE
+	has_gravity = 1
 
 /area/mine/explored
 	name = "Mine"
 	icon_state = "explored"
 	music = null
-	always_unpowered = TRUE
-	requires_power = TRUE
-	poweralm = FALSE
-	power_environ = FALSE
-	power_equip = FALSE
-	power_light = FALSE
-	outdoors = TRUE
+	always_unpowered = 1
+	requires_power = 1
+	poweralm = 0
+	power_environ = 0
+	power_equip = 0
+	power_light = 0
+	outdoors = 1
 	ambientsounds = list('sound/ambience/ambimine.ogg')
 	flags = NONE
 
@@ -22,13 +22,13 @@
 	name = "Mine"
 	icon_state = "unexplored"
 	music = null
-	always_unpowered = TRUE
-	requires_power = TRUE
-	poweralm = FALSE
-	power_environ = FALSE
-	power_equip = FALSE
-	power_light = FALSE
-	outdoors = TRUE
+	always_unpowered = 1
+	requires_power = 1
+	poweralm = 0
+	power_environ = 0
+	power_equip = 0
+	power_light = 0
+	outdoors = 1
 	ambientsounds = list('sound/ambience/ambimine.ogg')
 	flags = NONE
 
@@ -85,37 +85,36 @@
 
 /area/lavaland
 	icon_state = "mining"
-	has_gravity = TRUE
-	flags = NONE
+	has_gravity = 1
 
 /area/lavaland/surface
 	name = "Lavaland"
 	icon_state = "explored"
 	music = null
-	always_unpowered = TRUE
-	poweralm = FALSE
-	power_environ = FALSE
-	power_equip = FALSE
-	power_light = FALSE
-	requires_power = TRUE
+	always_unpowered = 1
+	poweralm = 0
+	power_environ = 0
+	power_equip = 0
+	power_light = 0
+	requires_power = 1
 	ambientsounds = list('sound/ambience/ambilava.ogg')
 
 /area/lavaland/underground
 	name = "Lavaland Caves"
 	icon_state = "unexplored"
 	music = null
-	always_unpowered = TRUE
-	requires_power = TRUE
-	poweralm = FALSE
-	power_environ = FALSE
-	power_equip = FALSE
-	power_light = FALSE
+	always_unpowered = 1
+	requires_power = 1
+	poweralm = 0
+	power_environ = 0
+	power_equip = 0
+	power_light = 0
 	ambientsounds = list('sound/ambience/ambilava.ogg')
 
 
 /area/lavaland/surface/outdoors
 	name = "Lavaland Wastes"
-	outdoors = TRUE
+	outdoors = 1
 
 /area/lavaland/surface/outdoors/unexplored //monsters and ruins spawn here
 	icon_state = "unexplored"

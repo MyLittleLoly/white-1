@@ -1,7 +1,8 @@
 /obj/machinery/portable_atmospherics
 	name = "portable_atmospherics"
 	icon = 'icons/obj/atmos.dmi'
-	use_power = NO_POWER_USE
+	use_power = 0
+	obj_integrity = 250
 	max_integrity = 250
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 100, bomb = 0, bio = 100, rad = 100, fire = 60, acid = 30)
 
@@ -57,7 +58,7 @@
 	var/datum/pipeline/connected_port_parent = connected_port.PARENT1
 	connected_port_parent.reconcile_air()
 
-	anchored = TRUE //Prevent movement
+	anchored = 1 //Prevent movement
 	return 1
 
 /obj/machinery/portable_atmospherics/Move()
@@ -68,7 +69,7 @@
 /obj/machinery/portable_atmospherics/proc/disconnect()
 	if(!connected_port)
 		return 0
-	anchored = FALSE
+	anchored = 0
 	connected_port.connected_device = null
 	connected_port = null
 	return 1

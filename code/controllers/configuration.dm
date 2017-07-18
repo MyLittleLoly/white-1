@@ -87,8 +87,9 @@
 
 	var/check_randomizer = 0
 
-	var/panic_server_name
-	var/panic_address //Reconnect a player this linked server if this server isn't accepting new players
+	var/allow_panic_bunker_bounce = 0 //Send new players somewhere else
+	var/panic_server_name = "somewhere else"
+	var/panic_address = "byond://" //Reconnect a player this linked server if this server isn't accepting new players
 
 	//IP Intel vars
 	var/ipintel_email
@@ -193,7 +194,7 @@
 	var/allowwebclient = 0
 	var/webclientmembersonly = 0
 
-	var/sandbox_autoclose = FALSE // close the sandbox panel after spawning an item, potentially reducing griff
+	var/sandbox_autoclose = 0 // close the sandbox panel after spawning an item, potentially reducing griff
 
 	var/default_laws = 0 //Controls what laws the AI spawns with.
 	var/silicon_max_law_amount = 12
@@ -206,8 +207,6 @@
 	var/starlight = 0
 	var/generate_minimaps = 0
 	var/grey_assistants = 0
-
-	var/id_console_jobslot_delay = 30
 
 	var/lavaland_budget = 60
 	var/space_budget = 16
@@ -262,10 +261,6 @@
 
 	var/mice_roundstart = 10 // how many wire chewing rodents spawn at roundstart.
 
-	var/irc_announce_new_game = FALSE
-
-	var/list/policies = list()
-
 /datum/configuration/New()
 	gamemode_cache = typecacheof(/datum/game_mode,TRUE)
 	for(var/T in gamemode_cache)
@@ -289,7 +284,6 @@
 /datum/configuration/proc/Reload()
 	load("config/config.txt")
 	load("config/game_options.txt","game_options")
-	load("config/policies.txt", "policies")
 	loadsql("config/dbconfig.txt")
 	if (maprotation)
 		loadmaplist("config/maps.txt")
@@ -415,8 +409,6 @@
 					usewhitelist = TRUE
 				if("allow_metadata")
 					allow_Metadata = 1
-				if("id_console_jobslot_delay")
-					id_console_jobslot_delay = text2num(value)
 				if("inactivity_period")
 					inactivity_period = text2num(value) * 10 //documented as seconds in config.txt
 				if("afk_period")
@@ -431,7 +423,7 @@
 					popup_admin_pm = 1
 				if("allow_holidays")
 					allow_holidays = 1
-				if("useircbot")	//tgs2 support
+				if("useircbot")
 					useircbot = 1
 				if("ticklag")
 					var/ticklag = text2num(value)
@@ -454,12 +446,11 @@
 				if("cross_comms_name")
 					cross_name = value
 				if("panic_server_name")
-					if (value != "\[Put the name here\]")
-						panic_server_name = value
+					panic_server_name = value
 				if("panic_server_address")
-					if(value != "byond://address:port")
-						panic_address = value
-
+					panic_address = value
+					if(value != "byond:\\address:port")
+						allow_panic_bunker_bounce = 1
 				if("medal_hub_address")
 					global.medal_hub = value
 				if("medal_hub_password")
@@ -545,8 +536,6 @@
 					error_silence_time = text2num(value)
 				if("error_msg_delay")
 					error_msg_delay = text2num(value)
-				if("irc_announce_new_game")
-					irc_announce_new_game = TRUE
 				else
 					GLOB.config_error_log << "Unknown setting in configuration: '[name]'"
 
@@ -782,8 +771,6 @@
 					mice_roundstart = text2num(value)
 				else
 					GLOB.config_error_log << "Unknown setting in configuration: '[name]'"
-		else if(type == "policies")
-			policies[name] = value
 
 	fps = round(fps)
 	if(fps <= 0)
@@ -835,8 +822,6 @@
 				defaultmap = currentmap
 			if ("endmap")
 				maplist[currentmap.map_name] = currentmap
-				currentmap = null
-			if ("disabled")
 				currentmap = null
 			else
 				GLOB.config_error_log << "Unknown command in map vote config: '[command]'"

@@ -1,41 +1,7 @@
-/datum/symptom/heal
-	name = "Basic Healing (does nothing)" //warning for adminspawn viruses
-	stealth = 1
-	resistance = -4
-	stage_speed = -4
-	transmittable = -4
-	level = 0 //not obtainable
-	base_message_chance = 20 //here used for the overlays
-	symptom_delay_min = 1
-	symptom_delay_max = 1
-	var/hide_healing = FALSE
-
-/datum/symptom/heal/Start(datum/disease/advance/A)
-	..()
-	if(A.properties["stealth"] >= 4) //invisible healing
-		hide_healing = TRUE
-	if(A.properties["stage_rate"] >= 6) //stronger healing
-		power = 2
-	if(A.properties["stage_rate"] >= 11) //even stronger healing
-		power = 3
-
-/datum/symptom/heal/Activate(datum/disease/advance/A)
-	if(!..())
-		return
-	 //100% chance to activate for slow but consistent healing
-	var/mob/living/M = A.affected_mob
-	switch(A.stage)
-		if(4, 5)
-			Heal(M, A)
-	return
-
-/datum/symptom/heal/proc/Heal(mob/living/M, datum/disease/advance/A)
-	return 1
-
 /*
 //////////////////////////////////////
 
-Toxin Filter
+Healing
 
 	Little bit hidden.
 	Lowers resistance tremendously.
@@ -49,7 +15,8 @@ Bonus
 //////////////////////////////////////
 */
 
-/datum/symptom/heal/toxin
+/datum/symptom/heal
+
 	name = "Toxic Filter"
 	stealth = 1
 	resistance = -4
@@ -57,9 +24,18 @@ Bonus
 	transmittable = -4
 	level = 6
 
-/datum/symptom/heal/toxin/Heal(mob/living/M, datum/disease/advance/A)
-	var/heal_amt = 0.5 * power
-	if(M.toxloss > 0 && prob(base_message_chance) && !hide_healing)
+/datum/symptom/heal/Activate(datum/disease/advance/A)
+	..()
+	 //100% chance to activate for slow but consistent healing
+	var/mob/living/M = A.affected_mob
+	switch(A.stage)
+		if(4, 5)
+			Heal(M, A)
+	return
+
+/datum/symptom/heal/proc/Heal(mob/living/M, datum/disease/advance/A)
+	var/heal_amt = 0.5
+	if(M.toxloss > 0 && prob(20))
 		new /obj/effect/temp_visual/heal(get_turf(M), "#66FF99")
 	M.adjustToxLoss(-heal_amt)
 	return 1
@@ -79,7 +55,7 @@ Bonus
 //////////////////////////////////////
 */
 
-/datum/symptom/heal/toxin/plus
+/datum/symptom/heal/plus
 
 	name = "Apoptoxin filter"
 	stealth = 0
@@ -88,9 +64,9 @@ Bonus
 	transmittable = -2
 	level = 8
 
-/datum/symptom/heal/toxin/plus/Heal(mob/living/M, datum/disease/advance/A)
-	var/heal_amt = 1 * power
-	if(M.toxloss > 0 && prob(base_message_chance) && !hide_healing)
+/datum/symptom/heal/plus/Heal(mob/living/M, datum/disease/advance/A)
+	var/heal_amt = 1
+	if(M.toxloss > 0 && prob(20))
 		new /obj/effect/temp_visual/heal(get_turf(M), "#00FF00")
 	M.adjustToxLoss(-heal_amt)
 	return 1
@@ -122,7 +98,7 @@ Bonus
 	level = 6
 
 /datum/symptom/heal/brute/Heal(mob/living/carbon/M, datum/disease/advance/A)
-	var/heal_amt = 1 * power
+	var/heal_amt = 1
 
 	var/list/parts = M.get_damaged_bodyparts(1,1) //1,1 because it needs inputs.
 
@@ -133,7 +109,7 @@ Bonus
 		if(L.heal_damage(heal_amt/parts.len, 0))
 			M.update_damage_overlays()
 
-	if(prob(base_message_chance) && !hide_healing)
+	if(prob(20))
 		new /obj/effect/temp_visual/heal(get_turf(M), "#FF3333")
 
 	return 1
@@ -165,15 +141,14 @@ Bonus
 	level = 8
 
 /datum/symptom/heal/brute/plus/Heal(mob/living/carbon/M, datum/disease/advance/A)
-	var/heal_amt = 2 * power
+	var/heal_amt = 2
 
 	var/list/parts = M.get_damaged_bodyparts(1,1) //1,1 because it needs inputs.
 
 	if(M.getCloneLoss() > 0)
 		M.adjustCloneLoss(-1)
 		M.take_bodypart_damage(0, 1) //Deals BURN damage, which is not cured by this symptom
-		if(!hide_healing)
-			new /obj/effect/temp_visual/heal(get_turf(M), "#33FFCC")
+		new /obj/effect/temp_visual/heal(get_turf(M), "#33FFCC")
 
 	if(!parts.len)
 		return
@@ -182,7 +157,7 @@ Bonus
 		if(L.heal_damage(heal_amt/parts.len, 0))
 			M.update_damage_overlays()
 
-	if(prob(base_message_chance) && !hide_healing)
+	if(prob(20))
 		new /obj/effect/temp_visual/heal(get_turf(M), "#CC1100")
 
 	return 1
@@ -214,7 +189,7 @@ Bonus
 	level = 6
 
 /datum/symptom/heal/burn/Heal(mob/living/carbon/M, datum/disease/advance/A)
-	var/heal_amt = 1 * power
+	var/heal_amt = 1
 
 	var/list/parts = M.get_damaged_bodyparts(1,1) //1,1 because it needs inputs.
 
@@ -225,7 +200,7 @@ Bonus
 		if(L.heal_damage(0, heal_amt/parts.len))
 			M.update_damage_overlays()
 
-	if(prob(base_message_chance) && !hide_healing)
+	if(prob(20))
 		new /obj/effect/temp_visual/heal(get_turf(M), "#FF9933")
 	return 1
 
@@ -256,7 +231,7 @@ Bonus
 	level = 8
 
 /datum/symptom/heal/burn/plus/Heal(mob/living/carbon/M, datum/disease/advance/A)
-	var/heal_amt = 2 * power
+	var/heal_amt = 2
 
 	var/list/parts = M.get_damaged_bodyparts(1,1) //1,1 because it needs inputs.
 
@@ -272,7 +247,7 @@ Bonus
 		if(L.heal_damage(0, heal_amt/parts.len))
 			M.update_damage_overlays()
 
-	if(prob(base_message_chance) && !hide_healing)
+	if(prob(20))
 		new /obj/effect/temp_visual/heal(get_turf(M), "#CC6600")
 	return 1
 
@@ -302,11 +277,9 @@ Bonus
 	stage_speed = 0
 	transmittable = -3
 	level = 5
-	symptom_delay_min = 3
-	symptom_delay_max = 8
 
 /datum/symptom/heal/dna/Heal(mob/living/carbon/M, datum/disease/advance/A)
-	var/amt_healed = 1 * power
+	var/amt_healed = 1
 	M.adjustBrainLoss(-amt_healed)
 	//Non-power mutations, excluding race, so the virus does not force monkey -> human transformations.
 	var/list/unclean_mutations = (GLOB.not_good_mutations|GLOB.bad_mutations) - GLOB.mutations_list[RACEMUT]

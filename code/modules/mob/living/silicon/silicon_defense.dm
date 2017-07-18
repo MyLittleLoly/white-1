@@ -29,7 +29,7 @@
 		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
 		if(prob(damage))
 			for(var/mob/living/N in buckled_mobs)
-				N.Knockdown(20)
+				N.Weaken(1)
 				unbuckle_mob(N)
 				N.visible_message("<span class='boldwarning'>[N] is knocked off of [src] by [M]!</span>")
 		switch(M.melee_damage_type)
@@ -77,11 +77,6 @@
 				"<span class='warning'>[M] punches [src], but doesn't leave a dent.</span>", null, COMBAT_MESSAGE_RANGE)
 	return 0
 
-/mob/living/silicon/attack_drone(mob/living/simple_animal/drone/M)
-	if(M.a_intent == INTENT_HARM)
-		return
-	return ..()
-
 /mob/living/silicon/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, safety = 0, tesla_shock = 0, illusion = 0, stun = TRUE)
 	if(buckled_mobs)
 		for(var/mob/living/M in buckled_mobs)
@@ -100,7 +95,7 @@
 	for(var/mob/living/M in buckled_mobs)
 		if(prob(severity*50))
 			unbuckle_mob(M)
-			M.Knockdown(40)
+			M.Weaken(2)
 			M.visible_message("<span class='boldwarning'>[M] is thrown off of [src]!</span>")
 	flash_act(affect_silicon = 1)
 	..()
@@ -112,8 +107,8 @@
 			for(var/mob/living/M in buckled_mobs)
 				M.visible_message("<span class='boldwarning'>[M] is knocked off of [src]!</span>")
 				unbuckle_mob(M)
-				M.Knockdown(40)
-	if(Proj.stun || Proj.knockdown)
+				M.Weaken(2)
+	if(Proj.stun || Proj.weaken)
 		for(var/mob/living/M in buckled_mobs)
 			unbuckle_mob(M)
 			M.visible_message("<span class='boldwarning'>[M] is knocked off of [src] by the [Proj]!</span>")

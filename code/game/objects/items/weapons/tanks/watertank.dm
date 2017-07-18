@@ -9,12 +9,13 @@
 	slot_flags = SLOT_BACK
 	slowdown = 1
 	actions_types = list(/datum/action/item_action/toggle_mister)
+	obj_integrity = 200
 	max_integrity = 200
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 100, acid = 30)
 	resistance_flags = FIRE_PROOF
 
 	var/obj/item/weapon/noz
-	var/on = FALSE
+	var/on = 0
 	var/volume = 500
 
 /obj/item/weapon/watertank/New()
@@ -46,7 +47,7 @@
 
 		//Detach the nozzle into the user's hands
 		if(!user.put_in_hands(noz))
-			on = FALSE
+			on = 0
 			to_chat(user, "<span class='warning'>You need a free hand to hold the mister!</span>")
 			return
 		noz.loc = user
@@ -177,16 +178,15 @@
 //ATMOS FIRE FIGHTING BACKPACK
 
 #define EXTINGUISHER 0
-#define RESIN_LAUNCHER 1
-#define RESIN_FOAM 2
+#define NANOFROST 1
+#define METAL_FOAM 2
 
 /obj/item/weapon/watertank/atmos
 	name = "backpack firefighter tank"
-	desc = "A refridgerated and pressurized backpack tank with extinguisher nozzle, intended to fight fires. Swaps between extinguisher, resin launcher and a smaller scale resin foamer."
-	item_state = "waterbackpackatmos"
+	desc = "A refridgerated and pressurized backpack tank with extinguisher nozzle, intended to fight fires. Swaps between extinguisher, nanofrost launcher, and metal foam dispenser for breaches. Nanofrost converts plasma in the air to nitrogen, but only if it is combusting at the time."
 	icon_state = "waterbackpackatmos"
+	item_state = "waterbackpackatmos"
 	volume = 200
-	slowdown = 0
 
 /obj/item/weapon/watertank/atmos/New()
 	..()
@@ -211,7 +211,6 @@
 	safety = 0
 	max_water = 200
 	power = 8
-	force = 10
 	precision = 1
 	cooling_power = 5
 	w_class = WEIGHT_CLASS_HUGE
@@ -219,7 +218,7 @@
 	var/obj/item/weapon/watertank/tank
 	var/nozzle_mode = 0
 	var/metal_synthesis_cooldown = 0
-	var/resin_cooldown = 0
+	var/nanofrost_cooldown = 0
 
 /obj/item/weapon/extinguisher/mini/nozzle/New(parent_tank)
 	..()
@@ -239,16 +238,16 @@
 /obj/item/weapon/extinguisher/mini/nozzle/attack_self(mob/user)
 	switch(nozzle_mode)
 		if(EXTINGUISHER)
-			nozzle_mode = RESIN_LAUNCHER
+			nozzle_mode = NANOFROST
 			tank.icon_state = "waterbackpackatmos_1"
-			to_chat(user, "Swapped to resin launcher")
+			to_chat(user, "Swapped to nanofrost launcher")
 			return
-		if(RESIN_LAUNCHER)
-			nozzle_mode = RESIN_FOAM
+		if(NANOFROST)
+			nozzle_mode = METAL_FOAM
 			tank.icon_state = "waterbackpackatmos_2"
-			to_chat(user, "Swapped to resin foamer")
+			to_chat(user, "Swapped to metal foam synthesizer")
 			return
-		if(RESIN_FOAM)
+		if(METAL_FOAM)
 			nozzle_mode = EXTINGUISHER
 			tank.icon_state = "waterbackpackatmos_0"
 			to_chat(user, "Swapped to water extinguisher")
@@ -268,20 +267,20 @@
 	var/Adj = user.Adjacent(target)
 	if(Adj)
 		AttemptRefill(target, user)
-	if(nozzle_mode == RESIN_LAUNCHER)
+	if(nozzle_mode == NANOFROST)
 		if(Adj)
 			return //Safety check so you don't blast yourself trying to refill your tank
 		var/datum/reagents/R = reagents
 		if(R.total_volume < 100)
-			to_chat(user, "<span class='warning'>You need at least 100 units of water to use the resin launcher!</span>")
+			to_chat(user, "<span class='warning'>You need at least 100 units of water to use the nanofrost launcher!</span>")
 			return
-		if(resin_cooldown)
-			to_chat(user, "<span class='warning'>Resin launcher is still recharging...</span>")
+		if(nanofrost_cooldown)
+			to_chat(user, "<span class='warning'>Nanofrost launcher is still recharging...</span>")
 			return
-		resin_cooldown = TRUE
+		nanofrost_cooldown = 1
 		R.remove_any(100)
-		var/obj/effect/resin_container/A = new (get_turf(src))
-		log_game("[key_name_admin(user)] used Resin Launcher at [get_area(user)] [COORD(user)].")
+		var/obj/effect/nanofrost_container/A = new /obj/effect/nanofrost_container(get_turf(src))
+		log_game("[user.ckey] ([user.name]) used Nanofrost at [get_area(user)] ([user.x], [user.y], [user.z]).")
 		playsound(src,'sound/items/syringeproj.ogg',40,1)
 		for(var/a=0, a<5, a++)
 			step_towards(A, target)
@@ -289,42 +288,43 @@
 		A.Smoke()
 		spawn(100)
 			if(src)
-				resin_cooldown = FALSE
+				nanofrost_cooldown = 0
 		return
-	if(nozzle_mode == RESIN_FOAM)
+	if(nozzle_mode == METAL_FOAM)
 		if(!Adj|| !isturf(target))
 			return
-		for(var/S in target)
-			if(istype(S, /obj/effect/particle_effect/foam/metal/resin) || istype(S, /obj/structure/foamedmetal/resin))
-				to_chat(user, "<span class='warning'>There's already resin here!</span>")
-				return
 		if(metal_synthesis_cooldown < 5)
-			var/obj/effect/particle_effect/foam/metal/resin/F = new (get_turf(target))
+			var/obj/effect/particle_effect/foam/metal/F = new /obj/effect/particle_effect/foam/metal(get_turf(target))
 			F.amount = 0
 			metal_synthesis_cooldown++
 			spawn(100)
 				metal_synthesis_cooldown--
 		else
-			to_chat(user, "<span class='warning'>Resin foam mix is still being synthesized...</span>")
+			to_chat(user, "<span class='warning'>Metal foam mix is still being synthesized...</span>")
 			return
 
-/obj/effect/resin_container
-	name = "resin container"
-	desc = "A compacted ball of expansive resin, used to repair the atmosphere in a room, or seal off breaches."
+/obj/effect/nanofrost_container
+	name = "nanofrost container"
+	desc = "A frozen shell of ice containing nanofrost that freezes the surrounding area after activation."
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "frozen_smoke_capsule"
 	mouse_opacity = 0
 	pass_flags = PASSTABLE
 
-/obj/effect/resin_container/proc/Smoke()
-	var/obj/effect/particle_effect/foam/metal/resin/S = new /obj/effect/particle_effect/foam/metal/resin(get_turf(loc))
-	S.amount = 3
+/obj/effect/nanofrost_container/proc/Smoke()
+	var/datum/effect_system/smoke_spread/freezing/S = new
+	S.set_up(2, src.loc, blasting=1)
+	S.start()
+	var/obj/effect/decal/cleanable/flour/F = new /obj/effect/decal/cleanable/flour(src.loc)
+	F.add_atom_colour("#B2FFFF", FIXED_COLOUR_PRIORITY)
+	F.name = "nanofrost residue"
+	F.desc = "Residue left behind from a nanofrost detonation. Perhaps there was a fire here?"
 	playsound(src,'sound/effects/bamf.ogg',100,1)
 	qdel(src)
 
 #undef EXTINGUISHER
-#undef RESIN_LAUNCHER
-#undef RESIN_FOAM
+#undef NANOFROST
+#undef METAL_FOAM
 
 /obj/item/weapon/reagent_containers/chemtank
 	name = "backpack chemical injector"
@@ -337,7 +337,7 @@
 	slowdown = 1
 	actions_types = list(/datum/action/item_action/activate_injector)
 
-	var/on = FALSE
+	var/on = 0
 	volume = 300
 	var/usage_ratio = 5 //5 unit added per 1 removed
 	var/injection_amount = 1
@@ -403,13 +403,13 @@
 		. += filling
 
 /obj/item/weapon/reagent_containers/chemtank/proc/turn_on()
-	on = TRUE
+	on = 1
 	START_PROCESSING(SSobj, src)
 	if(ismob(loc))
 		to_chat(loc, "<span class='notice'>[src] turns on.</span>")
 
 /obj/item/weapon/reagent_containers/chemtank/proc/turn_off()
-	on = FALSE
+	on = 0
 	STOP_PROCESSING(SSobj, src)
 	if(ismob(loc))
 		to_chat(loc, "<span class='notice'>[src] turns off.</span>")

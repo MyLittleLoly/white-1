@@ -7,7 +7,7 @@
 
 */
 
-#define SYMPTOM_LIMIT 6
+#define SYMPTOM_LIMIT 8
 
 
 
@@ -18,6 +18,7 @@
  */
 
 /datum/disease/advance
+
 	name = "Unknown" // We will always let our Virologist name our disease.
 	desc = "An engineered disease which can contain a multitude of symptoms."
 	form = "Advance Disease" // Will let med-scanners know that this disease was engineered.
@@ -30,7 +31,7 @@
 	var/list/properties = list()
 	var/list/symptoms = list() // The symptoms of the disease.
 	var/id = ""
-	var/processing = FALSE
+	var/processing = 0
 
 	// The order goes from easy to cure to hard to cure.
 	var/static/list/advance_cures = 	list(
@@ -57,10 +58,7 @@
 			symptoms = GenerateSymptoms(0, 2)
 		else
 			for(var/datum/symptom/S in D.symptoms)
-				var/datum/symptom/new_symp = new S.type
-				new_symp.name = S.name
-				new_symp.neutered = S.neutered
-				symptoms += new_symp
+				symptoms += new S.type
 
 	Refresh()
 	..(process, D)
@@ -78,7 +76,7 @@
 	if(symptoms && symptoms.len)
 
 		if(!processing)
-			processing = TRUE
+			processing = 1
 			for(var/datum/symptom/S in symptoms)
 				S.Start(src)
 
@@ -93,7 +91,7 @@
 	if(!(istype(D, /datum/disease/advance)))
 		return 0
 
-	if(GetDiseaseID() != D.GetDiseaseID())
+	if(src.GetDiseaseID() != D.GetDiseaseID())
 		return 0
 	return 1
 
@@ -118,10 +116,10 @@
 
 // Mix the symptoms of two diseases (the src and the argument)
 /datum/disease/advance/proc/Mix(datum/disease/advance/D)
-	if(!(IsSame(D)))
+	if(!(src.IsSame(D)))
 		var/list/possible_symptoms = shuffle(D.symptoms)
 		for(var/datum/symptom/S in possible_symptoms)
-			AddSymptom(S.Copy())
+			AddSymptom(new S.type)
 
 /datum/disease/advance/proc/HasSymptom(datum/symptom/S)
 	for(var/datum/symptom/symp in symptoms)
@@ -157,7 +155,8 @@
 
 	return generated
 
-/datum/disease/advance/proc/Refresh(new_name = FALSE)
+/datum/disease/advance/proc/Refresh(new_name = 0)
+	//to_chat(world, "[src.name] \ref[src] - REFRESH!")
 	GenerateProperties()
 	AssignProperties()
 	id = null
@@ -193,8 +192,10 @@
 
 	if(properties && properties.len)
 		switch(properties["stealth"])
-			if(2 to INFINITY)
+			if(2,3)
 				visibility_flags = HIDDEN_SCANNER
+			if(4 to INFINITY)
+				visibility_flags = HIDDEN_SCANNER|HIDDEN_PANDEMIC
 
 		// The more symptoms we have, the less transmittable it is but some symptoms can make up for it.
 		SetSpread(Clamp(2 ** (properties["transmittable"] - symptoms.len), BLOOD, AIRBORNE))
@@ -262,7 +263,7 @@
 	var/s = safepick(GenerateSymptoms(min_level, max_level, 1))
 	if(s)
 		AddSymptom(s)
-		Refresh(TRUE)
+		Refresh(1)
 	return
 
 // Randomly remove a symptom.
@@ -271,16 +272,7 @@
 		var/s = safepick(symptoms)
 		if(s)
 			RemoveSymptom(s)
-			Refresh(TRUE)
-	return
-
-// Randomly neuter a symptom.
-/datum/disease/advance/proc/Neuter()
-	if(symptoms.len)
-		var/s = safepick(symptoms)
-		if(s)
-			NeuterSymptom(s)
-			Refresh(TRUE)
+			Refresh(1)
 	return
 
 // Name the disease.
@@ -318,13 +310,6 @@
 /datum/disease/advance/proc/RemoveSymptom(datum/symptom/S)
 	symptoms -= S
 	return
-
-// Neuter a symptom, so it will only affect stats
-/datum/disease/advance/proc/NeuterSymptom(datum/symptom/S)
-	if(!S.neutered)
-		S.neutered = TRUE
-		S.name += " (neutered)"
-		S.id += "N" //new disease is unique
 
 /*
 
@@ -410,11 +395,11 @@
 		D.AssignName(new_name)
 		D.Refresh()
 
-		for(var/datum/disease/advance/AD in SSdisease.active_diseases)
+		for(var/datum/disease/advance/AD in SSdisease.processing)
 			AD.Refresh()
 
 		for(var/mob/living/carbon/human/H in shuffle(GLOB.living_mob_list))
-			if(H.z != ZLEVEL_STATION)
+			if(H.z != 1)
 				continue
 			if(!H.HasDisease(D))
 				H.ForceContractDisease(D)
@@ -424,6 +409,13 @@
 		for(var/datum/symptom/S in D.symptoms)
 			name_symptoms += S.name
 		message_admins("[key_name_admin(user)] has triggered a custom virus outbreak of [D.name]! It has these symptoms: [english_list(name_symptoms)]")
+
+/*
+/mob/verb/test()
+
+	for(var/datum/disease/D in SSdisease.processing)
+		to_chat(src, "<a href='?_src_=vars;Vars=\ref[D]'>[D.name] - [D.holder]</a>")
+*/
 
 
 /datum/disease/advance/proc/totalStageSpeed()

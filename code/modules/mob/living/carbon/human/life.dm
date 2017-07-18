@@ -30,7 +30,8 @@
 		return
 
 	if(..()) //not dead
-		handle_active_genes()
+		for(var/datum/mutation/human/HM in dna.mutations)
+			HM.on_life(src)
 
 	if(stat != DEAD)
 		//heart attack stuff
@@ -65,7 +66,7 @@
 	else if(eye_blurry)			//blurry eyes heal slowly
 		adjust_blurriness(-1)
 
-	if (getBrainLoss() >= 60 && stat == CONSCIOUS)
+	if (getBrainLoss() >= 60 && stat != DEAD)
 		if(prob(3))
 			if(prob(25))
 				emote("drool")
@@ -266,13 +267,20 @@
 
 	return min(1,thermal_protection)
 
+
+/mob/living/carbon/human/handle_chemicals_in_body()
+	if(reagents)
+		reagents.metabolize(src, can_overdose=1)
+	dna.species.handle_chemicals_in_body(src)
+
+
 /mob/living/carbon/human/handle_random_events()
 	//Puke if toxloss is too high
 	if(!stat)
 		if(getToxLoss() >= 45 && nutrition > 20)
-			lastpuke += prob(50)
-			if(lastpuke >= 50) // about 25 second delay I guess
-				vomit(20, toxic = TRUE)
+			lastpuke ++
+			if(lastpuke >= 25) // about 25 second delay I guess
+				vomit(20, 0, 1, 0, 1, 1)
 				lastpuke = 0
 
 
@@ -331,9 +339,6 @@
 
 	heart.beating = !status
 
-/mob/living/carbon/human/proc/handle_active_genes()
-	for(var/datum/mutation/human/HM in dna.mutations)
-		HM.on_life(src)
 
 /mob/living/carbon/human/proc/handle_heart()
 	if(!can_heartattack())
@@ -351,7 +356,7 @@
 
 	if(we_breath)
 		adjustOxyLoss(8)
-		Unconscious(80)
+		Paralyse(4)
 	// Tissues die without blood circulation
 	adjustBruteLoss(2)
 
@@ -377,7 +382,10 @@ All effects don't start immediately, but rather get worse over time; the rate is
 /mob/living/carbon/human/handle_status_effects()
 	..()
 	if(drunkenness)
-		drunkenness = max(drunkenness - (drunkenness * 0.04), 0)
+		if(sleeping)
+			drunkenness = max(drunkenness - (drunkenness / 10), 0)
+		else
+			drunkenness = max(drunkenness - (drunkenness / 25), 0)
 
 		if(drunkenness >= 6)
 			if(prob(25))
@@ -417,7 +425,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 					to_chat(src, "<span class='warning'>You're so tired... but you can't miss that shuttle...</span>")
 				else
 					to_chat(src, "<span class='warning'>Just a quick nap...</span>")
-					Sleeping(900)
+					Sleeping(45)
 
 		if(drunkenness >= 101)
 			adjustToxLoss(4) //Let's be honest you shouldn't be alive by now

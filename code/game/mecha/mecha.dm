@@ -16,9 +16,9 @@
 	name = "mecha"
 	desc = "Exosuit"
 	icon = 'icons/mecha/mecha.dmi'
-	density = TRUE //Dense. To raise the heat.
+	density = 1 //Dense. To raise the heat.
 	opacity = 1 ///opaque. Menacing.
-	anchored = TRUE //no pulling around.
+	anchored = 1 //no pulling around.
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	layer = BELOW_MOB_LAYER//icon draw layer
 	infra_luminosity = 15 //byond implementation is bugged.
@@ -30,7 +30,8 @@
 	var/dir_in = 2//What direction will the mech face when entered/powered on? Defaults to South.
 	var/step_energy_drain = 10
 	var/melee_energy_drain = 15
-	max_integrity = 300 //max_integrity is base health
+	obj_integrity = 300 //obj_integrity is health
+	max_integrity = 300
 	var/deflect_chance = 10 //chance to deflect the incoming projectiles, hits, or lesser the effect of ex_act.
 	armor = list(melee = 20, bullet = 10, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 100, acid = 100)
 	var/list/facing_modifiers = list(FRONT_ARMOUR = 1.5, SIDE_ARMOUR = 1, BACK_ARMOUR = 0.5)
@@ -43,7 +44,7 @@
 	var/dna_lock//dna-locking the mech
 	var/list/proc_res = list() //stores proc owners, like proc_res["functionname"] = owner reference
 	var/datum/effect_system/spark_spread/spark_system = new
-	var/lights = FALSE
+	var/lights = 0
 	var/lights_power = 6
 	var/last_user_hud = 1 // used to show/hide the mecha hud while preserving previous preference
 
@@ -55,7 +56,7 @@
 	var/datum/gas_mixture/cabin_air
 	var/obj/machinery/atmospherics/components/unary/portables_connector/connected_port = null
 
-	var/obj/item/device/radio/mech/radio
+	var/obj/item/device/radio/radio = null
 	var/list/trackers = list()
 
 	var/max_temperature = 25000
@@ -63,7 +64,7 @@
 	var/internal_damage = 0 //contains bitflags
 
 	var/list/operation_req_access = list()//required access level for mecha operation
-	var/list/internals_req_access = list(ACCESS_ENGINE,ACCESS_ROBOTICS)//REQUIRED ACCESS LEVEL TO OPEN CELL COMPARTMENT
+	var/list/internals_req_access = list(GLOB.access_engine,GLOB.access_robotics)//required access level to open cell compartment
 
 	var/wreckage
 
@@ -116,7 +117,6 @@
 
 	hud_possible = list (DIAG_STAT_HUD, DIAG_BATT_HUD, DIAG_MECH_HUD, DIAG_TRACK_HUD)
 
-/obj/item/device/radio/mech //this has to go somewhere
 
 /obj/mecha/Initialize()
 	. = ..()
@@ -142,8 +142,6 @@
 	diag_hud_set_mechstat()
 	diag_hud_set_mechtracking()
 
-/obj/mecha/get_cell()
-	return cell
 
 /obj/mecha/Destroy()
 	go_out()
@@ -154,9 +152,11 @@
 			AI = M //AIs are loaded into the mech computer itself. When the mech dies, so does the AI. They can be recovered with an AI card from the wreck.
 		else
 			M.forceMove(loc)
+
+	if(prob(30))
+		explosion(get_turf(loc), 0, 0, 1, 3)
+
 	if(wreckage)
-		if(prob(30))
-			explosion(get_turf(src), 0, 0, 1, 3)
 		var/obj/structure/mecha_wreckage/WR = new wreckage(loc, AI)
 		for(var/obj/item/mecha_parts/mecha_equipment/E in equipment)
 			if(E.salvageable && prob(30))
@@ -262,7 +262,7 @@
 	if(equipment && equipment.len)
 		to_chat(user, "It's equipped with:")
 		for(var/obj/item/mecha_parts/mecha_equipment/ME in equipment)
-			to_chat(user, "[bicon(ME)] [ME]")
+			to_chat(user, "\icon[ME] [ME]")
 
 //processing internal damage, temperature, air regulation, alert updates, lights power use.
 /obj/mecha/process()
@@ -539,7 +539,7 @@
 		playsound(src,stepsound,40,1)
 	return result
 
-/obj/mecha/Collide(var/atom/obstacle)
+/obj/mecha/Bump(var/atom/obstacle, yes)
 	if(phasing && get_charge() >= phasing_energy_drain && !throwing)
 		spawn()
 			if(can_move)
@@ -551,22 +551,23 @@
 				sleep(step_in*3)
 				can_move = 1
 	else
-		if(..()) //mech was thrown
-			return
-		if(bumpsmash && occupant) //Need a pilot to push the PUNCH button.
-			if(nextsmash < world.time)
-				obstacle.mech_melee_attack(src)
-				if(!obstacle || !obstacle.density)
-					step(src,dir)
-				nextsmash = world.time + smashcooldown
-		if(isobj(obstacle))
-			var/obj/O = obstacle
-			if(!O.anchored)
-				step(obstacle, dir)
-		else if(ismob(obstacle))
-			var/mob/M = obstacle
-			if(!M.anchored)
-				step(obstacle, dir)
+		if(yes)
+			if(..()) //mech was thrown
+				return
+			if(bumpsmash && occupant) //Need a pilot to push the PUNCH button.
+				if(nextsmash < world.time)
+					obstacle.mech_melee_attack(src)
+					if(!obstacle || !obstacle.density)
+						step(src,dir)
+					nextsmash = world.time + smashcooldown
+			if(isobj(obstacle))
+				var/obj/O = obstacle
+				if(!O.anchored)
+					step(obstacle, dir)
+			else if(ismob(obstacle))
+				var/mob/M = obstacle
+				if(!M.anchored)
+					step(obstacle, dir)
 
 
 
@@ -636,7 +637,7 @@
 		var/can_control_mech = 0
 		for(var/obj/item/mecha_parts/mecha_tracking/ai_control/A in trackers)
 			can_control_mech = 1
-			to_chat(user, "<span class='notice'>[bicon(src)] Status of [name]:</span>\n[A.get_mecha_info()]")
+			to_chat(user, "<span class='notice'>\icon[src] Status of [name]:</span>\n[A.get_mecha_info()]")
 			break
 		if(!can_control_mech)
 			to_chat(user, "<span class='warning'>You cannot control exosuits without AI control beacons installed.</span>")
@@ -902,7 +903,7 @@
 	if(!user.transferItemToLoc(mmi_as_oc, src))
 		to_chat(user, "<span class='warning'>\the [mmi_as_oc] is stuck to your hand, you cannot put it in \the [src]!</span>")
 		return FALSE
-	var/mob/living/brainmob = mmi_as_oc.brainmob
+	var/mob/brainmob = mmi_as_oc.brainmob
 	mmi_as_oc.mecha = src
 	occupant = brainmob
 	brainmob.forceMove(src) //should allow relaymove
@@ -935,7 +936,7 @@
 	if(ishuman(occupant))
 		mob_container = occupant
 		RemoveActions(occupant, human_occupant=1)
-	else if(isbrain(occupant))
+	else if(istype(occupant, /mob/living/brain))
 		var/mob/living/brain/brain = occupant
 		RemoveActions(brain)
 		mob_container = brain.container
@@ -1004,7 +1005,7 @@
 /obj/mecha/proc/occupant_message(message as text)
 	if(message)
 		if(occupant && occupant.client)
-			to_chat(occupant, "[bicon(src)] [message]")
+			to_chat(occupant, "\icon[src] [message]")
 	return
 
 /obj/mecha/proc/log_message(message as text,red=null)
@@ -1017,7 +1018,7 @@
 	last_entry["message"] += "<br>[red?"<font color='red'>":null][message][red?"</font>":null]"
 	return
 
-GLOBAL_VAR_INIT(year, time2text(world.realtime,"YYYY"))
+GLOBAL_VAR_INIT(year, "[time2text(world.realtime,"YYYY")]")
 GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 
 ///////////////////////

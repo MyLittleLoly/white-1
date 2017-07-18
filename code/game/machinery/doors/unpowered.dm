@@ -1,6 +1,6 @@
 /obj/machinery/door/unpowered
 
-/obj/machinery/door/unpowered/CollidedWith(atom/movable/AM)
+/obj/machinery/door/unpowered/Bumped(atom/AM)
 	if(src.locked)
 		return
 	..()
@@ -21,5 +21,5 @@
 	name = "door"
 	icon_state = "door1"
 	opacity = 1
-	density = TRUE
+	density = 1
 	explosion_block = 1

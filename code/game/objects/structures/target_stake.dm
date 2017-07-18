@@ -3,7 +3,7 @@
 	desc = "A thin platform with negatively-magnetized wheels."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "target_stake"
-	density = TRUE
+	density = 1
 	flags = CONDUCT
 	var/obj/item/target/pinned_target
 
@@ -26,7 +26,7 @@
 	if(istype(T) && user.drop_item())
 		pinned_target = T
 		T.pinnedLoc = src
-		T.density = TRUE
+		T.density = 1
 		T.layer = OBJ_LAYER + 0.01
 		T.loc = loc
 		to_chat(user, "<span class='notice'>You slide the target into the stake.</span>")

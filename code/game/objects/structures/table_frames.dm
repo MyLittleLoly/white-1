@@ -14,9 +14,10 @@
 	desc = "Four metal legs with four framing rods for a table. You could easily pass through this."
 	icon = 'icons/obj/structures.dmi'
 	icon_state = "table_frame"
-	density = FALSE
-	anchored = FALSE
+	density = 0
+	anchored = 0
 	layer = PROJECTILE_HIT_THRESHHOLD_LAYER
+	obj_integrity = 100
 	max_integrity = 100
 	var/framestack = /obj/item/stack/rods
 	var/framestackamount = 2
@@ -26,7 +27,7 @@
 		to_chat(user, "<span class='notice'>You start disassembling [src]...</span>")
 		playsound(src.loc, I.usesound, 50, 1)
 		if(do_after(user, 30*I.toolspeed, target = src))
-			playsound(src.loc, 'sound/items/deconstruct.ogg', 50, 1)
+			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 			deconstruct(TRUE)
 	else if(istype(I, /obj/item/stack/sheet/plasteel))
 		var/obj/item/stack/sheet/plasteel/P = I
@@ -60,14 +61,6 @@
 		to_chat(user, "<span class='notice'>You start adding [S] to [src]...</span>")
 		if(do_after(user, 20, target = src) && S.use(1))
 			make_new_table(/obj/structure/table/optable)
-	else if(istype(I, /obj/item/stack/tile/carpet/black))
-		var/obj/item/stack/tile/carpet/black/C = I
-		if(C.get_amount() < 1)
-			to_chat(user, "<span class='warning'>You need one  black carpet sheet to do this!</span>")
-			return
-		to_chat(user, "<span class='notice'>You start adding [C] to [src]...</span>")
-		if(do_after(user, 20, target = src) && C.use(1))
-			make_new_table(/obj/structure/table/wood/fancy/black)
 	else if(istype(I, /obj/item/stack/tile/carpet))
 		var/obj/item/stack/tile/carpet/C = I
 		if(C.get_amount() < 1)

@@ -3,8 +3,8 @@
 	desc = "A tank filled with replacement organs."
 	icon = 'icons/obj/abductor.dmi'
 	icon_state = "dispenser"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	var/list/gland_types
 	var/list/gland_colors
 	var/list/amounts

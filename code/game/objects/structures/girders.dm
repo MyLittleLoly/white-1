@@ -1,12 +1,13 @@
 /obj/structure/girder
 	name = "girder"
 	icon_state = "girder"
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	layer = BELOW_OBJ_LAYER
 	var/state = GIRDER_NORMAL
 	var/girderpasschance = 20 // percentage chance that a projectile passes through the girder.
 	var/can_displace = TRUE //If the girder can be moved around by wrenching it
+	obj_integrity = 200
 	max_integrity = 200
 
 /obj/structure/girder/examine(mob/user)
@@ -79,7 +80,7 @@
 
 	else if(istype(W, /obj/item/weapon/gun/energy/plasmacutter))
 		to_chat(user, "<span class='notice'>You start slicing apart the girder...</span>")
-		playsound(src, 'sound/items/welder.ogg', 100, 1)
+		playsound(src, 'sound/items/Welder.ogg', 100, 1)
 		if(do_after(user, 40*W.toolspeed, target = src))
 			to_chat(user, "<span class='notice'>You slice apart the girder.</span>")
 			var/obj/item/stack/sheet/metal/M = new (loc, 2)
@@ -265,7 +266,9 @@
 	else
 		return ..()
 
-/obj/structure/girder/CanPass(atom/movable/mover, turf/target)
+/obj/structure/girder/CanPass(atom/movable/mover, turf/target, height=0)
+	if(height==0)
+		return 1
 	if(istype(mover) && mover.checkpass(PASSGRILLE))
 		return prob(girderpasschance)
 	else
@@ -300,9 +303,10 @@
 /obj/structure/girder/displaced
 	name = "displaced girder"
 	icon_state = "displaced"
-	anchored = FALSE
+	anchored = 0
 	state = GIRDER_DISPLACED
 	girderpasschance = 25
+	obj_integrity = 120
 	max_integrity = 120
 
 /obj/structure/girder/reinforced
@@ -310,6 +314,7 @@
 	icon_state = "reinforced"
 	state = GIRDER_REINF
 	girderpasschance = 0
+	obj_integrity = 350
 	max_integrity = 350
 
 
@@ -347,7 +352,7 @@
 
 	else if(istype(W, /obj/item/weapon/gun/energy/plasmacutter))
 		to_chat(user, "<span class='notice'>You start slicing apart the girder...</span>")
-		playsound(src, 'sound/items/welder.ogg', 100, 1)
+		playsound(src, 'sound/items/Welder.ogg', 100, 1)
 		if(do_after(user, 40*W.toolspeed, target = src))
 			to_chat(user, "<span class='notice'>You slice apart the girder.</span>")
 			var/obj/item/stack/sheet/runed_metal/R = new(get_turf(src))

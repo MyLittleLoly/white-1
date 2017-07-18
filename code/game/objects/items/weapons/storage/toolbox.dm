@@ -140,10 +140,10 @@
 	max_combined_w_class = 28
 	storage_slots = 28
 	attack_verb = list("robusted", "crushed", "smashed")
-	var/fabricator_type = /obj/item/clockwork/replica_fabricator/scarab
+	var/proselytizer_type = /obj/item/clockwork/clockwork_proselytizer/scarab
 
 /obj/item/weapon/storage/toolbox/brass/prefilled/PopulateContents()
-	new fabricator_type(src)
+	new proselytizer_type(src)
 	new /obj/item/weapon/screwdriver/brass(src)
 	new /obj/item/weapon/wirecutters/brass(src)
 	new /obj/item/weapon/wrench/brass(src)
@@ -151,7 +151,7 @@
 	new /obj/item/weapon/weldingtool/experimental/brass(src)
 
 /obj/item/weapon/storage/toolbox/brass/prefilled/ratvar
-	var/slab_type = /obj/item/clockwork/slab
+	var/slab_type = /obj/item/clockwork/slab/scarab
 
 /obj/item/weapon/storage/toolbox/brass/prefilled/ratvar/PopulateContents()
 	..()
@@ -159,7 +159,7 @@
 
 /obj/item/weapon/storage/toolbox/brass/prefilled/ratvar/admin
 	slab_type = /obj/item/clockwork/slab/debug
-	fabricator_type = /obj/item/clockwork/replica_fabricator/scarab/debug
+	proselytizer_type = /obj/item/clockwork/clockwork_proselytizer/scarab/debug
 
 
 /obj/item/weapon/storage/toolbox/artistic

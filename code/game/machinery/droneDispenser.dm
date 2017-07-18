@@ -10,9 +10,10 @@
 
 	icon = 'icons/obj/machines/droneDispenser.dmi'
 	icon_state = "on"
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 
+	obj_integrity = 250
 	max_integrity = 250
 	integrity_failure = 80
 
@@ -40,7 +41,7 @@
 	var/maximum_idle = 3
 
 	var/work_sound = 'sound/items/rped.ogg'
-	var/create_sound = 'sound/items/deconstruct.ogg'
+	var/create_sound = 'sound/items/Deconstruct.ogg'
 	var/recharge_sound = 'sound/machines/ping.ogg'
 
 	var/begin_create_message = "whirs to life!"
@@ -127,25 +128,6 @@
 	end_create_message = "slams open, revealing out a hivebot!"
 	recharge_sound = null
 	recharge_message = null
-	var/static/list/hivebot_dispensable_types = list(/mob/living/simple_animal/hostile/hivebot, /mob/living/simple_animal/hostile/hivebot/range, /mob/living/simple_animal/hostile/hivebot/rapid)
-
-/obj/machinery/droneDispenser/hivebot/invasion
-	name = "invasion fabricator"
-	desc = "A huge machine designed to withstand intense pressures. It whirs with activity as steam hisses from vents in its sides."
-	production_time = 10
-	dispense_type = /mob/living/simple_animal/hostile/hivebot
-	work_sound = 'sound/machines/copier.ogg'
-	begin_create_message = "closes, humming and whirring..."
-	end_create_message = "slams open, revealing a hivebot!"
-	recharge_sound = null
-	recharge_message = null
-
-/obj/machinery/droneDispenser/hivebot/invasion/Dispense()
-	dispense_type = pick(hivebot_dispensable_types)
-	return ..()
-
-/obj/machinery/droneDispenser/hivebot/invasion/ex_act(severity)
-	return //hivebot don give a fuck about bombs
 
 /obj/machinery/droneDispenser/swarmer
 	name = "swarmer fabricator"
@@ -161,15 +143,15 @@
 	glass_cost = 0
 	cooldownTime = 300 //30 seconds
 	maximum_idle = 0 // Swarmers have no restraint
-	dispense_type = /obj/effect/mob_spawn/swarmer
+	dispense_type = /obj/item/device/unactivated_swarmer
 	begin_create_message = "hums softly as an interface appears above it, \
 		scrolling by at unreadable speed."
 	end_create_message = "materializes a strange shell, which drops to the \
 		ground."
 	recharging_text = "Its lights are slowly increasing in brightness."
-	work_sound = 'sound/effects/empulse.ogg'
+	work_sound = 'sound/effects/EMPulse.ogg'
 	create_sound = 'sound/effects/phasein.ogg'
-	break_sound = 'sound/effects/empulse.ogg'
+	break_sound = 'sound/effects/EMPulse.ogg'
 	break_message = "slowly falls dark, lights stuttering."
 
 /obj/machinery/droneDispenser/examine(mob/user)
@@ -188,10 +170,6 @@
 	else
 		stat |= NOPOWER
 	update_icon()
-
-/obj/machinery/droneDispenser/proc/Dispense()
-	var/atom/A = new dispense_type(get_turf(src))
-	A.admin_spawned = admin_spawned
 
 /obj/machinery/droneDispenser/process()
 	..()
@@ -223,8 +201,9 @@
 			materials.use_amount(using_materials)
 			if(power_used)
 				use_power(power_used)
-			
-			Dispense()
+
+			var/atom/A = new dispense_type(loc)
+			A.admin_spawned = admin_spawned
 
 			if(create_sound)
 				playsound(src, create_sound, 50, 1)

@@ -1,8 +1,3 @@
-/obj/item/weapon/circuitboard/computer/telesci_console
-	name = "Telescience Console (Computer Board)"
-	build_path = /obj/machinery/computer/telescience
-	origin_tech = "programming=3;bluespace=3;plasmatech=4"
-
 /obj/machinery/computer/telescience
 	name = "\improper Telepad Control Console"
 	desc = "Used to teleport objects to and from the telescience telepad."

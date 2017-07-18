@@ -43,16 +43,16 @@
 			console = locate(/obj/machinery/requests_console) in A
 		areas += A
 
-	if(SSjob.latejoin_trackers.len)
+	if(GLOB.latejoin.len)
 		WARNING("Map contains predefined latejoin spawn points and an arrivals shuttle. Using the arrivals shuttle.")
 
 	if(!new_latejoin.len)
 		WARNING("Arrivals shuttle contains no chairs for spawn points. Reverting to latejoin landmarks.")
-		if(!SSjob.latejoin_trackers.len)
+		if(!GLOB.latejoin.len)
 			WARNING("No latejoin landmarks exist. Players will spawn unbuckled on the shuttle.")
 		return
 
-	SSjob.latejoin_trackers = new_latejoin
+	GLOB.latejoin = new_latejoin
 
 /obj/docking_port/mobile/arrivals/dockRoundstart()
 	SSshuttle.generate_transit_dock(src)
@@ -94,7 +94,7 @@
 			SendToStation()
 		return
 
-	var/found_awake = PersonCheck() || NukeDiskCheck()
+	var/found_awake = PersonCheck()
 	if(mode == SHUTTLE_CALL)
 		if(found_awake)
 			SendToStation()
@@ -109,7 +109,7 @@
 		Launch(FALSE)
 
 /obj/docking_port/mobile/arrivals/proc/CheckTurfsPressure()
-	for(var/I in SSjob.latejoin_trackers)
+	for(var/I in GLOB.latejoin)
 		var/turf/open/T = get_turf(I)
 		var/pressure = T.air.return_pressure()
 		if(pressure < HAZARD_LOW_PRESSURE || pressure > HAZARD_HIGH_PRESSURE)	//simple safety check
@@ -120,12 +120,6 @@
 	for(var/M in (GLOB.living_mob_list & GLOB.player_list))
 		var/mob/living/L = M
 		if((get_area(M) in areas) && L.stat != DEAD)
-			return TRUE
-	return FALSE
-
-/obj/docking_port/mobile/arrivals/proc/NukeDiskCheck()
-	for (var/obj/item/weapon/disk/nuclear/N in GLOB.poi_list)
-		if (get_area(N) in areas)
 			return TRUE
 	return FALSE
 
@@ -141,22 +135,15 @@
 	var/docked = S1 == assigned_transit
 	sound_played = FALSE
 	if(docked)	//about to launch
-		if(!force_depart)
-			var/cancel_reason
-			if(PersonCheck())
-				cancel_reason = "lifeform dectected on board"
-			else if(NukeDiskCheck())
-				cancel_reason = "critical station device detected on board"
-			if(cancel_reason)
-				mode = SHUTTLE_IDLE
-				if(console)
-					console.say("Launch cancelled, [cancel_reason].")
-				return
+		if(!force_depart && PersonCheck())
+			mode = SHUTTLE_IDLE
+			if(console)
+				console.say("Launch cancelled, lifeform dectected on board.")
+			return
 		force_depart = FALSE
 	. = ..()
 	if(!. && !docked && !damaged)
-		if(console)
-			console.say("Welcome to your new life, employees!")
+		console.say("Welcome to your new life, employees!")
 		for(var/L in queued_announces)
 			var/datum/callback/C = L
 			C.Invoke()

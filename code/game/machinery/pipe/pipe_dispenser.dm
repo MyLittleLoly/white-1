@@ -2,8 +2,8 @@
 	name = "pipe dispenser"
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "pipe_d"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	var/wait = 0
 
 /obj/machinery/pipedispenser/attack_paw(mob/user)
@@ -53,16 +53,20 @@
 	usr.set_machine(src)
 	src.add_fingerprint(usr)
 	if(href_list["make"])
-		if(wait < world.time)
+		if(!wait)
 			var/p_type = text2path(href_list["make"])
 			var/p_dir = text2num(href_list["dir"])
 			var/obj/item/pipe/P = new (src.loc, pipe_type=p_type, dir=p_dir)
 			P.add_fingerprint(usr)
-			wait = world.time + 10
+			wait = 1
+			spawn(10)
+				wait = 0
 	if(href_list["makemeter"])
-		if(wait < world.time )
+		if(!wait)
 			new /obj/item/pipe_meter(src.loc)
-			wait = world.time + 15
+			wait = 1
+			spawn(15)
+				wait = 0
 	return
 
 /obj/machinery/pipedispenser/attackby(obj/item/W, mob/user, params)
@@ -83,7 +87,7 @@
 					"[user] fastens \the [src].", \
 					"<span class='notice'>You fasten \the [src]. Now it can dispense pipes.</span>", \
 					"<span class='italics'>You hear ratchet.</span>")
-				anchored = TRUE
+				anchored = 1
 				stat &= MAINT
 				if (usr.machine==src)
 					usr << browse(null, "window=pipedispenser")
@@ -96,7 +100,7 @@
 					"[user] unfastens \the [src].", \
 					"<span class='notice'>You unfasten \the [src]. Now it can be pulled somewhere else.</span>", \
 					"<span class='italics'>You hear ratchet.</span>")
-				anchored = FALSE
+				anchored = 0
 				stat |= ~MAINT
 				power_change()
 	else
@@ -107,8 +111,8 @@
 	name = "disposal pipe dispenser"
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "pipe_d"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 
 /*
 //Allow you to push disposal pipes into it (for those with density 1)
@@ -161,7 +165,7 @@ Nah
 	usr.set_machine(src)
 	src.add_fingerprint(usr)
 	if(href_list["dmake"])
-		if(wait < world.time)
+		if(!wait)
 			var/p_type = text2num(href_list["dmake"])
 			var/obj/structure/disposalconstruct/C = new (src.loc,p_type)
 
@@ -172,7 +176,9 @@ Nah
 
 			C.add_fingerprint(usr)
 			C.update_icon()
-			wait = world.time + 15
+			wait = 1
+			spawn(15)
+				wait = 0
 	return
 
 //transit tube dispenser
@@ -181,8 +187,8 @@ Nah
 	name = "transit tube dispenser"
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "pipe_d"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 
 /obj/machinery/pipedispenser/disposal/transit_tube/attack_hand(mob/user)
 	if(..())
@@ -210,7 +216,7 @@ Nah
 		return 1
 	usr.set_machine(src)
 	src.add_fingerprint(usr)
-	if(wait < world.time)
+	if(!wait)
 		if(href_list["tube"])
 			var/tube_type = text2num(href_list["tube"])
 			var/obj/structure/C
@@ -235,5 +241,7 @@ Nah
 					C = new /obj/structure/c_transit_tube_pod(loc)
 			if(C)
 				C.add_fingerprint(usr)
-			wait = world.time + 15
+			wait = 1
+			spawn(15)
+				wait = 0
 	return

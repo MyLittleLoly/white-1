@@ -251,10 +251,7 @@
 		json_data["data"] = data
 
 	// Generate the JSON.
-	var/json = json_encode(json_data)
-	// Strip #255/improper.
-	json = replacetext(json, "\proper", "")
-	json = replacetext(json, "\improper", "")
+	var/json = r_json_encode(json_data)
 	return json
 
  /**
@@ -335,7 +332,7 @@
   *
   * optional force_open bool If force_open should be passed to ui_interact.
  **/
-/datum/tgui/proc/update(force_open = FALSE)
+/datum/tgui/proc/update(force_open = 0)
 	src_object.ui_interact(user, ui_key, src, force_open, master_ui, state)
 
  /**

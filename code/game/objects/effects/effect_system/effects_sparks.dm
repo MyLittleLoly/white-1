@@ -19,7 +19,7 @@
 /obj/effect/particle_effect/sparks
 	name = "sparks"
 	icon_state = "sparks"
-	anchored = TRUE
+	anchored = 1
 	light_range = 1
 
 /obj/effect/particle_effect/sparks/New()

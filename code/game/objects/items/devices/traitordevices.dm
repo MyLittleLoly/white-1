@@ -42,7 +42,9 @@ effective or pretty fucking useless.
 	for(var/mob/living/carbon/human/M in urange(10, user, 1))
 		if(prob(50))
 
-			M.Knockdown(rand(200,400))
+			M.Weaken(rand(10,20))
+			if(prob(25))
+				M.Stun(rand(5,10))
 			to_chat(M, "<span class='userdanger'>You feel a tremendous, paralyzing wave flood your mind.</span>")
 
 		else
@@ -88,7 +90,7 @@ effective or pretty fucking useless.
 		spawn((wavelength+(intensity*4))*5)
 			if(M)
 				if(intensity >= 5)
-					M.apply_effect(round(intensity/0.075), UNCONSCIOUS)
+					M.apply_effect(round(intensity/1.5), PARALYZE)
 				M.rad_act(intensity*10)
 	else
 		to_chat(user, "<span class='warning'>The radioactive microlaser is still recharging.</span>")
@@ -171,7 +173,7 @@ effective or pretty fucking useless.
 	var/mob/living/carbon/human/user = null
 	var/charge = 300
 	var/max_charge = 300
-	var/on = FALSE
+	var/on = 0
 	var/old_alpha = 0
 	actions_types = list(/datum/action/item_action/toggle)
 
@@ -194,14 +196,14 @@ effective or pretty fucking useless.
 	src.user = user
 	START_PROCESSING(SSobj, src)
 	old_alpha = user.alpha
-	on = TRUE
+	on = 1
 
 /obj/item/device/shadowcloak/proc/Deactivate()
 	to_chat(user, "<span class='notice'>You deactivate [src].</span>")
 	STOP_PROCESSING(SSobj, src)
 	if(user)
 		user.alpha = old_alpha
-	on = FALSE
+	on = 0
 	user = null
 
 /obj/item/device/shadowcloak/dropped(mob/user)
@@ -231,7 +233,7 @@ effective or pretty fucking useless.
 	var/range = 12
 
 /obj/item/device/jammer/attack_self(mob/user)
-	to_chat(user,"<span class='notice'>You [active ? "deactivate" : "activate"] the [src]<span>")
+	to_chat(user,"<span class='notice'>You [active ? "deactivate" : "activate"] the [src]<span>") 
 	active = !active
 	if(active)
 		GLOB.active_jammers |= src
@@ -239,3 +241,4 @@ effective or pretty fucking useless.
 		GLOB.active_jammers -= src
 	update_icon()
 
+	

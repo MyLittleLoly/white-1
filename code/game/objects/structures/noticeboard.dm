@@ -3,8 +3,9 @@
 	desc = "A board for pinning important notices upon."
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "nboard00"
-	density = FALSE
-	anchored = TRUE
+	density = 0
+	anchored = 1
+	obj_integrity = 150
 	max_integrity = 150
 	var/notices = 0
 
@@ -89,39 +90,39 @@
 /obj/structure/noticeboard/captain
 	name = "Captain's Notice Board"
 	desc = "Important notices from the Captain."
-	req_access = list(ACCESS_CAPTAIN)
+	req_access = list(GLOB.access_captain)
 
 /obj/structure/noticeboard/hop
 	name = "Head of Personnel's Notice Board"
 	desc = "Important notices from the Head of Personnel."
-	req_access = list(ACCESS_HOP)
+	req_access = list(GLOB.access_hop)
 
 /obj/structure/noticeboard/ce
 	name = "Chief Engineer's Notice Board"
 	desc = "Important notices from the Chief Engineer."
-	req_access = list(ACCESS_CE)
+	req_access = list(GLOB.access_ce)
 
 /obj/structure/noticeboard/hos
 	name = "Head of Security's Notice Board"
 	desc = "Important notices from the Head of Security."
-	req_access = list(ACCESS_HOS)
+	req_access = list(GLOB.access_hos)
 
 /obj/structure/noticeboard/cmo
 	name = "Chief Medical Officer's Notice Board"
 	desc = "Important notices from the Chief Medical Officer."
-	req_access = list(ACCESS_CMO)
+	req_access = list(GLOB.access_cmo)
 
 /obj/structure/noticeboard/rd
 	name = "Research Director's Notice Board"
 	desc = "Important notices from the Research Director."
-	req_access = list(ACCESS_RD)
+	req_access = list(GLOB.access_rd)
 
 /obj/structure/noticeboard/qm
 	name = "Quartermaster's Notice Board"
 	desc = "Important notices from the Quartermaster."
-	req_access = list(ACCESS_QM)
+	req_access = list(GLOB.access_qm)
 
 /obj/structure/noticeboard/staff
 	name = "Staff Notice Board"
 	desc = "Important notices from the heads of staff."
-	req_access = list(ACCESS_HEADS)
+	req_access = list(GLOB.access_heads)

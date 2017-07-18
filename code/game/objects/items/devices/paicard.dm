@@ -10,14 +10,15 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF | INDESTRUCTIBLE
 
 /obj/item/device/paicard/Initialize()
+	..()
 	SSpai.pai_card_list += src
 	add_overlay("pai-off")
-	return ..()
 
 /obj/item/device/paicard/Destroy()
 	//Will stop people throwing friend pAIs into the singularity so they can respawn
 	SSpai.pai_card_list -= src
-	QDEL_NULL(pai)
+	if(!isnull(pai))
+		pai.death(0)
 	return ..()
 
 /obj/item/device/paicard/attack_self(mob/user)
@@ -25,9 +26,9 @@
 		return
 	user.set_machine(src)
 	var/dat = "<TT><B>Personal AI Device</B><BR>"
+	if(pai && (!pai.master_dna || !pai.master))
+		dat += "<a href='byond://?src=\ref[src];setdna=1'>Imprint Master DNA</a><br>"
 	if(pai)
-		if(!pai.master_dna || !pai.master)
-			dat += "<a href='byond://?src=\ref[src];setdna=1'>Imprint Master DNA</a><br>"
 		dat += "Installed Personality: [pai.name]<br>"
 		dat += "Prime directive: <br>[pai.laws.zeroth]<br>"
 		for(var/slaws in pai.laws.supplied)
@@ -69,7 +70,7 @@
 		if(href_list["setdna"])
 			if(pai.master_dna)
 				return
-			if(!iscarbon(usr))
+			if(!istype(usr, /mob/living/carbon))
 				to_chat(usr, "<span class='warning'>You don't have any DNA, or your DNA is incompatible with this device!</span>")
 			else
 				var/mob/living/carbon/M = usr
@@ -85,7 +86,7 @@
 					to_chat(pai, "<span class='danger'>Byte by byte you lose your sense of self.</span>")
 					to_chat(pai, "<span class='userdanger'>Your mental faculties leave you.</span>")
 					to_chat(pai, "<span class='rose'>oblivion... </span>")
-					removePersonality()
+					pai.death(0)
 		if(href_list["wires"])
 			var/wire = text2num(href_list["wires"])
 			if(pai.radio)
@@ -118,9 +119,9 @@
 	audible_message("\The [src] plays a cheerful startup noise!")
 
 /obj/item/device/paicard/proc/removePersonality()
-	QDEL_NULL(pai)
-	cut_overlays()
-	add_overlay("pai-off")
+	src.pai = null
+	src.cut_overlays()
+	src.add_overlay("pai-off")
 
 /obj/item/device/paicard/proc/setEmotion(emotion)
 	if(pai)

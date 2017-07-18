@@ -1,9 +1,9 @@
 /obj/machinery/atmospherics/components/trinary/filter
 	name = "gas filter"
 	icon_state = "filter_off"
-	density = FALSE
+	density = 0
 	can_unwrench = 1
-	var/on = FALSE
+	var/on = 0
 	var/target_pressure = ONE_ATMOSPHERE
 	var/filter_type = ""
 	var/frequency = 0
@@ -12,14 +12,6 @@
 /obj/machinery/atmospherics/components/trinary/filter/flipped
 	icon_state = "filter_off_f"
 	flipped = 1
-
-// These two filter types have critical_machine flagged to on and thus causes the area they are in to be exempt from the Grid Check event.
-
-/obj/machinery/atmospherics/components/trinary/filter/critical
-	critical_machine = TRUE
-
-/obj/machinery/atmospherics/components/trinary/filter/flipped/critical
-	critical_machine = TRUE
 
 /obj/machinery/atmospherics/components/trinary/filter/proc/set_frequency(new_frequency)
 	SSradio.remove_object(src, frequency)
@@ -34,7 +26,7 @@
 
 /obj/machinery/atmospherics/components/trinary/filter/update_icon()
 	cut_overlays()
-	for(var/direction in GLOB.cardinals)
+	for(var/direction in GLOB.cardinal)
 		if(direction & initialize_directions)
 			var/obj/machinery/atmospherics/node = findConnecting(direction)
 			if(node)
@@ -55,7 +47,7 @@
 	var/old_stat = stat
 	..()
 	if(stat & NOPOWER)
-		on = FALSE
+		on = 0
 	if(old_stat != stat)
 		update_icon()
 
@@ -120,7 +112,7 @@
 	set_frequency(frequency)
 	return ..()
 
-/obj/machinery/atmospherics/components/trinary/filter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
+/obj/machinery/atmospherics/components/trinary/filter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
 																	datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)

@@ -4,8 +4,8 @@
 	desc = "A little cleaning robot, he looks so excited!"
 	icon = 'icons/mob/aibots.dmi'
 	icon_state = "cleanbot0"
-	density = FALSE
-	anchored = FALSE
+	density = 0
+	anchored = 0
 	health = 25
 	maxHealth = 25
 	radio_key = /obj/item/device/encryptionkey/headset_service
@@ -21,7 +21,7 @@
 	var/trash = 0
 	var/pests = 0
 
-	var/list/target_types
+	var/list/target_types = list()
 	var/obj/effect/decal/cleanable/target
 	var/max_targets = 50 //Maximum number of targets a cleanbot can ignore.
 	var/oldloc = null
@@ -32,7 +32,7 @@
 	var/next_dest_loc
 
 /mob/living/simple_animal/bot/cleanbot/Initialize()
-	. = ..()
+	..()
 	get_targets()
 	icon_state = "cleanbot[on]"
 
@@ -87,7 +87,7 @@
 		var/mob/living/carbon/C = A
 		if(C.stat != DEAD && C.lying)
 			return C
-	else if(is_type_in_typecache(A, target_types))
+	else if(is_type_in_list(A, target_types))
 		return A
 
 /mob/living/simple_animal/bot/cleanbot/handle_automated_action()
@@ -193,11 +193,9 @@
 	if(trash)
 		target_types += /obj/item/trash
 
-	target_types = typecacheof(target_types)
-
 /mob/living/simple_animal/bot/cleanbot/UnarmedAttack(atom/A)
 	if(istype(A, /obj/effect/decal/cleanable))
-		anchored = TRUE
+		anchored = 1
 		icon_state = "cleanbot-c"
 		visible_message("<span class='notice'>[src] begins to clean up [A].</span>")
 		mode = BOT_CLEANING
@@ -208,7 +206,7 @@
 					if(istype(AM, /obj/effect/decal/cleanable))
 						qdel(AM)
 
-				anchored = FALSE
+				anchored = 0
 				target = null
 			mode = BOT_IDLE
 			icon_state = "cleanbot[on]"
@@ -250,7 +248,7 @@
 		..()
 
 /mob/living/simple_animal/bot/cleanbot/explode()
-	on = FALSE
+	on = 0
 	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/turf/Tsec = get_turf(src)
 
@@ -265,7 +263,7 @@
 	..()
 
 /obj/machinery/bot_core/cleanbot
-	req_one_access = list(ACCESS_JANITOR, ACCESS_ROBOTICS)
+	req_one_access = list(GLOB.access_janitor, GLOB.access_robotics)
 
 
 /mob/living/simple_animal/bot/cleanbot/get_controls(mob/user)

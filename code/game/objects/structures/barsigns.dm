@@ -3,20 +3,25 @@
 	desc = "A bar sign with no writing on it"
 	icon = 'icons/obj/barsigns.dmi'
 	icon_state = "empty"
-	req_access = list(ACCESS_BAR)
+	req_access = list(GLOB.access_bar)
+	obj_integrity = 500
 	max_integrity = 500
 	integrity_failure = 250
 	armor = list(melee = 20, bullet = 20, laser = 20, energy = 100, bomb = 0, bio = 0, rad = 0, fire = 50, acid = 50)
 	buildable_sign = 0
 	var/list/barsigns=list()
 	var/list/hiddensigns
-	var/emagged = FALSE
+	var/emagged = 0
 	var/state = 0
 	var/prev_sign = ""
-	var/panel_open = FALSE
+	var/panel_open = 0
 
-/obj/structure/sign/barsign/Initialize()
-	. = ..()
+
+
+
+/obj/structure/sign/barsign/New()
+	..()
+
 
 //filling the barsigns list
 	for(var/bartype in subtypesof(/datum/barsign))
@@ -24,8 +29,11 @@
 		if(!signinfo.hidden)
 			barsigns += signinfo
 
+
 //randomly assigning a sign
 	set_sign(pick(barsigns))
+
+
 
 /obj/structure/sign/barsign/proc/set_sign(datum/barsign/sign)
 	if(!istype(sign))
@@ -36,6 +44,8 @@
 		desc = sign.desc
 	else
 		desc = "It displays \"[name]\"."
+
+
 
 /obj/structure/sign/barsign/obj_break(damage_flag)
 	if(!broken && !(flags & NODECONSTRUCT))
@@ -49,9 +59,9 @@
 /obj/structure/sign/barsign/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
 	switch(damage_type)
 		if(BRUTE)
-			playsound(src.loc, 'sound/effects/glasshit.ogg', 75, 1)
+			playsound(src.loc, 'sound/effects/Glasshit.ogg', 75, 1)
 		if(BURN)
-			playsound(src.loc, 'sound/items/welder.ogg', 100, 1)
+			playsound(src.loc, 'sound/items/Welder.ogg', 100, 1)
 
 /obj/structure/sign/barsign/attack_ai(mob/user)
 	return src.attack_hand(user)
@@ -78,7 +88,7 @@
 		if(!panel_open)
 			to_chat(user, "<span class='notice'>You open the maintenance panel.</span>")
 			set_sign(new /datum/barsign/hiddensigns/signoff)
-			panel_open = TRUE
+			panel_open = 1
 		else
 			to_chat(user, "<span class='notice'>You close the maintenance panel.</span>")
 			if(!broken && !emagged)
@@ -87,7 +97,7 @@
 				set_sign(new /datum/barsign/hiddensigns/syndibarsign)
 			else
 				set_sign(new /datum/barsign/hiddensigns/empbarsign)
-			panel_open = FALSE
+			panel_open = 0
 
 	else if(istype(I, /obj/item/stack/cable_coil) && panel_open)
 		var/obj/item/stack/cable_coil/C = I
@@ -118,11 +128,13 @@
 	if(broken || emagged)
 		to_chat(user, "<span class='warning'>Nothing interesting happens!</span>")
 		return
-	emagged = TRUE
 	to_chat(user, "<span class='notice'>You emag the barsign. Takeover in progress...</span>")
 	sleep(100) //10 seconds
 	set_sign(new /datum/barsign/hiddensigns/syndibarsign)
-	req_access = list(ACCESS_SYNDICATE)
+	emagged = 1
+	req_access = list(GLOB.access_syndicate)
+
+
 
 
 /obj/structure/sign/barsign/proc/pick_sign()

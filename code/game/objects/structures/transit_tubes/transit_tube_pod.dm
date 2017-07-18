@@ -2,8 +2,8 @@
 	icon = 'icons/obj/atmospherics/pipes/transit_tube.dmi'
 	icon_state = "pod"
 	animate_movement = FORWARD_STEPS
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	layer = BELOW_OBJ_LAYER
 	var/moving = 0
 	var/datum/gas_mixture/air_contents = new()
@@ -138,7 +138,7 @@
 			current_tube.pod_stopped(src, dir)
 			break
 
-	density = TRUE
+	density = 1
 	moving = 0
 
 	var/obj/structure/transit_tube/TT = locate(/obj/structure/transit_tube) in loc

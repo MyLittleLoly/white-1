@@ -12,7 +12,7 @@ MASS SPECTROMETER
 	name = "\improper T-ray scanner"
 	desc = "A terahertz-ray emitter and scanner used to detect underfloor objects such as cables and pipes."
 	icon_state = "t-ray0"
-	var/on = FALSE
+	var/on = 0
 	slot_flags = SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
 	item_state = "electronic"
@@ -118,9 +118,12 @@ MASS SPECTROMETER
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.undergoing_cardiac_arrest() && H.stat != DEAD)
-			to_chat(user, "<span class='danger'>Subject suffering from heart attack: apply defibrillator immediately!</span>")
-		if(H.undergoing_liver_failure() && H.stat != DEAD)
-			to_chat(user, "<span class='danger'>Subject suffering from liver failure: apply corazone and begin a liver transplant immediately!</span>")
+			to_chat(user, "<span class='danger'>Subject suffering from heart attack: Apply defibrillator immediately!</span>")
+
+	if(iscarbon(M))
+		var/mob/living/carbon/C = M
+		if(C.has_brain_worms())
+			to_chat(user, "<span class='danger'>Foreign organism detected in subject's cranium. Recommended treatment: Dosage of sucrose solution and removal of object via surgery.</span>")
 
 	to_chat(user, "<span class='info'>Analyzing results for [M]:\n\tOverall status: [mob_status]</span>")
 
@@ -146,13 +149,7 @@ MASS SPECTROMETER
 	else if (M.getBrainLoss() >= 10)
 		to_chat(user, "\t<span class='alert'>Brain damage detected. Subject may have had a concussion.</span>")
 
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		var/ldamage = H.return_liver_damage()
-		if(ldamage > 10)
-			to_chat(user, "\t<span class='alert'>[ldamage > 45 ? "severe" : "minor"] liver damage detected.</span>")
-
-	// Body part damage report
+	// Organ damage report
 	if(iscarbon(M) && mode == 1)
 		var/mob/living/carbon/C = M
 		var/list/damaged = C.get_damaged_bodyparts(1,1)
@@ -174,8 +171,7 @@ MASS SPECTROMETER
 		if(tdelta < (DEFIB_TIME_LIMIT * 10))
 			to_chat(user, "<span class='danger'>Subject died [tdelta / 10] seconds ago, defibrillation may be possible!</span>")
 
-	for(var/thing in M.viruses)
-		var/datum/disease/D = thing
+	for(var/datum/disease/D in M.viruses)
 		if(!(D.visibility_flags & HIDDEN_SCANNER))
 			to_chat(user, "<span class='alert'><b>Warning: [D.form] detected</b>\nName: [D.name].\nType: [D.spread_text].\nStage: [D.stage]/[D.max_stages].\nPossible Cure: [D.cure_text]</span>")
 

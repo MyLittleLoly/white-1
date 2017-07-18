@@ -5,7 +5,7 @@
 	var/stopper = 1 // stops throwers
 	var/mobs_only = FALSE
 	invisibility = INVISIBILITY_ABSTRACT // nope cant see this shit
-	anchored = TRUE
+	anchored = 1
 
 /obj/effect/step_trigger/proc/Trigger(atom/movable/A)
 	return 0
@@ -16,7 +16,7 @@
 		return
 	if(isobserver(H) && !affect_ghosts)
 		return
-	if(!ismob(H) && mobs_only)
+	if(!istype(H, /mob) && mobs_only)
 		return
 	Trigger(H)
 
@@ -45,7 +45,7 @@
 	var/list/affecting = list()
 
 /obj/effect/step_trigger/thrower/Trigger(atom/A)
-	if(!A || !ismovableatom(A))
+	if(!A || !istype(A, /atom/movable))
 		return
 	var/atom/movable/AM = A
 	var/curtiles = 0

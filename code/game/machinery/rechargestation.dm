@@ -2,15 +2,15 @@
 	name = "cyborg recharging station"
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "borgcharger0"
-	density = FALSE
-	anchored = TRUE
-	use_power = IDLE_POWER_USE
+	density = 0
+	anchored = 1
+	use_power = 1
 	idle_power_usage = 5
 	active_power_usage = 1000
-	req_access = list(ACCESS_ROBOTICS)
+	req_access = list(GLOB.access_robotics)
 	var/recharge_speed
 	var/repairs
-	state_open = TRUE
+	state_open = 1
 
 /obj/machinery/recharge_station/New()
 	..()
@@ -95,18 +95,18 @@
 
 /obj/machinery/recharge_station/open_machine()
 	..()
-	use_power = IDLE_POWER_USE
+	use_power = 1
 
 /obj/machinery/recharge_station/close_machine()
 	if(!panel_open)
 		for(var/mob/living/silicon/robot/R in loc)
 			R.forceMove(src)
 			occupant = R
-			use_power = ACTIVE_POWER_USE
+			use_power = 2
 			add_fingerprint(R)
 			break
-		state_open = FALSE
-		density = TRUE
+		state_open = 0
+		density = 1
 		update_icon()
 
 /obj/machinery/recharge_station/update_icon()

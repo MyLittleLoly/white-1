@@ -53,9 +53,9 @@
 		return 1
 	if(health <= 0 && checkDead)
 		return 1
-	if(IsUnconscious())
+	if(paralysis)
 		return 1
-	if(IsStun())
+	if(stunned)
 		return 1
 	if(stat)
 		return 1
@@ -272,11 +272,7 @@
 				if(Adjacent(target) && isturf(target.loc))	// if right next to perp
 
 					// check if target has a weapon
-					var/obj/item/weapon/W
-					for(var/obj/item/weapon/I in target.held_items)
-						if(!(I.flags & ABSTRACT))
-							W = I
-							break
+					var/obj/item/weapon/W = locate(/obj/item/weapon) in target.held_items
 
 					// if the target has a weapon, chance to disarm them
 					if(W && prob(MONKEY_ATTACK_DISARM_PROB))
@@ -451,7 +447,7 @@
 				retaliate(Proj.firer)
 	..()
 
-/mob/living/carbon/monkey/hitby(atom/movable/AM, skipcatch = FALSE, hitpush = TRUE, blocked = FALSE)
+/mob/living/carbon/monkey/hitby(atom/movable/AM, skipcatch = 0, hitpush = 1, blocked = 0)
 	if(istype(AM, /obj/item))
 		var/obj/item/I = AM
 		if(I.throwforce < src.health && I.thrownby && ishuman(I.thrownby))

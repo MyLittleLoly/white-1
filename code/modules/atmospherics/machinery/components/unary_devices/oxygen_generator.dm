@@ -7,9 +7,8 @@
 
 	dir = SOUTH
 	initialize_directions = SOUTH
-	layer = GAS_SCRUBBER_LAYER
 
-	var/on = FALSE
+	var/on = 0
 
 	var/oxygen_content = 10
 

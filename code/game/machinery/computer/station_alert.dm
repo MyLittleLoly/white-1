@@ -8,7 +8,7 @@
 
 	light_color = LIGHT_COLOR_CYAN
 
-/obj/machinery/computer/station_alert/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
+/obj/machinery/computer/station_alert/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
 									datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
@@ -42,7 +42,7 @@
 			return 1
 	var/obj/machinery/camera/C = null
 	var/list/CL = null
-	if(O && islist(O))
+	if(O && istype(O, /list))
 		CL = O
 		if (CL.len == 1)
 			C = CL[1]

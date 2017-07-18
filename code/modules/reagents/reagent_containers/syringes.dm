@@ -11,7 +11,7 @@
 	possible_transfer_amounts = list()
 	volume = 15
 	var/mode = SYRINGE_DRAW
-	var/busy = FALSE		// needed for delayed drawing of blood
+	var/busy = 0		// needed for delayed drawing of blood
 	var/proj_piercing = 0 //does it pierce through thick clothes when shot with syringe gun
 	materials = list(MAT_METAL=10, MAT_GLASS=20)
 	container_type = TRANSPARENT
@@ -62,7 +62,7 @@
 			return
 
 	// chance of monkey retaliation
-	if(ismonkey(target) && prob(MONKEY_SYRINGE_RETALIATION_PROB))
+	if(istype(target, /mob/living/carbon/monkey) && prob(MONKEY_SYRINGE_RETALIATION_PROB))
 		var/mob/living/carbon/monkey/M
 		M = target
 		M.retaliate(user)
@@ -79,13 +79,13 @@
 				if(target != user)
 					target.visible_message("<span class='danger'>[user] is trying to take a blood sample from [target]!</span>", \
 									"<span class='userdanger'>[user] is trying to take a blood sample from [target]!</span>")
-					busy = TRUE
+					busy = 1
 					if(!do_mob(user, target, extra_checks=CALLBACK(L, /mob/living/proc/can_inject,user,1)))
-						busy = FALSE
+						busy = 0
 						return
 					if(reagents.total_volume >= reagents.maximum_volume)
 						return
-				busy = FALSE
+				busy = 0
 				if(L.transfer_blood_to(src, drawn_amount))
 					user.visible_message("[user] takes a blood sample from [L].")
 				else
@@ -96,7 +96,7 @@
 					to_chat(user, "<span class='warning'>[target] is empty!</span>")
 					return
 
-				if(!target.is_drawable())
+				if(!target.is_open_container() && !istype(target,/obj/structure/reagent_dispensers) && !istype(target,/obj/item/slime_extract))
 					to_chat(user, "<span class='warning'>You cannot directly remove reagents from [target]!</span>")
 					return
 
@@ -112,7 +112,7 @@
 				to_chat(user, "<span class='notice'>[src] is empty.</span>")
 				return
 
-			if(!target.is_injectable())
+			if(!target.is_open_container() && !ismob(target) && !istype(target, /obj/item/weapon/reagent_containers/food) && !istype(target, /obj/item/slime_extract) && !istype(target, /obj/item/clothing/mask/cigarette) && !istype(target, /obj/item/weapon/storage/fancy/cigarettes))
 				to_chat(user, "<span class='warning'>You cannot directly fill [target]!</span>")
 				return
 			if(target.reagents.total_volume >= target.reagents.maximum_volume)

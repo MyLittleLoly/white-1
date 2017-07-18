@@ -47,7 +47,6 @@
 		tracking = null
 	return ..()
 
-
 /obj/item/device/camera_bug/interact(mob/user = usr)
 	var/datum/browser/popup = new(user, "camerabug","Camera Bug",nref=src)
 	popup.set_content(menu(get_cameras()))
@@ -218,7 +217,7 @@
 		var/list/cameras = flatten_list(bugged_cameras)
 		var/obj/machinery/camera/C = locate(href_list["emp"]) in cameras
 		if(C && istype(C) && C.bug == src)
-			C.emp_act(EMP_HEAVY)
+			C.emp_act(1)
 			C.bug = null
 			bugged_cameras -= C.c_tag
 		interact()

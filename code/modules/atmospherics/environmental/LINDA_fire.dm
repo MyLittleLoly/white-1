@@ -44,7 +44,7 @@
 
 //This is the icon for fire on turfs, also helps for nurturing small fires until they are full tile
 /obj/effect/hotspot
-	anchored = TRUE
+	anchored = 1
 	mouse_opacity = 0
 	icon = 'icons/effects/fire.dmi'
 	icon_state = "1"
@@ -61,7 +61,7 @@
 	..()
 	SSair.hotspots += src
 	perform_exposure()
-	setDir(pick(GLOB.cardinals))
+	setDir(pick(GLOB.cardinal))
 	air_update_turf()
 
 /obj/effect/hotspot/make_frozen_visual()

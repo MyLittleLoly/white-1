@@ -20,7 +20,7 @@
 	var/locomotion = 1
 	var/lawsync = 1
 	var/aisync = 1
-	var/panel_locked = TRUE
+	var/panel_locked = 1
 
 /obj/item/robot_suit/New()
 	..()

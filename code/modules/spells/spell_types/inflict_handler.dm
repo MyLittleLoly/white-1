@@ -1,10 +1,10 @@
 /obj/effect/proc_holder/spell/targeted/inflict_handler
 	name = "Inflict Handler"
-	desc = "This spell blinds and/or destroys/damages/heals and/or knockdowns/stuns the target."
+	desc = "This spell blinds and/or destroys/damages/heals and/or weakens/stuns the target."
 
-	var/amt_knockdown = 0
-	var/amt_unconscious = 0
-	var/amt_stun = 0
+	var/amt_weakened = 0
+	var/amt_paralysis = 0
+	var/amt_stunned = 0
 
 	//set to negatives for healing
 	var/amt_dam_fire = 0
@@ -37,9 +37,9 @@
 		target.adjustToxLoss(amt_dam_tox)
 		target.adjustOxyLoss(amt_dam_oxy)
 		//disabling
-		target.Knockdown(amt_knockdown)
-		target.Unconscious(amt_unconscious)
-		target.Stun(amt_stun)
+		target.Weaken(amt_weakened)
+		target.Paralyse(amt_paralysis)
+		target.Stun(amt_stunned)
 
 		target.blind_eyes(amt_eye_blind)
 		target.blur_eyes(amt_eye_blurry)

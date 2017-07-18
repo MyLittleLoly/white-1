@@ -16,7 +16,7 @@
 	response_disarm = "shoos"
 	response_harm   = "splats"
 	speak_emote = list("chitters")
-	density = FALSE
+	density = 0
 	ventcrawler = VENTCRAWLER_ALWAYS
 	gold_core_spawnable = 2
 	verb_say = "chitters"

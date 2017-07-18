@@ -3,8 +3,8 @@
 	desc = "It charges power cells."
 	icon = 'icons/obj/power.dmi'
 	icon_state = "ccharger0"
-	anchored = TRUE
-	use_power = IDLE_POWER_USE
+	anchored = 1
+	use_power = 1
 	idle_power_usage = 5
 	active_power_usage = 60
 	power_channel = EQUIP
@@ -71,7 +71,7 @@
 
 
 /obj/machinery/cell_charger/proc/removecell()
-	charging.update_icon()
+	charging.updateicon()
 	charging = null
 	chargelevel = -1
 	updateicon()

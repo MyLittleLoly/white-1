@@ -22,17 +22,17 @@
 	name = "Palm tree"
 	icon = 'icons/misc/beach2.dmi'
 	icon_state = "palm1"
-	density = TRUE
+	density = 1
 	layer = WALL_OBJ_LAYER
-	anchored = TRUE
+	anchored = 1
 
 /obj/effect/overlay/palmtree_l
 	name = "Palm tree"
 	icon = 'icons/misc/beach2.dmi'
 	icon_state = "palm2"
-	density = TRUE
+	density = 1
 	layer = WALL_OBJ_LAYER
-	anchored = TRUE
+	anchored = 1
 
 /obj/effect/overlay/coconut
 	name = "Coconuts"

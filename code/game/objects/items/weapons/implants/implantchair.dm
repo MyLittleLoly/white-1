@@ -3,7 +3,7 @@
 	desc = "Used to implant occupants with mindshield implants."
 	icon = 'icons/obj/machines/implantchair.dmi'
 	icon_state = "implantchair"
-	density = TRUE
+	density = 1
 	opacity = 0
 	anchored = TRUE
 
@@ -26,7 +26,7 @@
 	update_icon()
 
 
-/obj/machinery/implantchair/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
+/obj/machinery/implantchair/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
 									datum/tgui/master_ui = null, datum/ui_state/state = GLOB.notcontained_state)
 
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)

@@ -7,7 +7,7 @@
 	desc = "It's used to monitor rooms."
 	icon = 'icons/obj/monitors.dmi'
 	icon_state = "camera"
-	use_power = ACTIVE_POWER_USE
+	use_power = 2
 	idle_power_usage = 5
 	active_power_usage = 10
 	layer = WALL_OBJ_LAYER
@@ -15,14 +15,15 @@
 	resistance_flags = FIRE_PROOF
 
 	armor = list(melee = 50, bullet = 20, laser = 20, energy = 20, bomb = 0, bio = 0, rad = 0, fire = 90, acid = 50)
+	obj_integrity = 100
 	max_integrity = 100
 	integrity_failure = 50
 	var/list/network = list("SS13")
 	var/c_tag = null
 	var/c_tag_order = 999
-	var/status = TRUE
-	anchored = TRUE
-	var/start_active = FALSE //If it ignores the random chance to start broken on round start
+	var/status = 1
+	anchored = 1
+	var/start_active = 0 //If it ignores the random chance to start broken on round start
 	var/invuln = null
 	var/obj/item/device/camera_bug/bug = null
 	var/obj/structure/camera_assembly/assembly = null
@@ -32,9 +33,9 @@
 	var/view_range = 7
 	var/short_range = 2
 
-	var/alarm_on = FALSE
-	var/busy = FALSE
-	var/emped = FALSE  //Number of consecutive EMP's on this camera
+	var/alarm_on = 0
+	var/busy = 0
+	var/emped = 0  //Number of consecutive EMP's on this camera
 
 	// Upgrades bitflag
 	var/upgrades = 0
@@ -158,10 +159,9 @@
 
 		else if(istype(W, /obj/item/stack/sheet/mineral/plasma))
 			if(!isEmpProof())
-				var/obj/item/stack/sheet/mineral/plasma/P = W
 				upgradeEmpProof()
 				to_chat(user, "[msg]")
-				P.use(1)
+				qdel(W)
 			else
 				to_chat(user, "[msg2]")
 			return
@@ -282,7 +282,7 @@
 		else
 			visible_message("<span class='danger'>\The [src] [change_msg]!</span>")
 
-		playsound(src.loc, 'sound/items/wirecutter.ogg', 100, 1)
+		playsound(src.loc, 'sound/items/Wirecutter.ogg', 100, 1)
 	update_icon()
 
 	// now disconnect anyone using the camera
@@ -295,21 +295,21 @@
 			to_chat(O, "The screen bursts into static.")
 
 /obj/machinery/camera/proc/triggerCameraAlarm()
-	alarm_on = TRUE
+	alarm_on = 1
 	for(var/mob/living/silicon/S in GLOB.mob_list)
 		S.triggerAlarm("Camera", get_area(src), list(src), src)
 
 /obj/machinery/camera/proc/cancelCameraAlarm()
-	alarm_on = FALSE
+	alarm_on = 0
 	for(var/mob/living/silicon/S in GLOB.mob_list)
 		S.cancelAlarm("Camera", get_area(src), src)
 
 /obj/machinery/camera/proc/can_use()
 	if(!status)
-		return FALSE
+		return 0
 	if(stat & EMPED)
-		return FALSE
-	return TRUE
+		return 0
+	return 1
 
 /obj/machinery/camera/proc/can_see()
 	var/list/see = null
@@ -323,10 +323,19 @@
 /atom/proc/auto_turn()
 	//Automatically turns based on nearby walls.
 	var/turf/closed/wall/T = null
-	for(var/i in GLOB.cardinals)
+	for(var/i = 1, i <= 8; i += i)
 		T = get_ranged_target_turf(src, i, 1)
 		if(istype(T))
-			setDir(turn(i, 180))
+			//If someone knows a better way to do this, let me know. -Giacom
+			switch(i)
+				if(NORTH)
+					src.setDir(SOUTH)
+				if(SOUTH)
+					src.setDir(NORTH)
+				if(WEST)
+					src.setDir(EAST)
+				if(EAST)
+					src.setDir(WEST)
 			break
 
 //Return a working camera that can see a given mob
@@ -348,20 +357,20 @@
 
 /obj/machinery/camera/proc/weld(obj/item/weapon/weldingtool/WT, mob/living/user)
 	if(busy)
-		return FALSE
+		return 0
 	if(!WT.remove_fuel(0, user))
-		return FALSE
+		return 0
 
 	to_chat(user, "<span class='notice'>You start to weld [src]...</span>")
 	playsound(src.loc, WT.usesound, 50, 1)
-	busy = TRUE
+	busy = 1
 	if(do_after(user, 100*WT.toolspeed, target = src))
-		busy = FALSE
+		busy = 0
 		if(!WT.isOn())
-			return FALSE
-		return TRUE
-	busy = FALSE
-	return FALSE
+			return 0
+		return 1
+	busy = 0
+	return 0
 
 /obj/machinery/camera/proc/Togglelight(on=0)
 	for(var/mob/living/silicon/ai/A in GLOB.ai_list)
@@ -379,7 +388,7 @@
 /obj/machinery/camera/portable/Initialize()
 	. = ..()
 	assembly.state = 0 //These cameras are portable, and so shall be in the portable state if removed.
-	assembly.anchored = FALSE
+	assembly.anchored = 0
 	assembly.update_icon()
 
 /obj/machinery/camera/portable/process() //Updates whenever the camera is moved.

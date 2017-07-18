@@ -9,7 +9,7 @@
 /atom/movable
 	layer = OBJ_LAYER
 	var/last_move = null
-	var/anchored = FALSE
+	var/anchored = 0
 	var/datum/thrownthing/throwing = null
 	var/throw_speed = 2 //How many tiles to move per ds when being thrown. Float values are fully supported
 	var/throw_range = 7
@@ -198,8 +198,6 @@
 	QDEL_NULL(proximity_monitor)
 	QDEL_NULL(language_holder)
 
-	unbuckle_all_mobs(force=1)
-
 	. = ..()
 	if(loc)
 		loc.handle_atom_del(src)
@@ -213,22 +211,17 @@
 
 // Previously known as HasEntered()
 // This is automatically called when something enters your square
-//oldloc = old location on atom, inserted when forceMove is called and ONLY when forceMove is called!
-/atom/movable/Crossed(atom/movable/AM, oldloc)
+/atom/movable/Crossed(atom/movable/AM)
 	return
 
-
-//This is tg's equivalent to the byond bump, it used to be called bump with a second arg
-//to differentiate it, naturally everyone forgot about this immediately and so some things
-//would bump twice, so now it's called Collide
-/atom/movable/proc/Collide(atom/A)	
-	if((A))
+/atom/movable/Bump(atom/A, yes) //the "yes" arg is to differentiate our Bump proc from byond's, without it every Bump() call would become a double Bump().
+	if((A && yes))
 		if(throwing)
 			throwing.hit_atom(A)
 			. = 1
 			if(!A || QDELETED(A))
 				return
-		A.CollidedWith(src)
+		A.Bumped(src)
 
 /atom/movable/proc/forceMove(atom/destination)
 	if(destination)
@@ -254,7 +247,7 @@
 			for(var/atom/movable/AM in destination)
 				if(AM == src)
 					continue
-				AM.Crossed(src, oldloc)
+				AM.Crossed(src)
 
 		Moved(oldloc, 0)
 		return 1
@@ -317,7 +310,7 @@
 	set waitfor = 0
 	return hit_atom.hitby(src)
 
-/atom/movable/hitby(atom/movable/AM, skipcatch, hitpush = TRUE, blocked)
+/atom/movable/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked)
 	if(!anchored && hitpush)
 		step(src, AM.dir)
 	..()
@@ -410,7 +403,7 @@
 			return 0
 	return 1
 
-/atom/movable/CanPass(atom/movable/mover, turf/target)
+/atom/movable/CanPass(atom/movable/mover, turf/target, height=1.5)
 	if(mover in buckled_mobs)
 		return 1
 	return ..()
@@ -444,8 +437,6 @@
 	if(!no_effect && (visual_effect_icon || used_item))
 		do_item_attack_animation(A, visual_effect_icon, used_item)
 
-	if(A == src)
-		return //don't do an animation if attacking self
 	var/pixel_x_diff = 0
 	var/pixel_y_diff = 0
 	var/final_pixel_y = initial(pixel_y)
@@ -599,7 +590,7 @@
 /atom/movable/proc/in_bounds()
 	. = FALSE
 	var/turf/currentturf = get_turf(src)
-	if(currentturf && (currentturf.z == ZLEVEL_CENTCOM || currentturf.z == ZLEVEL_STATION || currentturf.z == ZLEVEL_TRANSIT))
+	if(currentturf && (currentturf.z == ZLEVEL_CENTCOM || currentturf.z == ZLEVEL_STATION))
 		. = TRUE
 
 
@@ -689,14 +680,3 @@
 	set waitfor = FALSE
 	if(!anchored && has_gravity())
 		step(src, movedir)
-
-//Returns an atom's power cell, if it has one. Overload for individual items.
-/atom/movable/proc/get_cell()
-	return
-
-/atom/movable/proc/can_be_pulled(user)
-	if(src == user || !isturf(loc))
-		return FALSE
-	if(anchored || throwing)
-		return FALSE
-	return TRUE

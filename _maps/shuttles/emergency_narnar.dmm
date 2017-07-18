@@ -65,6 +65,7 @@
 	dir = 8
 	},
 /obj/structure/extinguisher_cabinet{
+	pixel_x = 0;
 	pixel_y = -30
 	},
 /turf/open/floor/plasteel/cult,
@@ -72,6 +73,7 @@
 "o" = (
 /obj/item/device/radio/intercom{
 	name = "Station Intercom (General)";
+	pixel_x = 0;
 	pixel_y = -29
 	},
 /turf/open/floor/plasteel/cult,
@@ -162,7 +164,8 @@
 /area/shuttle/escape)
 "G" = (
 /obj/structure/extinguisher_cabinet{
-	pixel_x = 27
+	pixel_x = 27;
+	pixel_y = 0
 	},
 /obj/item/weapon/extinguisher{
 	safety = 0
@@ -201,7 +204,8 @@
 /area/shuttle/escape)
 "M" = (
 /obj/structure/extinguisher_cabinet{
-	pixel_x = 27
+	pixel_x = 27;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/cult,
 /area/shuttle/escape)
@@ -225,7 +229,8 @@
 	},
 /obj/item/weapon/crowbar,
 /obj/structure/extinguisher_cabinet{
-	pixel_x = 27
+	pixel_x = 27;
+	pixel_y = 0
 	},
 /obj/item/stack/sheet/metal,
 /turf/open/floor/plasteel/cult,

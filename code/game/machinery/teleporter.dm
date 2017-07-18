@@ -1,5 +1,5 @@
 /obj/machinery/computer/teleporter
-	name = "teleporter control console"
+	name = "Teleporter Control Console"
 	desc = "Used to control a linked teleportation Hub and Station."
 	icon_screen = "teleport"
 	icon_keyboard = "teleport_key"
@@ -219,15 +219,15 @@
 /obj/machinery/teleport
 	name = "teleport"
 	icon = 'icons/obj/machines/teleporter.dmi'
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 
 /obj/machinery/teleport/hub
 	name = "teleporter hub"
 	desc = "It's the hub of a teleporting machine."
 	icon_state = "tele0"
 	var/accurate = 0
-	use_power = IDLE_POWER_USE
+	use_power = 1
 	idle_power_usage = 10
 	active_power_usage = 2000
 	var/obj/machinery/teleport/station/power_station
@@ -272,11 +272,11 @@
 			break
 	return power_station
 
-/obj/machinery/teleport/hub/CollidedWith(atom/movable/AM)
+/obj/machinery/teleport/hub/Bumped(M as mob|obj)
 	if(z == ZLEVEL_CENTCOM)
-		to_chat(AM, "You can't use this here.")
+		to_chat(M, "You can't use this here.")
 	if(is_ready())
-		teleport(AM)
+		teleport(M)
 		use_power(5000)
 	return
 
@@ -299,7 +299,7 @@
 	if (!com.target)
 		visible_message("<span class='alert'>Cannot authenticate locked on coordinates. Please reinstate coordinate matrix.</span>")
 		return
-	if (ismovableatom(M))
+	if (istype(M, /atom/movable))
 		if(do_teleport(M, com.target))
 			if(!calibrated && prob(30 - ((accurate) * 10))) //oh dear a problem
 				if(ishuman(M))//don't remove people from the round randomly you jerks
@@ -338,7 +338,7 @@
 	desc = "The power control station for a bluespace teleporter. Used for toggling power, and can activate a test-fire to prevent malfunctions."
 	icon_state = "controller"
 	var/engaged = 0
-	use_power = IDLE_POWER_USE
+	use_power = 1
 	idle_power_usage = 10
 	active_power_usage = 2000
 	var/obj/machinery/computer/teleporter/teleporter_console

@@ -2,9 +2,9 @@
 	desc = "A space wizard's magic wall."
 	name = "FORCEWALL"
 	icon_state = "m_shield"
-	anchored = TRUE
+	anchored = 1
 	opacity = 0
-	density = TRUE
+	density = 1
 	CanAtmosPass = ATMOS_PASS_DENSITY
 
 /obj/effect/forcefield/cult

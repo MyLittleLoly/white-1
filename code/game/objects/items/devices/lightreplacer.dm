@@ -53,7 +53,7 @@
 
 	var/max_uses = 20
 	var/uses = 0
-	var/emagged = FALSE
+	var/emagged = 0
 	var/failmsg = ""
 	// How much to increase per each glass?
 	var/increment = 5
@@ -148,9 +148,8 @@
 		to_chat(user, "<span class='notice'>You fill \the [src] with lights from \the [S]. " + status_string() + "</span>")
 
 /obj/item/device/lightreplacer/emag_act()
-	if(emagged)
-		return
-	Emag()
+	if(!emagged)
+		Emag()
 
 /obj/item/device/lightreplacer/attack_self(mob/user)
 	to_chat(user, status_string())

@@ -5,8 +5,8 @@
 	desc = "A gravitational singularity."
 	icon = 'icons/obj/singularity.dmi'
 	icon_state = "singularity_s1"
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	layer = MASSIVE_OBJ_LAYER
 	luminosity = 6
 	appearance_flags = 0
@@ -102,13 +102,14 @@
 	return 0 //Will there be an impact? Who knows.  Will we see it? No.
 
 
-/obj/singularity/Collide(atom/A)
+/obj/singularity/Bump(atom/A)
 	consume(A)
 	return
 
 
-/obj/singularity/CollidedWith(atom/movable/AM)
-	consume(AM)
+/obj/singularity/Bumped(atom/A)
+	consume(A)
+	return
 
 
 /obj/singularity/process()
@@ -406,7 +407,7 @@
 
 /obj/singularity/proc/mezzer()
 	for(var/mob/living/carbon/M in oviewers(8, src))
-		if(isbrain(M)) //Ignore brains
+		if(istype(M, /mob/living/brain)) //Ignore brains
 			continue
 
 		if(M.stat == CONSCIOUS)
@@ -418,7 +419,7 @@
 						to_chat(H, "<span class='notice'>You look directly into the [src.name], good thing you had your protective eyewear on!</span>")
 						return
 
-		M.apply_effect(60, STUN)
+		M.apply_effect(3, STUN)
 		M.visible_message("<span class='danger'>[M] stares blankly at the [src.name]!</span>", \
 						"<span class='userdanger'>You look directly into the [src.name] and feel weak.</span>")
 	return

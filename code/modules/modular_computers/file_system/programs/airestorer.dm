@@ -6,7 +6,7 @@
 	size = 12
 	requires_ntnet = 0
 	usage_flags = PROGRAM_CONSOLE
-	transfer_access = ACCESS_HEADS
+	transfer_access = GLOB.access_heads
 	available_on_ntnet = 1
 	tgui_id = "ntos_ai_restorer"
 	ui_x = 600

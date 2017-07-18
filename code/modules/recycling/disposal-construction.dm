@@ -7,10 +7,11 @@
 	desc = "A huge pipe segment used for constructing disposal systems."
 	icon = 'icons/obj/atmospherics/pipes/disposal.dmi'
 	icon_state = "conpipe-s"
-	anchored = FALSE
-	density = FALSE
+	anchored = 0
+	density = 0
 	pressure_resistance = 5*ONE_ATMOSPHERE
 	level = 2
+	obj_integrity = 200
 	max_integrity = 200
 	var/ptype = 0
 
@@ -195,10 +196,10 @@
 
 	if(istype(I, /obj/item/weapon/wrench))
 		if(anchored)
-			anchored = FALSE
+			anchored = 0
 			if(ispipe)
 				level = 2
-			density = FALSE
+			density = 0
 			to_chat(user, "<span class='notice'>You detach the [nicetype] from the underfloor.</span>")
 		else
 			if(!is_pipe()) // Disposal or outlet
@@ -218,10 +219,10 @@
 					if(pdir & dpdir)
 						to_chat(user, "<span class='warning'>There is already a [nicetype] at that location!</span>")
 						return
-			anchored = TRUE
+			anchored = 1
 			if(ispipe)
 				level = 1 // We don't want disposal bins to disappear under the floors
-			density = FALSE
+			density = 0
 			to_chat(user, "<span class='notice'>You attach the [nicetype] to the underfloor.</span>")
 		playsound(loc, I.usesound, 100, 1)
 		update_icon()
@@ -230,7 +231,7 @@
 		if(anchored)
 			var/obj/item/weapon/weldingtool/W = I
 			if(W.remove_fuel(0,user))
-				playsound(loc, 'sound/items/welder2.ogg', 100, 1)
+				playsound(loc, 'sound/items/Welder2.ogg', 100, 1)
 				to_chat(user, "<span class='notice'>You start welding the [nicetype] in place...</span>")
 				if(do_after(user, 8*I.toolspeed, target = src))
 					if(!loc || !W.isOn())

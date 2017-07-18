@@ -6,8 +6,9 @@
 	icon = 'icons/obj/kitchen.dmi'
 	icon_state = "spikeframe"
 	desc = "The frame of a meat spike."
-	density = TRUE
-	anchored = FALSE
+	density = 1
+	anchored = 0
+	obj_integrity = 200
 	max_integrity = 200
 
 /obj/structure/kitchenspike_frame/attackby(obj/item/I, mob/user, params)
@@ -46,10 +47,11 @@
 	icon = 'icons/obj/kitchen.dmi'
 	icon_state = "spike"
 	desc = "A spike for collecting meat from animals"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	buckle_lying = 0
 	can_buckle = 1
+	obj_integrity = 250
 	max_integrity = 250
 
 
@@ -137,7 +139,7 @@
 		src.visible_message(text("<span class='danger'>[M] falls free of the [src]!</span>"))
 		unbuckle_mob(M,force=1)
 		M.emote("scream")
-		M.AdjustKnockdown(20)
+		M.AdjustWeakened(10)
 
 /obj/structure/kitchenspike/deconstruct(disassembled = TRUE)
 	if(disassembled)

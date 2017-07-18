@@ -4,8 +4,9 @@
 	desc = "Mirror mirror on the wall, who's the most robust of them all?"
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "mirror"
-	density = FALSE
-	anchored = TRUE
+	density = 0
+	anchored = 1
+	obj_integrity = 200
 	max_integrity = 200
 	integrity_failure = 100
 
@@ -66,7 +67,7 @@
 			user.changeNext_move(CLICK_CD_MELEE)
 			if(WT.remove_fuel(0, user))
 				to_chat(user, "<span class='notice'>You begin repairing [src]...</span>")
-				playsound(src, 'sound/items/welder.ogg', 100, 1)
+				playsound(src, 'sound/items/Welder.ogg', 100, 1)
 				if(do_after(user, 10*I.toolspeed, target = src))
 					if(!user || !WT || !WT.isOn())
 						return

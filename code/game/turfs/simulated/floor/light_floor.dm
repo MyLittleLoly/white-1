@@ -5,7 +5,7 @@
 	icon_state = "light_on"
 	floor_tile = /obj/item/stack/tile/light
 	broken_states = list("light_broken")
-	var/on = TRUE
+	var/on = 1
 	var/state = 0//0 = fine, 1 = flickering, 2 = breaking, 3 = broken
 	var/list/coloredlights = list("g", "r", "y", "b", "p", "w", "s","o","g")
 	var/currentcolor = 1
@@ -51,13 +51,13 @@
 	if(!can_modify_colour)
 		return
 	if(!on)
-		on = TRUE
+		on = 1
 		currentcolor = 1
 		return
 	else
 		currentcolor++
 	if(currentcolor > coloredlights.len)
-		on = FALSE
+		on = 0
 	update_icon()
 	..()  //I am not sure what the parent procs have for attack_hand, best to check later.
 

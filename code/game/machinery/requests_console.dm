@@ -9,7 +9,7 @@ GLOBAL_LIST_EMPTY(allConsoles)
 /obj/machinery/requests_console
 	name = "requests console"
 	desc = "A console intended to send requests to different departments on the station."
-	anchored = TRUE
+	anchored = 1
 	icon = 'icons/obj/terminals.dmi'
 	icon_state = "req_comp0"
 	var/department = "Unknown" //The list of all departments on the station (Determined from this variable on each unit) Set this to the same thing if you want several consoles in one department
@@ -47,7 +47,7 @@ GLOBAL_LIST_EMPTY(allConsoles)
 	var/announcementConsole = 0
 		// 0 = This console cannot be used to send department announcements
 		// 1 = This console can send department announcements
-	var/open = FALSE // 1 if open
+	var/open = 0 // 1 if open
 	var/announceAuth = 0 //Will be set to 1 when you authenticate yourself for announcements
 	var/msgVerified = "" //Will contain the name of the person who verified it
 	var/msgStamped = "" //If a message is stamped, this will contain the stamp name
@@ -57,6 +57,7 @@ GLOBAL_LIST_EMPTY(allConsoles)
 	var/obj/item/device/radio/Radio
 	var/emergency //If an emergency has been called by this device. Acts as both a cooldown and lets the responder know where it the emergency was triggered from
 	var/receive_ore_updates = FALSE //If ore redemption machines will send an update when it receives new ores.
+	obj_integrity = 300
 	max_integrity = 300
 	armor = list(melee = 70, bullet = 30, laser = 30, energy = 30, bomb = 0, bio = 0, rad = 0, fire = 90, acid = 90)
 
@@ -304,7 +305,7 @@ GLOBAL_LIST_EMPTY(allConsoles)
 			return
 		minor_announce(message, "[department] Announcement:")
 		GLOB.news_network.SubmitArticle(message, department, "Station Announcements", null)
-		log_talk(usr,"[key_name(usr)] has made a station announcement: [message]",LOGSAY)
+		log_say("[key_name(usr)] has made a station announcement: [message]")
 		message_admins("[key_name_admin(usr)] has made a station announcement.")
 		announceAuth = 0
 		message = ""
@@ -490,10 +491,10 @@ GLOBAL_LIST_EMPTY(allConsoles)
 	if(istype(O, /obj/item/weapon/crowbar))
 		if(open)
 			to_chat(user, "<span class='notice'>You close the maintenance panel.</span>")
-			open = FALSE
+			open = 0
 		else
 			to_chat(user, "<span class='notice'>You open the maintenance panel.</span>")
-			open = TRUE
+			open = 1
 		update_icon()
 		return
 	if(istype(O, /obj/item/weapon/screwdriver))
@@ -514,7 +515,7 @@ GLOBAL_LIST_EMPTY(allConsoles)
 			msgVerified = "<font color='green'><b>Verified by [ID.registered_name] ([ID.assignment])</b></font>"
 			updateUsrDialog()
 		if(screen == 10)
-			if (ACCESS_RC_ANNOUNCE in ID.access)
+			if (GLOB.access_RC_announce in ID.access)
 				announceAuth = 1
 			else
 				announceAuth = 0

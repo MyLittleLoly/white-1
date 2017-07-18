@@ -43,7 +43,7 @@
 	search_objects = 1 // So that it can see through walls
 
 	sight = SEE_SELF|SEE_MOBS|SEE_OBJS|SEE_TURFS
-	anchored = TRUE
+	anchored = 1
 
 	gold_core_spawnable = 1
 

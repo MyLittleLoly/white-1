@@ -3,7 +3,7 @@
 	filedesc = "ID Card Modification"
 	program_icon_state = "id"
 	extended_desc = "Program for programming employee ID cards to access parts of the station."
-	transfer_access = ACCESS_HEADS
+	transfer_access = GLOB.access_heads
 	requires_ntnet = 0
 	size = 8
 	tgui_id = "ntos_card"
@@ -19,7 +19,7 @@
 	var/list/region_access = null
 	var/list/head_subordinates = null
 	var/target_dept = 0 //Which department this computer has access to. 0=all departments
-	var/change_position_cooldown = 30
+	var/change_position_cooldown = 60
 	//Jobs you cannot open new positions for
 	var/list/blacklisted = list(
 		"AI",
@@ -39,12 +39,6 @@
 	//Assoc array: "JobName" = (int)<Opened Positions>
 	var/list/opened_positions = list();
 
-/datum/computer_file/program/card_mod/New()
-	..()
-	addtimer(CALLBACK(src, .proc/SetConfigCooldown), 0)
-
-/datum/computer_file/program/card_mod/proc/SetConfigCooldown()
-	change_position_cooldown = config.id_console_jobslot_delay
 
 /datum/computer_file/program/card_mod/event_idremoved(background, slot)
 	if(!slot || slot == 2)// slot being false means both are removed
@@ -419,7 +413,7 @@
 	return data
 
 
-/datum/computer_file/program/card_mod/proc/build_manage(datum/job,open = FALSE)
+/datum/computer_file/program/card_mod/proc/build_manage(datum/job,open = 0)
 	var/out = "Denied"
 	var/can_change= 0
 	if(open)
@@ -448,25 +442,25 @@
 			var/obj/item/weapon/card/id/auth_card = card_slot.stored_card2
 			if(auth_card)
 				region_access = list()
-				if(ACCESS_CHANGE_IDS in auth_card.GetAccess())
+				if(GLOB.access_change_ids in auth_card.GetAccess())
 					minor = 0
 					authenticated = 1
 					return 1
 				else
-					if((ACCESS_HOP in auth_card.access) && ((target_dept==1) || !target_dept))
+					if((GLOB.access_hop in auth_card.access) && ((target_dept==1) || !target_dept))
 						region_access |= 1
 						region_access |= 6
 						get_subordinates("Head of Personnel")
-					if((ACCESS_HOS in auth_card.access) && ((target_dept==2) || !target_dept))
+					if((GLOB.access_hos in auth_card.access) && ((target_dept==2) || !target_dept))
 						region_access |= 2
 						get_subordinates("Head of Security")
-					if((ACCESS_CMO in auth_card.access) && ((target_dept==3) || !target_dept))
+					if((GLOB.access_cmo in auth_card.access) && ((target_dept==3) || !target_dept))
 						region_access |= 3
 						get_subordinates("Chief Medical Officer")
-					if((ACCESS_RD in auth_card.access) && ((target_dept==4) || !target_dept))
+					if((GLOB.access_rd in auth_card.access) && ((target_dept==4) || !target_dept))
 						region_access |= 4
 						get_subordinates("Research Director")
-					if((ACCESS_CE in auth_card.access) && ((target_dept==5) || !target_dept))
+					if((GLOB.access_ce in auth_card.access) && ((target_dept==5) || !target_dept))
 						region_access |= 5
 						get_subordinates("Chief Engineer")
 					if(region_access.len)

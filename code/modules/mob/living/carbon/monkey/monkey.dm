@@ -30,8 +30,10 @@
 
 	create_internal_organs()
 
-	. = ..()
+	..()
 
+/mob/living/carbon/monkey/Initialize()
+	..()
 	create_dna(src)
 	dna.initialize_dna(random_blood_type())
 
@@ -43,8 +45,6 @@
 	internal_organs += new /obj/item/organ/tongue
 	internal_organs += new /obj/item/organ/eyes
 	internal_organs += new /obj/item/organ/ears
-	internal_organs += new /obj/item/organ/liver
-	internal_organs += new /obj/item/organ/stomach
 	..()
 
 /mob/living/carbon/monkey/movement_delay()
@@ -92,14 +92,13 @@
 /mob/living/carbon/monkey/canBeHandcuffed()
 	return 1
 
-/mob/living/carbon/monkey/assess_threat(judgement_criteria, lasercolor = "", datum/callback/weaponcheck=null)
-	if(judgement_criteria & JUDGE_EMAGGED)
+/mob/living/carbon/monkey/assess_threat(mob/living/simple_animal/bot/secbot/judgebot, lasercolor)
+	if(judgebot.emagged == 2)
 		return 10 //Everyone is a criminal!
-
 	var/threatcount = 0
 
 	//Securitrons can't identify monkeys
-	if( !(judgement_criteria & JUDGE_IGNOREMONKEYS) && (judgement_criteria & JUDGE_IDCHECK) )
+	if(!lasercolor && judgebot.idcheck )
 		threatcount += 4
 
 	//Lasertag bullshit
@@ -115,9 +114,9 @@
 		return threatcount
 
 	//Check for weapons
-	if( (judgement_criteria & JUDGE_WEAPONCHECK) && weaponcheck )
+	if(judgebot.weaponscheck)
 		for(var/obj/item/I in held_items)
-			if(weaponcheck.Invoke(I))
+			if(judgebot.check_for_weapons(I))
 				threatcount += 4
 
 	//mindshield implants imply trustworthyness

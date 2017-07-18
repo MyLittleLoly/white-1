@@ -1,8 +1,8 @@
 GLOBAL_LIST_EMPTY(announcement_systems)
 
 /obj/machinery/announcement_system
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	name = "\improper Automated Announcement System"
 	desc = "An automated announcement system that handles minor announcements over the radio."
 	icon = 'icons/obj/machines/telecomms.dmi'
@@ -177,7 +177,6 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	..(severity)
 
 /obj/machinery/announcement_system/emag_act()
-	if(emagged)
-		return
-	emagged = TRUE
-	act_up()
+	if(!emagged)
+		emagged = 1
+		act_up()

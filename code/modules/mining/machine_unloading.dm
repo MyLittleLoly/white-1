@@ -5,8 +5,8 @@
 	name = "unloading machine"
 	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "unloader"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	input_dir = WEST
 	output_dir = EAST
 	speed_process = 1

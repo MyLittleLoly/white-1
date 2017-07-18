@@ -20,7 +20,6 @@ GLOBAL_LIST_INIT(rod_recipes, list ( \
 	max_amount = 50
 	attack_verb = list("hit", "bludgeoned", "whacked")
 	hitsound = 'sound/weapons/grenadelaunch.ogg'
-	novariants = TRUE
 
 /obj/item/stack/rods/Initialize(mapload, new_amount, merge = TRUE)
 	..()

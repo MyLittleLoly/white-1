@@ -3,19 +3,19 @@
 
 //Potential replacement for genetics revives or something I dunno (?)
 
-#define CLONE_INITIAL_DAMAGE     150    //Clones in clonepods start with 150 cloneloss damage and 150 brainloss damage, thats just logical
+#define CLONE_INITIAL_DAMAGE     190    //Clones in clonepods start with 190 cloneloss damage and 190 brainloss damage, thats just logical
 #define MINIMUM_HEAL_LEVEL 40
 
 #define SPEAK(message) radio.talk_into(src, message, radio_channel, get_spans(), get_default_language())
 
 /obj/machinery/clonepod
-	anchored = TRUE
+	anchored = 1
 	name = "cloning pod"
 	desc = "An electronically-lockable pod for growing organic tissue."
-	density = TRUE
+	density = 1
 	icon = 'icons/obj/cloning.dmi'
 	icon_state = "pod_0"
-	req_access = list(ACCESS_CLONING) //FOR PREMATURE UNLOCKING.
+	req_access = list(GLOB.access_cloning) //For premature unlocking.
 	verb_say = "states"
 	var/heal_level //The clone is released once its health reaches this level.
 	var/obj/machinery/computer/cloning/connected = null //So we remember the connected clone machine.
@@ -41,11 +41,11 @@
 	var/static/list/brine_types = list(
 		"salbutamol", // anti-oxyloss
 		"bicaridine", // NOBREATHE species take brute in crit
-		"corazone", // prevents cardiac arrest and liver failure damage
+		"corazone", // prevents cardiac arrest damage
 		"mimesbane") // stops them gasping from lack of air.
 
-/obj/machinery/clonepod/Initialize()
-	. = ..()
+/obj/machinery/clonepod/New()
+	..()
 	var/obj/item/weapon/circuitboard/machine/B = new /obj/item/weapon/circuitboard/machine/clonepod(null)
 	B.apply_default_parts(src)
 
@@ -205,7 +205,7 @@
 	//Get the clone body ready
 	maim_clone(H)
 	check_brine() // put in chemicals NOW to stop death via cardiac arrest
-	H.Unconscious(80)
+	H.Paralyse(4)
 
 	clonemind.transfer_to(H)
 
@@ -243,7 +243,7 @@
 			go_out()
 
 		else if(mob_occupant.cloneloss > (100 - heal_level))
-			mob_occupant.Unconscious(80)
+			mob_occupant.Paralyse(4)
 
 			 //Slowly get that clone healed and finished.
 			mob_occupant.adjustCloneLoss(-((speed_coeff/2) * config.damage_multiplier))
@@ -331,8 +331,8 @@
 			to_chat(user, "<span class='danger'>Error: Pod has no occupant.</span>")
 			return
 		else
-			connected_message("Emergency Ejection")
-			SPEAK("An emergency ejection of [clonemind.name] has occurred. Survival not guaranteed.")
+			connected_message("Authorized Ejection")
+			SPEAK("An authorized ejection of [clonemind.name] has occurred.")
 			to_chat(user, "<span class='notice'>You force an emergency ejection. </span>")
 			go_out()
 	else
@@ -358,14 +358,10 @@
 /obj/machinery/clonepod/proc/go_out()
 	countdown.stop()
 	var/mob/living/mob_occupant = occupant
-	var/turf/T = get_turf(src)
 
 	if(mess) //Clean that mess and dump those gibs!
-		for(var/obj/fl in unattached_flesh)
-			fl.forceMove(T)
-		unattached_flesh.Cut()
 		mess = FALSE
-		new /obj/effect/gibspawner/generic(get_turf(src))
+		new /obj/effect/gibspawner/generic(loc)
 		audible_message("<span class='italics'>You hear a splat.</span>")
 		icon_state = "pod_0"
 		return
@@ -379,12 +375,10 @@
 		to_chat(occupant, "<span class='notice'><b>There is a bright flash!</b><br><i>You feel like a new being.</i></span>")
 		mob_occupant.flash_act()
 
+	var/turf/T = get_turf(src)
 	occupant.forceMove(T)
 	icon_state = "pod_0"
 	mob_occupant.domutcheck(1) //Waiting until they're out before possible monkeyizing. The 1 argument forces powers to manifest.
-	for(var/fl in unattached_flesh)
-		qdel(fl)
-	unattached_flesh.Cut()
 
 	occupant = null
 
@@ -395,7 +389,8 @@
 		SPEAK("Critical error! Please contact a Thinktronic Systems \
 			technician, as your warranty may be affected.")
 		mess = TRUE
-		maim_clone(mob_occupant)	//Remove every bit that's grown back so far to drop later, also destroys bits that haven't grown yet
+		for(var/obj/item/O in unattached_flesh)
+			qdel(O)
 		icon_state = "pod_g"
 		if(mob_occupant.mind != clonemind)
 			clonemind.transfer_to(mob_occupant)
@@ -455,10 +450,9 @@
 	var/static/list/zones = list("r_arm", "l_arm", "r_leg", "l_leg")
 	for(var/zone in zones)
 		var/obj/item/bodypart/BP = H.get_bodypart(zone)
-		if(BP)
-			BP.drop_limb()
-			BP.forceMove(src)
-			unattached_flesh += BP
+		BP.drop_limb()
+		BP.forceMove(src)
+		unattached_flesh += BP
 
 	for(var/o in H.internal_organs)
 		var/obj/item/organ/organ = o
@@ -474,9 +468,7 @@
 	// Clones are in a pickled bath of mild chemicals, keeping
 	// them alive, despite their lack of internal organs
 	for(var/bt in brine_types)
-		if(bt == "corazone" && occupant.reagents.get_reagent_amount(bt) < 2)
-			occupant.reagents.add_reagent(bt, 2)//pump it full of extra corazone as a safety, you can't OD on corazone.
-		else if(occupant.reagents.get_reagent_amount(bt) < 1)
+		if(occupant.reagents.get_reagent_amount(bt) < 1)
 			occupant.reagents.add_reagent(bt, 1)
 
 /*

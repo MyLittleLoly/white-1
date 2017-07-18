@@ -1,7 +1,7 @@
-#define CHALLENGE_TELECRYSTALS 280
+#define CHALLENGE_TELECRYSTALS 170
 #define CHALLENGE_TIME_LIMIT 3000
-#define CHALLENGE_MIN_PLAYERS 50
-#define CHALLENGE_SHUTTLE_DELAY 15000 // 25 minutes, so the ops have at least 5 minutes before the shuttle is callable.
+#define CHALLENGE_MIN_PLAYERS 30
+#define CHALLENGE_SHUTTLE_DELAY 21000 // 25 minutes, so the ops have at least 5 minutes before the shuttle is callable.
 
 /obj/item/device/nuclear_challenge
 	name = "Declaration of War (Challenge Mode)"
@@ -44,7 +44,7 @@
 	if(!check_allowed(user) || !war_declaration)
 		return
 
-	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/alarm.ogg')
+	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/Alarm.ogg')
 
 	to_chat(user, "You've attracted the attention of powerful forces within the syndicate. A bonus bundle of telecrystals has been granted to your team. Great things await you if you complete the mission.")
 

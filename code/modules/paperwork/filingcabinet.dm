@@ -15,8 +15,8 @@
 	desc = "A large cabinet with drawers."
 	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "filingcabinet"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 
 /obj/structure/filingcabinet/chestdrawer
 	name = "chest drawer"
@@ -25,7 +25,7 @@
 /obj/structure/filingcabinet/chestdrawer/wheeled
 	name = "rolling chest drawer"
 	desc = "A small cabinet with drawers. This one has wheels!"
-	anchored = FALSE
+	anchored = 0
 
 /obj/structure/filingcabinet/filingcabinet	//not changing the path to avoid unecessary map issues, but please don't name stuff like this in the future -Pete
 	icon_state = "tallcabinet"

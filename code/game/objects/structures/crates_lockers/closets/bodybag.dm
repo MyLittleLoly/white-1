@@ -4,7 +4,7 @@
 	desc = "A plastic bag designed for the storage and transportation of cadavers."
 	icon = 'icons/obj/bodybag.dmi'
 	icon_state = "bodybag"
-	density = FALSE
+	density = 0
 	mob_storage_capacity = 2
 	open_sound = 'sound/items/zip.ogg'
 	close_sound = 'sound/items/zip.ogg'
@@ -42,7 +42,7 @@
 
 /obj/structure/closet/body_bag/close()
 	if(..())
-		density = FALSE
+		density = 0
 		return 1
 	return 0
 

@@ -1,13 +1,13 @@
 #define PUMP_OUT "out"
 #define PUMP_IN "in"
-#define PUMP_MAX_PRESSURE (ONE_ATMOSPHERE * 10)
+#define PUMP_MAX_PRESSURE (ONE_ATMOSPHERE * 30)
 #define PUMP_MIN_PRESSURE (ONE_ATMOSPHERE / 10)
 #define PUMP_DEFAULT_PRESSURE (ONE_ATMOSPHERE)
 
 /obj/machinery/portable_atmospherics/pump
 	name = "portable air pump"
 	icon_state = "psiphon:0"
-	density = TRUE
+	density = 1
 
 	var/on = FALSE
 	var/direction = PUMP_OUT
@@ -69,7 +69,7 @@
 	..()
 
 
-/obj/machinery/portable_atmospherics/pump/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
+/obj/machinery/portable_atmospherics/pump/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
 														datum/tgui/master_ui = null, datum/ui_state/state = GLOB.physical_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)

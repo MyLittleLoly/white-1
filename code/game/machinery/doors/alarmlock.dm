@@ -5,11 +5,11 @@
 	overlays_file = 'icons/obj/doors/airlocks/station2/overlays.dmi'
 	opacity = 0
 	assemblytype = /obj/structure/door_assembly/door_assembly_glass
-	glass = TRUE
+	glass = 1
 
 	var/datum/radio_frequency/air_connection
 	var/air_frequency = 1437
-	autoclose = FALSE
+	autoclose = 0
 
 /obj/machinery/door/airlock/alarmlock/New()
 	..()
@@ -39,8 +39,8 @@
 	if(alarm_area == our_area.name)
 		switch(alert)
 			if("severe")
-				autoclose = TRUE
+				autoclose = 1
 				close()
 			if("minor", "clear")
-				autoclose = FALSE
+				autoclose = 0
 				open()

@@ -3,10 +3,10 @@
 
 	icon = 'icons/obj/atmospherics/components/unary_devices.dmi'
 	icon_state = "vent_map"
-	density = FALSE
+	density = 0
 	anchored=1
 
-	var/on = FALSE
+	var/on = 0
 	var/volume_rate = 800
 
 /obj/machinery/zvent/New()

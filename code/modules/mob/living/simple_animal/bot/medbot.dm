@@ -8,13 +8,11 @@
 	desc = "A little medical robot. He looks somewhat underwhelmed."
 	icon = 'icons/mob/aibots.dmi'
 	icon_state = "medibot0"
-	density = FALSE
-	anchored = FALSE
+	density = 0
+	anchored = 0
 	health = 20
 	maxHealth = 20
 	pass_flags = PASSMOB
-
-	status_flags = (CANPUSH | CANSTUN)
 
 	radio_key = /obj/item/device/encryptionkey/headset_med
 	radio_channel = "Medical"
@@ -79,9 +77,6 @@
 	if(!on)
 		icon_state = "medibot0"
 		return
-	if(IsStun())
-		icon_state = "medibota"
-		return
 	if(mode == BOT_HEALING)
 		icon_state = "medibots[stationary_mode]"
 		return
@@ -101,10 +96,6 @@
 	access_card.access += J.get_access()
 	prev_access = access_card.access
 	qdel(J)
-
-/mob/living/simple_animal/bot/medbot/update_canmove()
-	. = ..()
-	update_icon()
 
 /mob/living/simple_animal/bot/medbot/bot_reset()
 	..()
@@ -245,7 +236,6 @@
 			to_chat(user, "<span class='notice'>You short out [src]'s reagent synthesis circuits.</span>")
 		audible_message("<span class='danger'>[src] buzzes oddly!</span>")
 		flick("medibot_spark", src)
-		playsound(src, "sparks", 75, 1)
 		if(user)
 			oldpatient = user
 
@@ -275,10 +265,17 @@
 	if(mode == BOT_HEALING)
 		return
 
-	if(IsStun())
+	if(stunned)
+		icon_state = "medibota"
+		stunned--
+
 		oldpatient = patient
 		patient = null
 		mode = BOT_IDLE
+
+		if(stunned <= 0)
+			update_icon()
+			stunned = 0
 		return
 
 	if(frustration > 8)
@@ -373,8 +370,7 @@
 		return 1
 
 	if(treat_virus && !C.reagents.has_reagent(treatment_virus_avoid) && !C.reagents.has_reagent(treatment_virus))
-		for(var/thing in C.viruses)
-			var/datum/disease/D = thing
+		for(var/datum/disease/D in C.viruses)
 			//the medibot can't detect viruses that are undetectable to Health Analyzers or Pandemic machines.
 			if(!(D.visibility_flags & HIDDEN_SCANNER || D.visibility_flags & HIDDEN_PANDEMIC) \
 			&& D.severity != NONTHREAT \
@@ -425,8 +421,7 @@
 	else
 		if(treat_virus)
 			var/virus = 0
-			for(var/thing in C.viruses)
-				var/datum/disease/D = thing
+			for(var/datum/disease/D in C.viruses)
 				//detectable virus
 				if((!(D.visibility_flags & HIDDEN_SCANNER)) || (!(D.visibility_flags & HIDDEN_PANDEMIC)))
 					if(D.severity != NONTHREAT)      //virus is harmful
@@ -509,8 +504,13 @@
 		return 1
 	return 0
 
+/mob/living/simple_animal/bot/medbot/bullet_act(obj/item/projectile/Proj)
+	if(Proj.flag == "taser")
+		stunned = min(stunned+10,20)
+	..()
+
 /mob/living/simple_animal/bot/medbot/explode()
-	on = FALSE
+	on = 0
 	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/turf/Tsec = get_turf(src)
 
@@ -541,4 +541,4 @@
 	declare_cooldown = world.time + 200
 
 /obj/machinery/bot_core/medbot
-	req_one_access =list(ACCESS_MEDICAL, ACCESS_ROBOTICS)
+	req_one_access =list(GLOB.access_medical, GLOB.access_robotics)

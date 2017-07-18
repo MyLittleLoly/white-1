@@ -43,7 +43,7 @@
 	icon_state = "airlock_control_standby"
 
 	name = "vent controller"
-	density = FALSE
+	density = 0
 
 	frequency = 1229
 	power_channel = ENVIRON

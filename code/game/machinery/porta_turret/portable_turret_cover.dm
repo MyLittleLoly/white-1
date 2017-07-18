@@ -7,9 +7,10 @@
 	name = "turret"
 	icon = 'icons/obj/turrets.dmi'
 	icon_state = "turretCover"
-	anchored = TRUE
+	anchored = 1
 	layer = HIGH_OBJ_LAYER
-	density = FALSE
+	density = 0
+	obj_integrity = 80
 	max_integrity = 80
 	var/obj/machinery/porta_turret/parent_turret = null
 
@@ -46,12 +47,12 @@
 			return
 
 		if(!parent_turret.anchored)
-			parent_turret.anchored = TRUE
+			parent_turret.anchored = 1
 			to_chat(user, "<span class='notice'>You secure the exterior bolts on the turret.</span>")
 			parent_turret.invisibility = 0
 			parent_turret.update_icon()
 		else
-			parent_turret.anchored = FALSE
+			parent_turret.anchored = 0
 			to_chat(user, "<span class='notice'>You unsecure the exterior bolts on the turret.</span>")
 			parent_turret.invisibility = INVISIBILITY_MAXIMUM
 			parent_turret.update_icon()
@@ -90,7 +91,7 @@
 	if(!parent_turret.emagged)
 		to_chat(user, "<span class='notice'>You short out [parent_turret]'s threat assessment circuits.</span>")
 		visible_message("[parent_turret] hums oddly...")
-		parent_turret.emagged = TRUE
+		parent_turret.emagged = 1
 		parent_turret.on = 0
 		spawn(40)
 			parent_turret.on = 1

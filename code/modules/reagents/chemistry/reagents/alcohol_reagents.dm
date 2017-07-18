@@ -38,8 +38,6 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		var/mob/living/carbon/human/H = M
 		if(H.drunkenness < volume * boozepwr * ALCOHOL_THRESHOLD_MODIFIER)
 			H.drunkenness = max((H.drunkenness + (sqrt(volume) * boozepwr * ALCOHOL_RATE)), 0) //Volume, power, and server alcohol rate effect how quickly one gets drunk
-			var/obj/item/organ/liver/L = H.getorganslot("liver")
-			H.applyLiverDamage((max(sqrt(volume) * boozepwr * L.alcohol_tolerance, 0))/10)
 	return ..() || .
 
 /datum/reagent/consumable/ethanol/reaction_obj(obj/O, reac_volume)
@@ -116,10 +114,9 @@ All effects don't start immediately, but rather get worse over time; the rate is
 /datum/reagent/consumable/ethanol/kahlua/on_mob_life(mob/living/M)
 	M.dizziness = max(0,M.dizziness-5)
 	M.drowsyness = max(0,M.drowsyness-3)
-	M.AdjustSleeping(-40, FALSE)
+	M.AdjustSleeping(-2, 0)
 	M.Jitter(5)
-	..()
-	. = 1
+	return ..()
 
 /datum/reagent/consumable/ethanol/whiskey
 	name = "Whiskey"
@@ -148,7 +145,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 
 /datum/reagent/consumable/ethanol/thirteenloko/on_mob_life(mob/living/M)
 	M.drowsyness = max(0,M.drowsyness-7)
-	M.AdjustSleeping(-40)
+	M.AdjustSleeping(-2)
 	if (M.bodytemperature > 310)
 		M.bodytemperature = max(310, M.bodytemperature - (5 * TEMPERATURE_DAMAGE_COEFFICIENT))
 	M.Jitter(5)
@@ -532,7 +529,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	glass_desc = "Heavy, hot and strong. Just like the Iron fist of the LAW."
 
 /datum/reagent/consumable/ethanol/beepsky_smash/on_mob_life(mob/living/M)
-	M.Stun(40, 0)
+	M.Stun(2, 0)
 	return ..()
 
 /datum/reagent/consumable/ethanol/irish_cream
@@ -1114,10 +1111,10 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	M.slurring += 3
 	switch(current_cycle)
 		if(51 to 200)
-			M.Sleeping(100, FALSE)
+			M.Sleeping(5, 0)
 			. = 1
 		if(201 to INFINITY)
-			M.AdjustSleeping(40, FALSE)
+			M.AdjustSleeping(2, 0)
 			M.adjustToxLoss(2, 0)
 			. = 1
 	..()
@@ -1162,7 +1159,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	glass_desc = "A drink that is guaranteed to knock you silly."
 
 /datum/reagent/consumable/ethanol/neurotoxin/on_mob_life(mob/living/carbon/M)
-	M.Knockdown(60, 1, 0)
+	M.Weaken(3, 1, 0)
 	M.dizziness +=6
 	switch(current_cycle)
 		if(15 to 45)

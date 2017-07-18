@@ -28,8 +28,8 @@
 	desc = "Dr Miles Manners is just your average wasp-themed super hero by day, but by night he becomes DR BEES!"
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "beebox"
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	var/mob/living/simple_animal/hostile/poison/bees/queen/queen_bee = null
 	var/list/bees = list() //bees owned by the box, not those inside it
 	var/list/honeycombs = list()

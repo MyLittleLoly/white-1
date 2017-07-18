@@ -9,16 +9,16 @@
 	item_state = "backpack"
 	slot_flags = SLOT_BACK
 	w_class = WEIGHT_CLASS_HUGE
-	var/obj/item/weapon/gun/ballistic/minigun/gun
+	var/obj/item/weapon/gun/ballistic/minigun/gun = null
 	var/armed = 0 //whether the gun is attached, 0 is attached, 1 is the gun is wielded.
 	var/overheat = 0
 	var/overheat_max = 40
 	var/heat_diffusion = 1
 
-/obj/item/weapon/minigunpack/Initialize()
-	. = ..()
+/obj/item/weapon/minigunpack/New()
 	gun = new(src)
 	START_PROCESSING(SSobj, src)
+	..()
 
 /obj/item/weapon/minigunpack/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -105,20 +105,20 @@
 	automatic = 0
 	fire_delay = 1
 	weapon_weight = WEAPON_HEAVY
-	fire_sound = 'sound/weapons/laser.ogg'
+	fire_sound = 'sound/weapons/Laser.ogg'
 	mag_type = /obj/item/ammo_box/magazine/internal/minigun
 	casing_ejector = 0
 	var/obj/item/weapon/minigunpack/ammo_pack
 
-/obj/item/weapon/gun/ballistic/minigun/Initialize()
+/obj/item/weapon/gun/ballistic/minigun/New()
 	SET_SECONDARY_FLAG(src, SLOWS_WHILE_IN_HAND)
 
-	if(istype(loc, /obj/item/weapon/minigunpack)) //We should spawn inside a ammo pack so let's use that one.
-		ammo_pack = loc
-	else
-		return INITIALIZE_HINT_QDEL //No pack, no gun
-	
-	return ..()
+	if(!ammo_pack)
+		if(istype(loc,/obj/item/weapon/minigunpack)) //We should spawn inside a ammo pack so let's use that one.
+			ammo_pack = loc
+			..()
+		else
+			qdel(src)//No pack, no gun
 
 /obj/item/weapon/gun/ballistic/minigun/attack_self(mob/living/user)
 	return

@@ -133,9 +133,10 @@
 	to_chat(owner, "<span class='warning'>You feel sick.</span>")
 	var/virus_type = pick(/datum/disease/beesease, /datum/disease/brainrot, /datum/disease/magnitis)
 	var/datum/disease/D = new virus_type()
-	D.carrier = TRUE
+	D.carrier = 1
 	owner.viruses += D
 	D.affected_mob = owner
+	D.holder = owner
 	owner.med_hud_set_status()
 
 
@@ -211,7 +212,7 @@
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "cocoon_large3"
 	color = rgb(10,120,10)
-	density = TRUE
+	density = 1
 	var/hatch_time = 0
 
 /obj/structure/spider/cocoon/abductor/proc/Copy(mob/living/carbon/human/H)

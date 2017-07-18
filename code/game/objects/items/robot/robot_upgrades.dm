@@ -7,7 +7,7 @@
 	icon = 'icons/obj/module.dmi'
 	icon_state = "cyborg_upgrade"
 	origin_tech = "programming=2"
-	var/locked = FALSE
+	var/locked = 0
 	var/installed = 0
 	var/require_module = 0
 	var/module_type = null
@@ -211,7 +211,7 @@
 	var/repair_amount = -1
 	var/repair_tick = 1
 	var/msg_cooldown = 0
-	var/on = FALSE
+	var/on = 0
 	var/powercost = 10
 	var/mob/living/silicon/robot/cyborg
 	var/datum/action/toggle_action

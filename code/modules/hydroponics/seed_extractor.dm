@@ -42,8 +42,8 @@
 	desc = "Extracts and bags seeds from produce."
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "sextractor"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	var/piles = list()
 	var/max_seeds = 1000
 	var/seed_multiplier = 1
@@ -191,7 +191,7 @@
 		to_chat(usr, "<span class='notice'>\The [src] is full.</span>")
 		return 0
 
-	if(ismob(O.loc))
+	if(istype(O.loc,/mob))
 		var/mob/M = O.loc
 		if(!M.drop_item())
 			return 0

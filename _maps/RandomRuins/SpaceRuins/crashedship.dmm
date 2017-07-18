@@ -136,7 +136,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /turf/open/floor/plating/airless,
 /area/awaymission/BMPship/Midship)
@@ -329,7 +330,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /turf/open/floor/plating/airless,
 /area/awaymission/BMPship/Midship)
@@ -338,7 +340,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /turf/open/floor/plating/airless,
 /area/awaymission/BMPship/Midship)
@@ -346,7 +349,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -501,7 +505,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /obj/item/weapon/hand_labeler,
 /turf/open/floor/plating,
@@ -510,7 +515,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /turf/open/floor/plating,
 /area/awaymission/BMPship/Aft)
@@ -518,7 +524,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /obj/item/weapon/storage/box,
 /turf/open/floor/plating,
@@ -767,7 +774,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /turf/open/floor/carpet,
 /area/awaymission/BMPship/Fore)
@@ -1016,7 +1024,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel/bar,
 /area/awaymission/BMPship/Midship)
@@ -1056,7 +1065,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/open/floor/plating,
 /area/awaymission/BMPship/Aft)
@@ -1064,7 +1074,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /obj/structure/cable{
 	d1 = 2;
@@ -1077,7 +1088,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /obj/structure/cable{
 	d1 = 1;
@@ -1106,6 +1118,7 @@
 /area/awaymission/BMPship/Aft)
 "dr" = (
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 4
 	},
 /obj/structure/window/reinforced{
@@ -1115,7 +1128,8 @@
 /area/awaymission/BMPship/Aft)
 "ds" = (
 /obj/structure/shuttle/engine/propulsion{
-	dir = 4
+	dir = 4;
+	icon_state = "propulsion"
 	},
 /turf/template_noop,
 /area/awaymission/BMPship/Aft)
@@ -1130,6 +1144,7 @@
 /area/awaymission/BMPship/Fore)
 "dv" = (
 /obj/machinery/light{
+	icon_state = "tube1";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -1157,7 +1172,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/bar,
 /area/awaymission/BMPship/Midship)
@@ -1197,7 +1213,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel,
 /area/awaymission/BMPship/Aft)
@@ -1247,7 +1264,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /turf/open/floor/carpet,
 /area/awaymission/BMPship/Fore)
@@ -1382,7 +1400,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/hydrofloor,
 /area/awaymission/BMPship/Aft)
@@ -1544,7 +1563,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -1563,7 +1583,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/open/floor/carpet,
 /area/awaymission/BMPship/Fore)
@@ -1597,7 +1618,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /obj/structure/cable{
 	d1 = 1;
@@ -1702,7 +1724,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/awaymission/BMPship/Aft)
@@ -1757,6 +1780,7 @@
 /area/awaymission/BMPship/Fore)
 "eU" = (
 /obj/machinery/light{
+	icon_state = "tube1";
 	dir = 4
 	},
 /obj/structure/closet,
@@ -1794,7 +1818,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /obj/item/weapon/stock_parts/cell/high,
 /turf/open/floor/plasteel,
@@ -1811,7 +1836,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /obj/machinery/door/unpowered/shuttle,
 /turf/open/floor/carpet,
@@ -1936,7 +1962,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/open/floor/plating/airless,
 /area/awaymission/BMPship/Fore)
@@ -1944,7 +1971,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/open/floor/plating/airless{
 	icon_state = "panelscorched"
@@ -1987,7 +2015,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/awaymission/BMPship/Aft)
@@ -2041,7 +2070,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /turf/open/floor/plating/airless,
 /area/awaymission/BMPship/Fore)
@@ -2070,7 +2100,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /turf/open/floor/plating,
 /area/awaymission/BMPship/Aft)
@@ -2129,7 +2160,8 @@
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "1-2";
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel,
 /area/awaymission/BMPship/Aft)
@@ -2294,7 +2326,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel,
 /area/awaymission/BMPship/Aft)
@@ -2415,7 +2448,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/open/floor/plating/airless,
 /area/awaymission/BMPship/Midship)
@@ -2424,7 +2458,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/closed/wall/mineral/titanium/interior,
 /area/awaymission/BMPship/Midship)
@@ -2432,7 +2467,8 @@
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "4-8";
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel,
 /area/awaymission/BMPship/Aft)

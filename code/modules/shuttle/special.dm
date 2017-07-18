@@ -55,7 +55,9 @@
 
 /obj/structure/table/abductor/wabbajack
 	name = "wabbajack altar"
-	desc = "Whether you're sleeping or waking, it's going to be quite chaotic."
+	desc = "Whether you're sleeping or waking, it's going to be \
+		quite chaotic."
+	obj_integrity = 1000
 	max_integrity = 1000
 	verb_say = "chants"
 	var/obj/machinery/power/emitter/energycannon/magical/our_statue
@@ -102,7 +104,7 @@
 	// Existing sleepers
 	for(var/i in found)
 		var/mob/living/L = i
-		L.SetSleeping(200)
+		L.SetSleeping(10)
 
 	// Missing sleepers
 	for(var/i in sleepers - found)
@@ -149,7 +151,7 @@
 
 /mob/living/simple_animal/drone/snowflake/bardrone/Initialize()
 	. = ..()
-	access_card.access |= ACCESS_CENT_BAR
+	access_card.access |= GLOB.access_cent_bar
 
 /mob/living/simple_animal/hostile/alien/maid/barmaid
 	gold_core_spawnable = 0
@@ -167,7 +169,7 @@
 	access_card = new /obj/item/weapon/card/id(src)
 	var/datum/job/captain/C = new /datum/job/captain
 	access_card.access = C.get_access()
-	access_card.access |= ACCESS_CENT_BAR
+	access_card.access |= GLOB.access_cent_bar
 	access_card.flags |= NODROP
 
 /mob/living/simple_animal/hostile/alien/maid/barmaid/Destroy()
@@ -181,6 +183,7 @@
 /obj/structure/table/wood/bar
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	flags = NODECONSTRUCT
+	obj_integrity = 1000
 	max_integrity = 1000
 	var/boot_dir = 1
 
@@ -189,7 +192,7 @@
 		// No climbing on the bar please
 		var/mob/living/M = AM
 		var/throwtarget = get_edge_target_turf(src, boot_dir)
-		M.Knockdown(40)
+		M.Weaken(2)
 		M.throw_at(throwtarget, 5, 1,src)
 		to_chat(M, "<span class='notice'>No climbing on the bar please.</span>")
 	else
@@ -207,7 +210,7 @@
 			return TRUE
 
 	var/obj/item/weapon/card/id/ID = user.get_idcard()
-	if(ID && (ACCESS_CENT_BAR in ID.access))
+	if(ID && (GLOB.access_cent_bar in ID.access))
 		return TRUE
 
 //Luxury Shuttle Blockers
@@ -216,7 +219,7 @@
 	var/threshold = 500
 	var/static/list/approved_passengers = list()
 
-/obj/effect/forcefield/luxury_shuttle/CanPass(atom/movable/mover, turf/target)
+/obj/effect/forcefield/luxury_shuttle/CanPass(atom/movable/mover, turf/target, height=0)
 	if(mover in approved_passengers)
 		return 1
 

@@ -13,7 +13,7 @@
 	health = 2
 	harm_intent_damage = 1
 	friendly = "nudges"
-	density = FALSE
+	density = 0
 	movement_type = FLYING
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	ventcrawler = VENTCRAWLER_ALWAYS

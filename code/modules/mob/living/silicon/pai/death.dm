@@ -4,7 +4,8 @@
 	stat = DEAD
 	canmove = 0
 	card.removePersonality()
-	card.forceMove(loc)
+	if(holoform)
+		card.forceMove(loc)
 	update_sight()
 	clear_fullscreens()
 

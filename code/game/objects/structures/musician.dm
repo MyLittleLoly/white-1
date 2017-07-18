@@ -1,6 +1,4 @@
 
-#define MUSIC_MAXLINES 300
-#define MUSIC_MAXLINECHARS 50
 
 /datum/song
 	var/name = "Untitled"
@@ -17,11 +15,206 @@
 	var/instrumentExt = "ogg"		// the file extension
 	var/obj/instrumentObj = null	// the associated obj playing the sound
 
-/datum/song/New(dir, obj, ext = "ogg")
+	var/global/soundfiles = list(
+		"sound/guitar/Ab3.ogg" = 'sound/guitar/Ab3.ogg',
+		"sound/guitar/Ab4.ogg" = 'sound/guitar/Ab4.ogg',
+		"sound/guitar/Ab5.ogg" = 'sound/guitar/Ab5.ogg',
+		"sound/guitar/Ab6.ogg" = 'sound/guitar/Ab6.ogg',
+		"sound/guitar/An3.ogg" = 'sound/guitar/An3.ogg',
+		"sound/guitar/An4.ogg" = 'sound/guitar/An4.ogg',
+		"sound/guitar/An5.ogg" = 'sound/guitar/An5.ogg',
+		"sound/guitar/An6.ogg" = 'sound/guitar/An6.ogg',
+		"sound/guitar/Bb3.ogg" = 'sound/guitar/Bb3.ogg',
+		"sound/guitar/Bb4.ogg" = 'sound/guitar/Bb4.ogg',
+		"sound/guitar/Bb5.ogg" = 'sound/guitar/Bb5.ogg',
+		"sound/guitar/Bb6.ogg" = 'sound/guitar/Bb6.ogg',
+		"sound/guitar/Bn3.ogg" = 'sound/guitar/Bn3.ogg',
+		"sound/guitar/Bn4.ogg" = 'sound/guitar/Bn4.ogg',
+		"sound/guitar/Bn5.ogg" = 'sound/guitar/Bn5.ogg',
+		"sound/guitar/Bn6.ogg" = 'sound/guitar/Bn6.ogg',
+//		"sound/guitar/Cb4.ogg" = 'sound/guitar/Cb4.ogg',
+//		"sound/guitar/Cb5.ogg" = 'sound/guitar/Cb5.ogg',
+//		"sound/guitar/Cb6.ogg" = 'sound/guitar/Cb6.ogg',
+//		"sound/guitar/Cb7.ogg" = 'sound/guitar/Cb7.ogg',
+		"sound/guitar/Cn4.ogg" = 'sound/guitar/Cn4.ogg',
+		"sound/guitar/Cn5.ogg" = 'sound/guitar/Cn5.ogg',
+		"sound/guitar/Cn6.ogg" = 'sound/guitar/Cn6.ogg',
+		"sound/guitar/Db4.ogg" = 'sound/guitar/Db4.ogg',
+		"sound/guitar/Db5.ogg" = 'sound/guitar/Db5.ogg',
+		"sound/guitar/Db6.ogg" = 'sound/guitar/Db6.ogg',
+		"sound/guitar/Dn4.ogg" = 'sound/guitar/Dn4.ogg',
+		"sound/guitar/Dn5.ogg" = 'sound/guitar/Dn5.ogg',
+		"sound/guitar/Dn6.ogg" = 'sound/guitar/Dn6.ogg',
+		"sound/guitar/Eb4.ogg" = 'sound/guitar/Eb4.ogg',
+		"sound/guitar/Eb5.ogg" = 'sound/guitar/Eb5.ogg',
+		"sound/guitar/Eb6.ogg" = 'sound/guitar/Eb6.ogg',
+		"sound/guitar/En3.ogg" = 'sound/guitar/En3.ogg',
+		"sound/guitar/En4.ogg" = 'sound/guitar/En4.ogg',
+		"sound/guitar/En5.ogg" = 'sound/guitar/En5.ogg',
+		"sound/guitar/En6.ogg" = 'sound/guitar/En6.ogg',
+//		"sound/guitar/Fb3.ogg" = 'sound/guitar/Fb3.ogg',
+	//	"sound/guitar/Fb4.ogg" = 'sound/guitar/Fb4.ogg',
+	//	"sound/guitar/Fb5.ogg" = 'sound/guitar/Fb5.ogg',
+	//	"sound/guitar/Fb6.ogg" = 'sound/guitar/Fb6.ogg',
+		"sound/guitar/Fn3.ogg" = 'sound/guitar/Fn3.ogg',
+		"sound/guitar/Fn4.ogg" = 'sound/guitar/Fn4.ogg',
+		"sound/guitar/Fn5.ogg" = 'sound/guitar/Fn5.ogg',
+		"sound/guitar/Fn6.ogg" = 'sound/guitar/Fn6.ogg',
+		"sound/guitar/Gb3.ogg" = 'sound/guitar/Gb3.ogg',
+		"sound/guitar/Gb4.ogg" = 'sound/guitar/Gb4.ogg',
+		"sound/guitar/Gb5.ogg" = 'sound/guitar/Gb5.ogg',
+		"sound/guitar/Gb6.ogg" = 'sound/guitar/Gb6.ogg',
+		"sound/guitar/Gn3.ogg" = 'sound/guitar/Gn3.ogg',
+		"sound/guitar/Gn4.ogg" = 'sound/guitar/Gn4.ogg',
+		"sound/guitar/Gn5.ogg" = 'sound/guitar/Gn5.ogg',
+		"sound/guitar/Gn6.ogg" = 'sound/guitar/Gn6.ogg',
+		"sound/piano/Ab1.ogg" = 'sound/piano/Ab1.ogg',
+		"sound/piano/Ab2.ogg" = 'sound/piano/Ab2.ogg',
+		"sound/piano/Ab3.ogg" = 'sound/piano/Ab3.ogg',
+		"sound/piano/Ab4.ogg" = 'sound/piano/Ab4.ogg',
+		"sound/piano/Ab5.ogg" = 'sound/piano/Ab5.ogg',
+		"sound/piano/Ab6.ogg" = 'sound/piano/Ab6.ogg',
+		"sound/piano/Ab7.ogg" = 'sound/piano/Ab7.ogg',
+		"sound/piano/Ab8.ogg" = 'sound/piano/Ab8.ogg',
+		"sound/piano/An1.ogg" = 'sound/piano/An1.ogg',
+		"sound/piano/An2.ogg" = 'sound/piano/An2.ogg',
+		"sound/piano/An3.ogg" = 'sound/piano/An3.ogg',
+		"sound/piano/An4.ogg" = 'sound/piano/An4.ogg',
+		"sound/piano/An5.ogg" = 'sound/piano/An5.ogg',
+		"sound/piano/An6.ogg" = 'sound/piano/An6.ogg',
+		"sound/piano/An7.ogg" = 'sound/piano/An7.ogg',
+		"sound/piano/An8.ogg" = 'sound/piano/An8.ogg',
+		"sound/piano/Bb1.ogg" = 'sound/piano/Bb1.ogg',
+		"sound/piano/Bb2.ogg" = 'sound/piano/Bb2.ogg',
+		"sound/piano/Bb3.ogg" = 'sound/piano/Bb3.ogg',
+		"sound/piano/Bb4.ogg" = 'sound/piano/Bb4.ogg',
+		"sound/piano/Bb5.ogg" = 'sound/piano/Bb5.ogg',
+		"sound/piano/Bb6.ogg" = 'sound/piano/Bb6.ogg',
+		"sound/piano/Bb7.ogg" = 'sound/piano/Bb7.ogg',
+		"sound/piano/Bb8.ogg" = 'sound/piano/Bb8.ogg',
+		"sound/piano/Bn1.ogg" = 'sound/piano/Bn1.ogg',
+		"sound/piano/Bn2.ogg" = 'sound/piano/Bn2.ogg',
+		"sound/piano/Bn3.ogg" = 'sound/piano/Bn3.ogg',
+		"sound/piano/Bn4.ogg" = 'sound/piano/Bn4.ogg',
+		"sound/piano/Bn5.ogg" = 'sound/piano/Bn5.ogg',
+		"sound/piano/Bn6.ogg" = 'sound/piano/Bn6.ogg',
+		"sound/piano/Bn7.ogg" = 'sound/piano/Bn7.ogg',
+		"sound/piano/Bn8.ogg" = 'sound/piano/Bn8.ogg',
+		"sound/piano/Cn1.ogg" = 'sound/piano/Cn1.ogg',
+		"sound/piano/Cn2.ogg" = 'sound/piano/Cn2.ogg',
+		"sound/piano/Cn3.ogg" = 'sound/piano/Cn3.ogg',
+		"sound/piano/Cn4.ogg" = 'sound/piano/Cn4.ogg',
+		"sound/piano/Cn5.ogg" = 'sound/piano/Cn5.ogg',
+		"sound/piano/Cn6.ogg" = 'sound/piano/Cn6.ogg',
+		"sound/piano/Cn7.ogg" = 'sound/piano/Cn7.ogg',
+		"sound/piano/Cn8.ogg" = 'sound/piano/Cn8.ogg',
+		"sound/piano/Cn9.ogg" = 'sound/piano/Cn9.ogg',
+		"sound/piano/Db1.ogg" = 'sound/piano/Db1.ogg',
+		"sound/piano/Db2.ogg" = 'sound/piano/Db2.ogg',
+		"sound/piano/Db3.ogg" = 'sound/piano/Db3.ogg',
+		"sound/piano/Db4.ogg" = 'sound/piano/Db4.ogg',
+		"sound/piano/Db5.ogg" = 'sound/piano/Db5.ogg',
+		"sound/piano/Db6.ogg" = 'sound/piano/Db6.ogg',
+		"sound/piano/Db7.ogg" = 'sound/piano/Db7.ogg',
+		"sound/piano/Db8.ogg" = 'sound/piano/Db8.ogg',
+		"sound/piano/Dn1.ogg" = 'sound/piano/Dn1.ogg',
+		"sound/piano/Dn2.ogg" = 'sound/piano/Dn2.ogg',
+		"sound/piano/Dn3.ogg" = 'sound/piano/Dn3.ogg',
+		"sound/piano/Dn4.ogg" = 'sound/piano/Dn4.ogg',
+		"sound/piano/Dn5.ogg" = 'sound/piano/Dn5.ogg',
+		"sound/piano/Dn6.ogg" = 'sound/piano/Dn6.ogg',
+		"sound/piano/Dn7.ogg" = 'sound/piano/Dn7.ogg',
+		"sound/piano/Dn8.ogg" = 'sound/piano/Dn8.ogg',
+		"sound/piano/Eb1.ogg" = 'sound/piano/Eb1.ogg',
+		"sound/piano/Eb2.ogg" = 'sound/piano/Eb2.ogg',
+		"sound/piano/Eb3.ogg" = 'sound/piano/Eb3.ogg',
+		"sound/piano/Eb4.ogg" = 'sound/piano/Eb4.ogg',
+		"sound/piano/Eb5.ogg" = 'sound/piano/Eb5.ogg',
+		"sound/piano/Eb6.ogg" = 'sound/piano/Eb6.ogg',
+		"sound/piano/Eb7.ogg" = 'sound/piano/Eb7.ogg',
+		"sound/piano/Eb8.ogg" = 'sound/piano/Eb8.ogg',
+		"sound/piano/En1.ogg" = 'sound/piano/En1.ogg',
+		"sound/piano/En2.ogg" = 'sound/piano/En2.ogg',
+		"sound/piano/En3.ogg" = 'sound/piano/En3.ogg',
+		"sound/piano/En4.ogg" = 'sound/piano/En4.ogg',
+		"sound/piano/En5.ogg" = 'sound/piano/En5.ogg',
+		"sound/piano/En6.ogg" = 'sound/piano/En6.ogg',
+		"sound/piano/En7.ogg" = 'sound/piano/En7.ogg',
+		"sound/piano/En8.ogg" = 'sound/piano/En8.ogg',
+		"sound/piano/Fn1.ogg" = 'sound/piano/Fn1.ogg',
+		"sound/piano/Fn2.ogg" = 'sound/piano/Fn2.ogg',
+		"sound/piano/Fn3.ogg" = 'sound/piano/Fn3.ogg',
+		"sound/piano/Fn4.ogg" = 'sound/piano/Fn4.ogg',
+		"sound/piano/Fn5.ogg" = 'sound/piano/Fn5.ogg',
+		"sound/piano/Fn6.ogg" = 'sound/piano/Fn6.ogg',
+		"sound/piano/Fn7.ogg" = 'sound/piano/Fn7.ogg',
+		"sound/piano/Fn8.ogg" = 'sound/piano/Fn8.ogg',
+		"sound/piano/Gb1.ogg" = 'sound/piano/Gb1.ogg',
+		"sound/piano/Gb2.ogg" = 'sound/piano/Gb2.ogg',
+		"sound/piano/Gb3.ogg" = 'sound/piano/Gb3.ogg',
+		"sound/piano/Gb4.ogg" = 'sound/piano/Gb4.ogg',
+		"sound/piano/Gb5.ogg" = 'sound/piano/Gb5.ogg',
+		"sound/piano/Gb6.ogg" = 'sound/piano/Gb6.ogg',
+		"sound/piano/Gb7.ogg" = 'sound/piano/Gb7.ogg',
+		"sound/piano/Gb8.ogg" = 'sound/piano/Gb8.ogg',
+		"sound/piano/Gn1.ogg" = 'sound/piano/Gn1.ogg',
+		"sound/piano/Gn2.ogg" = 'sound/piano/Gn2.ogg',
+		"sound/piano/Gn3.ogg" = 'sound/piano/Gn3.ogg',
+		"sound/piano/Gn4.ogg" = 'sound/piano/Gn4.ogg',
+		"sound/piano/Gn5.ogg" = 'sound/piano/Gn5.ogg',
+		"sound/piano/Gn6.ogg" = 'sound/piano/Gn6.ogg',
+		"sound/piano/Gn7.ogg" = 'sound/piano/Gn7.ogg',
+		"sound/piano/Gn8.ogg" = 'sound/piano/Gn8.ogg',
+		"sound/violin/Ab3.ogg" = 'sound/violin/Ab3.ogg',
+		"sound/violin/Ab4.ogg" = 'sound/violin/Ab4.ogg',
+		"sound/violin/Ab5.ogg" = 'sound/violin/Ab5.ogg',
+		"sound/violin/Ab6.ogg" = 'sound/violin/Ab6.ogg',
+		"sound/violin/An3.ogg" = 'sound/violin/An3.ogg',
+		"sound/violin/An4.ogg" = 'sound/violin/An4.ogg',
+		"sound/violin/An5.ogg" = 'sound/violin/An5.ogg',
+		"sound/violin/An6.ogg" = 'sound/violin/An6.ogg',
+		"sound/violin/Bb3.ogg" = 'sound/violin/Bb3.ogg',
+		"sound/violin/Bb4.ogg" = 'sound/violin/Bb4.ogg',
+		"sound/violin/Bb5.ogg" = 'sound/violin/Bb5.ogg',
+		"sound/violin/Bb6.ogg" = 'sound/violin/Bb6.ogg',
+		"sound/violin/Bn3.ogg" = 'sound/violin/Bn3.ogg',
+		"sound/violin/Bn4.ogg" = 'sound/violin/Bn4.ogg',
+		"sound/violin/Bn5.ogg" = 'sound/violin/Bn5.ogg',
+		"sound/violin/Bn6.ogg" = 'sound/violin/Bn6.ogg',
+		"sound/violin/Cn4.ogg" = 'sound/violin/Cn4.ogg',
+		"sound/violin/Cn5.ogg" = 'sound/violin/Cn5.ogg',
+		"sound/violin/Cn6.ogg" = 'sound/violin/Cn6.ogg',
+		"sound/violin/Cn7.ogg" = 'sound/violin/Cn7.ogg',
+		"sound/violin/Db4.ogg" = 'sound/violin/Db4.ogg',
+		"sound/violin/Db5.ogg" = 'sound/violin/Db5.ogg',
+		"sound/violin/Db6.ogg" = 'sound/violin/Db6.ogg',
+		"sound/violin/Db7.ogg" = 'sound/violin/Db7.ogg',
+		"sound/violin/Dn4.ogg" = 'sound/violin/Dn4.ogg',
+		"sound/violin/Dn5.ogg" = 'sound/violin/Dn5.ogg',
+		"sound/violin/Dn6.ogg" = 'sound/violin/Dn6.ogg',
+		"sound/violin/Dn7.ogg" = 'sound/violin/Dn7.ogg',
+		"sound/violin/Eb4.ogg" = 'sound/violin/Eb4.ogg',
+		"sound/violin/Eb5.ogg" = 'sound/violin/Eb5.ogg',
+		"sound/violin/Eb6.ogg" = 'sound/violin/Eb6.ogg',
+		"sound/violin/En4.ogg" = 'sound/violin/En4.ogg',
+		"sound/violin/En5.ogg" = 'sound/violin/En5.ogg',
+		"sound/violin/En6.ogg" = 'sound/violin/En6.ogg',
+		"sound/violin/Fn4.ogg" = 'sound/violin/Fn4.ogg',
+		"sound/violin/Fn5.ogg" = 'sound/violin/Fn5.ogg',
+		"sound/violin/Fn6.ogg" = 'sound/violin/Fn6.ogg',
+		"sound/violin/Gb4.ogg" = 'sound/violin/Gb4.ogg',
+		"sound/violin/Gb5.ogg" = 'sound/violin/Gb5.ogg',
+		"sound/violin/Gb6.ogg" = 'sound/violin/Gb6.ogg',
+		"sound/violin/Gn3.ogg" = 'sound/violin/Gn3.ogg',
+		"sound/violin/Gn4.ogg" = 'sound/violin/Gn4.ogg',
+		"sound/violin/Gn5.ogg" = 'sound/violin/Gn5.ogg',
+		"sound/violin/Gn6.ogg" = 'sound/violin/Gn6.ogg'
+		)
+
+/datum/song/New(dir, obj)
 	tempo = sanitize_tempo(tempo)
 	instrumentDir = dir
 	instrumentObj = obj
-	instrumentExt = ext
 
 /datum/song/Destroy()
 	instrumentObj = null
@@ -54,10 +247,9 @@
 		return
 
 	// now generate name
-	var/soundfile = "sound/instruments/[instrumentDir]/[ascii2text(note+64)][acc][oct].[instrumentExt]"
-	soundfile = file(soundfile)
+	var/soundfile = soundfiles["sound/[instrumentDir]/[ascii2text(note+64)][acc][oct].[instrumentExt]"]
 	// make sure the note exists
-	if(!fexists(soundfile))
+	if(!soundfile)
 		return
 	// and play
 	var/turf/source = get_turf(instrumentObj)
@@ -72,10 +264,10 @@
 /datum/song/proc/shouldStopPlaying(mob/user)
 	if(instrumentObj)
 		if(!user.canUseTopic(instrumentObj))
-			return TRUE
+			return 1
 		return !instrumentObj.anchored		// add special cases to stop in subclasses
 	else
-		return TRUE
+		return 1
 
 /datum/song/proc/playsong(mob/user)
 	while(repeat >= 0)
@@ -93,9 +285,9 @@
 				for(var/note in splittext(notes[1], "-"))
 					//to_chat(world, "note: [note]")
 					if(!playing || shouldStopPlaying(user))//If the instrument is playing, or special case
-						playing = FALSE
+						playing = 0
 						return
-					if(!lentext(note))
+					if(lentext(note) == 0)
 						continue
 					//to_chat(world, "Parse: [copytext(note,1,2)]")
 					var/cur_note = text2ascii(note) - 96
@@ -125,7 +317,7 @@
 				else
 					sleep(tempo)
 		repeat--
-	playing = FALSE
+	playing = 0
 	repeat = 0
 	updateDialog(user)
 
@@ -174,8 +366,8 @@
 					defined by tempo / x: <i>C,G/2,E/4</i><br>
 					Combined, an example is: <i>E-E4/4,F#/2,G#/8,B/8,E3-E4/4</i>
 					<br>
-					Lines may be up to [MUSIC_MAXLINECHARS] characters.<br>
-					A song may only contain up to [MUSIC_MAXLINES] lines.<br>
+					Lines may be up to 50 characters.<br>
+					A song may only contain up to 50 lines.<br>
 					"}
 		else
 			dat += "<B><A href='?src=\ref[src];help=2'>Show Help</A></B><BR>"
@@ -195,12 +387,12 @@
 			lines.Cut(1,2)
 		else
 			tempo = sanitize_tempo(5) // default 120 BPM
-		if(lines.len > MUSIC_MAXLINES)
+		if(lines.len > 50)
 			to_chat(usr, "Too many lines!")
-			lines.Cut(MUSIC_MAXLINES + 1)
+			lines.Cut(51)
 		var/linenum = 1
 		for(var/l in lines)
-			if(lentext(l) > MUSIC_MAXLINECHARS)
+			if(lentext(l) > 50)
 				to_chat(usr, "Line [linenum] too long!")
 				lines.Remove(l)
 			else
@@ -223,15 +415,15 @@
 	else if(href_list["import"])
 		var/t = ""
 		do
-			t = html_encode(input(usr, "Please paste the entire song, formatted:", text("[]", name), t)  as message)
+			t = rhtml_encode(input(usr, "Please paste the entire song, formatted:", text("[]", name), t)  as message)
 			if(!in_range(instrumentObj, usr))
 				return
 
-			if(lentext(t) >= MUSIC_MAXLINES * MUSIC_MAXLINECHARS)
+			if(lentext(t) >= 3072)
 				var/cont = input(usr, "Your message is too long! Would you like to continue editing it?", "", "yes") in list("yes", "no")
 				if(cont == "no")
 					break
-		while(lentext(t) > MUSIC_MAXLINES * MUSIC_MAXLINECHARS)
+		while(lentext(t) > 3072)
 		ParseSong(t)
 
 	else if(href_list["help"])
@@ -253,18 +445,18 @@
 		tempo = sanitize_tempo(tempo + text2num(href_list["tempo"]))
 
 	else if(href_list["play"])
-		playing = TRUE
+		playing = 1
 		spawn()
 			playsong(usr)
 
 	else if(href_list["newline"])
-		var/newline = html_encode(input("Enter your line: ", instrumentObj.name) as text|null)
+		var/newline = rhtml_encode(input("Enter your line: ", instrumentObj.name) as text|null)
 		if(!newline || !in_range(instrumentObj, usr))
 			return
-		if(lines.len > MUSIC_MAXLINES)
+		if(lines.len > 50)
 			return
-		if(lentext(newline) > MUSIC_MAXLINECHARS)
-			newline = copytext(newline, 1, MUSIC_MAXLINECHARS)
+		if(lentext(newline) > 50)
+			newline = copytext(newline, 1, 50)
 		lines.Add(newline)
 
 	else if(href_list["deleteline"])
@@ -275,17 +467,17 @@
 
 	else if(href_list["modifyline"])
 		var/num = round(text2num(href_list["modifyline"]),1)
-		var/content = html_encode(input("Enter your line: ", instrumentObj.name, lines[num]) as text|null)
+		var/content = rhtml_encode(input("Enter your line: ", instrumentObj.name, lines[num]) as text|null)
 		if(!content || !in_range(instrumentObj, usr))
 			return
-		if(lentext(content) > MUSIC_MAXLINECHARS)
-			content = copytext(content, 1, MUSIC_MAXLINECHARS)
+		if(lentext(content) > 50)
+			content = copytext(content, 1, 50)
 		if(num > lines.len || num < 1)
 			return
 		lines[num] = content
 
 	else if(href_list["stop"])
-		playing = FALSE
+		playing = 0
 
 	updateDialog(usr)
 	return
@@ -304,7 +496,7 @@
 	if(instrumentObj)
 		return !isliving(instrumentObj.loc)
 	else
-		return TRUE
+		return 1
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -314,8 +506,8 @@
 	name = "space minimoog"
 	icon = 'icons/obj/musician.dmi'
 	icon_state = "minimoog"
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	var/datum/song/song
 
 
@@ -361,22 +553,22 @@
 /obj/structure/piano/attackby(obj/item/O, mob/user, params)
 	if (istype(O, /obj/item/weapon/wrench))
 		if (!anchored && !isinspace())
-			playsound(src, O.usesound, 50, 1)
+			playsound(src.loc, O.usesound, 50, 1)
 			to_chat(user, "<span class='notice'> You begin to tighten \the [src] to the floor...</span>")
 			if (do_after(user, 20*O.toolspeed, target = src))
 				user.visible_message( \
 					"[user] tightens \the [src]'s casters.", \
 					"<span class='notice'>You tighten \the [src]'s casters. Now it can be played again.</span>", \
 					"<span class='italics'>You hear ratchet.</span>")
-				anchored = TRUE
+				anchored = 1
 		else if(anchored)
-			playsound(src, O.usesound, 50, 1)
+			playsound(src.loc, O.usesound, 50, 1)
 			to_chat(user, "<span class='notice'> You begin to loosen \the [src]'s casters...</span>")
 			if (do_after(user, 40*O.toolspeed, target = src))
 				user.visible_message( \
 					"[user] loosens \the [src]'s casters.", \
 					"<span class='notice'>You loosen \the [src]. Now it can be pulled somewhere else.</span>", \
 					"<span class='italics'>You hear ratchet.</span>")
-				anchored = FALSE
+				anchored = 0
 	else
 		return ..()

@@ -104,10 +104,6 @@
 			S.cost = 1
 			S.source = get_or_create_estorage(/datum/robot_energy_storage/wire)
 
-		else if(istype(S, /obj/item/stack/marker_beacon))
-			S.cost = 1
-			S.source = get_or_create_estorage(/datum/robot_energy_storage/beacon)
-
 		if(S && S.source)
 			S.materials = list()
 			S.is_cyborg = 1
@@ -149,8 +145,8 @@
 			F.update_icon()
 		else if(istype(I, /obj/item/weapon/melee/baton))
 			var/obj/item/weapon/melee/baton/B = I
-			if(B.cell)
-				B.cell.charge = B.cell.maxcharge
+			if(B.bcell)
+				B.bcell.charge = B.bcell.maxcharge
 		else if(istype(I, /obj/item/weapon/gun/energy))
 			var/obj/item/weapon/gun/energy/EG = I
 			if(!EG.chambered)
@@ -216,7 +212,7 @@
 	R.anchored = TRUE
 	sleep(2)
 	for(var/i in 1 to 4)
-		playsound(R, pick('sound/items/drill_use.ogg', 'sound/items/jaws_cut.ogg', 'sound/items/jaws_pry.ogg', 'sound/items/welder.ogg', 'sound/items/ratchet.ogg'), 80, 1, -1)
+		playsound(R, pick('sound/items/drill_use.ogg', 'sound/items/jaws_cut.ogg', 'sound/items/jaws_pry.ogg', 'sound/items/Welder.ogg', 'sound/items/Ratchet.ogg'), 80, 1, -1)
 		sleep(12)
 	if(!prev_lockcharge)
 		R.SetLockdown(0)
@@ -246,11 +242,11 @@
 		/obj/item/weapon/restraints/handcuffs/cable/zipties/cyborg,
 		/obj/item/weapon/soap/nanotrasen,
 		/obj/item/borg/cyborghug)
-	emag_modules = list(/obj/item/weapon/melee/transforming/energy/sword/cyborg)
+	emag_modules = list(/obj/item/weapon/melee/energy/sword/cyborg)
 	ratvar_modules = list(
 		/obj/item/clockwork/slab/cyborg,
 		/obj/item/clockwork/ratvarian_spear/cyborg,
-		/obj/item/clockwork/replica_fabricator/cyborg)
+		/obj/item/clockwork/clockwork_proselytizer/cyborg)
 	moduleselect_icon = "standard"
 	feedback_key = "cyborg_standard"
 	hat_offset = -3
@@ -314,7 +310,7 @@
 	emag_modules = list(/obj/item/borg/stun)
 	ratvar_modules = list(
 		/obj/item/clockwork/slab/cyborg/engineer,
-		/obj/item/clockwork/replica_fabricator/cyborg)
+		/obj/item/clockwork/clockwork_proselytizer/cyborg)
 	cyborg_base_icon = "engineer"
 	moduleselect_icon = "engineer"
 	feedback_key = "cyborg_engineering"
@@ -347,9 +343,9 @@
 	..()
 	var/obj/item/weapon/gun/energy/e_gun/advtaser/cyborg/T = locate(/obj/item/weapon/gun/energy/e_gun/advtaser/cyborg) in basic_modules
 	if(T)
-		if(T.cell.charge < T.cell.maxcharge)
+		if(T.power_supply.charge < T.power_supply.maxcharge)
 			var/obj/item/ammo_casing/energy/S = T.ammo_type[T.select]
-			T.cell.give(S.e_cost * coeff)
+			T.power_supply.give(S.e_cost * coeff)
 			T.update_icon()
 		else
 			T.charge_tick = 0
@@ -384,9 +380,6 @@
 	name = "Janitor"
 	basic_modules = list(
 		/obj/item/device/assembly/flash/cyborg,
-		/obj/item/weapon/screwdriver/cyborg,
-		/obj/item/weapon/crowbar/cyborg,
-		/obj/item/stack/tile/plasteel/cyborg,
 		/obj/item/weapon/soap/nanotrasen,
 		/obj/item/weapon/storage/bag/trash/cyborg,
 		/obj/item/weapon/mop/cyborg,
@@ -396,7 +389,7 @@
 	emag_modules = list(/obj/item/weapon/reagent_containers/spray/cyborg_lube)
 	ratvar_modules = list(
 		/obj/item/clockwork/slab/cyborg/janitor,
-		/obj/item/clockwork/replica_fabricator/cyborg)
+		/obj/item/clockwork/clockwork_proselytizer/cyborg)
 	cyborg_base_icon = "janitor"
 	moduleselect_icon = "janitor"
 	feedback_key = "cyborg_janitor"
@@ -494,8 +487,7 @@
 		/obj/item/weapon/storage/bag/sheetsnatcher/borg,
 		/obj/item/device/t_scanner/adv_mining_scanner,
 		/obj/item/weapon/gun/energy/kinetic_accelerator/cyborg,
-		/obj/item/device/gps/cyborg,
-		/obj/item/stack/marker_beacon)
+		/obj/item/device/gps/cyborg)
 	emag_modules = list(/obj/item/borg/stun)
 	ratvar_modules = list(
 		/obj/item/clockwork/slab/cyborg/miner,
@@ -510,7 +502,7 @@
 	name = "Syndicate Assault"
 	basic_modules = list(
 		/obj/item/device/assembly/flash/cyborg,
-		/obj/item/weapon/melee/transforming/energy/sword/cyborg,
+		/obj/item/weapon/melee/energy/sword/cyborg,
 		/obj/item/weapon/gun/energy/printer,
 		/obj/item/weapon/gun/ballistic/revolver/grenadelauncher/cyborg,
 		/obj/item/weapon/card/emag,
@@ -537,7 +529,7 @@
 		/obj/item/weapon/hemostat,
 		/obj/item/weapon/cautery,
 		/obj/item/weapon/scalpel,
-		/obj/item/weapon/melee/transforming/energy/sword/cyborg/saw,
+		/obj/item/weapon/melee/energy/sword/cyborg/saw,
 		/obj/item/roller/robo,
 		/obj/item/weapon/card/emag,
 		/obj/item/weapon/crowbar/cyborg,
@@ -591,8 +583,3 @@
 	max_energy = 2500
 	recharge_rate = 250
 	name = "Medical Synthesizer"
-
-/datum/robot_energy_storage/beacon
-	max_energy = 30
-	recharge_rate = 1
-	name = "Marker Beacon Storage"

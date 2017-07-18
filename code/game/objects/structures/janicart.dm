@@ -3,8 +3,8 @@
 	desc = "This is the alpha and omega of sanitation."
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "cart"
-	anchored = FALSE
-	density = TRUE
+	anchored = 0
+	density = 1
 	container_type = OPENCONTAINER
 	//copypaste sorry
 	var/amount_per_transfer_from_this = 5 //shit I dunno, adding this so syringes stop runtime erroring. --NeoFite

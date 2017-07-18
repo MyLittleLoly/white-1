@@ -1,7 +1,7 @@
 //temporary visual effects
 /obj/effect/temp_visual
 	icon_state = "nothing"
-	anchored = TRUE
+	anchored = 1
 	layer = ABOVE_MOB_LAYER
 	mouse_opacity = 0
 	var/duration = 10 //in deciseconds
@@ -11,7 +11,7 @@
 /obj/effect/temp_visual/Initialize()
 	. = ..()
 	if(randomdir)
-		setDir(pick(GLOB.cardinals))
+		setDir(pick(GLOB.cardinal))
 
 	timerid = QDEL_IN(src, duration)
 

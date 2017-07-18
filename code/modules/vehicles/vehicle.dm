@@ -4,10 +4,11 @@
 	desc = "A basic vehicle, vroom"
 	icon = 'icons/obj/vehicles.dmi'
 	icon_state = "fuckyou"
-	density = TRUE
-	anchored = FALSE
+	density = 1
+	anchored = 0
 	can_buckle = 1
 	buckle_lying = 0
+	obj_integrity = 300
 	max_integrity = 300
 	armor = list(melee = 30, bullet = 30, laser = 30, energy = 0, bomb = 30, bio = 0, rad = 0, fire = 60, acid = 60)
 	var/auto_door_open = TRUE
@@ -63,12 +64,12 @@
 		riding_datum.handle_vehicle_offsets()
 
 
-/obj/vehicle/Collide(atom/movable/M)
+/obj/vehicle/Bump(atom/movable/M)
 	. = ..()
 	if(auto_door_open)
 		if(istype(M, /obj/machinery/door) && has_buckled_mobs())
 			for(var/m in buckled_mobs)
-				M.CollidedWith(m)
+				M.Bumped(m)
 
 
 /obj/vehicle/Process_Spacemove(direction)

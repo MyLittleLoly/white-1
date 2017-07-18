@@ -21,10 +21,10 @@
 	var/datum/computer/file/embedded_program/program
 
 	name = "embedded controller"
-	density = FALSE
-	anchored = TRUE
+	density = 0
+	anchored = 1
 
-	var/on = TRUE
+	var/on = 1
 
 /obj/machinery/embedded_controller/interact(mob/user)
 	user.set_machine(src)

@@ -44,9 +44,9 @@
 
 //////////////////////////////Capturing////////////////////////////////////////////////////////
 
-/obj/item/device/soulstone/attack(mob/living/carbon/human/M, mob/living/user)
+/obj/item/device/soulstone/attack(mob/living/carbon/human/M, mob/user)
 	if(!iscultist(user) && !iswizard(user) && !usability)
-		user.Unconscious(100)
+		user.Paralyse(5)
 		to_chat(user, "<span class='userdanger'>Your body is wracked with debilitating pain!</span>")
 		return
 	if(spent)
@@ -63,11 +63,11 @@
 
 ///////////////////Options for using captured souls///////////////////////////////////////
 
-/obj/item/device/soulstone/attack_self(mob/living/user)
+/obj/item/device/soulstone/attack_self(mob/user)
 	if(!in_range(src, user))
 		return
 	if(!iscultist(user) && !iswizard(user) && !usability)
-		user.Unconscious(100)
+		user.Paralyse(5)
 		to_chat(user, "<span class='userdanger'>Your body is wracked with debilitating pain!</span>")
 		return
 	release_shades(user)

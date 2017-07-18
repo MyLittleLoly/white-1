@@ -17,18 +17,19 @@
 	desc = "A square piece of metal standing on four metal legs. It can not move."
 	icon = 'icons/obj/smooth_structures/table.dmi'
 	icon_state = "table"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	layer = TABLE_LAYER
 	climbable = TRUE
 	pass_flags = LETPASSTHROW //You can throw objects over this, despite it's density.")
 	var/frame = /obj/structure/table_frame
 	var/framestack = /obj/item/stack/rods
 	var/buildstack = /obj/item/stack/sheet/metal
-	var/busy = FALSE
+	var/busy = 0
 	var/buildstackamount = 1
 	var/framestackamount = 2
 	var/deconstruction_ready = 1
+	obj_integrity = 100
 	max_integrity = 100
 	integrity_failure = 30
 	smooth = SMOOTH_TRUE
@@ -69,7 +70,9 @@
 	else
 		..()
 
-/obj/structure/table/CanPass(atom/movable/mover, turf/target)
+/obj/structure/table/CanPass(atom/movable/mover, turf/target, height=0)
+	if(height==0)
+		return 1
 	if(istype(mover) && mover.checkpass(PASSTABLE))
 		return 1
 	if(mover.throwing)
@@ -87,7 +90,7 @@
 
 /obj/structure/table/proc/tablepush(mob/living/user, mob/living/pushed_mob)
 	pushed_mob.forceMove(src.loc)
-	pushed_mob.Knockdown(40)
+	pushed_mob.Weaken(2)
 	pushed_mob.visible_message("<span class='danger'>[user] pushes [pushed_mob] onto [src].</span>", \
 								"<span class='userdanger'>[user] pushes [pushed_mob] onto [src].</span>")
 	add_logs(user, pushed_mob, "pushed")
@@ -106,7 +109,7 @@
 			to_chat(user, "<span class='notice'>You start deconstructing [src]...</span>")
 			playsound(src.loc, I.usesound, 50, 1)
 			if(do_after(user, 40*I.toolspeed, target = src))
-				playsound(src.loc, 'sound/items/deconstruct.ogg', 50, 1)
+				playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 				deconstruct(TRUE, 1)
 			return
 
@@ -159,6 +162,7 @@
 	icon_state = "glass_table"
 	buildstack = /obj/item/stack/sheet/glass
 	canSmoothWith = null
+	obj_integrity = 70
 	max_integrity = 70
 	resistance_flags = ACID_PROOF
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 80, acid = 100)
@@ -191,10 +195,10 @@
 		check_break(M)
 
 /obj/structure/table/glass/proc/check_break(mob/living/M)
-	if(M.has_gravity() && M.mob_size > MOB_SIZE_SMALL && !(M.movement_type & FLYING))
+	if(M.has_gravity() && M.mob_size > MOB_SIZE_SMALL)
 		table_shatter(M)
 
-/obj/structure/table/glass/proc/table_shatter(mob/living/L)
+/obj/structure/table/glass/proc/table_shatter(mob/M)
 	visible_message("<span class='warning'>[src] breaks!</span>",
 		"<span class='danger'>You hear breaking glass.</span>")
 	var/turf/T = get_turf(src)
@@ -204,8 +208,8 @@
 		AM.forceMove(T)
 		debris -= AM
 		if(istype(AM, /obj/item/weapon/shard))
-			AM.throw_impact(L)
-	L.Knockdown(100)
+			AM.throw_impact(M)
+	M.Weaken(5)
 	qdel(src)
 
 /obj/structure/table/glass/deconstruct(disassembled = TRUE, wrench_disassembly = 0)
@@ -240,6 +244,7 @@
 	framestack = /obj/item/stack/sheet/mineral/wood
 	buildstack = /obj/item/stack/sheet/mineral/wood
 	resistance_flags = FLAMMABLE
+	obj_integrity = 70
 	max_integrity = 70
 	canSmoothWith = list(/obj/structure/table/wood,
 		/obj/structure/table/wood/poker,
@@ -266,19 +271,11 @@
 	frame = /obj/structure/table_frame
 	framestack = /obj/item/stack/rods
 	buildstack = /obj/item/stack/tile/carpet
-	canSmoothWith = list(/obj/structure/table/wood/fancy,/obj/structure/table/wood/fancy/black)
+	canSmoothWith = list(/obj/structure/table/wood/fancy)
 
 /obj/structure/table/wood/fancy/New()
 	icon = 'icons/obj/smooth_structures/fancy_table.dmi' //so that the tables place correctly in the map editor
 	..()
-
-/obj/structure/table/wood/fancy/black
-	icon_state = "fancy_table_black"
-	buildstack = /obj/item/stack/tile/carpet/black
-
-/obj/structure/table/wood/fancy/black/New()
-	..()
-	icon = 'icons/obj/smooth_structures/fancy_table_black.dmi'
 
 /*
  * Reinforced tables
@@ -291,6 +288,7 @@
 	deconstruction_ready = 0
 	buildstack = /obj/item/stack/sheet/plasteel
 	canSmoothWith = list(/obj/structure/table/reinforced, /obj/structure/table)
+	obj_integrity = 200
 	max_integrity = 200
 	integrity_failure = 50
 	armor = list(melee = 10, bullet = 30, laser = 30, energy = 100, bomb = 20, bio = 0, rad = 0, fire = 80, acid = 70)
@@ -367,7 +365,7 @@
 
 /obj/structure/table/optable/New()
 	..()
-	for(var/dir in GLOB.cardinals)
+	for(var/dir in GLOB.cardinal)
 		computer = locate(/obj/machinery/computer/operating, get_step(src, dir))
 		if(computer)
 			computer.table = src
@@ -400,12 +398,14 @@
 	desc = "Different from the Middle Ages version."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "rack"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	pass_flags = LETPASSTHROW //You can throw objects over this, despite it's density.
+	obj_integrity = 20
 	max_integrity = 20
 
-/obj/structure/rack/CanPass(atom/movable/mover, turf/target)
+/obj/structure/rack/CanPass(atom/movable/mover, turf/target, height=0)
+	if(height==0) return 1
 	if(src.density == 0) //Because broken racks -Agouri |TODO: SPRITE!|
 		return 1
 	if(istype(mover) && mover.checkpass(PASSTABLE))
@@ -443,7 +443,7 @@
 	attack_hand(user)
 
 /obj/structure/rack/attack_hand(mob/living/user)
-	if(user.IsKnockdown() || user.resting || user.lying || user.get_num_legs() < 2)
+	if(user.weakened || user.resting || user.lying || user.get_num_legs() < 2)
 		return
 	user.changeNext_move(CLICK_CD_MELEE)
 	user.do_attack_animation(src, ATTACK_EFFECT_KICK)
@@ -459,7 +459,7 @@
 			else
 				playsound(loc, 'sound/weapons/tap.ogg', 50, 1)
 		if(BURN)
-			playsound(loc, 'sound/items/welder.ogg', 40, 1)
+			playsound(loc, 'sound/items/Welder.ogg', 40, 1)
 
 /*
  * Rack destruction
@@ -467,7 +467,7 @@
 
 /obj/structure/rack/deconstruct(disassembled = TRUE)
 	if(!(flags&NODECONSTRUCT))
-		density = FALSE
+		density = 0
 		var/obj/item/weapon/rack_parts/newparts = new(loc)
 		transfer_fingerprints_to(newparts)
 	qdel(src)

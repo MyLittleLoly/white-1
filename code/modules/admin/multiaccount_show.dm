@@ -10,8 +10,8 @@
 /proc/showAccounts(var/mob/user, var/targetkey)
 	var/output = "<center><table border='1'> <caption>Совпадение по computerID</caption><tr> <th width='100px' >ckey</th><th width='100px'>firstseen</th><th width='100px'>lastseen</th><th width='100px'>ip</th><th width='100px'>computerid </th></tr>"
 
-	var/datum/DBQuery/query = dbcon.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]')")
-	query.warn_execute()
+	var/DBQuery/query = dbcon.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]')")
+	query.Execute()
 	while(query.NextRow())
 		output+="<tr><td>[query.item[1]]</td>"
 		output+="<td>[query.item[2]]</td>"
@@ -24,7 +24,7 @@
 	output += "<center><table border='1'> <caption>Совпадение по IP</caption><tr> <th width='100px' >ckey</th><th width='100px'>firstseen</th><th width='100px'>lastseen</th><th width='100px'>ip</th><th width='100px'>computerid </th></tr>"
 
 	query = dbcon.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[targetkey]'))")
-	query.warn_execute()
+	query.Execute()
 	while(query.NextRow())
 		output+="<tr><td>[query.item[1]]</td>"
 		output+="<td>[query.item[2]]</td>"
@@ -40,18 +40,19 @@
 	set name = "Check multiaccounts (All)"
 	set category = "Admin"
 
+	var/DBQuery/query
 	var/t1 = ""
 	var/output = "<B>Совпадение по IP</B><BR><BR>"
 
 	for (var/client/C in GLOB.clients)
 		t1 =""
-		var/datum/DBQuery/query_ip = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]'))")
-		query_ip.warn_execute()
+		query = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE ip IN (SELECT DISTINCT ip FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]'))")
+		query.Execute()
 		var/c = 0
 
-		while(query_ip.NextRow())
+		while(query.NextRow())
 			c++
-			t1 +="[c]: - [query_ip.item[1]]<BR>"
+			t1 +="[c]: - [query.item[1]]<BR>"
 		if (c > 1)
 			output+= "Ckey: [C.ckey] <A href='?_src_=holder;showmultiacc=[C.ckey]'>Show</A><BR>" + t1
 
@@ -59,12 +60,12 @@
 
 	for (var/client/C in GLOB.clients)
 		t1 =""
-		var/datum/DBQuery/query_cid = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]')")
-		query_cid.warn_execute()
+		query = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid IN (SELECT DISTINCT computerid FROM [format_table_name("player")] WHERE ckey LIKE '[C.ckey]')")
+		query.Execute()
 		var/c = 0
-		while(query_cid.NextRow())
+		while(query.NextRow())
 			c++
-			t1 +="[c]: [query_cid.item[1]]<BR>"
+			t1 +="[c]: [query.item[1]]<BR>"
 		if (c > 1)
 			output+= "Ckey: [C.ckey] <A href='?_src_=holder;showmultiacc=[C.ckey]'>Show</A><BR>" + t1
 

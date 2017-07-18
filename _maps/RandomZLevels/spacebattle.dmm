@@ -13,19 +13,22 @@
 	},
 /area/awaymission/spacebattle/syndicate2)
 "ad" = (
-/obj/structure/shuttle/engine/propulsion/right{
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_r";
 	dir = 1
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/syndicate2)
 "ae" = (
 /obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion";
 	dir = 1
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/syndicate2)
 "af" = (
-/obj/structure/shuttle/engine/propulsion/left{
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_l";
 	dir = 1
 	},
 /turf/open/space,
@@ -42,6 +45,7 @@
 /area/awaymission/spacebattle/syndicate2)
 "ai" = (
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 1
 	},
 /obj/structure/window/reinforced,
@@ -108,19 +112,22 @@
 	},
 /area/awaymission/spacebattle/syndicate3)
 "aw" = (
-/obj/structure/shuttle/engine/propulsion/right{
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_r";
 	dir = 1
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/syndicate3)
 "ax" = (
 /obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion";
 	dir = 1
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/syndicate3)
 "ay" = (
-/obj/structure/shuttle/engine/propulsion/left{
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_l";
 	dir = 1
 	},
 /turf/open/space,
@@ -142,6 +149,7 @@
 /area/awaymission/spacebattle/syndicate3)
 "aC" = (
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 1
 	},
 /obj/structure/window/reinforced,
@@ -213,19 +221,22 @@
 	},
 /area/awaymission/spacebattle/syndicate1)
 "aP" = (
-/obj/structure/shuttle/engine/propulsion/right{
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_r";
 	dir = 1
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/syndicate1)
 "aQ" = (
 /obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion";
 	dir = 1
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/syndicate1)
 "aR" = (
-/obj/structure/shuttle/engine/propulsion/left{
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_l";
 	dir = 1
 	},
 /turf/open/space,
@@ -246,6 +257,7 @@
 /area/awaymission/spacebattle/syndicate1)
 "aV" = (
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 1
 	},
 /obj/structure/window/reinforced,
@@ -254,6 +266,7 @@
 "aW" = (
 /obj/structure/window/reinforced,
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 1
 	},
 /obj/structure/window/reinforced{
@@ -264,6 +277,7 @@
 "aX" = (
 /obj/structure/window/reinforced,
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 1
 	},
 /obj/structure/window/reinforced{
@@ -384,7 +398,7 @@
 /area/awaymission/spacebattle/syndicate3)
 "bt" = (
 /obj/structure/table/reinforced,
-/obj/item/weapon/melee/transforming/energy/sword/saber/red,
+/obj/item/weapon/melee/energy/sword/saber/red,
 /turf/open/floor/mineral/plastitanium,
 /area/awaymission/spacebattle/syndicate1)
 "bu" = (
@@ -473,7 +487,8 @@
 	},
 /area/awaymission/spacebattle/cruiser)
 "bI" = (
-/obj/structure/shuttle/engine/propulsion/right{
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_r";
 	dir = 1
 	},
 /turf/open/space,
@@ -483,7 +498,8 @@
 /turf/open/floor/plating,
 /area/awaymission/spacebattle/cruiser)
 "bK" = (
-/obj/structure/shuttle/engine/propulsion/left{
+/obj/structure/shuttle/engine/propulsion{
+	icon_state = "propulsion_l";
 	dir = 1
 	},
 /turf/open/space,
@@ -501,6 +517,7 @@
 "bN" = (
 /obj/structure/window/reinforced,
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 1
 	},
 /obj/structure/window/reinforced{
@@ -514,6 +531,7 @@
 "bP" = (
 /obj/structure/window/reinforced,
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 1
 	},
 /obj/structure/window/reinforced{
@@ -556,13 +574,15 @@
 	},
 /area/awaymission/spacebattle/cruiser)
 "bX" = (
-/obj/structure/shuttle/engine/propulsion/burst/left{
-	dir = 8
+/obj/structure/shuttle/engine/propulsion{
+	dir = 8;
+	icon_state = "burst_l"
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/cruiser)
 "bY" = (
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 8
 	},
 /obj/structure/window/reinforced{
@@ -600,7 +620,8 @@
 /area/awaymission/spacebattle/cruiser)
 "cf" = (
 /obj/structure/shuttle/engine/propulsion{
-	dir = 8
+	dir = 8;
+	icon_state = "propulsion"
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/cruiser)
@@ -906,8 +927,9 @@
 /turf/open/floor/plating/airless,
 /area/awaymission/spacebattle/cruiser)
 "df" = (
-/obj/structure/shuttle/engine/propulsion/right{
-	dir = 8
+/obj/structure/shuttle/engine/propulsion{
+	dir = 8;
+	icon_state = "propulsion_r"
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/cruiser)
@@ -1109,6 +1131,7 @@
 /area/awaymission/spacebattle/cruiser)
 "dN" = (
 /obj/machinery/mech_bay_recharge_port{
+	tag = "icon-recharge_port";
 	icon_state = "recharge_port";
 	dir = 2
 	},
@@ -1479,7 +1502,7 @@
 /area/awaymission/spacebattle/cruiser)
 "eW" = (
 /obj/effect/mob_spawn/human/syndicatesoldier,
-/obj/item/weapon/melee/transforming/energy/sword/saber/red,
+/obj/item/weapon/melee/energy/sword/saber/red,
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/plasteel,
 /area/awaymission/spacebattle/cruiser)
@@ -1535,7 +1558,8 @@
 	dir = 2;
 	id = "spacebattlestorage";
 	name = "Secure Storage";
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel,
 /area/awaymission/spacebattle/cruiser)
@@ -1931,7 +1955,8 @@
 	dir = 2;
 	id = "spacebattlestorage";
 	name = "Secure Storage";
-	pixel_x = 24
+	pixel_x = 24;
+	pixel_y = 0
 	},
 /turf/open/floor/plating,
 /area/awaymission/spacebattle/cruiser)
@@ -2200,6 +2225,7 @@
 /area/awaymission/spacebattle/syndicate7)
 "hl" = (
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 4
 	},
 /obj/structure/window/reinforced{
@@ -2208,8 +2234,9 @@
 /turf/open/floor/plating/airless,
 /area/awaymission/spacebattle/syndicate7)
 "hm" = (
-/obj/structure/shuttle/engine/propulsion/right{
-	dir = 4
+/obj/structure/shuttle/engine/propulsion{
+	dir = 4;
+	icon_state = "propulsion_r"
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/syndicate7)
@@ -2257,8 +2284,9 @@
 /turf/open/floor/plating,
 /area/awaymission/spacebattle/syndicate7)
 "hv" = (
-/obj/structure/shuttle/engine/propulsion/left{
-	dir = 4
+/obj/structure/shuttle/engine/propulsion{
+	dir = 4;
+	icon_state = "propulsion_l"
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/syndicate7)
@@ -2509,7 +2537,9 @@
 "io" = (
 /obj/structure/sink{
 	dir = 4;
-	pixel_x = 11
+	icon_state = "sink";
+	pixel_x = 11;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/freezer,
 /area/awaymission/spacebattle/cruiser)
@@ -2551,8 +2581,9 @@
 	},
 /area/awaymission/spacebattle/cruiser)
 "iv" = (
-/obj/structure/shuttle/engine/propulsion/burst/right{
-	dir = 8
+/obj/structure/shuttle/engine/propulsion{
+	dir = 8;
+	icon_state = "burst_r"
 	},
 /turf/open/space,
 /area/awaymission/spacebattle/cruiser)
@@ -2821,7 +2852,9 @@
 /obj/machinery/button/door{
 	dir = 2;
 	id = "spacebattlearmory";
-	name = "Weapon Cache"
+	name = "Weapon Cache";
+	pixel_x = 0;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/blue/side{
 	dir = 1
@@ -2832,7 +2865,9 @@
 /obj/machinery/button/door{
 	dir = 2;
 	id = "spacebattlearmory2";
-	name = "Weapon Cache"
+	name = "Weapon Cache";
+	pixel_x = 0;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/blue/side{
 	dir = 1
@@ -2843,7 +2878,9 @@
 /obj/machinery/button/door{
 	dir = 2;
 	id = "spacebattlearmory1";
-	name = "Weapon Cache"
+	name = "Weapon Cache";
+	pixel_x = 0;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/blue/side{
 	dir = 1
@@ -3125,6 +3162,7 @@
 /area/awaymission/spacebattle/cruiser)
 "ks" = (
 /obj/machinery/mech_bay_recharge_port{
+	tag = "icon-recharge_port";
 	icon_state = "recharge_port";
 	dir = 2
 	},
@@ -3214,6 +3252,7 @@
 /area/awaymission/spacebattle/cruiser)
 "kH" = (
 /obj/machinery/mech_bay_recharge_port{
+	tag = "icon-recharge_port (NORTH)";
 	icon_state = "recharge_port";
 	dir = 1
 	},

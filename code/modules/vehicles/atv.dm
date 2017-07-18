@@ -31,7 +31,7 @@
 	name = "mounted turret"
 	scan_range = 7
 	emp_vunerable = 1
-	density = FALSE
+	density = 0
 
 
 /obj/vehicle/atv/turret/Initialize()

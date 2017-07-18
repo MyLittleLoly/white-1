@@ -8,7 +8,7 @@ It is used to destroy hand-held objects and advance technological research. Cont
 Note: Must be placed within 3 tiles of the R&D Console
 */
 /obj/machinery/r_n_d/destructive_analyzer
-	name = "destructive analyzer"
+	name = "Destructive Analyzer"
 	desc = "Learn science by destroying things!"
 	icon_state = "d_analyzer"
 	var/decon_mod = 0
@@ -59,16 +59,11 @@ Note: Must be placed within 3 tiles of the R&D Console
 		if(!user.drop_item())
 			to_chat(user, "<span class='warning'>\The [O] is stuck to your hand, you cannot put it in the [src.name]!</span>")
 			return
-		busy = TRUE
+		busy = 1
 		loaded_item = O
 		O.forceMove(src)
 		to_chat(user, "<span class='notice'>You add the [O.name] to the [src.name]!</span>")
 		flick("d_analyzer_la", src)
-		addtimer(CALLBACK(src, .proc/finish_loading), 10)
-
-/obj/machinery/r_n_d/destructive_analyzer/proc/finish_loading()
-	update_icon()
-	busy = FALSE
-
-/obj/machinery/r_n_d/destructive_analyzer/update_icon()
-	icon_state = "d_analyzer_l"
+		spawn(10)
+			icon_state = "d_analyzer_l"
+			busy = 0

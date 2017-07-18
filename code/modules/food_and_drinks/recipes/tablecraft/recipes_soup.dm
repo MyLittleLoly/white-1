@@ -13,7 +13,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/potato = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/meatball
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/vegetablesoup
 	name = "Vegetable soup"
@@ -26,7 +26,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/potato = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/vegetable
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/nettlesoup
 	name = "Nettle soup"
@@ -38,7 +38,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/boiledegg = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/nettle
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/wingfangchu
 	name = "Wingfangchu"
@@ -48,7 +48,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/meat/cutlet/xeno = 2
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/wingfangchu
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/wishsoup
 	name = "Wish soup"
@@ -57,7 +57,7 @@
 		/obj/item/weapon/reagent_containers/glass/bowl = 1
 	)
 	result= /obj/item/weapon/reagent_containers/food/snacks/soup/wish
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/hotchili
 	name = "Hot chili"
@@ -68,7 +68,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/hotchili
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/coldchili
 	name = "Cold chili"
@@ -79,7 +79,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/coldchili
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/tomatosoup
 	name = "Tomato soup"
@@ -89,7 +89,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato = 2
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/tomato
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/eyeballsoup
 	name = "Eyeball soup"
@@ -100,7 +100,7 @@
 		/obj/item/organ/eyes = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/tomato/eyeball
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 
 /datum/crafting_recipe/food/milosoup
@@ -112,7 +112,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/tofu = 2
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/milo
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/bloodsoup
 	name = "Blood soup"
@@ -122,7 +122,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato/blood = 2
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/blood
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/slimesoup
 	name = "Slime soup"
@@ -132,7 +132,7 @@
 			/obj/item/weapon/reagent_containers/glass/bowl = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/slime
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/clownstears
 	name = "Clowns tears"
@@ -143,7 +143,7 @@
 		/obj/item/weapon/ore/bananium = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/clownstears
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/mysterysoup
 	name = "Mystery soup"
@@ -156,7 +156,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge = 1,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/mystery
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/mushroomsoup
 	name = "Mushroom soup"
@@ -167,7 +167,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/chanterelle = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/mushroom
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/beetsoup
 	name = "Beet soup"
@@ -178,7 +178,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/cabbage = 1,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/beet
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/stew
 	name = "Stew"
@@ -193,7 +193,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/stew
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/spacylibertyduff
 	name = "Spacy liberty duff"
@@ -203,7 +203,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/libertycap = 3
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/spacylibertyduff
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/amanitajelly
 	name = "Amanita jelly"
@@ -213,7 +213,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/amanita = 3
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/amanitajelly
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/sweetpotatosoup
 	name = "Sweet potato soup"
@@ -224,7 +224,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/potato/sweet = 2
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/sweetpotato
-	subcategory = CAT_SOUP
+	category = CAT_SOUP
 
 /datum/crafting_recipe/food/redbeetsoup
 	name = "Red beet soup"
@@ -235,4 +235,4 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/cabbage = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soup/beet/red
-	subcategory = CAT_SOUP
+	category = CAT_SOUP

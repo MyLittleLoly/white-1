@@ -12,12 +12,13 @@
 	desc = "Used to copy important documents and anatomy studies."
 	icon = 'icons/obj/library.dmi'
 	icon_state = "photocopier"
-	anchored = TRUE
-	density = TRUE
-	use_power = IDLE_POWER_USE
+	anchored = 1
+	density = 1
+	use_power = 1
 	idle_power_usage = 30
 	active_power_usage = 200
 	power_channel = EQUIP
+	obj_integrity = 300
 	max_integrity = 300
 	integrity_failure = 100
 	var/obj/item/weapon/paper/copy = null	//what's in the copier!
@@ -28,7 +29,7 @@
 	var/maxcopies = 10	//how many copies can be copied at once- idea shamelessly stolen from bs12's copier!
 	var/greytoggle = "Greyscale"
 	var/mob/living/ass //i can't believe i didn't write a stupid-ass comment about this var when i first coded asscopy.
-	var/busy = FALSE
+	var/busy = 0
 
 /obj/machinery/photocopier/attack_ai(mob/user)
 	return attack_hand(user)
@@ -93,9 +94,9 @@
 								c.stamped = copy.stamped.Copy()
 							c.copy_overlays(copy, TRUE)
 							toner--
-					busy = TRUE
+					busy = 1
 					sleep(15)
-					busy = FALSE
+					busy = 0
 				else
 					break
 			updateUsrDialog()
@@ -126,9 +127,9 @@
 					p.pixel_x = rand(-10, 10)
 					p.pixel_y = rand(-10, 10)
 					p.blueprints = photocopy.blueprints //a copy of a picture is still good enough for the syndicate
-					busy = TRUE
+					busy = 1
 					sleep(15)
-					busy = FALSE
+					busy = 0
 				else
 					break
 		else if(doccopy)
@@ -136,9 +137,9 @@
 				if(toner > 5 && !busy && doccopy)
 					new /obj/item/documents/photocopy(loc, doccopy)
 					toner-= 6 // the sprite shows 6 papers, yes I checked
-					busy = TRUE
+					busy = 1
 					sleep(15)
-					busy = FALSE
+					busy = 0
 				else
 					break
 			updateUsrDialog()
@@ -170,12 +171,12 @@
 					var/icon/small_img = icon(temp_img) //Icon() is needed or else temp_img will be rescaled too >.>
 					var/icon/ic = icon('icons/obj/items.dmi',"photo")
 					small_img.Scale(8, 8)
-					ic.Blend(small_img,ICON_OVERLAY, 13, 13)
+					ic.Blend(small_img,ICON_OVERLAY, 10, 13)
 					p.icon = ic
 					toner -= 5
-					busy = TRUE
+					busy = 1
 					sleep(15)
-					busy = FALSE
+					busy = 0
 				else
 					break
 		updateUsrDialog()
@@ -228,9 +229,9 @@
 			p.pixel_x = rand(-10, 10)
 			p.pixel_y = rand(-10, 10)
 			toner -= 5	 //AI prints color pictures only, thus they can do it more efficiently
-			busy = TRUE
+			busy = 1
 			sleep(15)
-			busy = FALSE
+			busy = 0
 		updateUsrDialog()
 	else if(href_list["colortoggle"])
 		if(greytoggle == "Greyscale")

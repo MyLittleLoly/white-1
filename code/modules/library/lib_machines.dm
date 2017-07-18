@@ -51,7 +51,7 @@
 				dat += "<table>"
 				dat += "<tr><td>AUTHOR</td><td>TITLE</td><td>CATEGORY</td><td>SS<sup>13</sup>BN</td></tr>"
 
-				var/datum/DBQuery/query_library_list_books = dbcon.NewQuery(SQLquery)
+				var/DBQuery/query_library_list_books = dbcon.NewQuery(SQLquery)
 				if(!query_library_list_books.Execute())
 					dat += "<font color=red><b>ERROR</b>: Unable to retrieve book listings. Please contact your system administrator for assistance.</font><BR>"
 				while(query_library_list_books.NextRow())
@@ -137,7 +137,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 	if(!dbcon.Connect())
 		return
 	GLOB.cachedbooks = list()
-	var/datum/DBQuery/query_library_cache = dbcon.NewQuery("SELECT id, author, title, category FROM [format_table_name("library")] WHERE isnull(deleted)")
+	var/DBQuery/query_library_cache = dbcon.NewQuery("SELECT id, author, title, category FROM [format_table_name("library")] WHERE isnull(deleted)")
 	if(!query_library_cache.Execute())
 		return
 	while(query_library_cache.NextRow())
@@ -270,7 +270,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 		if(5)
 			dat += "<H3>Upload a New Title</H3>"
 			if(!scanner)
-				scanner = findscanner(9)
+				findscanner(9)
 			if(!scanner)
 				dat += "<FONT color=red>No scanner found within wireless network range.</FONT><BR>"
 			else if(!scanner.cache)
@@ -314,7 +314,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 	popup.open()
 
 /obj/machinery/computer/libraryconsole/bookmanagement/proc/findscanner(viewrange)
-	for(var/obj/machinery/libraryscanner/S in range(viewrange, get_turf(src)))
+	for(var/obj/machinery/libraryscanner/S in range(viewrange))
 		return S
 	return null
 
@@ -340,7 +340,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 
 /obj/machinery/computer/libraryconsole/bookmanagement/emag_act(mob/user)
 	if(density && !emagged)
-		emagged = TRUE
+		emagged = 1
 
 /obj/machinery/computer/libraryconsole/bookmanagement/Topic(href, href_list)
 	if(..())
@@ -419,7 +419,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 						var/sqlauthor = sanitizeSQL(scanner.cache.author)
 						var/sqlcontent = sanitizeSQL(scanner.cache.dat)
 						var/sqlcategory = sanitizeSQL(upload_category)
-						var/datum/DBQuery/query_library_upload = dbcon.NewQuery("INSERT INTO [format_table_name("library")] (author, title, content, category, ckey, datetime) VALUES ('[sqlauthor]', '[sqltitle]', '[sqlcontent]', '[sqlcategory]', '[usr.ckey]', Now())")
+						var/DBQuery/query_library_upload = dbcon.NewQuery("INSERT INTO [format_table_name("library")] (author, title, content, category, ckey, datetime) VALUES ('[sqlauthor]', '[sqltitle]', '[sqlcontent]', '[sqlcategory]', '[usr.ckey]', Now())")
 						if(!query_library_upload.Execute())
 							alert("Database error encountered uploading to Archive")
 							return
@@ -455,7 +455,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 			say("Printer unavailable. Please allow a short time before attempting to print.")
 		else
 			cooldown = world.time + PRINTER_COOLDOWN
-			var/datum/DBQuery/query_library_print = dbcon.NewQuery("SELECT * FROM [format_table_name("library")] WHERE id=[sqlid] AND isnull(deleted)")
+			var/DBQuery/query_library_print = dbcon.NewQuery("SELECT * FROM [format_table_name("library")] WHERE id=[sqlid] AND isnull(deleted)")
 			if(!query_library_print.Execute())
 				say("PRINTER ERROR! Failed to print document (0x0000000F)")
 				return
@@ -498,8 +498,8 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 	name = "scanner control interface"
 	icon = 'icons/obj/library.dmi'
 	icon_state = "bigscanner"
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	var/obj/item/weapon/book/cache		// Last scanned book
 
 /obj/machinery/libraryscanner/attackby(obj/O, mob/user, params)
@@ -554,9 +554,9 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 	name = "book binder"
 	icon = 'icons/obj/library.dmi'
 	icon_state = "binder"
-	anchored = TRUE
-	density = TRUE
-	var/busy = FALSE
+	anchored = 1
+	density = 1
+	var/busy = 0
 
 /obj/machinery/bookbinder/attackby(obj/O, mob/user, params)
 	if(istype(O, /obj/item/weapon/paper))
@@ -577,9 +577,9 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 	P.loc = src
 	user.visible_message("[user] loads some paper into [src].", "You load some paper into [src].")
 	audible_message("[src] begins to hum as it warms up its printing drums.")
-	busy = TRUE
+	busy = 1
 	sleep(rand(200,400))
-	busy = FALSE
+	busy = 0
 	if(P)
 		if(!stat)
 			visible_message("[src] whirs as it prints and binds a new book.")

@@ -4,9 +4,9 @@
 	icon = 'icons/obj/kitchen.dmi'
 	icon_state = "grinder"
 	layer = BELOW_OBJ_LAYER
-	density = TRUE
-	anchored = TRUE
-	use_power = IDLE_POWER_USE
+	density = 1
+	anchored = 1
+	use_power = 1
 	idle_power_usage = 5
 	active_power_usage = 50
 	var/grinded = 0

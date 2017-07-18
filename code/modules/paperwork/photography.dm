@@ -30,6 +30,7 @@
 	item_state = "paper"
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
+	obj_integrity = 50
 	max_integrity = 50
 	var/icon/img		//Big photo image
 	var/scribble		//Scribble on the back.
@@ -112,7 +113,7 @@
 	materials = list(MAT_METAL=2000)
 	var/pictures_max = 10
 	var/pictures_left = 10
-	var/on = TRUE
+	var/on = 1
 	var/blueprints = 0	//are blueprints visible in the current photo being created?
 	var/list/aipictures = list() //Allows for storage of pictures taken by AI, in a similar manner the datacore stores info. Keeping this here allows us to share some procs w/ regualar camera
 	var/see_ghosts = 0 //for the spoop of it
@@ -217,7 +218,7 @@
 
 		var/offX = 32 * (A.x - center.x) + A.pixel_x + 33
 		var/offY = 32 * (A.y - center.y) + A.pixel_y + 33
-		if(ismovableatom(A))
+		if(istype(A, /atom/movable))
 			offX += A:step_x
 			offY += A:step_y
 
@@ -435,10 +436,10 @@
 	pictures_left--
 	to_chat(user, "<span class='notice'>[pictures_left] photos left.</span>")
 	icon_state = "camera_off"
-	on = FALSE
+	on = 0
 	spawn(64)
 		icon_state = "camera"
-		on = TRUE
+		on = 1
 
 /obj/item/device/camera/siliconcam/proc/toggle_camera_mode()
 	if(in_camera_mode)
@@ -532,6 +533,7 @@
 	cut_overlays()
 	if(displayed)
 		add_overlay(getFlatIcon(displayed))
+		add_overlay("frame-overlay")
 
 /obj/item/wallframe/picture/after_attach(obj/O)
 	..()
@@ -570,7 +572,7 @@
 		to_chat(user, "<span class='notice'>You start unsecuring [name]...</span>")
 		playsound(loc, I.usesound, 50, 1)
 		if(do_after(user, 30*I.toolspeed, target = src))
-			playsound(loc, 'sound/items/deconstruct.ogg', 50, 1)
+			playsound(loc, 'sound/items/Deconstruct.ogg', 50, 1)
 			to_chat(user, "<span class='notice'>You unsecure [name].</span>")
 		deconstruct()
 		return
@@ -589,12 +591,13 @@
 
 /obj/structure/sign/picture_frame/attack_hand(mob/user)
 	if(framed)
-		framed.show(user)
+		framed.show()
 
 /obj/structure/sign/picture_frame/update_icon()
 	cut_overlays()
 	if(framed)
 		add_overlay(getFlatIcon(framed))
+		add_overlay("frame-overlay")
 
 /obj/structure/sign/picture_frame/deconstruct(disassembled = TRUE)
 	if(!(flags & NODECONSTRUCT))

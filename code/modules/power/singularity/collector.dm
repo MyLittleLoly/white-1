@@ -6,20 +6,18 @@ GLOBAL_LIST_EMPTY(rad_collectors)
 	desc = "A device which uses Hawking Radiation and plasma to produce power."
 	icon = 'icons/obj/singularity.dmi'
 	icon_state = "ca"
-	anchored = FALSE
-	density = TRUE
-	req_access = list(ACCESS_ENGINE_EQUIP)
-//	use_power = NO_POWER_USE
+	anchored = 0
+	density = 1
+	req_access = list(GLOB.access_engine_equip)
+//	use_power = 0
+	obj_integrity = 350
 	max_integrity = 350
 	integrity_failure = 80
 	var/obj/item/weapon/tank/internals/plasma/loaded_tank = null
 	var/last_power = 0
 	var/active = 0
-	var/locked = FALSE
+	var/locked = 0
 	var/drainratio = 1
-
-/obj/machinery/power/rad_collector/anchored
-	anchored = TRUE
 
 /obj/machinery/power/rad_collector/New()
 	..()
@@ -48,9 +46,7 @@ GLOBAL_LIST_EMPTY(rad_collectors)
 			toggle_power()
 			user.visible_message("[user.name] turns the [src.name] [active? "on":"off"].", \
 			"<span class='notice'>You turn the [src.name] [active? "on":"off"].</span>")
-			var/fuel
-			if(loaded_tank)
-				fuel = loaded_tank.air_contents.gases["plasma"]
+			var/fuel = loaded_tank.air_contents.gases["plasma"]
 			fuel = fuel ? fuel[MOLES] : 0
 			investigate_log("turned [active?"<font color='green'>on</font>":"<font color='red'>off</font>"] by [user.key]. [loaded_tank?"Fuel: [round(fuel/0.29)]%":"<font color='red'>It is empty</font>"].", INVESTIGATE_SINGULO)
 			return
@@ -77,34 +73,28 @@ GLOBAL_LIST_EMPTY(rad_collectors)
 /obj/machinery/power/rad_collector/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/device/multitool))
 		to_chat(user, "<span class='notice'>The [W.name] detects that [last_power]W were recently produced.</span>")
-		return TRUE
+		return 1
 	else if(istype(W, /obj/item/device/analyzer) && loaded_tank)
 		atmosanalyzer_scan(loaded_tank.air_contents, user)
 	else if(istype(W, /obj/item/weapon/tank/internals/plasma))
 		if(!anchored)
 			to_chat(user, "<span class='warning'>The [src] needs to be secured to the floor first!</span>")
-			return TRUE
+			return 1
 		if(loaded_tank)
 			to_chat(user, "<span class='warning'>There's already a plasma tank loaded!</span>")
-			return TRUE
+			return 1
 		if(!user.drop_item())
-			return TRUE
+			return 1
 		loaded_tank = W
 		W.forceMove(src)
 		update_icons()
 	else if(istype(W, /obj/item/weapon/crowbar))
-		if(loaded_tank)
-			if(locked)
-				to_chat(user, "<span class='warning'>The controls are locked!</span>")
-				return TRUE
+		if(loaded_tank && !locked)
 			eject()
-			return TRUE
-		else
-			to_chat(user, "<span class='warning'>There isn't a tank loaded!</span>")
-			return TRUE
+			return 1
 	else if(istype(W, /obj/item/weapon/wrench))
 		default_unfasten_wrench(user, W, 0)
-		return TRUE
+		return 1
 	else if(W.GetID())
 		if(allowed(user))
 			if(active)
@@ -114,7 +104,7 @@ GLOBAL_LIST_EMPTY(rad_collectors)
 				to_chat(user, "<span class='warning'>The controls can only be locked when \the [src] is active!</span>")
 		else
 			to_chat(user, "<span class='danger'>Access denied.</span>")
-			return TRUE
+			return 1
 	else
 		return ..()
 
@@ -125,7 +115,7 @@ GLOBAL_LIST_EMPTY(rad_collectors)
 		stat |= BROKEN
 
 /obj/machinery/power/rad_collector/proc/eject()
-	locked = FALSE
+	locked = 0
 	var/obj/item/weapon/tank/internals/plasma/Z = src.loaded_tank
 	if (!Z)
 		return

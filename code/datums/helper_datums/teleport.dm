@@ -15,6 +15,7 @@
 	var/soundout //soundfile to play after teleportation
 	var/force_teleport = 1 //if false, teleport will use Move() proc (dense objects will prevent teleportation)
 
+
 /datum/teleport/proc/start(ateleatom, adestination, aprecision=0, afteleport=1, aeffectin=null, aeffectout=null, asoundin=null, asoundout=null)
 	if(!initTeleport(arglist(args)))
 		return 0
@@ -99,7 +100,21 @@
 
 	var/turf/destturf
 	var/turf/curturf = get_turf(teleatom)
-	destturf = get_teleport_turf(get_turf(destination), precision)
+	if(precision)
+		var/list/posturfs = list()
+		var/center = get_turf(destination)
+		if(!center)
+			center = destination
+		for(var/turf/T in range(precision,center))
+			if(T.is_transition_turf())
+				continue // Avoid picking these.
+			var/area/A = T.loc
+			if(!A.noteleport)
+				posturfs.Add(T)
+
+		destturf = safepick(posturfs)
+	else
+		destturf = get_turf(destination)
 
 	if(!destturf || !curturf || destturf.is_transition_turf())
 		return 0
@@ -109,16 +124,13 @@
 		return 0
 
 	playSpecials(curturf,effectin,soundin)
+
 	if(force_teleport)
 		teleatom.forceMove(destturf)
-		if(ismegafauna(teleatom))
-			message_admins("[teleatom] [ADMIN_FLW(teleatom)] has teleported from [ADMIN_COORDJMP(curturf)] to [ADMIN_COORDJMP(destturf)].")
 		playSpecials(destturf,effectout,soundout)
 	else
 		if(teleatom.Move(destturf))
 			playSpecials(destturf,effectout,soundout)
-			if(ismegafauna(teleatom))
-				message_admins("[teleatom] [ADMIN_FLW(teleatom)] has teleported from [ADMIN_COORDJMP(curturf)] to [ADMIN_COORDJMP(destturf)].")
 	return 1
 
 /datum/teleport/proc/teleport()
@@ -213,18 +225,3 @@
 
 		// DING! You have passed the gauntlet, and are "probably" safe.
 		return F
-
-/proc/get_teleport_turfs(turf/center, precision = 0)
-	if(!precision)
-		return list(center)
-	var/list/posturfs = list()
-	for(var/turf/T in range(precision,center))
-		if(T.is_transition_turf())
-			continue // Avoid picking these.
-		var/area/A = T.loc
-		if(!A.noteleport)
-			posturfs.Add(T)
-	return posturfs
-
-/proc/get_teleport_turf(turf/center, precision = 0)
-	return safepick(get_teleport_turfs(center, precision))

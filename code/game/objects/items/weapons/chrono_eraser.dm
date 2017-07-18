@@ -54,10 +54,10 @@
 	var/obj/effect/chrono_field/field = null
 	var/turf/startpos = null
 
-/obj/item/weapon/gun/energy/chrono_gun/Initialize()
+/obj/item/weapon/gun/energy/chrono_gun/New(var/obj/item/weapon/chrono_eraser/T)
 	. = ..()
-	if(istype(loc, /obj/item/weapon/chrono_eraser))
-		TED = loc
+	if(istype(T))
+		TED = T
 	else //admin must have spawned it
 		TED = new(src.loc)
 		qdel(src)
@@ -149,8 +149,8 @@
 	desc = "An aura of time-bluespace energy."
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "chronofield"
-	density = FALSE
-	anchored = TRUE
+	density = 0
+	anchored = 1
 	blend_mode = BLEND_MULTIPLY
 	var/mob/living/captured = null
 	var/obj/item/weapon/gun/energy/chrono_gun/gun = null
@@ -209,7 +209,7 @@
 			qdel(captured)
 			qdel(src)
 		else
-			captured.Unconscious(80)
+			captured.Paralyse(4)
 			if(captured.loc != src)
 				captured.loc = src
 			update_icon()

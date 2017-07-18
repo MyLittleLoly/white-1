@@ -1,12 +1,13 @@
 /obj/structure/flora
 	resistance_flags = FLAMMABLE
+	obj_integrity = 150
 	max_integrity = 150
-	anchored = TRUE
+	anchored = 1
 
 //trees
 /obj/structure/flora/tree
 	name = "tree"
-	density = TRUE
+	density = 1
 	pixel_x = -16
 	layer = FLY_LAYER
 	var/cut = FALSE
@@ -25,7 +26,7 @@
 				playsound(get_turf(src), 'sound/effects/meteorimpact.ogg', 100 , 0, 0)
 				icon = 'icons/obj/flora/pinetrees.dmi'
 				icon_state = "tree_stump"
-				density = FALSE
+				density = 0
 				pixel_x = -16
 				name += " stump"
 				cut = TRUE
@@ -90,11 +91,6 @@
 	icon_state = "[icon_state][rand(1, 6)]"
 	..()
 
-/obj/structure/flora/tree/jungle/small
-	pixel_y = 0
-	pixel_x = -32
-	icon = 'icons/obj/flora/jungletreesmall.dmi'
-
 //grass
 /obj/structure/flora/grass
 	name = "grass"
@@ -129,7 +125,7 @@
 	name = "bush"
 	icon = 'icons/obj/flora/snowflora.dmi'
 	icon_state = "snowbush1"
-	anchored = TRUE
+	anchored = 1
 
 /obj/structure/flora/bush/Initialize()
 	icon_state = "snowbush[rand(1, 6)]"
@@ -308,7 +304,7 @@
 	desc = "A volcanic rock"
 	icon = 'icons/obj/flora/rocks.dmi'
 	resistance_flags = FIRE_PROOF
-	density = TRUE
+	density = 1
 
 /obj/structure/flora/rock/Initialize()
 	..()
@@ -385,5 +381,5 @@
 	pixel_y = -16
 
 /obj/structure/flora/rock/pile/largejungle/Initialize()
-	. = ..()
+	..()
 	icon_state = "[initial(icon_state)][rand(1,3)]"

@@ -24,53 +24,36 @@ Bonus
 	transmittable = -4
 	level = 6
 	severity = 5
-	base_message_chance = 20
-	symptom_delay_min = 20
-	symptom_delay_max = 75
-	var/infective = FALSE
-
-/datum/symptom/fire/Start(datum/disease/advance/A)
-	..()
-	if(A.properties["stage_rate"] >= 4)
-		power = 1.5
-	if(A.properties["stage_rate"] >= 8)
-		power = 2
-	if(A.properties["stealth"] >= 4)
-		suppress_warning = TRUE
-	if(A.properties["transmittable"] >= 8) //burning skin spreads the virus through smoke
-		infective = TRUE
 
 /datum/symptom/fire/Activate(datum/disease/advance/A)
-	if(!..())
-		return
-	var/mob/living/M = A.affected_mob
-	switch(A.stage)
-		if(3)
-			if(prob(base_message_chance) && !suppress_warning)
+	..()
+	if(prob(SYMPTOM_ACTIVATION_PROB))
+		var/mob/living/M = A.affected_mob
+		switch(A.stage)
+			if(3)
 				to_chat(M, "<span class='warning'>[pick("You feel hot.", "You hear a crackling noise.", "You smell smoke.")]</span>")
-		if(4)
-			Firestacks_stage_4(M, A)
-			M.IgniteMob()
-			to_chat(M, "<span class='userdanger'>Your skin bursts into flames!</span>")
-			M.emote("scream")
-		if(5)
-			Firestacks_stage_5(M, A)
-			M.IgniteMob()
-			to_chat(M, "<span class='userdanger'>Your skin erupts into an inferno!</span>")
-			M.emote("scream")
+			if(4)
+				Firestacks_stage_4(M, A)
+				M.IgniteMob()
+				to_chat(M, "<span class='userdanger'>Your skin bursts into flames!</span>")
+				M.emote("scream")
+			if(5)
+				Firestacks_stage_5(M, A)
+				M.IgniteMob()
+				to_chat(M, "<span class='userdanger'>Your skin erupts into an inferno!</span>")
+				M.emote("scream")
+	return
 
 /datum/symptom/fire/proc/Firestacks_stage_4(mob/living/M, datum/disease/advance/A)
-	M.adjust_fire_stacks(1 * power)
-	M.adjustFireLoss(3 * power)
-	if(infective)
-		A.spread(2)
+	var/get_stacks = (sqrt(20+A.totalStageSpeed()*2))-(sqrt(max(0, 16+A.totalStealth())))
+	M.adjust_fire_stacks(get_stacks)
+	M.adjustFireLoss(get_stacks/2)
 	return 1
 
 /datum/symptom/fire/proc/Firestacks_stage_5(mob/living/M, datum/disease/advance/A)
-	M.adjust_fire_stacks(3 * power)
-	M.adjustFireLoss(5 * power)
-	if(infective)
-		A.spread(4)
+	var/get_stacks = (sqrt(max(0, 20+A.totalStageSpeed()*3)))-(sqrt(max(0, 16+A.totalStealth())))
+	M.adjust_fire_stacks(get_stacks)
+	M.adjustFireLoss(get_stacks)
 	return 1
 
 /*
@@ -100,58 +83,40 @@ Bonus
 	transmittable = -2
 	level = 7
 	severity = 6
-	base_message_chance = 100
-	symptom_delay_min = 30
-	symptom_delay_max = 90
-	var/chems = FALSE
-	var/explosion_power = 1
-
-/datum/symptom/alkali/Start(datum/disease/advance/A)
-	..()
-	if(A.properties["resistance"] >= 9) //intense but sporadic effect
-		power = 2
-		symptom_delay_min = 50
-		symptom_delay_max = 140
-	if(A.properties["stage_rate"] >= 8) //serious boom when wet
-		explosion_power = 2
-	if(A.properties["transmission"] >= 8) //extra chemicals
-		chems = TRUE
 
 /datum/symptom/alkali/Activate(datum/disease/advance/A)
-	if(!..())
-		return
-	var/mob/living/M = A.affected_mob
-	switch(A.stage)
-		if(3)
-			if(prob(base_message_chance))
+	..()
+	if(prob(SYMPTOM_ACTIVATION_PROB))
+		var/mob/living/M = A.affected_mob
+		switch(A.stage)
+			if(3)
 				to_chat(M, "<span class='warning'>[pick("Your veins boil.", "You feel hot.", "You smell meat cooking.")]</span>")
-		if(4)
-			Alkali_fire_stage_4(M, A)
-			M.IgniteMob()
-			to_chat(M, "<span class='userdanger'>Your sweat bursts into flames!</span>")
-			M.emote("scream")
-		if(5)
-			Alkali_fire_stage_5(M, A)
-			M.IgniteMob()
-			to_chat(M, "<span class='userdanger'>Your skin erupts into an inferno!</span>")
-			M.emote("scream")
-			if(M.fire_stacks < 0)
-				M.visible_message("<span class='warning'>[M]'s sweat sizzles and pops on contact with water!</span>")
-				explosion(get_turf(M),0,0,2 * explosion_power)
+			if(4)
+				Alkali_fire_stage_4(M, A)
+				M.IgniteMob()
+				to_chat(M, "<span class='userdanger'>Your sweat bursts into flames!</span>")
+				M.emote("scream")
+			if(5)
 				Alkali_fire_stage_5(M, A)
+				M.IgniteMob()
+				to_chat(M, "<span class='userdanger'>Your skin erupts into an inferno!</span>")
+				M.emote("scream")
+				if(M.fire_stacks < 0)
+					M.visible_message("<span class='warning'>[M]'s sweat sizzles and pops on contact with water!</span>")
+					explosion(M.loc,0,0,2)
+					Alkali_fire_stage_5(M, A)
+	return
 
 /datum/symptom/alkali/proc/Alkali_fire_stage_4(mob/living/M, datum/disease/advance/A)
-	var/get_stacks = 6 * power
+	var/get_stacks = (sqrt(20+A.totalStageSpeed()*5))
 	M.adjust_fire_stacks(get_stacks)
 	M.adjustFireLoss(get_stacks/2)
-	if(chems)
-		M.reagents.add_reagent("clf3", 2 * power)
+	M.reagents.add_reagent("clf3", 1)
 	return 1
 
 /datum/symptom/alkali/proc/Alkali_fire_stage_5(mob/living/M, datum/disease/advance/A)
-	var/get_stacks = 8 * power
+	var/get_stacks = (sqrt(20+A.totalStageSpeed()*8))
 	M.adjust_fire_stacks(get_stacks)
 	M.adjustFireLoss(get_stacks)
-	if(chems)
-		M.reagents.add_reagent_list(list("napalm" = 4 * power, "clf3" = 4 * power))
+	M.reagents.add_reagent_list(list("napalm" = 3, "clf3" = 3))
 	return 1

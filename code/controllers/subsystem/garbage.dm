@@ -164,8 +164,8 @@ SUBSYSTEM_DEF(garbage)
 	if (time > highest_del_time)
 		highest_del_time = time
 	if (time > 10)
-		log_game("Error: [type]([refID]) took longer than 1 second to delete (took [time/10] seconds to delete)")
-		message_admins("Error: [type]([refID]) took longer than 1 second to delete (took [time/10] seconds to delete).")
+		log_game("Error: [type]([refID]) took longer then 1 second to delete (took [time/10] seconds to delete)")
+		message_admins("Error: [type]([refID]) took longer then 1 second to delete (took [time/10] seconds to delete).")
 		postpone(time/5)
 	
 /datum/controller/subsystem/garbage/proc/HardQueue(datum/A)
@@ -189,7 +189,6 @@ SUBSYSTEM_DEF(garbage)
 	SSgarbage.qdel_list += "[D.type]"
 #endif
 	if(isnull(D.gc_destroyed))
-		D.SendSignal(COMSIG_PARENT_QDELETED)
 		D.gc_destroyed = GC_CURRENTLY_BEING_QDELETED
 		var/start_time = world.time
 		var/hint = D.Destroy(force) // Let our friend know they're about to get fucked up.
@@ -237,7 +236,6 @@ SUBSYSTEM_DEF(garbage)
 // Default implementation of clean-up code.
 // This should be overridden to remove all references pointing to the object being destroyed.
 // Return the appropriate QDEL_HINT; in most cases this is QDEL_HINT_QUEUE.
-// TODO: Move this and all datum var definitions into code/datums/datum.dm
 /datum/proc/Destroy(force=FALSE)
 	tag = null
 	var/list/timers = active_timers
@@ -247,7 +245,6 @@ SUBSYSTEM_DEF(garbage)
 		if (timer.spent)
 			continue
 		qdel(timer)
-	QDEL_LIST(datum_components)
 	return QDEL_HINT_QUEUE
 
 /datum/var/gc_destroyed //Time when this object was destroyed.

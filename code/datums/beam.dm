@@ -142,7 +142,7 @@
 
 /obj/effect/ebeam
 	mouse_opacity = 0
-	anchored = TRUE
+	anchored = 1
 	var/datum/beam/owner
 
 /obj/effect/ebeam/Destroy()

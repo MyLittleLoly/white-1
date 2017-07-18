@@ -2,8 +2,8 @@
 /obj/structure/signpost
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "signpost"
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	var/question = "Travel back?"
 	var/zlevels = list(ZLEVEL_STATION)
 

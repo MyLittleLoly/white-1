@@ -127,13 +127,13 @@
 	for(var/wire in wires)
 		cut(wire)
 
-/datum/wires/proc/pulse(wire, user)
+/datum/wires/proc/pulse(wire)
 	if(is_cut(wire))
 		return
-	on_pulse(wire, user)
+	on_pulse(wire)
 
-/datum/wires/proc/pulse_color(color, mob/living/user)
-	pulse(get_wire(color), user)
+/datum/wires/proc/pulse_color(color)
+	pulse(get_wire(color))
 
 /datum/wires/proc/pulse_assembly(obj/item/device/assembly/S)
 	for(var/color in assemblies)
@@ -177,7 +177,7 @@
 /datum/wires/proc/on_cut(wire, mend = FALSE)
 	return
 
-/datum/wires/proc/on_pulse(wire, user)
+/datum/wires/proc/on_pulse(wire)
 	return
 // End Overridable Procs
 
@@ -198,7 +198,7 @@
 		return ..()
 	return UI_CLOSE
 
-/datum/wires/ui_interact(mob/user, ui_key = "wires", datum/tgui/ui = null, force_open = FALSE, \
+/datum/wires/ui_interact(mob/user, ui_key = "wires", datum/tgui/ui = null, force_open = 0, \
 							datum/tgui/master_ui = null, datum/ui_state/state = GLOB.physical_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if (!ui)
@@ -236,7 +236,7 @@
 		if("pulse")
 			if(istype(I, /obj/item/device/multitool) || IsAdminGhost(usr))
 				playsound(holder, 'sound/weapons/empty.ogg', 20, 1)
-				pulse_color(target_wire, L)
+				pulse_color(target_wire)
 				. = TRUE
 			else
 				to_chat(L, "<span class='warning'>You need a multitool!</span>")

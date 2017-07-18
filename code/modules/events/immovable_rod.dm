@@ -20,9 +20,9 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	priority_announce("What the fuck was that?!", "General Alert")
 
 /datum/round_event/immovable_rod/start()
-	var/startside = pick(GLOB.cardinals)
-	var/turf/startT = spaceDebrisStartLoc(startside, ZLEVEL_STATION)
-	var/turf/endT = spaceDebrisFinishLoc(startside, ZLEVEL_STATION)
+	var/startside = pick(GLOB.cardinal)
+	var/turf/startT = spaceDebrisStartLoc(startside, 1)
+	var/turf/endT = spaceDebrisFinishLoc(startside, 1)
 	new /obj/effect/immovablerod(startT, endT)
 
 /obj/effect/immovablerod
@@ -31,8 +31,8 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "immrod"
 	throwforce = 100
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	var/z_original = 0
 	var/destination
 	var/notify = TRUE
@@ -69,7 +69,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 /obj/effect/immovablerod/ex_act(severity, target)
 	return 0
 
-/obj/effect/immovablerod/Collide(atom/clong)
+/obj/effect/immovablerod/Bump(atom/clong)
 	if(prob(10))
 		playsound(src, 'sound/effects/bang.ogg', 50, 1)
 		audible_message("<span class='danger'>You hear a CLANG!</span>")
@@ -80,10 +80,15 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 
 	if(isturf(clong) || isobj(clong))
 		if(clong.density)
-			clong.ex_act(EXPLODE_HEAVY)
+			clong.ex_act(2)
 
-	else if(isliving(clong))
-		penetrate(clong)
+	else if(ismob(clong))
+		if(ishuman(clong))
+			var/mob/living/carbon/human/H = clong
+			H.visible_message("<span class='danger'>[H.name] is penetrated by an immovable rod!</span>" , "<span class='userdanger'>The rod penetrates you!</span>" , "<span class ='danger'>You hear a CLANG!</span>")
+			H.adjustBruteLoss(160)
+		if(clong.density || prob(10))
+			clong.ex_act(2)
 	else if(istype(clong, type))
 		var/obj/effect/immovablerod/other = clong
 		visible_message("<span class='danger'>[src] collides with [other]!\
@@ -93,11 +98,3 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 		smoke.start()
 		qdel(src)
 		qdel(other)
-
-/obj/effect/immovablerod/proc/penetrate(mob/living/L)
-	L.visible_message("<span class='danger'>[L] is penetrated by an immovable rod!</span>" , "<span class='userdanger'>The rod penetrates you!</span>" , "<span class ='danger'>You hear a CLANG!</span>")
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		H.adjustBruteLoss(160)
-	if(L && (L.density || prob(10)))
-		L.ex_act(EXPLODE_HEAVY)

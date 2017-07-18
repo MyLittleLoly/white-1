@@ -12,9 +12,9 @@
 	name = "bus mainframe"
 	icon_state = "bus"
 	desc = "A mighty piece of hardware used to send massive amounts of data quickly."
-	density = TRUE
-	anchored = TRUE
-	use_power = IDLE_POWER_USE
+	density = 1
+	anchored = 1
+	use_power = 1
 	idle_power_usage = 50
 	machinetype = 2
 	//heatgen = 20

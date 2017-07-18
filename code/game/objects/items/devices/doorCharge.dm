@@ -20,10 +20,10 @@
 			qdel(src)
 		if(2)
 			if(prob(50))
-				ex_act(EXPLODE_DEVASTATE)
+				ex_act(1)
 		if(3)
 			if(prob(25))
-				ex_act(EXPLODE_DEVASTATE)
+				ex_act(1)
 
 /obj/item/device/doorCharge/Destroy()
 	if(istype(loc, /obj/machinery/door/airlock))

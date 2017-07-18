@@ -105,7 +105,7 @@
 	icon = 'icons/turf/floors.dmi'
 	icon_state = "basalt"
 	ore_type = /obj/item/weapon/ore/glass/basalt
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = "o2=14;n2=23;TEMP=300"
 	slowdown = 0
 
 /turf/open/floor/grass/snow/basalt/Initialize()
@@ -140,7 +140,7 @@
 	floor_tile = /obj/item/stack/tile/carpet
 	broken_states = list("damaged")
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/turf/open/floor/carpet)
+	canSmoothWith = list(/turf/open/floor/carpet, /turf/open/chasm)
 	flags = NONE
 
 /turf/open/floor/carpet/Initialize()
@@ -157,12 +157,6 @@
 		make_plating()
 		if(smooth)
 			queue_smooth_neighbors(src)
-
-/turf/open/floor/carpet/black
-	icon = 'icons/turf/floors/carpet_black.dmi'
-	floor_tile = /obj/item/stack/tile/carpet/black
-	canSmoothWith = list(/turf/open/floor/carpet/black)
-
 
 /turf/open/floor/carpet/narsie_act(force, ignore_mobs, probability = 20)
 	. = (prob(probability) || force)
@@ -181,21 +175,14 @@
 	burnt = 1
 	update_icon()
 
-/turf/open/floor/carpet/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
-	return FALSE
 
 
-/turf/open/floor/fakepit
+turf/open/floor/fakepit
 	desc = "A clever illusion designed to look like a bottomless pit."
 	smooth = SMOOTH_TRUE | SMOOTH_BORDER | SMOOTH_MORE
-	canSmoothWith = list(/turf/open/floor/fakepit)
+	canSmoothWith = list(/turf/open/floor/fakepit, /turf/open/chasm)
 	icon = 'icons/turf/floors/Chasms.dmi'
 	icon_state = "smooth"
-
-/turf/open/floor/fakepit/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
-	underlay_appearance.icon = 'icons/turf/floors.dmi'
-	underlay_appearance.icon_state = "basalt"
-	return TRUE
 
 /turf/open/floor/fakespace
 	icon = 'icons/turf/space.dmi'
@@ -206,10 +193,4 @@
 
 /turf/open/floor/fakespace/Initialize()
 	..()
-	icon_state = SPACE_ICON_STATE
-
-/turf/open/floor/fakespace/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
-	underlay_appearance.icon = 'icons/turf/space.dmi'
-	underlay_appearance.icon_state = SPACE_ICON_STATE
-	underlay_appearance.plane = PLANE_SPACE
-	return TRUE
+	icon_state = "[rand(0,25)]"

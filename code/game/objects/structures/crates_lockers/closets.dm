@@ -3,7 +3,7 @@
 	desc = "It's a basic storage unit."
 	icon = 'icons/obj/closet.dmi'
 	icon_state = "generic"
-	density = TRUE
+	density = 1
 	var/icon_door = null
 	var/icon_door_override = FALSE //override to have open overlay use icon different to its base's
 	var/secure = FALSE //secure locker or not, also used if overriding a non-secure locker with a secure door overlay to add fancy lights
@@ -12,6 +12,7 @@
 	var/locked = FALSE
 	var/large = TRUE
 	var/wall_mounted = 0 //never solid (You can always pass over it)
+	obj_integrity = 200
 	max_integrity = 200
 	integrity_failure = 50
 	armor = list(melee = 20, bullet = 10, laser = 10, energy = 0, bomb = 10, bio = 0, rad = 0, fire = 70, acid = 60)
@@ -28,7 +29,7 @@
 	var/cutting_tool = /obj/item/weapon/weldingtool
 	var/open_sound = 'sound/machines/click.ogg'
 	var/close_sound = 'sound/machines/click.ogg'
-	var/cutting_sound = 'sound/items/welder.ogg'
+	var/cutting_sound = 'sound/items/Welder.ogg'
 	var/material_drop = /obj/item/stack/sheet/metal
 	var/material_drop_amount = 2
 	var/delivery_icon = "deliverycloset" //which icon to use when packagewrapped. null to be unwrappable.
@@ -81,8 +82,8 @@
 	else if(secure && !opened)
 		to_chat(user, "<span class='notice'>Alt-click to [locked ? "unlock" : "lock"].</span>")
 
-/obj/structure/closet/CanPass(atom/movable/mover, turf/target)
-	if(wall_mounted)
+/obj/structure/closet/CanPass(atom/movable/mover, turf/target, height=0)
+	if(height == 0 || wall_mounted)
 		return 1
 	return !density
 
@@ -130,7 +131,7 @@
 	playsound(loc, open_sound, 15, 1, -3)
 	opened = 1
 	if(!dense_when_open)
-		density = FALSE
+		density = 0
 	climb_time *= 0.5 //it's faster to climb onto an open thing
 	dump_contents()
 	update_icon()
@@ -182,7 +183,7 @@
 	playsound(loc, close_sound, 15, 1, -3)
 	climb_time = initial(climb_time)
 	opened = 0
-	density = TRUE
+	density = 1
 	update_icon()
 	return 1
 
@@ -233,7 +234,7 @@
 		if(!WT.remove_fuel(0, user))
 			return
 		to_chat(user, "<span class='notice'>You begin [welded ? "unwelding":"welding"] \the [src]...</span>")
-		playsound(loc, 'sound/items/welder2.ogg', 40, 1)
+		playsound(loc, 'sound/items/Welder2.ogg', 40, 1)
 		if(do_after(user, 40*WT.toolspeed, 1, target = src))
 			if(opened || !WT.isOn())
 				return
@@ -275,7 +276,7 @@
 	var/actuallyismob = 0
 	if(isliving(O))
 		actuallyismob = 1
-	else if(!isitem(O))
+	else if(!istype(O, /obj/item))
 		return
 	var/turf/T = get_turf(src)
 	var/list/targets = list(O, src)
@@ -290,7 +291,7 @@
 							 	 "<span class='italics'>You hear a loud metal bang.</span>")
 			var/mob/living/L = O
 			if(!issilicon(L))
-				L.Knockdown(40)
+				L.Weaken(2)
 			O.forceMove(T)
 			close()
 	else
@@ -354,7 +355,7 @@
 /obj/structure/closet/container_resist(mob/living/user)
 	if(opened)
 		return
-	if(ismovableatom(loc))
+	if(istype(loc, /atom/movable))
 		user.changeNext_move(CLICK_CD_BREAKOUT)
 		user.last_special = world.time + CLICK_CD_BREAKOUT
 		var/atom/movable/AM = loc
@@ -381,8 +382,8 @@
 			to_chat(user, "<span class='warning'>You fail to break out of [src]!</span>")
 
 /obj/structure/closet/proc/bust_open()
-	welded = FALSE //applies to all lockers
-	locked = FALSE //applies to critter crates and secure lockers only
+	welded = 0 //applies to all lockers
+	locked = 0 //applies to critter crates and secure lockers only
 	broken = 1 //applies to secure lockers only
 	open()
 
@@ -415,9 +416,9 @@
 		user.visible_message("<span class='warning'>Sparks fly from [src]!</span>",
 						"<span class='warning'>You scramble [src]'s lock, breaking it open!</span>",
 						"<span class='italics'>You hear a faint electrical spark.</span>")
-		playsound(src, "sparks", 50, 1)
+		playsound(src.loc, 'sound/effects/sparks4.ogg', 50, 1)
 		broken = 1
-		locked = FALSE
+		locked = 0
 		update_icon()
 
 /obj/structure/closet/get_remote_view_fullscreens(mob/user)

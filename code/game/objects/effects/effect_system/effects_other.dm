@@ -8,8 +8,8 @@
 
 /datum/effect_system/trail_follow
 	var/turf/oldposition
-	var/processing = TRUE
-	var/on = TRUE
+	var/processing = 1
+	var/on = 1
 
 /datum/effect_system/trail_follow/set_up(atom/atom)
 	attach(atom)
@@ -20,8 +20,8 @@
 	return ..()
 
 /datum/effect_system/trail_follow/proc/stop()
-	processing = FALSE
-	on = FALSE
+	processing = 0
+	on = 0
 	oldposition = null
 
 /datum/effect_system/trail_follow/steam
@@ -29,12 +29,12 @@
 
 /datum/effect_system/trail_follow/steam/start()
 	if(!on)
-		on = TRUE
-		processing = TRUE
+		on = 1
+		processing = 1
 		if(!oldposition)
 			oldposition = get_turf(holder)
 	if(processing)
-		processing = FALSE
+		processing = 0
 		if(number < 3)
 			var/obj/effect/particle_effect/steam/I = new /obj/effect/particle_effect/steam(oldposition)
 			number++
@@ -45,13 +45,13 @@
 				number--
 		spawn(2)
 			if(on)
-				processing = TRUE
+				processing = 1
 				start()
 
 /obj/effect/particle_effect/ion_trails
 	name = "ion trails"
 	icon_state = "ion_trails"
-	anchored = TRUE
+	anchored = 1
 
 /obj/effect/particle_effect/ion_trails/flight
 	icon_state = "ion_trails_flight"
@@ -64,12 +64,12 @@
 
 /datum/effect_system/trail_follow/ion/start() //Whoever is responsible for this abomination of code should become an hero
 	if(!on)
-		on = TRUE
-		processing = TRUE
+		on = 1
+		processing = 1
 		if(!oldposition)
 			oldposition = get_turf(holder)
 	if(processing)
-		processing = FALSE
+		processing = 0
 		var/turf/T = get_turf(holder)
 		if(T != oldposition)
 			if(!T.has_gravity() || !nograv_required)
@@ -83,7 +83,7 @@
 			oldposition = T
 		spawn(2)
 			if(on)
-				processing = TRUE
+				processing = 1
 				start()
 
 /datum/effect_system/trail_follow/ion/proc/set_dir(obj/effect/particle_effect/ion_trails/I)
@@ -128,10 +128,10 @@
 		s.set_up(2, 1, location)
 		s.start()
 
-		for(var/mob/living/L in viewers(1, location))
-			if(prob(50 * amount))
-				to_chat(L, "<span class='danger'>The explosion knocks you down.</span>")
-				L.Knockdown(rand(20,100))
+		for(var/mob/M in viewers(1, location))
+			if (prob (50 * amount))
+				to_chat(M, "<span class='danger'>The explosion knocks you down.</span>")
+				M.Weaken(rand(1,5))
 		return
 	else
 		dyn_explosion(location, amount, flashing_factor)

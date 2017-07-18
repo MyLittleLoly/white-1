@@ -4,8 +4,8 @@
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "plasticflaps"
 	armor = list(melee = 100, bullet = 80, laser = 80, energy = 100, bomb = 50, bio = 100, rad = 100, fire = 50, acid = 50)
-	density = FALSE
-	anchored = TRUE
+	density = 0
+	anchored = 1
 	layer = ABOVE_MOB_LAYER
 	var/state = PLASTIC_FLAPS_NORMAL
 

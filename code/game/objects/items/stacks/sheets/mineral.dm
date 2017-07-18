@@ -22,11 +22,6 @@ Mineral Sheets
 /obj/item/stack/sheet/mineral
 	icon = 'icons/obj/mining.dmi'
 
-/obj/item/stack/sheet/mineral/Initialize(mapload)
-	pixel_x = rand(-4, 4)
-	pixel_y = rand(-4, 4)
-	. = ..()
-
 /*
  * Sandstone
  */
@@ -36,7 +31,9 @@ GLOBAL_LIST_INIT(sandstone_recipes, list ( \
 	new/datum/stack_recipe("sandstone door", /obj/structure/mineral_door/sandstone, 10, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("aesthetic volcanic floor tile", /obj/item/stack/tile/basalt, 2, 2, 4, 20), \
 	new/datum/stack_recipe("Assistant Statue", /obj/structure/statue/sandstone/assistant, 5, one_per_turf = 1, on_floor = 1), \
-	new/datum/stack_recipe("Breakdown into sand", /obj/item/weapon/ore/glass, 1, one_per_turf = 0, on_floor = 1) \
+	new/datum/stack_recipe("Breakdown into sand", /obj/item/weapon/ore/glass, 1, one_per_turf = 0, on_floor = 1), \
+/*	new/datum/stack_recipe("sandstone wall", ???), \
+		new/datum/stack_recipe("sandstone floor", ???),\ */
 	))
 
 /obj/item/stack/sheet/mineral/sandstone
@@ -52,7 +49,9 @@ GLOBAL_LIST_INIT(sandstone_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/sandstone/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.sandstone_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /obj/item/stack/sheet/mineral/sandstone/thirty
 	amount = 30
@@ -68,7 +67,6 @@ GLOBAL_LIST_INIT(sandstone_recipes, list ( \
 	singular_name = "sandbag"
 	layer = LOW_ITEM_LAYER
 	origin_tech = "materials=2"
-	novariants = TRUE
 
 GLOBAL_LIST_INIT(sandbag_recipes, list ( \
 	new/datum/stack_recipe("sandbags", /obj/structure/barricade/sandbags, 1, time = 25, one_per_turf = 1, on_floor = 1), \
@@ -76,24 +74,9 @@ GLOBAL_LIST_INIT(sandbag_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/sandbags/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.sandbag_recipes
-	. = ..()
-
-/obj/item/weapon/emptysandbag
-	name = "empty sandbag"
-	desc = "A bag to be filled with sand."
-	icon = 'icons/obj/items.dmi'
-	icon_state = "sandbag"
-	w_class = WEIGHT_CLASS_TINY
-
-/obj/item/weapon/emptysandbag/attackby(obj/item/W, mob/user, params)
-	if(istype(W,/obj/item/weapon/ore/glass))
-		to_chat(user, "<span class='notice'>You fill the sandbag.</span>")
-		var/obj/item/stack/sheet/mineral/sandbags/I = new /obj/item/stack/sheet/mineral/sandbags
-		qdel(src)
-		user.put_in_hands(I)
-		qdel(W)
-	else
-		return ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /*
  * Diamond
@@ -105,7 +88,6 @@ GLOBAL_LIST_INIT(sandbag_recipes, list ( \
 	origin_tech = "materials=6"
 	sheettype = "diamond"
 	materials = list(MAT_DIAMOND=MINERAL_MATERIAL_AMOUNT)
-	novariants = TRUE
 
 GLOBAL_LIST_INIT(diamond_recipes, list ( \
 	new/datum/stack_recipe("diamond door", /obj/structure/mineral_door/transparent/diamond, 10, one_per_turf = 1, on_floor = 1), \
@@ -117,7 +99,9 @@ GLOBAL_LIST_INIT(diamond_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/diamond/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.diamond_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /*
  * Uranium
@@ -129,7 +113,6 @@ GLOBAL_LIST_INIT(diamond_recipes, list ( \
 	origin_tech = "materials=5"
 	sheettype = "uranium"
 	materials = list(MAT_URANIUM=MINERAL_MATERIAL_AMOUNT)
-	novariants = TRUE
 
 GLOBAL_LIST_INIT(uranium_recipes, list ( \
 	new/datum/stack_recipe("uranium door", /obj/structure/mineral_door/uranium, 10, one_per_turf = 1, on_floor = 1), \
@@ -140,7 +123,9 @@ GLOBAL_LIST_INIT(uranium_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/uranium/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.uranium_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /*
  * Plasma
@@ -152,6 +137,7 @@ GLOBAL_LIST_INIT(uranium_recipes, list ( \
 	origin_tech = "plasmatech=2;materials=2"
 	sheettype = "plasma"
 	resistance_flags = FLAMMABLE
+	obj_integrity = 100
 	max_integrity = 100
 	materials = list(MAT_PLASMA=MINERAL_MATERIAL_AMOUNT)
 
@@ -163,7 +149,9 @@ GLOBAL_LIST_INIT(plasma_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/plasma/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.plasma_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /obj/item/stack/sheet/mineral/plasma/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(W.is_hot() > 300)//If the temperature of the object is over 300, then ignite
@@ -202,7 +190,9 @@ GLOBAL_LIST_INIT(gold_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/gold/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.gold_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /*
  * Silver
@@ -227,7 +217,9 @@ GLOBAL_LIST_INIT(silver_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/silver/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.silver_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /*
  * Clown
@@ -239,7 +231,6 @@ GLOBAL_LIST_INIT(silver_recipes, list ( \
 	origin_tech = "materials=4"
 	sheettype = "clown"
 	materials = list(MAT_BANANIUM=MINERAL_MATERIAL_AMOUNT)
-	novariants = TRUE
 
 GLOBAL_LIST_INIT(clown_recipes, list ( \
 	new/datum/stack_recipe("bananium tile", /obj/item/stack/tile/mineral/bananium, 1, 4, 20), \
@@ -248,7 +239,9 @@ GLOBAL_LIST_INIT(clown_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/bananium/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.clown_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /*
  * Titanium
@@ -272,7 +265,9 @@ GLOBAL_LIST_INIT(titanium_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/titanium/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.titanium_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 
 /*
@@ -297,7 +292,9 @@ GLOBAL_LIST_INIT(plastitanium_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/plastitanium/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.plastitanium_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 
 /*
@@ -319,7 +316,9 @@ GLOBAL_LIST_INIT(snow_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/snow/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.snow_recipes
-	. = ..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /****************************** Others ****************************/
 
@@ -348,7 +347,7 @@ GLOBAL_LIST_INIT(adamantine_recipes, list(
 
 /obj/item/stack/sheet/mineral/adamantine/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.adamantine_recipes
-	. = ..()
+	..()
 
 /*
  * Mythril
@@ -358,7 +357,6 @@ GLOBAL_LIST_INIT(adamantine_recipes, list(
 	icon_state = "sheet-mythril"
 	singular_name = "mythril sheet"
 	origin_tech = "materials=4"
-	novariants = TRUE
 
 /*
  * Alien Alloy
@@ -374,7 +372,7 @@ GLOBAL_LIST_INIT(adamantine_recipes, list(
 GLOBAL_LIST_INIT(abductor_recipes, list ( \
 /*	new/datum/stack_recipe("alien chair", /obj/structure/chair, one_per_turf = 1, on_floor = 1), \ */
 	new/datum/stack_recipe("alien bed", /obj/structure/bed/abductor, 2, one_per_turf = 1, on_floor = 1), \
-	new/datum/stack_recipe("alien locker", /obj/structure/closet/abductor, 2, time = 15, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("alien locker", /obj/structure/closet/abductor, 1, time = 15, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("alien table frame", /obj/structure/table_frame/abductor, 1, time = 15, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("alien airlock assembly", /obj/structure/door_assembly/door_assembly_abductor, 4, time = 20, one_per_turf = 1, on_floor = 1), \
 	null, \
@@ -386,4 +384,4 @@ GLOBAL_LIST_INIT(abductor_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/abductor/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.abductor_recipes
-	. = ..()
+	..()

@@ -14,10 +14,11 @@
 	name = "bookcase"
 	icon = 'icons/obj/library.dmi'
 	icon_state = "bookempty"
-	anchored = FALSE
-	density = TRUE
+	anchored = 0
+	density = 1
 	opacity = 0
 	resistance_flags = FLAMMABLE
+	obj_integrity = 200
 	max_integrity = 200
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 50, acid = 0)
 	var/state = 0
@@ -30,7 +31,7 @@
 		return
 	state = 2
 	icon_state = "book-0"
-	anchored = TRUE
+	anchored = 1
 	for(var/obj/item/I in loc)
 		if(istype(I, /obj/item/weapon/book))
 			I.loc = src
@@ -44,7 +45,7 @@
 				playsound(loc, I.usesound, 100, 1)
 				if(do_after(user, 20*I.toolspeed, target = src))
 					to_chat(user, "<span class='notice'>You wrench the frame into place.</span>")
-					anchored = TRUE
+					anchored = 1
 					state = 1
 			if(istype(I, /obj/item/weapon/crowbar))
 				playsound(loc, I.usesound, 100, 1)
@@ -63,7 +64,7 @@
 			if(istype(I, /obj/item/weapon/wrench))
 				playsound(loc, I.usesound, 100, 1)
 				to_chat(user, "<span class='notice'>You unwrench the frame.</span>")
-				anchored = FALSE
+				anchored = 0
 				state = 0
 
 		if(2)
@@ -80,7 +81,7 @@
 				to_chat(user, "<span class='notice'>You empty \the [I] into \the [src].</span>")
 				update_icon()
 			else if(istype(I, /obj/item/weapon/pen))
-				var/newname = stripped_input(user, "What would you like to title this bookshelf?")
+				var/newname = stripped_input(usr, "What would you like to title this bookshelf?")
 				if(!newname)
 					return
 				else

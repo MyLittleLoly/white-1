@@ -11,7 +11,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge = 3
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/meat
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 
 /datum/crafting_recipe/food/xenomeatbread
 	name = "Xenomeat bread"
@@ -21,7 +21,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge = 3
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/xenomeat
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 
 /datum/crafting_recipe/food/spidermeatbread
 	name = "Spidermeat bread"
@@ -31,7 +31,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge = 3
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/spidermeat
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 
 /datum/crafting_recipe/food/banananutbread
 	name = "Banana nut bread"
@@ -42,7 +42,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/banana = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/banana
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 
 /datum/crafting_recipe/food/tofubread
 	name = "Tofu bread"
@@ -52,7 +52,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge = 3
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/tofu
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 
 /datum/crafting_recipe/food/creamcheesebread
 	name = "Cream cheese bread"
@@ -62,7 +62,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge = 2
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/creamcheese
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 
 /datum/crafting_recipe/food/mimanabread
 	name = "Mimana bread"
@@ -73,7 +73,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/banana/mime = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/mimana
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 
 /datum/crafting_recipe/food/butteredtoast
 	name = "Buttered Toast"
@@ -82,7 +82,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/butter = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/butteredtoast
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 
 /datum/crafting_recipe/food/butterbiscuit
 	name = "Butter Biscuit"
@@ -91,5 +91,5 @@
 		/obj/item/weapon/reagent_containers/food/snacks/butter = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/butterbiscuit
-	subcategory = CAT_BREAD
+	category = CAT_BREAD
 

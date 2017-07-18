@@ -1,7 +1,7 @@
 //like orange but only checks north/south/east/west for one step
 /proc/cardinalrange(var/center)
 	var/list/things = list()
-	for(var/direction in GLOB.cardinals)
+	for(var/direction in GLOB.cardinal)
 		var/turf/T = get_step(center, direction)
 		if(!T) continue
 		things += T.contents
@@ -13,15 +13,15 @@
 
 	icon = 'icons/obj/machines/antimatter.dmi'
 	icon_state = "shield"
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	dir = NORTH
-	use_power = NO_POWER_USE//Living things generally dont use power
+	use_power = 0//Living things generally dont use power
 	idle_power_usage = 0
 	active_power_usage = 0
 
 	var/obj/machinery/power/am_control_unit/control_unit = null
-	var/processing = FALSE//To track if we are in the update list or not, we need to be when we are damaged and if we ever
+	var/processing = 0//To track if we are in the update list or not, we need to be when we are damaged and if we ever
 	var/stability = 100//If this gets low bad things tend to happen
 	var/efficiency = 1//How many cores this core counts for when doing power processing, plasma in the air and stability could affect this
 	var/coredirs = 0
@@ -50,7 +50,7 @@
 			break
 
 	if(!control_unit)//No other guys nearby look for a control unit
-		for(var/direction in GLOB.cardinals)
+		for(var/direction in GLOB.cardinal)
 		for(var/obj/machinery/power/am_control_unit/AMC in cardinalrange(src))
 			if(AMC.add_shielding(src))
 				break
@@ -72,7 +72,9 @@
 	return ..()
 
 
-/obj/machinery/am_shielding/CanPass(atom/movable/mover, turf/target)
+/obj/machinery/am_shielding/CanPass(atom/movable/mover, turf/target, height=0)
+	if(height==0)
+		return 1
 	return 0
 
 
@@ -112,11 +114,11 @@
 				if(shield.control_unit == control_unit)
 					if(shield.processing)
 						coredirs |= direction
-					if(direction in GLOB.cardinals)
+					if(direction in GLOB.cardinal)
 						dirs |= direction
 
 			else
-				if(istype(machine, /obj/machinery/power/am_control_unit) && (direction in GLOB.cardinals))
+				if(istype(machine, /obj/machinery/power/am_control_unit) && (direction in GLOB.cardinal))
 					var/obj/machinery/power/am_control_unit/control = machine
 					if(control == control_unit)
 						dirs |= direction
@@ -148,7 +150,7 @@
 					playsound(loc, 'sound/weapons/tap.ogg', 50, 1)
 		if(BURN)
 			if(sound_effect)
-				playsound(src.loc, 'sound/items/welder.ogg', 100, 1)
+				playsound(src.loc, 'sound/items/Welder.ogg', 100, 1)
 		else
 			return
 	if(damage_amount >= 10)
@@ -184,7 +186,7 @@
 
 
 /obj/machinery/am_shielding/proc/setup_core()
-	processing = TRUE
+	processing = 1
 	GLOB.machines |= src
 	START_PROCESSING(SSmachines, src)
 	if(!control_unit)
@@ -195,7 +197,7 @@
 
 
 /obj/machinery/am_shielding/proc/shutdown_core()
-	processing = FALSE
+	processing = 0
 	if(!control_unit)
 		return
 	control_unit.linked_cores.Remove(src)

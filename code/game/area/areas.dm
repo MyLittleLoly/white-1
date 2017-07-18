@@ -12,26 +12,26 @@
 
 	var/map_name // Set in New(); preserves the name set by the map maker, even if renamed by the Blueprints.
 
-	var/valid_territory = TRUE // If it's a valid territory for gangs to claim
-	var/blob_allowed = TRUE // Does it count for blobs score? By default, all areas count.
+	var/valid_territory = 1 // If it's a valid territory for gangs to claim
+	var/blob_allowed = 1 // Does it count for blobs score? By default, all areas count.
 
 	var/eject = null
 
 	var/fire = null
-	var/atmos = TRUE
-	var/atmosalm = FALSE
-	var/poweralm = TRUE
+	var/atmos = 1
+	var/atmosalm = 0
+	var/poweralm = 1
 	var/party = null
-	var/lightswitch = TRUE
+	var/lightswitch = 1
 
-	var/requires_power = TRUE
-	var/always_unpowered = FALSE	// This gets overriden to 1 for space in area/Initialize().
+	var/requires_power = 1
+	var/always_unpowered = 0	// This gets overriden to 1 for space in area/Initialize().
 
-	var/outdoors = FALSE //For space, the asteroid, lavaland, etc. Used with blueprints to determine if we are adding a new area (vs editing a station room)
+	var/outdoors = 0 //For space, the asteroid, lavaland, etc. Used with blueprints to determine if we are adding a new area (vs editing a station room)
 
-	var/power_equip = TRUE
-	var/power_light = TRUE
-	var/power_environ = TRUE
+	var/power_equip = 1
+	var/power_light = 1
+	var/power_environ = 1
 	var/music = null
 	var/used_equip = 0
 	var/used_light = 0
@@ -40,10 +40,10 @@
 	var/static_light = 0
 	var/static_environ
 
-	var/has_gravity = FALSE
-	var/noteleport = FALSE			//Are you forbidden from teleporting to the area? (centcomm, mobs, wizard, hand teleporter)
+	var/has_gravity = 0
+	var/noteleport = 0			//Are you forbidden from teleporting to the area? (centcomm, mobs, wizard, hand teleporter)
 	var/hidden = FALSE 			//Hides area from player Teleport function.
-	var/safe = FALSE 				//Is the area teleport-safe: no space / radiation / aggresive mobs / other dangers
+	var/safe = 0 				//Is the area teleport-safe: no space / radiation / aggresive mobs / other dangers
 
 	var/no_air = null
 	var/list/related			// the other areas of the same type as this
@@ -108,9 +108,9 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	if(requires_power)
 		luminosity = 0
 	else
-		power_light = TRUE
-		power_equip = TRUE
-		power_environ = TRUE
+		power_light = 1
+		power_equip = 1
+		power_environ = 1
 
 		if(dynamic_lighting == DYNAMIC_LIGHTING_FORCED)
 			dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
@@ -123,9 +123,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	..()
 
 	power_change()		// all machines set to current power level, also updates icon
-
 	blend_mode = BLEND_MULTIPLY // Putting this in the constructor so that it stops the icons being screwed up in the map editor.
-
 	if(!IS_DYNAMIC_LIGHTING(src))
 		add_overlay(/obj/effect/fullbright)
 
@@ -463,10 +461,10 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 
 /area/proc/setup(a_name)
 	name = a_name
-	power_equip = FALSE
-	power_light = FALSE
-	power_environ = FALSE
-	always_unpowered = FALSE
-	valid_territory = FALSE
-	blob_allowed = FALSE
+	power_equip = 0
+	power_light = 0
+	power_environ = 0
+	always_unpowered = 0
+	valid_territory = 0
+	blob_allowed = 0
 	addSorted()

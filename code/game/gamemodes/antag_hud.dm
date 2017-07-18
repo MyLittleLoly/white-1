@@ -1,9 +1,9 @@
 /datum/atom_hud/antag
 	hud_icons = list(ANTAG_HUD)
-	var/self_visible = TRUE
+	var/self_visible = 1
 
 /datum/atom_hud/antag/hidden
-	self_visible = FALSE
+	self_visible = 0
 
 /datum/atom_hud/antag/proc/join_hud(mob/M)
 	//sees_hud should be set to 0 if the mob does not get to see it's own hud type.

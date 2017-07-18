@@ -134,12 +134,8 @@ function tag_pr($payload, $opened) {
 	if($opened) {	//you only have one shot on these ones so as to not annoy maintainers
 		$tags = checkchangelog($payload, true, false);
 
-		$lowertitle = strtolower($title);
-		if(strpos($lowertitle, 'refactor') !== FALSE)
+		if(strpos(strtolower($title), 'refactor') !== FALSE)
 			$tags[] = 'Refactor';
-		
-		if(strpos($lowertitle, 'revert') !== FALSE || strpos($lowertitle, 'removes') !== FALSE)
-			$tags[] = 'Revert/Removal';
 	}
 
 	$remove = array();
@@ -150,16 +146,15 @@ function tag_pr($payload, $opened) {
 	else if ($mergable === FALSE)
 		$tags[] = 'Merge Conflict';
 
-	$treetags = array('_maps' => 'Map Edit', 'tools' => 'Tools', 'SQL' => 'SQL');
-	$addonlytags = array('icons' => 'Sprites', 'sounds' => 'Sound');
-	foreach($treetags as $tree => $tag)
-		if(has_tree_been_edited($payload, $tree))
-			$tags[] = $tag;
-		else
-			$remove[] = $tag;
-	foreach($addonlytags as $tree => $tag)
-		if(has_tree_been_edited($payload, $tree))
-			$tags[] = $tag;
+	if(has_tree_been_edited($payload, '_maps'))
+		$tags[] = 'Map Edit';
+	else
+		$remove[] = 'Map Edit';
+
+	if(has_tree_been_edited($payload, 'tools'))
+		$tags[] = 'Tools';
+	else
+		$remove[] = 'Tools';
 
 	//only maintners should be able to remove these
 	if(strpos($title, '[DNM]') !== FALSE)
@@ -216,12 +211,12 @@ function handle_pr($payload) {
 			return;
 	} 
 	
-	if (strpos(strtolower($payload['pull_request']['title']), '[s]') !== false) {
+	if (strtolower(substr($payload['pull_request']['title'], 0, 3)) == '[s]') {
 		echo "PR Announcement Halted; Secret tag detected.\n";
 		return;
 	}
 	
-	$msg = '['.$payload['pull_request']['base']['repo']['full_name'].'] Pull Request '.$action.' by '.htmlSpecialChars($payload['sender']['login']).': <a href="'.$payload['pull_request']['html_url'].'">'.htmlSpecialChars('#'.$payload['pull_request']['number'].' '.$payload['pull_request']['user']['login'].' - '.$payload['pull_request']['title']).'</a>';
+	$msg = 'Pull Request '.$action.' by '.htmlSpecialChars($payload['sender']['login']).': <a href="'.$payload['pull_request']['html_url'].'">'.htmlSpecialChars('#'.$payload['pull_request']['number'].' '.$payload['pull_request']['user']['login'].' - '.$payload['pull_request']['title']).'</a>';
 	sendtoallservers('?announce='.urlencode($msg), $payload);
 
 }

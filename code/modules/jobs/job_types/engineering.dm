@@ -17,14 +17,14 @@ Chief Engineer
 
 	outfit = /datum/outfit/job/ce
 
-	access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_MAINT_TUNNELS,
-			            ACCESS_EXTERNAL_AIRLOCKS, ACCESS_ATMOSPHERICS, ACCESS_EMERGENCY_STORAGE, ACCESS_EVA,
-			            ACCESS_HEADS, ACCESS_CONSTRUCTION, ACCESS_SEC_DOORS, ACCESS_MINISAT,
-			            ACCESS_CE, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
-	minimal_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_MAINT_TUNNELS,
-			            ACCESS_EXTERNAL_AIRLOCKS, ACCESS_ATMOSPHERICS, ACCESS_EMERGENCY_STORAGE, ACCESS_EVA,
-			            ACCESS_HEADS, ACCESS_CONSTRUCTION, ACCESS_SEC_DOORS, ACCESS_MINISAT,
-			            ACCESS_CE, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_TCOMSAT, ACCESS_MINERAL_STOREROOM)
+	access = list(GLOB.access_engine, GLOB.access_engine_equip, GLOB.access_tech_storage, GLOB.access_maint_tunnels,
+			            GLOB.access_external_airlocks, GLOB.access_atmospherics, GLOB.access_emergency_storage, GLOB.access_eva,
+			            GLOB.access_heads, GLOB.access_construction, GLOB.access_sec_doors, GLOB.access_minisat,
+			            GLOB.access_ce, GLOB.access_RC_announce, GLOB.access_keycard_auth, GLOB.access_tcomsat, GLOB.access_mineral_storeroom)
+	minimal_access = list(GLOB.access_engine, GLOB.access_engine_equip, GLOB.access_tech_storage, GLOB.access_maint_tunnels,
+			            GLOB.access_external_airlocks, GLOB.access_atmospherics, GLOB.access_emergency_storage, GLOB.access_eva,
+			            GLOB.access_heads, GLOB.access_construction, GLOB.access_sec_doors, GLOB.access_minisat,
+			            GLOB.access_ce, GLOB.access_RC_announce, GLOB.access_keycard_auth, GLOB.access_tcomsat, GLOB.access_mineral_storeroom)
 
 /datum/outfit/job/ce
 	name = "Chief Engineer"
@@ -38,12 +38,11 @@ Chief Engineer
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/hardhat/white
 	gloves = /obj/item/clothing/gloves/color/black/ce
-	accessory = /obj/item/clothing/accessory/pocketprotector/full
 	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1,/obj/item/device/modular_computer/tablet/preset/advanced=1)
 
 	backpack = /obj/item/weapon/storage/backpack/industrial
 	satchel = /obj/item/weapon/storage/backpack/satchel/eng
-	duffelbag = /obj/item/weapon/storage/backpack/duffelbag/engineering
+	dufflebag = /obj/item/weapon/storage/backpack/dufflebag/engineering
 	box = /obj/item/weapon/storage/box/engineer
 	pda_slot = slot_l_store
 
@@ -75,27 +74,26 @@ Station Engineer
 
 	outfit = /datum/outfit/job/engineer
 
-	access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_MAINT_TUNNELS,
-									ACCESS_EXTERNAL_AIRLOCKS, ACCESS_CONSTRUCTION, ACCESS_ATMOSPHERICS, ACCESS_TCOMSAT)
-	minimal_access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_MAINT_TUNNELS,
-									ACCESS_EXTERNAL_AIRLOCKS, ACCESS_CONSTRUCTION, ACCESS_TCOMSAT)
+	access = list(GLOB.access_engine, GLOB.access_engine_equip, GLOB.access_tech_storage, GLOB.access_maint_tunnels,
+									GLOB.access_external_airlocks, GLOB.access_construction, GLOB.access_atmospherics, GLOB.access_tcomsat)
+	minimal_access = list(GLOB.access_engine, GLOB.access_engine_equip, GLOB.access_tech_storage, GLOB.access_maint_tunnels,
+									GLOB.access_external_airlocks, GLOB.access_construction, GLOB.access_tcomsat)
 
 /datum/outfit/job/engineer
 	name = "Station Engineer"
 	jobtype = /datum/job/engineer
 
-	belt = /obj/item/weapon/storage/belt/utility/full/engi
+	belt = /obj/item/weapon/storage/belt/utility/full
 	l_pocket = /obj/item/device/pda/engineering
 	ears = /obj/item/device/radio/headset/headset_eng
 	uniform = /obj/item/clothing/under/rank/engineer
 	shoes = /obj/item/clothing/shoes/workboots
 	head = /obj/item/clothing/head/hardhat
 	r_pocket = /obj/item/device/t_scanner
-	accessory = /obj/item/clothing/accessory/pocketprotector/full
 
 	backpack = /obj/item/weapon/storage/backpack/industrial
 	satchel = /obj/item/weapon/storage/backpack/satchel/eng
-	duffelbag = /obj/item/weapon/storage/backpack/duffelbag/engineering
+	dufflebag = /obj/item/weapon/storage/backpack/dufflebag/engineering
 	box = /obj/item/weapon/storage/box/engineer
 	pda_slot = slot_l_store
 	backpack_contents = list(/obj/item/device/modular_computer/tablet/preset/advanced=1)
@@ -130,9 +128,9 @@ Atmospheric Technician
 
 	outfit = /datum/outfit/job/atmos
 
-	access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_MAINT_TUNNELS,
-									ACCESS_EXTERNAL_AIRLOCKS, ACCESS_CONSTRUCTION, ACCESS_ATMOSPHERICS)
-	minimal_access = list(ACCESS_ATMOSPHERICS, ACCESS_MAINT_TUNNELS, ACCESS_EMERGENCY_STORAGE, ACCESS_CONSTRUCTION)
+	access = list(GLOB.access_engine, GLOB.access_engine_equip, GLOB.access_tech_storage, GLOB.access_maint_tunnels,
+									GLOB.access_external_airlocks, GLOB.access_construction, GLOB.access_atmospherics)
+	minimal_access = list(GLOB.access_atmospherics, GLOB.access_maint_tunnels, GLOB.access_emergency_storage, GLOB.access_construction)
 
 /datum/outfit/job/atmos
 	name = "Atmospheric Technician"
@@ -143,11 +141,10 @@ Atmospheric Technician
 	ears = /obj/item/device/radio/headset/headset_eng
 	uniform = /obj/item/clothing/under/rank/atmospheric_technician
 	r_pocket = /obj/item/device/analyzer
-	accessory = /obj/item/clothing/accessory/pocketprotector/full
 
 	backpack = /obj/item/weapon/storage/backpack/industrial
 	satchel = /obj/item/weapon/storage/backpack/satchel/eng
-	duffelbag = /obj/item/weapon/storage/backpack/duffelbag/engineering
+	dufflebag = /obj/item/weapon/storage/backpack/dufflebag/engineering
 	box = /obj/item/weapon/storage/box/engineer
 	pda_slot = slot_l_store
 	backpack_contents = list(/obj/item/device/modular_computer/tablet/preset/advanced=1)

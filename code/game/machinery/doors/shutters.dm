@@ -8,7 +8,7 @@
 
 /obj/machinery/door/poddoor/shutters/preopen
 	icon_state = "open"
-	density = FALSE
+	density = 0
 	opacity = 0
 
 

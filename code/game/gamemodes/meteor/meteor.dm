@@ -50,6 +50,8 @@
 	else
 		to_chat(world, "<span class='boldnotice'>Nobody survived the meteor storm!</span>")
 
-	SSticker.mode_result = "end - evacuation"
+	SSblackbox.set_details("round_end_result","end - evacuation")
+	SSblackbox.set_val("round_end_result",survivors)
+
 	..()
 	return 1

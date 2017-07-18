@@ -6,8 +6,8 @@
 	origin_tech = "combat=3;materials=2"
 	casing_ejector = 0
 
-/obj/item/weapon/gun/ballistic/revolver/Initialize()
-	. = ..()
+/obj/item/weapon/gun/ballistic/revolver/New()
+	..()
 	if(!istype(magazine, /obj/item/ammo_box/magazine/internal/cylinder))
 		verbs -= /obj/item/weapon/gun/ballistic/revolver/verb/spin
 
@@ -28,7 +28,6 @@
 	var/num_loaded = magazine.attackby(A, user, params, 1)
 	if(num_loaded)
 		to_chat(user, "<span class='notice'>You load [num_loaded] shell\s into \the [src].</span>")
-		playsound(user, 'sound/weapons/bulletinsert.ogg', 60, 1)
 		A.update_icon()
 		update_icon()
 		chamber_round(0)
@@ -46,7 +45,6 @@
 			num_unloaded++
 	if (num_unloaded)
 		to_chat(user, "<span class='notice'>You unload [num_unloaded] shell\s from [src].</span>")
-		playsound(user, 'sound/weapons/bulletremove.ogg', 60, 1)
 	else
 		to_chat(user, "<span class='warning'>[src] is empty!</span>")
 
@@ -92,13 +90,17 @@
 	desc = "A cheap Martian knock-off of a classic law enforcement firearm. Uses .38-special rounds."
 	icon_state = "detective"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev38
-	unique_rename = TRUE
-	unique_reskin = list("Default" = "detective",
-						"Leopard Spots" = "detective_leopard",
-						"Black Panther" = "detective_panther",
-						"Gold Trim" = "detective_gold",
-						"The Peacemaker" = "detective_peacemaker"
-						)
+	unique_rename = 1
+	unique_reskin = 1
+
+/obj/item/weapon/gun/ballistic/revolver/detective/New()
+	..()
+	options["Default"] = "detective"
+	options["Leopard Spots"] = "detective_leopard"
+	options["Black Panther"] = "detective_panther"
+	options["Gold Trim"] = "detective_gold"
+	options["The Peacemaker"] = "detective_peacemaker"
+	options["Cancel"] = null
 
 /obj/item/weapon/gun/ballistic/revolver/detective/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, message = 1, params, zone_override = "")
 	if(magazine.caliber != initial(magazine.caliber))
@@ -173,8 +175,8 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rus357
 	var/spun = FALSE
 
-/obj/item/weapon/gun/ballistic/revolver/russian/Initialize()
-	. = ..()
+/obj/item/weapon/gun/ballistic/revolver/russian/New()
+	..()
 	do_spin()
 	spun = TRUE
 	update_icon()
@@ -259,27 +261,30 @@
 	icon_state = "dshotgun"
 	item_state = "shotgun"
 	w_class = WEIGHT_CLASS_BULKY
-	weapon_weight = WEAPON_MEDIUM
 	force = 10
 	flags = CONDUCT
 	slot_flags = SLOT_BACK
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/dual
 	sawn_desc = "Omar's coming!"
-	unique_rename = TRUE
-	unique_reskin = list("Default" = "dshotgun",
-						"Dark Red Finish" = "dshotgun-d",
-						"Ash" = "dshotgun-f",
-						"Faded Grey" = "dshotgun-g",
-						"Maple" = "dshotgun-1",
-						"Rosewood" = "dshotgun-p"
-						)
+	unique_rename = 1
+	unique_reskin = 1
+
+/obj/item/weapon/gun/ballistic/revolver/doublebarrel/New()
+	..()
+	options["Default"] = "dshotgun"
+	options["Dark Red Finish"] = "dshotgun-d"
+	options["Ash"] = "dshotgun-f"
+	options["Faded Grey"] = "dshotgun-g"
+	options["Maple"] = "dshotgun-l"
+	options["Rosewood"] = "dshotgun-p"
+	options["Cancel"] = null
 
 /obj/item/weapon/gun/ballistic/revolver/doublebarrel/attackby(obj/item/A, mob/user, params)
 	..()
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		chamber_round()
-	if(istype(A, /obj/item/weapon/melee/transforming/energy))
-		var/obj/item/weapon/melee/transforming/energy/W = A
+	if(istype(A, /obj/item/weapon/melee/energy))
+		var/obj/item/weapon/melee/energy/W = A
 		if(W.active)
 			sawoff(user)
 	if(istype(A, /obj/item/weapon/circular_saw) || istype(A, /obj/item/weapon/gun/energy/plasmacutter))
@@ -311,9 +316,9 @@
 	slot_flags = null
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/improvised
 	sawn_desc = "I'm just here for the gasoline."
-	unique_rename = FALSE
-	unique_reskin = null
-	var/slung = FALSE
+	unique_rename = 0
+	unique_reskin = 0
+	var/slung = 0
 
 /obj/item/weapon/gun/ballistic/revolver/doublebarrel/improvised/attackby(obj/item/A, mob/user, params)
 	..()
@@ -322,7 +327,7 @@
 		if(C.use(10))
 			slot_flags = SLOT_BACK
 			to_chat(user, "<span class='notice'>You tie the lengths of cable to the shotgun, making a sling.</span>")
-			slung = TRUE
+			slung = 1
 			update_icon()
 		else
 			to_chat(user, "<span class='warning'>You need at least ten lengths of cable if you want to make a sling!</span>")
@@ -359,4 +364,4 @@
 		user.visible_message("<span class='warning'>[user] somehow manages to shoot [user.p_them()]self in the face!</span>", "<span class='userdanger'>You somehow shoot yourself in the face! How the hell?!</span>")
 		user.emote("scream")
 		user.drop_item()
-		user.Knockdown(80)
+		user.Weaken(4)

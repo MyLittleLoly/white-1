@@ -3,8 +3,9 @@
 	desc = "A small wall mounted cabinet designed to hold a fire extinguisher."
 	icon = 'icons/obj/wallmounts.dmi'
 	icon_state = "extinguisher_closed"
-	anchored = TRUE
-	density = FALSE
+	anchored = 1
+	density = 0
+	obj_integrity = 200
 	max_integrity = 200
 	integrity_failure = 50
 	var/obj/item/weapon/extinguisher/stored_extinguisher
@@ -41,7 +42,7 @@
 		to_chat(user, "<span class='notice'>You start unsecuring [name]...</span>")
 		playsound(loc, I.usesound, 50, 1)
 		if(do_after(user, 60*I.toolspeed, target = src))
-			playsound(loc, 'sound/items/deconstruct.ogg', 50, 1)
+			playsound(loc, 'sound/items/Deconstruct.ogg', 50, 1)
 			to_chat(user, "<span class='notice'>You unsecure [name].</span>")
 			deconstruct(TRUE)
 		return

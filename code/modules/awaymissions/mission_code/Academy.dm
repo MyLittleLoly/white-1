@@ -27,7 +27,8 @@
 	desc = "Made by Abjuration Inc"
 	icon = 'icons/obj/cult.dmi'
 	icon_state = "forge"
-	anchored = TRUE
+	anchored = 1
+	obj_integrity = 200
 	max_integrity = 200
 	var/mob/living/current_wizard = null
 	var/next_check = 0
@@ -64,7 +65,7 @@
 
 /obj/structure/academy_wizard_spawner/proc/give_control()
 	set waitfor = FALSE
-
+	
 	if(!current_wizard)
 		return
 	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as Wizard Academy Defender?", "wizard", null, be_special_flag = ROLE_WIZARD, M = current_wizard)
@@ -178,9 +179,9 @@
 			S.speedmod += 1
 		if(7)
 			//Throw
-			user.Stun(60)
+			user.Stun(3)
 			user.adjustBruteLoss(50)
-			var/throw_dir = pick(GLOB.cardinals)
+			var/throw_dir = pick(GLOB.cardinal)
 			var/atom/throw_target = get_edge_target_turf(user, throw_dir)
 			user.throw_at(throw_target, 200, 4)
 		if(8)

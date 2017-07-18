@@ -3,9 +3,9 @@
 	name = "transit tube"
 	icon = 'icons/obj/atmospherics/pipes/transit_tube.dmi'
 	icon_state = "straight"
-	density = TRUE
+	density = 1
 	layer = LOW_ITEM_LAYER
-	anchored = TRUE
+	anchored = 1
 	climbable = 1
 	var/tube_construction = /obj/structure/c_transit_tube
 	var/list/tube_dirs //list of directions this tube section can connect to.
@@ -187,7 +187,7 @@
 	dir = WEST
 
 /obj/structure/transit_tube/diagonal/crossing
-	density = FALSE
+	density = 0
 	icon_state = "diagonal_crossing"
 	tube_construction = /obj/structure/c_transit_tube/diagonal/crossing
 
@@ -261,7 +261,7 @@
 /obj/structure/transit_tube/crossing
 	icon_state = "crossing"
 	tube_construction = /obj/structure/c_transit_tube/crossing
-	density = FALSE
+	density = 0
 
 //mostly for mapping use
 /obj/structure/transit_tube/crossing/horizontal

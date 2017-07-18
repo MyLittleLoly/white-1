@@ -3,7 +3,7 @@
 	desc = "Used to view and edit personnel's security records."
 	icon_screen = "security"
 	icon_keyboard = "security_key"
-	req_one_access = list(ACCESS_SECURITY, ACCESS_FORENSICS_LOCKERS)
+	req_one_access = list(GLOB.access_security, GLOB.access_forensics_lockers)
 	circuit = /obj/item/weapon/circuitboard/computer/secure_data
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
@@ -22,17 +22,6 @@
 	var/order = 1 // -1 = Descending - 1 = Ascending
 
 	light_color = LIGHT_COLOR_RED
-
-/obj/machinery/computer/secure_data/syndie
-	icon_keyboard = "syndie_key"
-
-/obj/machinery/computer/secure_data/laptop
-	name = "security laptop"
-	desc = "A cheap Nanotrasen security laptop, it functions as a security records console. It's bolted to the table."
-	icon_state = "laptop"
-	icon_screen = "seclaptop"
-	icon_keyboard = "laptop_key"
-	clockwork = TRUE //it'd look weird
 
 /obj/machinery/computer/secure_data/attackby(obj/item/O, mob/user, params)
 	if(istype(O, /obj/item/weapon/card/id))
@@ -631,7 +620,7 @@ What a mess.*/
 					if("mi_crim_add")
 						if(istype(active1, /datum/data/record))
 							var/t1 = stripped_input(usr, "Please input minor crime names:", "Secure. records", "", null)
-							var/t2 = stripped_input(usr, "Please input minor crime details:", "Secure. records", "", null)
+							var/t2 = stripped_multiline_input(usr, "Please input minor crime details:", "Secure. records", "", null)
 							if(!canUseSecurityRecordsConsole(usr, t1, null, a2))
 								return
 							var/crime = GLOB.data_core.createCrimeEntry(t1, t2, authenticated, worldtime2text())
@@ -645,7 +634,7 @@ What a mess.*/
 					if("ma_crim_add")
 						if(istype(active1, /datum/data/record))
 							var/t1 = stripped_input(usr, "Please input major crime names:", "Secure. records", "", null)
-							var/t2 = stripped_input(usr, "Please input major crime details:", "Secure. records", "", null)
+							var/t2 = stripped_multiline_input(usr, "Please input major crime details:", "Secure. records", "", null)
 							if(!canUseSecurityRecordsConsole(usr, t1, null, a2))
 								return
 							var/crime = GLOB.data_core.createCrimeEntry(t1, t2, authenticated, worldtime2text())

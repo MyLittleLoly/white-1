@@ -29,13 +29,13 @@
 
 //Colored pipes, use these for mapping
 /obj/machinery/atmospherics/pipe/manifold4w/general
+	name="pipe"
 
 /obj/machinery/atmospherics/pipe/manifold4w/general/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
+	level = 2
 
 /obj/machinery/atmospherics/pipe/manifold4w/general/hidden
-	level = PIPE_HIDDEN_LEVEL
+	level = 1
 
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers
 	name="scrubbers pipe"
@@ -43,12 +43,10 @@
 	color=rgb(255,0,0)
 
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
-
+	level = 2
 
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden
-	level = PIPE_HIDDEN_LEVEL
+	level = 1
 
 /obj/machinery/atmospherics/pipe/manifold4w/supply
 	name="air supply pipe"
@@ -56,11 +54,10 @@
 	color=rgb(0,0,255)
 
 /obj/machinery/atmospherics/pipe/manifold4w/supply/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
+	level = 2
 
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden
-	level = PIPE_HIDDEN_LEVEL
+	level = 1
 
 /obj/machinery/atmospherics/pipe/manifold4w/supplymain
 	name="main air supply pipe"
@@ -68,96 +65,47 @@
 	color=rgb(130,43,272)
 
 /obj/machinery/atmospherics/pipe/manifold4w/supplymain/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
+	level = 2
 
 /obj/machinery/atmospherics/pipe/manifold4w/supplymain/hidden
-	level = PIPE_HIDDEN_LEVEL
+	level = 1
 
 /obj/machinery/atmospherics/pipe/manifold4w/yellow
 	pipe_color=rgb(255,198,0)
 	color=rgb(255,198,0)
 
 /obj/machinery/atmospherics/pipe/manifold4w/yellow/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
+	level = 2
 
 /obj/machinery/atmospherics/pipe/manifold4w/yellow/hidden
-	level = PIPE_HIDDEN_LEVEL
+	level = 1
 
 /obj/machinery/atmospherics/pipe/manifold4w/cyan
 	pipe_color=rgb(0,256,249)
 	color=rgb(0,256,249)
 
 /obj/machinery/atmospherics/pipe/manifold4w/cyan/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
+	level = 2
 
 /obj/machinery/atmospherics/pipe/manifold4w/cyan/hidden
-	level = PIPE_HIDDEN_LEVEL
+	level = 1
 
 /obj/machinery/atmospherics/pipe/manifold4w/green
 	pipe_color=rgb(30,256,0)
 	color=rgb(30,256,0)
 
 /obj/machinery/atmospherics/pipe/manifold4w/green/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
+	level = 2
 
 /obj/machinery/atmospherics/pipe/manifold4w/green/hidden
-	level = PIPE_HIDDEN_LEVEL
+	level = 1
 
 /obj/machinery/atmospherics/pipe/manifold4w/orange
-	pipe_color=rgb(255,129,25)
-	color=rgb(255,129,25)
+	pipe_color=rgb(255,127,39)
+	color=rgb(255,127,39)
 
 /obj/machinery/atmospherics/pipe/manifold4w/orange/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
+	level = 2
 
 /obj/machinery/atmospherics/pipe/manifold4w/orange/hidden
-	level = PIPE_HIDDEN_LEVEL
-
-/obj/machinery/atmospherics/pipe/manifold4w/purple
-	pipe_color=rgb(128,0,182)
-	color=rgb(128,0,182)
-
-/obj/machinery/atmospherics/pipe/manifold4w/purple/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
-
-/obj/machinery/atmospherics/pipe/manifold4w/purple/hidden
-	level = PIPE_HIDDEN_LEVEL
-
-/obj/machinery/atmospherics/pipe/manifold4w/dark
-	pipe_color=rgb(69,69,69)
-	color=rgb(69,69,69)
-
-/obj/machinery/atmospherics/pipe/manifold4w/dark/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
-
-/obj/machinery/atmospherics/pipe/manifold4w/dark/hidden
-	level = PIPE_HIDDEN_LEVEL
-
-/obj/machinery/atmospherics/pipe/manifold4w/violet
-	pipe_color=rgb(64,0,128)
-	color=rgb(64,0,128)
-
-/obj/machinery/atmospherics/pipe/manifold4w/violet/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
-
-/obj/machinery/atmospherics/pipe/manifold4w/violet/hidden
-	level = PIPE_HIDDEN_LEVEL
-
-/obj/machinery/atmospherics/pipe/manifold4w/brown
-	pipe_color=rgb(178,100,56)
-	color=rgb(178,100,56)
-
-/obj/machinery/atmospherics/pipe/manifold4w/brown/visible
-	level = PIPE_VISIBLE_LEVEL
-	layer = GAS_PIPE_VISIBLE_LAYER
-
-/obj/machinery/atmospherics/pipe/manifold4w/brown/hidden
-	level = PIPE_HIDDEN_LEVEL
+	level = 1

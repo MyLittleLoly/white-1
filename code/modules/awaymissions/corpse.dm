@@ -18,12 +18,8 @@
 	var/uses = 1			//how many times can we spawn from it. set to -1 for infinite.
 	var/brute_damage = 0
 	var/oxy_damage = 0
-	var/burn_damage = 0
-	var/datum/disease/disease = null //Do they start with a pre-spawned disease?
-	var/mob_color //Change the mob's color
-	var/assignedrole
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	var/banType = "lavaland"
 
 /obj/effect/mob_spawn/attack_ghost(mob/user)
@@ -67,15 +63,11 @@
 		M.gender = mob_gender
 	if(faction)
 		M.faction = list(faction)
-	if(disease)
-		M.ForceContractDisease(new disease)
 	if(death)
 		M.death(1) //Kills the new mob
 
 	M.adjustOxyLoss(oxy_damage)
 	M.adjustBruteLoss(brute_damage)
-	M.adjustFireLoss(burn_damage)
-	M.color = mob_color
 	equip(M)
 
 	if(ckey)
@@ -86,8 +78,6 @@
 		if(objectives)
 			for(var/objective in objectives)
 				MM.objectives += new/datum/objective(objective)
-		if(assignedrole)
-			M.mind.assigned_role = assignedrole
 		special(M, name)
 		MM.name = M.real_name
 	if(uses > 0)
@@ -106,7 +96,6 @@
 	var/id_job = null			//Such as "Clown" or "Chef." This just determines what the ID reads as, not their access
 	var/id_access = null		//This is for access. See access.dm for which jobs give what access. Use "Captain" if you want it to be all access.
 	var/id_access_list = null	//Allows you to manually add access to an ID card.
-	assignedrole = "Ghost Role"
 
 	var/husk = null
 	//these vars are for lazy mappers to override parts of the outfit
@@ -126,29 +115,23 @@
 	var/l_pocket = -1
 	var/back = -1
 	var/id = -1
-	var/neck = -1
-	var/backpack_contents = -1
-	var/suit_store = -1
 
 /obj/effect/mob_spawn/human/Initialize()
+	. = ..()
 	if(ispath(outfit))
 		outfit = new outfit()
 	if(!outfit)
 		outfit = new /datum/outfit
-	return ..()
+
 
 /obj/effect/mob_spawn/human/equip(mob/living/carbon/human/H)
 	if(mob_species)
 		H.set_species(mob_species)
 	if(husk)
 		H.Drain()
-	else //Because for some reason I can't track down, things are getting turned into husks even if husk = false. It's in some damage proc somewhere.
-		H.cure_husk()
-	H.underwear = "Nude"
-	H.undershirt = "Nude"
-	H.socks = "Nude"
+
 	if(outfit)
-		var/static/list/slots = list("uniform", "r_hand", "l_hand", "suit", "shoes", "gloves", "ears", "glasses", "mask", "head", "belt", "r_pocket", "l_pocket", "back", "id", "neck", "backpack_contents", "suit_store")
+		var/static/list/slots = list("uniform", "r_hand", "l_hand", "suit", "shoes", "gloves", "ears", "glasses", "mask", "head", "belt", "r_pocket", "l_pocket", "back", "id")
 		for(var/slot in slots)
 			var/T = vars[slot]
 			if(!isnum(T))
@@ -240,19 +223,6 @@
 
 ///////////Civilians//////////////////////
 
-/obj/effect/mob_spawn/human/corpse/assistant
-	name = "Assistant"
-	outfit = /datum/outfit/job/assistant
-
-/obj/effect/mob_spawn/human/corpse/assistant/beesease_infection
-	disease = /datum/disease/beesease
-
-/obj/effect/mob_spawn/human/corpse/assistant/brainrot_infection
-	disease = /datum/disease/brainrot
-
-/obj/effect/mob_spawn/human/corpse/assistant/spanishflu_infection
-	disease = /datum/disease/fluspanish
-
 /obj/effect/mob_spawn/human/cook
 	name = "Cook"
 	outfit = /datum/outfit/job/cook
@@ -271,7 +241,6 @@
 	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "sleeper"
 	flavour_text = "You are a space doctor!"
-	assignedrole = "Space Doctor"
 
 /obj/effect/mob_spawn/human/doctor/alive/equip(mob/living/carbon/human/H)
 	..()
@@ -315,7 +284,7 @@
 /obj/effect/mob_spawn/human/bartender
 	name = "Space Bartender"
 	id_job = "Bartender"
-	id_access_list = list(ACCESS_BAR)
+	id_access_list = list(GLOB.access_bar)
 	outfit = /datum/outfit/spacebartender
 
 /obj/effect/mob_spawn/human/bartender/alive
@@ -326,7 +295,6 @@
 	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "sleeper"
 	flavour_text = "You are a space bartender!"
-	assignedrole = "Space Bartender"
 
 /datum/outfit/spacebartender
 	name = "Space Bartender"
@@ -350,7 +318,6 @@
 	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "sleeper"
 	flavour_text = "You are a beach bum!"
-	assignedrole = "Beach Bum"
 
 /datum/outfit/beachbum
 	name = "Beach Bum"
@@ -358,18 +325,13 @@
 	uniform = /obj/item/clothing/under/shorts/red
 	r_pocket = /obj/item/weapon/storage/wallet/random
 
-/datum/outfit/beachbum/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	..()
-	if(visualsOnly)
-		return
-	H.dna.add_mutation(STONER)
 
 /////////////////Officers+Nanotrasen Security//////////////////////
 
 /obj/effect/mob_spawn/human/bridgeofficer
 	name = "Bridge Officer"
 	id_job = "Bridge Officer"
-	id_access_list = list(ACCESS_CENT_CAPTAIN)
+	id_access_list = list(GLOB.access_cent_captain)
 	outfit = /datum/outfit/nanotrasenbridgeofficercorpse
 
 /datum/outfit/nanotrasenbridgeofficercorpse
@@ -385,7 +347,7 @@
 /obj/effect/mob_spawn/human/commander
 	name = "Commander"
 	id_job = "Commander"
-	id_access_list = list(ACCESS_CENT_CAPTAIN, ACCESS_CENT_GENERAL, ACCESS_CENT_SPECOPS, ACCESS_CENT_MEDICAL, ACCESS_CENT_STORAGE)
+	id_access_list = list(GLOB.access_cent_captain)
 	outfit = /datum/outfit/nanotrasencommandercorpse
 
 /datum/outfit/nanotrasencommandercorpse
@@ -405,7 +367,7 @@
 /obj/effect/mob_spawn/human/nanotrasensoldier
 	name = "Nanotrasen Private Security Officer"
 	id_job = "Private Security Force"
-	id_access_list = list(ACCESS_CENT_CAPTAIN, ACCESS_CENT_GENERAL, ACCESS_CENT_SPECOPS, ACCESS_CENT_MEDICAL, ACCESS_CENT_STORAGE, ACCESS_SECURITY)
+	id_access_list = list(GLOB.access_cent_specops)
 	outfit = /datum/outfit/nanotrasensoldiercorpse
 
 /datum/outfit/nanotrasensoldiercorpse
@@ -429,16 +391,6 @@
 	icon_state = "sleeper"
 	flavour_text = "You are a Nanotrasen Commander!"
 
-/obj/effect/mob_spawn/human/nanotrasensoldier/alive
-	death = FALSE
-	roundstart = FALSE
-	mob_name = "Private Security Officer"
-	name = "sleeper"
-	icon = 'icons/obj/Cryogenic2.dmi'
-	icon_state = "sleeper"
-	faction = "nanotrasenprivate"
-	flavour_text = "You are a Nanotrasen Private Security Officer!"
-
 
 /////////////////Spooky Undead//////////////////////
 
@@ -454,13 +406,11 @@
 	icon = 'icons/effects/blood.dmi'
 	icon_state = "remains"
 	flavour_text = "By unknown powers, your skeletal remains have been reanimated! Walk this mortal plain and terrorize all living adventurers who dare cross your path."
-	assignedrole = "Skeleton"
 
 /obj/effect/mob_spawn/human/zombie
 	name = "rotting corpse"
 	mob_name = "zombie"
 	mob_species = /datum/species/zombie
-	assignedrole = "Zombie"
 
 /obj/effect/mob_spawn/human/zombie/alive
 	death = FALSE
@@ -490,7 +440,6 @@
 	permanent = TRUE
 	uses = -1
 	outfit = /datum/outfit/spacebartender
-	assignedrole = "Space Bar Patron"
 
 /obj/effect/mob_spawn/human/alive/space_bar_patron/attack_hand(mob/user)
 	var/despawn = alert("Return to cryosleep? (Warning, Your mob will be deleted!)",,"Yes","No")

@@ -1,11 +1,11 @@
 /obj/machinery/atmospherics/components/trinary/mixer
 	icon_state = "mixer_off"
-	density = FALSE
+	density = 0
 
 	name = "gas mixer"
 	can_unwrench = 1
 
-	var/on = FALSE
+	var/on = 0
 
 	var/target_pressure = ONE_ATMOSPHERE
 	var/node1_concentration = 0.5
@@ -19,7 +19,7 @@
 
 /obj/machinery/atmospherics/components/trinary/mixer/update_icon()
 	cut_overlays()
-	for(var/direction in GLOB.cardinals)
+	for(var/direction in GLOB.cardinal)
 		if(direction & initialize_directions)
 			var/obj/machinery/atmospherics/node = findConnecting(direction)
 			if(node)
@@ -39,7 +39,7 @@
 	var/old_stat = stat
 	..()
 	if(stat & NOPOWER)
-		on = FALSE
+		on = 0
 	if(old_stat != stat)
 		update_icon()
 
@@ -116,7 +116,7 @@
 
 	return TRUE
 
-/obj/machinery/atmospherics/components/trinary/mixer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
+/obj/machinery/atmospherics/components/trinary/mixer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
 																	datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)

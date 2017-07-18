@@ -30,16 +30,16 @@ GLOBAL_LIST_INIT(meteorsC, list(/obj/effect/meteor/dust)) //for space dust event
 	var/turf/pickedgoal
 	var/max_i = 10//number of tries to spawn meteor.
 	while(!isspaceturf(pickedstart))
-		var/startSide = pick(GLOB.cardinals)
-		pickedstart = spaceDebrisStartLoc(startSide, ZLEVEL_STATION)
-		pickedgoal = spaceDebrisFinishLoc(startSide, ZLEVEL_STATION)
+		var/startSide = pick(GLOB.cardinal)
+		pickedstart = spaceDebrisStartLoc(startSide, 1)
+		pickedgoal = spaceDebrisFinishLoc(startSide, 1)
 		max_i--
 		if(max_i<=0)
 			return
 	var/Me = pickweight(meteortypes)
 	var/obj/effect/meteor/M = new Me(pickedstart)
 	M.dest = pickedgoal
-	M.z_original = ZLEVEL_STATION
+	M.z_original = 1
 	spawn(0)
 		walk_towards(M, M.dest, 1)
 
@@ -88,15 +88,15 @@ GLOBAL_LIST_INIT(meteorsC, list(/obj/effect/meteor/dust)) //for space dust event
 	desc = "You should probably run instead of gawking at this."
 	icon = 'icons/obj/meteor.dmi'
 	icon_state = "small"
-	density = TRUE
-	anchored = TRUE
+	density = 1
+	anchored = 1
 	var/hits = 4
 	var/hitpwr = 2 //Level of ex_act to be called on hit.
 	var/dest
 	pass_flags = PASSTABLE
 	var/heavy = 0
 	var/meteorsound = 'sound/effects/meteorimpact.ogg'
-	var/z_original = ZLEVEL_STATION
+	var/z_original = 1
 	var/threat = 0 // used for determining which meteors are most interesting
 	var/lifetime = DEFAULT_METEOR_LIFETIME
 
@@ -130,7 +130,7 @@ GLOBAL_LIST_INIT(meteorsC, list(/obj/effect/meteor/dust)) //for space dust event
 	SpinAnimation()
 	QDEL_IN(src, lifetime)
 
-/obj/effect/meteor/Collide(atom/A)
+/obj/effect/meteor/Bump(atom/A)
 	if(A)
 		ram_turf(get_turf(A))
 		playsound(src.loc, meteorsound, 40, 1)
@@ -206,7 +206,7 @@ GLOBAL_LIST_INIT(meteorsC, list(/obj/effect/meteor/dust)) //for space dust event
 	pass_flags = PASSTABLE | PASSGRILLE
 	hits = 1
 	hitpwr = 3
-	meteorsound = 'sound/weapons/gunshot_smg.ogg'
+	meteorsound = 'sound/weapons/Gunshot_smg.ogg'
 	meteordrop = list(/obj/item/weapon/ore/glass)
 	threat = 1
 
@@ -295,7 +295,7 @@ GLOBAL_LIST_INIT(meteorsC, list(/obj/effect/meteor/dust)) //for space dust event
 	if(!isspaceturf(T))
 		new /obj/effect/decal/cleanable/blood(T)
 
-/obj/effect/meteor/meaty/Collide(atom/A)
+/obj/effect/meteor/meaty/Bump(atom/A)
 	A.ex_act(hitpwr)
 	get_hit()
 
@@ -334,7 +334,7 @@ GLOBAL_LIST_INIT(meteorsC, list(/obj/effect/meteor/dust)) //for space dust event
 	..()
 	explosion(src.loc, 5, 10, 15, 20, 0)
 
-/obj/effect/meteor/tunguska/Collide()
+/obj/effect/meteor/tunguska/Bump()
 	..()
 	if(prob(20))
 		explosion(src.loc,2,4,6,8)

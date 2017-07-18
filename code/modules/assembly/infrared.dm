@@ -5,8 +5,8 @@
 	materials = list(MAT_METAL=1000, MAT_GLASS=500)
 	origin_tech = "magnets=2;materials=2"
 
-	var/on = FALSE
-	var/visible = FALSE
+	var/on = 0
+	var/visible = 0
 	var/obj/effect/beam/i_beam/first = null
 	var/obj/effect/beam/i_beam/last = null
 
@@ -35,7 +35,7 @@
 	if(secured)
 		START_PROCESSING(SSobj, src)
 	else
-		on = FALSE
+		on = 0
 		if(first)
 			qdel(first)
 		STOP_PROCESSING(SSobj, src)
@@ -67,12 +67,12 @@
 	if(T)
 		var/obj/effect/beam/i_beam/I = new /obj/effect/beam/i_beam(T)
 		I.master = src
-		I.density = TRUE
+		I.density = 1
 		I.setDir(dir)
 		first = I
 		step(I, I.dir)
 		if(first)
-			I.density = FALSE
+			I.density = 0
 			I.vis_spread(visible)
 			I.limit = 8
 			I.process()
@@ -99,7 +99,7 @@
 	if(!secured || !on || next_activate > world.time)
 		return FALSE
 	pulse(0)
-	audible_message("[bicon(src)] *beep* *beep*", null, 3)
+	audible_message("\icon[src] *beep* *beep*", null, 3)
 	next_activate =  world.time + 30
 
 /obj/item/device/assembly/infra/interact(mob/user)//TODO: change this this to the wire control panel
@@ -164,9 +164,9 @@
 	var/obj/effect/beam/i_beam/previous = null
 	var/obj/item/device/assembly/infra/master = null
 	var/limit = null
-	var/visible = FALSE
+	var/visible = 0
 	var/left = null
-	anchored = TRUE
+	anchored = 1
 
 
 /obj/effect/beam/i_beam/proc/hit()
@@ -198,23 +198,23 @@
 	if(!next && (limit > 0))
 		var/obj/effect/beam/i_beam/I = new /obj/effect/beam/i_beam(loc)
 		I.master = master
-		I.density = TRUE
+		I.density = 1
 		I.setDir(dir)
 		I.previous = src
 		next = I
 		step(I, I.dir)
 		if(next)
-			I.density = FALSE
+			I.density = 0
 			I.vis_spread(visible)
 			I.limit = limit - 1
 			master.last = I
 			I.process()
 
-/obj/effect/beam/i_beam/Collide()
+/obj/effect/beam/i_beam/Bump()
 	qdel(src)
 	return
 
-/obj/effect/beam/i_beam/CollidedWith(atom/movable/AM)
+/obj/effect/beam/i_beam/Bumped()
 	hit()
 
 /obj/effect/beam/i_beam/Crossed(atom/movable/AM as mob|obj)

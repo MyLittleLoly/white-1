@@ -114,18 +114,18 @@
 		W.attack_self(src)
 		update_inv_hands()
 		return
-
+	
 	//These are always reachable.
 	//User itself, current loc, and user inventory
 	if(DirectAccess(A))
 		if(W)
-			W.melee_attack_chain(src, A, params)
+			melee_item_attack_chain(src,W,A,params)
 		else
 			if(ismob(A))
 				changeNext_move(CLICK_CD_MELEE)
 			UnarmedAttack(A)
 		return
-
+	
 	//Can't reach anything else in lockers or other weirdness
 	if(!loc.AllowClick())
 		return
@@ -133,7 +133,7 @@
 	//Standard reach turf to turf or reaching inside storage
 	if(CanReach(A,W))
 		if(W)
-			W.melee_attack_chain(src, A, params)
+			melee_item_attack_chain(src,W,A,params)
 		else
 			if(ismob(A))
 				changeNext_move(CLICK_CD_MELEE)
@@ -281,7 +281,7 @@
 	return
 
 /mob/living/carbon/MiddleClickOn(atom/A)
-	if(!src.stat && src.mind && src.mind.changeling && src.mind.changeling.chosen_sting && (iscarbon(A)) && (A != src))
+	if(!src.stat && src.mind && src.mind.changeling && src.mind.changeling.chosen_sting && (istype(A, /mob/living/carbon)) && (A != src))
 		next_click = world.time + 5
 		mind.changeling.chosen_sting.try_to_sting(src, A)
 	else
@@ -341,7 +341,7 @@
 	return
 
 /mob/living/carbon/AltClickOn(atom/A)
-	if(!src.stat && src.mind && src.mind.changeling && src.mind.changeling.chosen_sting && (iscarbon(A)) && (A != src))
+	if(!src.stat && src.mind && src.mind.changeling && src.mind.changeling.chosen_sting && (istype(A, /mob/living/carbon)) && (A != src))
 		next_click = world.time + 5
 		mind.changeling.chosen_sting.try_to_sting(src, A)
 	else
@@ -437,27 +437,22 @@
 	mouse_opacity = 2
 	screen_loc = "CENTER"
 
-/obj/screen/click_catcher/proc/UpdateGreed(view_size_x = 7, view_size_y = 7)
-	screen_loc = "CENTER-[view_size_x],CENTER-[view_size_y]"
-	var/list/ret = list()
-	for(var/X in 0 to (view_size_x * 2))
-		for(var/Y in 0  to (view_size_y * 2))
-			var/obj/screen/click_catcher/CC = new()
-			CC.screen_loc = "EAST-[X],NORTH-[Y]"
-			ret += CC
-	return ret
+/obj/screen/click_catcher/New()
+	..()
+	transform = matrix(200, 0, 0, 0, 200, 0)
 
 /obj/screen/click_catcher/Click(location, control, params)
 	var/list/modifiers = params2list(params)
-	if(modifiers["middle"] && iscarbon(usr))
+	if(modifiers["middle"] && istype(usr, /mob/living/carbon))
 		var/mob/living/carbon/C = usr
 		C.swap_hand()
 	else
-		var/turf/T = screen_loc2turf(screen_loc, get_turf(usr))
+		var/turf/T = params2turf(modifiers["screen-loc"], get_turf(usr))
 		params += "&catcher=1"
 		if(T)
 			T.Click(location, control, params)
 	. = 1
+
 
 /* MouseWheelOn */
 

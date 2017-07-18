@@ -5,9 +5,9 @@
 	name = "unattached transit tube"
 	icon = 'icons/obj/atmospherics/pipes/transit_tube.dmi'
 	icon_state = "straight"
-	density = FALSE
+	density = 0
 	layer = LOW_ITEM_LAYER //same as the built tube
-	anchored = FALSE
+	anchored = 0
 	var/flipped = 0
 	var/build_type = /obj/structure/transit_tube
 	var/flipped_build_type
@@ -154,5 +154,5 @@
 	name = "unattached transit tube pod"
 	icon = 'icons/obj/atmospherics/pipes/transit_tube.dmi'
 	icon_state = "pod"
-	anchored = FALSE
-	density = FALSE
+	anchored = 0
+	density = 0

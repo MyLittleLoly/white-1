@@ -10,6 +10,7 @@
 	construction_value = 20
 	break_message = "<span class='warning'>The antenna break off, leaving a pile of shards!</span>"
 	max_integrity = 100
+	obj_integrity = 100
 	light_color = "#AF0AAF"
 	debris = list(/obj/item/clockwork/alloy_shards/large = 2, \
 	/obj/item/clockwork/alloy_shards/small = 2, \
@@ -59,5 +60,6 @@
 				M = MM
 				break
 		if(!M)
-			M = H.apply_status_effect(STATUS_EFFECT_MANIAMOTOR, src)
+			M = H.apply_status_effect(STATUS_EFFECT_MANIAMOTOR)
+			M.motor = src
 		M.severity = Clamp(M.severity + ((11 - get_dist(src, H)) * efficiency * efficiency), 0, MAX_MANIA_SEVERITY)

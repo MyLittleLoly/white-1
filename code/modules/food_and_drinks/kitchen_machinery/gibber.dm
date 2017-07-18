@@ -4,14 +4,14 @@
 	desc = "The name isn't descriptive enough?"
 	icon = 'icons/obj/kitchen.dmi'
 	icon_state = "grinder"
-	density = TRUE
-	anchored = TRUE
-	var/operating = FALSE //Is it on?
+	density = 1
+	anchored = 1
+	var/operating = 0 //Is it on?
 	var/dirty = 0 // Does it need cleaning?
 	var/gibtime = 40 // Time from starting until meat appears
 	var/meat_produced = 0
 	var/ignore_clothing = 0
-	use_power = IDLE_POWER_USE
+	use_power = 1
 	idle_power_usage = 2
 	active_power_usage = 500
 
@@ -21,7 +21,7 @@
 
 /obj/machinery/gibber/autogibber/Initialize()
 	. = ..()
-	for(var/i in GLOB.cardinals)
+	for(var/i in GLOB.cardinal)
 		var/obj/machinery/mineral/input/input_obj = locate() in get_step(loc, i)
 		if(input_obj)
 			if(isturf(input_obj.loc))
@@ -33,12 +33,11 @@
 		CRASH("Didn't find an input plate.")
 		return
 
-/obj/machinery/gibber/autogibber/CollidedWith(atom/movable/AM)
-	if(!input_plate)
-		return
+/obj/machinery/gibber/autogibber/Bumped(atom/A)
+	if(!input_plate) return
 
-	if(ismob(AM))
-		var/mob/M = AM
+	if(ismob(A))
+		var/mob/M = A
 
 		if(M.loc == input_plate)
 			M.loc = src
@@ -163,7 +162,7 @@
 	use_power(1000)
 	visible_message("<span class='italics'>You hear a loud squelchy grinding sound.</span>")
 	playsound(src.loc, 'sound/machines/juicer.ogg', 50, 1)
-	operating = TRUE
+	src.operating = 1
 	update_icon()
 
 	var/offset = prob(50) ? -2 : 2
@@ -216,7 +215,7 @@
 	qdel(src.occupant)
 	spawn(src.gibtime)
 		playsound(src.loc, 'sound/effects/splat.ogg', 50, 1)
-		operating = FALSE
+		operating = 0
 		var/turf/T = get_turf(src)
 		var/list/turf/nearby_turfs = RANGE_TURFS(3,T) - T
 		var/obj/item/skin = allskin
@@ -232,5 +231,5 @@
 					new gibtype(gibturf,i)
 
 		pixel_x = initial(pixel_x) //return to its spot after shaking
-		operating = FALSE
+		src.operating = 0
 		update_icon()

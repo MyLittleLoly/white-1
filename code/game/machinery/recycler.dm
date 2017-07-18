@@ -6,8 +6,8 @@
 	icon = 'icons/obj/recycling.dmi'
 	icon_state = "grinder-o0"
 	layer = ABOVE_ALL_MOB_LAYER // Overhead
-	anchored = TRUE
-	density = TRUE
+	anchored = 1
+	density = 1
 	var/safety_mode = FALSE // Temporarily stops machine if it detects a mob
 	var/icon_name = "grinder-o"
 	var/blood = 0
@@ -16,7 +16,7 @@
 	var/datum/material_container/materials
 	var/crush_damage = 1000
 	var/eat_victim_items = TRUE
-	var/item_recycle_sound = 'sound/items/welder.ogg'
+	var/item_recycle_sound = 'sound/items/Welder.ogg'
 
 /obj/machinery/recycler/New()
 	..()
@@ -73,14 +73,13 @@
 	return ..()
 
 /obj/machinery/recycler/emag_act(mob/user)
-	if(emagged)
-		return
-	emagged = TRUE
-	if(safety_mode)
-		safety_mode = FALSE
-		update_icon()
-	playsound(src, "sparks", 75, 1, -1)
-	to_chat(user, "<span class='notice'>You use the cryptographic sequencer on the [src].</span>")
+	if(!emagged)
+		emagged = TRUE
+		if(safety_mode)
+			safety_mode = FALSE
+			update_icon()
+		playsound(src.loc, "sparks", 75, 1, -1)
+		to_chat(user, "<span class='notice'>You use the cryptographic sequencer on the [src.name].</span>")
 
 /obj/machinery/recycler/update_icon()
 	..()
@@ -89,7 +88,14 @@
 		is_powered = FALSE
 	icon_state = icon_name + "[is_powered]" + "[(blood ? "bld" : "")]" // add the blood tag at the end
 
-/obj/machinery/recycler/CollidedWith(atom/movable/AM)
+// This is purely for admin possession !FUN!.
+/obj/machinery/recycler/Bump(atom/movable/AM)
+	..()
+	if(AM)
+		Bumped(AM)
+
+
+/obj/machinery/recycler/Bumped(atom/movable/AM)
 
 	if(stat & (BROKEN|NOPOWER))
 		return
@@ -161,7 +167,7 @@
 	L.loc = src.loc
 
 	if(issilicon(L))
-		playsound(src.loc, 'sound/items/welder.ogg', 50, 1)
+		playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
 	else
 		playsound(src.loc, 'sound/effects/splat.ogg', 50, 1)
 
@@ -184,7 +190,7 @@
 				eat(I, sound=FALSE)
 
 	// Instantly lie down, also go unconscious from the pain, before you die.
-	L.Unconscious(100)
+	L.Paralyse(5)
 
 	// For admin fun, var edit emagged to 2.
 	if(gib || emagged == 2)

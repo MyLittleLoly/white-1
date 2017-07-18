@@ -9,7 +9,7 @@
 			return									// seems legit.
 
 	// Things you might plausibly want to follow
-	if(ismovableatom(A))
+	if(istype(A, /atom/movable))
 		ManualFollow(A)
 
 	// Otherwise jump
@@ -67,8 +67,8 @@
 		user.forceMove(get_turf(com.locked))
 
 /obj/effect/portal/attack_ghost(mob/user)
-	if(linked)
-		user.forceMove(get_turf(linked))
+	if(target)
+		user.forceMove(get_turf(target))
 
 /obj/machinery/gateway/centerstation/attack_ghost(mob/user)
 	if(awaygate)
