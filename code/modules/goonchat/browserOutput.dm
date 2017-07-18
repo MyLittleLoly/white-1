@@ -221,7 +221,7 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("data/iconCache.sav")) //Cache of ic
 	//Ok so I did my best but I accept that some calls to this will be for shit like sound and images
 	//It stands that we PROBABLY don't want to output those to the browser output so just handle them here
 	if (istype(message, /image) || istype(message, /sound) || istype(target, /savefile))
-		target << message
+		target << russian_html2text(sanitize_russian(message))
 		CRASH("Invalid message! [message]")
 
 	if(!istext(message))
