@@ -180,16 +180,24 @@ macro "default"
 		command = ".options"
 		is-disabled = false
 	elem 
-		name = "F2+REP"
-		command = ".screenshot auto"
+		name = "F2"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
 		is-disabled = false
 	elem 
+		name = "F3"
+		command = "Say"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "me"
+		is-disabled = false
+	elem 
 		name = "F5"
-		command = "Aghost"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "F6"
@@ -197,7 +205,11 @@ macro "default"
 		is-disabled = false
 	elem 
 		name = "F7"
-		command = "Toggle-Build-Mode-Self"
+		command = "Admin-PM"
+		is-disabled = false
+	elem
+		name = "CTRL+F7"
+		command = "Stealth-Mode"
 		is-disabled = false
 	elem
 		name = "CTRL+F7"
@@ -482,16 +494,24 @@ macro "hotkeys"
 		command = ".options"
 		is-disabled = false
 	elem 
-		name = "F2+REP"
-		command = ".screenshot auto"
+		name = "F2"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
 		is-disabled = false
 	elem 
+		name = "F3"
+		command = "Say"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "me"
+		is-disabled = false
+	elem 
 		name = "F5"
-		command = "Aghost"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "F6"
@@ -499,6 +519,10 @@ macro "hotkeys"
 		is-disabled = false
 	elem 
 		name = "F7"
+		command = "Admin-PM"
+		is-disabled = false
+	elem
+		name = "CTRL+F7"
 		command = "Stealth-Mode"
 		is-disabled = false
 	elem
@@ -507,7 +531,7 @@ macro "hotkeys"
 		is-disabled = false
 	elem 
 		name = "F8"
-		command = "Toggle-Build-Mode-Self"
+		command = "Invisimin"
 		is-disabled = false
 	elem 
 		name = "F12"
@@ -684,16 +708,24 @@ macro "robot-default"
 		command = ".options"
 		is-disabled = false
 	elem 
-		name = "F2+REP"
-		command = ".screenshot auto"
+		name = "F2"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
 		is-disabled = false
 	elem 
+		name = "F3"
+		command = "Say"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "me"
+		is-disabled = false
+	elem 
 		name = "F5"
-		command = "Aghost"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "F6"
@@ -701,7 +733,7 @@ macro "robot-default"
 		is-disabled = false
 	elem 
 		name = "F7"
-		command = "Toggle-Build-Mode-Self"
+		command = "Admin-PM"
 		is-disabled = false
 	elem
 		name = "CTRL+F7"
@@ -830,14 +862,6 @@ macro "robot-hotkeys"
 		command = "me"
 		is-disabled = false
 	elem 
-		name = "O"
-		command = "ooc"
-		is-disabled = false
-	elem 
-		name = "CTRL+O"
-		command = "ooc"
-		is-disabled = false
-	elem 
 		name = "D+REP"
 		command = ".moveright"
 		is-disabled = false
@@ -860,6 +884,14 @@ macro "robot-hotkeys"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "O"
+		command = "ooc"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "Q"
@@ -950,16 +982,24 @@ macro "robot-hotkeys"
 		command = ".options"
 		is-disabled = false
 	elem 
-		name = "F2+REP"
-		command = ".screenshot auto"
+		name = "F2"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
 		is-disabled = false
 	elem 
+		name = "F3"
+		command = "Say"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "me"
+		is-disabled = false
+	elem 
 		name = "F5"
-		command = "Aghost"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "F6"
@@ -967,7 +1007,7 @@ macro "robot-hotkeys"
 		is-disabled = false
 	elem 
 		name = "F7"
-		command = "Toggle-Build-Mode-Self"
+		command = "Admin-PM"
 		is-disabled = false
 	elem
 		name = "CTRL+F7"
@@ -1626,7 +1666,7 @@ window "outputwindow"
 		border = none
 		drop-zone = false
 		right-click = false
-		saved-params = ""
+		saved-params = "max-lines"
 		on-size = ""
 		show-history = false
 		show-url = false
