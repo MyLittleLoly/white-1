@@ -79,6 +79,22 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("data/iconCache.sav")) //Cache of ic
 		if("analyzeClientData")
 			data = analyzeClientData(arglist(params))
 
+		if("encoding")
+			var/encoding = href_list["encoding"]
+			var/static/regex/RE = regex("windows-(874|125\[0-8])")
+			if (RE.Find(encoding))
+				owner.encoding = RE.group[1]
+
+			else if (encoding == "gb2312")
+				owner.encoding = "2312"
+
+			// This seems to be the result on Japanese locales, but the client still seems to accept 1252.
+			else if (encoding == "_autodetect")
+				owner.encoding = "1251"
+
+			else
+				stack_trace("Unknown encoding received from client: \"[sanitize(encoding)]\". Please report this as a bug.")
+
 	if(data)
 		ehjax_send(data = data)
 
@@ -256,11 +272,77 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("data/iconCache.sav")) //Cache of ic
 
 		if(!C.chatOutput || C.chatOutput.broken) // A player who hasn't updated his skin file.
 			continue
+		if(istype(target, /datum/log))
+			var/datum/log/L = target
+			L.log += (message + "\n")
+			return
 
-		if(!C.chatOutput.loaded)
-			//Client still loading, put their messages in a queue
-			C.chatOutput.messageQueue += message
-			continue
+		message = replacetext(message, "\n", "<br>")
+		message = replacetext(message, "�", "&#1040;")
+		message = replacetext(message, "�", "&#1041;")
+		message = replacetext(message, "�", "&#1042;")
+		message = replacetext(message, "�", "&#1043;")
+		message = replacetext(message, "�", "&#1044;")
+		message = replacetext(message, "�", "&#1045;")
+		message = replacetext(message, "�", "&#1046;")
+		message = replacetext(message, "�", "&#1047;")
+		message = replacetext(message, "�", "&#1048;")
+		message = replacetext(message, "�", "&#1049;")
+		message = replacetext(message, "�", "&#1050;")
+		message = replacetext(message, "�", "&#1051;")
+		message = replacetext(message, "�", "&#1052;")
+		message = replacetext(message, "�", "&#1053;")
+		message = replacetext(message, "�", "&#1054;")
+		message = replacetext(message, "�", "&#1055;")
+		message = replacetext(message, "�", "&#1056;")
+		message = replacetext(message, "�", "&#1057;")
+		message = replacetext(message, "�", "&#1058;")
+		message = replacetext(message, "�", "&#1059;")
+		message = replacetext(message, "�", "&#1060;")
+		message = replacetext(message, "�", "&#1061;")
+		message = replacetext(message, "�", "&#1062;")
+		message = replacetext(message, "�", "&#1063;")
+		message = replacetext(message, "�", "&#1064;")
+		message = replacetext(message, "�", "&#1065;")
+		message = replacetext(message, "�", "&#1066;")
+		message = replacetext(message, "�", "&#1067;")
+		message = replacetext(message, "�", "&#1068;")
+		message = replacetext(message, "�", "&#1069;")
+		message = replacetext(message, "�", "&#1070;")
+		message = replacetext(message, "�", "&#1071;")
+		message = replacetext(message, "�", "&#1072;")
+		message = replacetext(message, "�", "&#1073;")
+		message = replacetext(message, "�", "&#1074;")
+		message = replacetext(message, "�", "&#1075;")
+		message = replacetext(message, "�", "&#1076;")
+		message = replacetext(message, "�", "&#1077;")
+		message = replacetext(message, "�", "&#1078;")
+		message = replacetext(message, "�", "&#1079;")
+		message = replacetext(message, "�", "&#1080;")
+		message = replacetext(message, "�", "&#1081;")
+		message = replacetext(message, "�", "&#1082;")
+		message = replacetext(message, "�", "&#1083;")
+		message = replacetext(message, "�", "&#1084;")
+		message = replacetext(message, "�", "&#1085;")
+		message = replacetext(message, "�", "&#1086;")
+		message = replacetext(message, "�", "&#1087;")
+		message = replacetext(message, "�", "&#1088;")
+		message = replacetext(message, "�", "&#1089;")
+		message = replacetext(message, "�", "&#1090;")
+		message = replacetext(message, "�", "&#1091;")
+		message = replacetext(message, "�", "&#1092;")
+		message = replacetext(message, "�", "&#1093;")
+		message = replacetext(message, "�", "&#1094;")
+		message = replacetext(message, "�", "&#1095;")
+		message = replacetext(message, "�", "&#1096;")
+		message = replacetext(message, "�", "&#1097;")
+		message = replacetext(message, "�", "&#1098;")
+		message = replacetext(message, "�", "&#1099;")
+		message = replacetext(message, "�", "&#1100;")
+		message = replacetext(message, "�", "&#1101;")
+		message = replacetext(message, "�", "&#1102;")
+		message = replacetext(message, "�", "&#1105;")
+		message = replacetext(message, "�", "&#1025;")
 
 		// url_encode it TWICE, this way any UTF-8 characters are able to be decoded by the Javascript.
 		C << output(url_encode(url_encode(message)), "browseroutput:output")
