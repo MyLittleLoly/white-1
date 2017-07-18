@@ -216,10 +216,10 @@ proc/load_donator(ckey)
 //		world.log << "Failed to connect to database in load_donator([ckey])."
 		return 0
 
-	var/datum/DBQuery/query = SSdbcore.NewQuery("SELECT round(sum) FROM Z_donators WHERE byond='[ckey]'")
-	query.warn_execute()
-	while(query.NextRow())
-		var/money = round(text2num(query.item[1]))
+	var/datum/DBQuery/query_donator = SSdbcore.NewQuery("SELECT round(sum) FROM Z_donators WHERE byond='[ckey]'")
+	query_donator.warn_execute()
+	while(query_donator.NextRow())
+		var/money = round(text2num(query_donator.item[1]))
 		new /datum/donator(ckey, money)
 //	dbcon2.Disconnect()
 	return 1
